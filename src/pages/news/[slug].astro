@@ -1,0 +1,47 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const news = await getCollection('news');
+  return news.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Base 
+  title={post.data.title} 
+  description={post.data.summary}
+  canonicalURL={`/news/${post.slug}`}
+>
+  <article class="max-w-3xl mx-auto px-4 py-12">
+    <a href="/news" class="text-accent hover:text-amber-700 text-sm font-medium mb-8 inline-block transition-colors">← Back to News</a>
+    
+    <div class="mb-6">
+      <div class="flex items-center gap-3 mb-3">
+        <time class="text-sm font-medium text-accent uppercase tracking-wide">
+          {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+        {post.data.author && <span class="text-sm text-gray-400">by {post.data.author}</span>}
+      </div>
+      <h1 class="font-serif text-4xl font-bold text-primary">{post.data.title}</h1>
+      <p class="text-xl text-gray-600 mt-3">{post.data.summary}</p>
+      {post.data.tags && post.data.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mt-4">
+          {post.data.tags.map((tag) => (
+            <span class="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded-full">{tag}</span>
+          ))}
+        </div>
+      )}
+    </div>
+    
+    <div class="prose prose-green max-w-none">
+      <Content />
+    </div>
+  </article>
+</Base>

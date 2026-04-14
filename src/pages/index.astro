@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/home/Hero.astro';
+import MissionStatement from '../components/home/MissionStatement.astro';
+import LatestNews from '../components/home/LatestNews.astro';
+import { getCollection } from 'astro:content';
+
+const now = new Date();
+const allEvents = await getCollection('events');
+const upcomingEvents = allEvents
+  .filter(e => e.data.startDate > now)
+  .sort((a, b) => a.data.startDate.valueOf() - b.data.startDate.valueOf())
+  .slice(0, 3);
+
+const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
+---
+
+<Base title="Home" description="Northeast Neighborhood Association of Bozeman, Montana — Last Best Neighborhood">
+  <Hero />
+  <MissionStatement />
+  <LatestNews />
+  
+  <!-- Upcoming Events -->
+  <section class="py-16 px-4 bg-cream">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="font-serif text-3xl font-bold text-primary">Upcoming Events</h2>
+        <a href="/events" class="text-accent hover:text-amber-700 font-medium transition-colors">All Events →</a>
+      </div>
+      {upcomingEvents.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {upcomingEvents.map((event) => (
+            <article class="bg-white rounded-lg shadow-sm border border-amber-100 p-5">
+              <div class="flex items-start gap-3">
+                <div class="flex-shrink-0 text-center bg-primary text-white rounded-lg p-2 min-w-[52px]">
+                  <div class="text-xs font-medium uppercase">{event.data.startDate.toLocaleDateString('en-US', { month: 'short' })}</div>
+                  <div class="text-xl font-serif font-bold leading-none">{event.data.startDate.getDate()}</div>
+                </div>
+                <div>
+                  <h3 class="font-serif font-semibold text-primary">{event.data.title}</h3>
+                  <p class="text-sm text-gray-500 mt-1">📍 {event.data.location}</p>
+                  <p class="text-sm text-gray-600 mt-1">{event.data.summary}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p class="text-gray-500">No upcoming events. <a href="/events" class="text-accent">Check the events page</a> for more.</p>
+      )}
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="bg-primary text-white py-16 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="font-serif text-3xl font-bold mb-4">Get Involved</h2>
+      <p class="text-green-100 mb-8 text-lg">Stay connected with your neighborhood. Sign up for our newsletter, support our work, or come to a meeting.</p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href={mailchimpUrl} target="_blank" rel="noopener noreferrer" class="bg-accent hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+          📧 Subscribe to Newsletter
+        </a>
+        <a href="https://www.paypal.com/donate" target="_blank" rel="noopener noreferrer" class="border-2 border-green-300 hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+          💚 Donate to NENA
+        </a>
+        <a href="/events" class="border-2 border-green-300 hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+          📅 Attend a Meeting
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

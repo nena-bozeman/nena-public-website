@@ -1,0 +1,34 @@
+---
+import BusinessCard from './BusinessCard.astro';
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  businesses: CollectionEntry<'businesses'>[];
+  selectedCategory?: string;
+}
+
+const { businesses, selectedCategory } = Astro.props;
+
+const filtered = selectedCategory 
+  ? businesses.filter(b => b.data.category === selectedCategory)
+  : businesses;
+---
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  {filtered.length === 0 ? (
+    <p class="col-span-full text-gray-500 text-center py-8">No businesses found.</p>
+  ) : (
+    filtered.map((business) => (
+      <BusinessCard
+        name={business.data.name}
+        category={business.data.category}
+        address={business.data.address}
+        website={business.data.website}
+        phone={business.data.phone}
+        founded={business.data.founded}
+        legacy={business.data.legacy}
+        active={business.data.active}
+      />
+    ))
+  )}
+</div>

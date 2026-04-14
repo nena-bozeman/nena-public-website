@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+
+const allNews = await getCollection('news');
+const latestNews = allNews
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+---
+
+<section class="py-16 px-4 bg-white">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="font-serif text-3xl font-bold text-primary">Latest News</h2>
+      <a href="/news" class="text-accent hover:text-amber-700 font-medium transition-colors">All News →</a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {latestNews.map((post) => (
+        <article class="bg-cream rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-amber-100">
+          <div class="p-6">
+            <time class="text-xs font-medium text-accent uppercase tracking-wide">
+              {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </time>
+            <h3 class="font-serif font-bold text-primary text-lg mt-2 mb-3">
+              <a href={`/news/${post.slug}`} class="hover:text-accent transition-colors">{post.data.title}</a>
+            </h3>
+            <p class="text-gray-600 text-sm leading-relaxed mb-4">{post.data.summary}</p>
+            <a href={`/news/${post.slug}`} class="text-accent hover:text-amber-700 text-sm font-medium transition-colors">Read more →</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

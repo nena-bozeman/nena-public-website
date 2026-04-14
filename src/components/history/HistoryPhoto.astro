@@ -1,0 +1,14 @@
+---
+export interface Props {
+  image: string;
+  alt: string;
+  year?: number;
+}
+
+const { image, alt, year } = Astro.props;
+---
+
+<figure class="my-4">
+  <img src={image} alt={alt} class="w-full rounded-lg shadow-md" />
+  {year && <figcaption class="text-sm text-gray-500 mt-2 text-center italic">{alt} ({year})</figcaption>}
+</figure>

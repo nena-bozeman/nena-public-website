@@ -1,0 +1,29 @@
+---
+import EventCard from './EventCard.astro';
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  events: CollectionEntry<'events'>[];
+}
+
+const { events } = Astro.props;
+---
+
+<div class="space-y-4">
+  {events.length === 0 ? (
+    <p class="text-gray-500 text-center py-8">No events found.</p>
+  ) : (
+    events.map((event) => (
+      <EventCard
+        title={event.data.title}
+        startDate={event.data.startDate}
+        endDate={event.data.endDate}
+        location={event.data.location}
+        address={event.data.address}
+        summary={event.data.summary}
+        category={event.data.category}
+        externalUrl={event.data.externalUrl}
+      />
+    ))
+  )}
+</div>

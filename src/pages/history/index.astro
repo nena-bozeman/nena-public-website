@@ -1,0 +1,13 @@
+---
+import Base from '../../layouts/Base.astro';
+import Timeline from '../../components/history/Timeline.astro';
+import { getCollection } from 'astro:content';
+const allHistory = await getCollection('history');
+---
+<Base title="Neighborhood History" description="The history of Bozeman's Northeast Neighborhood">
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="font-serif text-4xl font-bold text-primary mb-3">Neighborhood History</h1>
+    <p class="text-gray-600 mb-10 text-lg">Explore the rich history of Bozeman's Northeast Neighborhood, from its founding to today.</p>
+    <Timeline entries={allHistory} />
+  </div>
+</Base>

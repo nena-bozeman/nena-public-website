@@ -1,0 +1,48 @@
+---
+---
+
+<nav class="hidden md:flex items-center gap-1" aria-label="Main navigation">
+  <a href="/" class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Home</a>
+  <a href="/news" class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">News</a>
+  <a href="/events" class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Events</a>
+  <a href="/objectives" class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Objectives</a>
+  <a href="/history" class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">History</a>
+  <a href="/businesses" class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Businesses</a>
+  <a href="/development" class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Development</a>
+  <a href="/about" class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">About</a>
+</nav>
+
+<!-- Mobile menu button -->
+<button id="mobile-menu-btn" class="md:hidden p-2 rounded text-green-100 hover:text-white hover:bg-green-800 transition-colors" aria-label="Open menu">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+  </svg>
+</button>
+
+<!-- Mobile menu overlay -->
+<div id="mobile-menu" class="hidden fixed inset-0 z-50 bg-primary flex flex-col items-center justify-center md:hidden">
+  <button id="close-menu-btn" class="absolute top-4 right-4 p-2 text-green-100 hover:text-white" aria-label="Close menu">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+  <nav class="flex flex-col items-center gap-4 text-xl" aria-label="Mobile navigation">
+    <a href="/" class="text-green-100 hover:text-white font-medium transition-colors">Home</a>
+    <a href="/news" class="text-green-100 hover:text-white font-medium transition-colors">News</a>
+    <a href="/events" class="text-green-100 hover:text-white font-medium transition-colors">Events</a>
+    <a href="/objectives" class="text-green-100 hover:text-white font-medium transition-colors">Objectives</a>
+    <a href="/history" class="text-green-100 hover:text-white font-medium transition-colors">History</a>
+    <a href="/businesses" class="text-green-100 hover:text-white font-medium transition-colors">Businesses</a>
+    <a href="/development" class="text-green-100 hover:text-white font-medium transition-colors">Development</a>
+    <a href="/about" class="text-green-100 hover:text-white font-medium transition-colors">About</a>
+  </nav>
+</div>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const closeBtn = document.getElementById('close-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  
+  btn?.addEventListener('click', () => menu?.classList.remove('hidden'));
+  closeBtn?.addEventListener('click', () => menu?.classList.add('hidden'));
+</script>

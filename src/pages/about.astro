@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+
+const boardMembers = [
+  { name: 'Sarah Johnson', role: 'President' },
+  { name: 'Mike Chen', role: 'Vice President' },
+  { name: 'Lisa Thompson', role: 'Secretary' },
+  { name: 'David Rodriguez', role: 'Treasurer' },
+  { name: 'Emma Williams', role: 'Member at Large' },
+];
+---
+
+<Base title="About" description="Learn about the Northeast Neighborhood Association of Bozeman, Montana">
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="font-serif text-4xl font-bold text-primary mb-6">About NENA</h1>
+    
+    <div class="prose prose-lg max-w-none mb-12">
+      <p class="text-xl text-gray-700 leading-relaxed mb-6">
+        The Northeast Neighborhood Association (NENA) represents the interests and community of the Northeast Neighborhood in Bozeman, Montana. We are a volunteer-driven organization dedicated to maintaining the character, livability, and community spirit of our neighborhood.
+      </p>
+      
+      <h2 class="font-serif text-2xl font-bold text-primary mt-8 mb-4">Our Mission</h2>
+      <p class="text-gray-700">
+        To preserve and enhance the quality of life in the Northeast Neighborhood through community engagement, advocacy, and connection.
+      </p>
+      
+      <h2 class="font-serif text-2xl font-bold text-primary mt-8 mb-4">Our History</h2>
+      <p class="text-gray-700">
+        NENA was founded in 1985 and has been a voice for Northeast Bozeman residents ever since. We work closely with the City of Bozeman on planning decisions that affect our neighborhood and host regular community events to bring neighbors together.
+      </p>
+      
+      <h2 class="font-serif text-2xl font-bold text-primary mt-8 mb-4">Meetings</h2>
+      <p class="text-gray-700">
+        NENA meets on the <strong>third Thursday of each month at 6:30 PM</strong> at the Beall Park Recreation Center (211 N Black Ave). All residents of the Northeast Neighborhood are welcome to attend.
+      </p>
+    </div>
+
+    <!-- Board Members -->
+    <section class="mb-12">
+      <h2 class="font-serif text-2xl font-bold text-primary mb-6">Board of Directors</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {boardMembers.map((member) => (
+          <div class="bg-cream rounded-lg p-4 border border-amber-100">
+            <p class="font-semibold text-primary">{member.name}</p>
+            <p class="text-sm text-gray-500">{member.role}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="bg-cream rounded-lg p-8 border border-amber-100">
+      <h2 class="font-serif text-2xl font-bold text-primary mb-4">Contact Us</h2>
+      <div class="space-y-2 text-gray-700">
+        <p>📧 <a href="mailto:info@nenabozeman.org" class="text-accent hover:text-amber-700">info@nenabozeman.org</a></p>
+        <p>📍 PO Box 1234, Bozeman, MT 59771</p>
+        <p>🗓️ Meetings: Third Thursday, 6:30 PM · Beall Park Recreation Center</p>
+      </div>
+    </section>
+  </div>
+</Base>
