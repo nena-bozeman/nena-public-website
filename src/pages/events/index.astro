@@ -1,0 +1,63 @@
+---
+import Base from '../../layouts/Base.astro';
+import EventList from '../../components/events/EventList.astro';
+import { getCollection } from 'astro:content';
+
+const allEvents = await getCollection('events');
+const now = new Date();
+
+const upcoming = allEvents
+  .filter(e => e.data.startDate >= now)
+  .sort((a, b) => a.data.startDate.valueOf() - b.data.startDate.valueOf());
+
+const past = allEvents
+  .filter(e => e.data.startDate < now)
+  .sort((a, b) => b.data.startDate.valueOf() - a.data.startDate.valueOf());
+
+const calendarId = import.meta.env.PUBLIC_GOOGLE_CALENDAR_ID;
+---
+
+<Base title="Events" description="Upcoming events in the Northeast Neighborhood of Bozeman, MT">
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="font-serif text-4xl font-bold text-primary mb-8">Events</h1>
+    
+    <section class="mb-12">
+      <h2 class="font-serif text-2xl font-bold text-primary mb-6">Upcoming Events</h2>
+      <EventList events={upcoming} />
+    </section>
+
+    {past.length > 0 && (
+      <section class="mb-12">
+        <h2 class="font-serif text-2xl font-bold text-primary mb-4">Past Events</h2>
+        <details>
+          <summary class="cursor-pointer text-accent hover:text-amber-700 font-medium mb-4">Show {past.length} past events</summary>
+          <div class="mt-4">
+            <EventList events={past} />
+          </div>
+        </details>
+      </section>
+    )}
+
+    <section class="mb-12">
+      <h2 class="font-serif text-2xl font-bold text-primary mb-4">NENA Calendar</h2>
+      {calendarId ? (
+        <div class="rounded-lg overflow-hidden shadow-sm border border-gray-200">
+          <iframe
+            src={`https://calendar.google.com/calendar/embed?src=${calendarId}&ctz=America%2FDenver&showTitle=0&showNav=1&showDate=1&showPrint=0`}
+            style="border: 0"
+            width="100%"
+            height="500"
+            frameborder="0"
+            scrolling="no"
+            title="NENA Community Calendar"
+          ></iframe>
+        </div>
+      ) : (
+        <div class="bg-gray-50 rounded-lg p-6 text-center text-gray-500 border border-gray-200">
+          <p class="font-medium mb-2">Google Calendar not configured</p>
+          <p class="text-sm">Set the <code>PUBLIC_GOOGLE_CALENDAR_ID</code> environment variable to embed the NENA community calendar.</p>
+        </div>
+      )}
+    </section>
+  </div>
+</Base>

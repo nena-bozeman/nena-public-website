@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/development/ProjectCard.astro';
+import ProjectMap from '../../components/development/ProjectMap.astro';
+import { getCollection } from 'astro:content';
+const allProjects = await getCollection('development');
+const sorted = allProjects.sort((a, b) => b.data.lastUpdated.valueOf() - a.data.lastUpdated.valueOf());
+const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
+---
+<Base title="Development Watch" description="Tracking development projects in the Northeast Neighborhood of Bozeman, MT">
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <h1 class="font-serif text-4xl font-bold text-primary mb-3">Development Watch</h1>
+    <p class="text-gray-600 text-lg mb-8">Tracking development proposals and projects in the Northeast Neighborhood.</p>
+    <ProjectMap projects={allProjects} />
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+      {sorted.map((project) => (
+        <ProjectCard title={project.data.title} status={project.data.status} address={project.data.address} developer={project.data.developer} summary={project.data.summary} lastUpdated={project.data.lastUpdated} cityPlanningUrl={project.data.cityPlanningUrl} tags={project.data.tags} />
+      ))}
+    </div>
+    <div class="mt-10 bg-primary text-white rounded-lg p-6 text-center">
+      <h2 class="font-serif text-xl font-bold mb-2">Stay Informed</h2>
+      <a href={mailchimpUrl} class="bg-accent hover:bg-amber-600 text-white font-semibold px-6 py-2 rounded-lg transition-colors inline-block">Subscribe to Development Alerts</a>
+    </div>
+  </div>
+</Base>

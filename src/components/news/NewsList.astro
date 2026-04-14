@@ -1,0 +1,27 @@
+---
+import NewsCard from './NewsCard.astro';
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  posts: CollectionEntry<'news'>[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="space-y-6">
+  {posts.length === 0 ? (
+    <p class="text-gray-500 text-center py-8">No news posts found.</p>
+  ) : (
+    posts.map((post) => (
+      <NewsCard
+        title={post.data.title}
+        date={post.data.date}
+        summary={post.data.summary}
+        author={post.data.author}
+        tags={post.data.tags}
+        slug={post.slug}
+      />
+    ))
+  )}
+</div>

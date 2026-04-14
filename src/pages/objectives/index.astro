@@ -1,0 +1,21 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const allObjectives = await getCollection('objectives');
+const activeObjectives = allObjectives.filter(o => o.data.active).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Objectives & Committees" description="NENA's active committees and neighborhood objectives">
+  <div class="max-w-5xl mx-auto px-4 py-12">
+    <h1 class="font-serif text-4xl font-bold text-primary mb-4">Objectives & Committees</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {activeObjectives.map((objective) => (
+        <article class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+          <h2 class="font-serif font-bold text-primary text-xl mb-2"><a href={`/objectives/${objective.slug}`} class="hover:text-accent transition-colors">{objective.data.title}</a></h2>
+          <p class="text-gray-600 text-sm mb-4">{objective.data.summary}</p>
+          {objective.data.contactEmail && <p class="text-sm text-gray-500">📧 <a href={`mailto:${objective.data.contactEmail}`} class="text-accent hover:text-amber-700">{objective.data.contactEmail}</a></p>}
+          <a href={`/objectives/${objective.slug}`} class="mt-4 inline-block text-accent text-sm font-medium">Learn more →</a>
+        </article>
+      ))}
+    </div>
+  </div>
+</Base>

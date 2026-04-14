@@ -1,0 +1,50 @@
+---
+export interface Props {
+  title: string;
+  startDate: Date;
+  endDate?: Date;
+  location: string;
+  address?: string;
+  summary: string;
+  category: string;
+  externalUrl?: string;
+}
+
+const { title, startDate, endDate: _endDate, location, address, summary, category, externalUrl } = Astro.props;
+
+const categoryColors: Record<string, string> = {
+  social: 'bg-blue-100 text-blue-800',
+  civic: 'bg-green-100 text-green-800',
+  committee: 'bg-purple-100 text-purple-800',
+  tour: 'bg-amber-100 text-amber-800',
+  other: 'bg-gray-100 text-gray-800',
+};
+---
+
+<article class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 p-6">
+  <div class="flex items-start gap-4">
+    <div class="flex-shrink-0 text-center bg-primary text-white rounded-lg p-3 min-w-[64px]">
+      <div class="text-xs font-medium uppercase">{startDate.toLocaleDateString('en-US', { month: 'short' })}</div>
+      <div class="text-2xl font-serif font-bold leading-none">{startDate.getDate()}</div>
+    </div>
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-2 mb-1">
+        <span class={`text-xs font-medium px-2 py-0.5 rounded-full ${categoryColors[category] ?? categoryColors.other}`}>
+          {category.charAt(0).toUpperCase() + category.slice(1)}
+        </span>
+      </div>
+      <h3 class="font-serif font-bold text-primary text-lg">{title}</h3>
+      <p class="text-sm text-gray-500 mt-1">
+        {startDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+        {startDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+      </p>
+      <p class="text-sm text-gray-600 mt-1">📍 {location}{address ? ` · ${address}` : ''}</p>
+      <p class="text-gray-600 text-sm mt-2">{summary}</p>
+      {externalUrl && (
+        <a href={externalUrl} target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-accent hover:text-amber-700 text-sm font-medium transition-colors">
+          View Details / Register →
+        </a>
+      )}
+    </div>
+  </div>
+</article>

@@ -1,0 +1,35 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-primary text-green-100 mt-16">
+  <div class="max-w-7xl mx-auto px-4 py-10">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="font-serif font-bold text-white text-lg mb-3">Northeast Neighborhood Association</h3>
+        <p class="text-sm text-green-200">Bozeman, Montana's Last Best Neighborhood</p>
+        <p class="text-sm text-green-200 mt-2">Meetings: Third Thursday, 6:30 PM<br />Beall Park Recreation Center</p>
+      </div>
+      <div>
+        <h3 class="font-semibold text-white mb-3">Quick Links</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="/news" class="hover:text-white transition-colors">News</a></li>
+          <li><a href="/events" class="hover:text-white transition-colors">Events</a></li>
+          <li><a href="/objectives" class="hover:text-white transition-colors">Objectives</a></li>
+          <li><a href="/development" class="hover:text-white transition-colors">Development Watch</a></li>
+          <li><a href="/about" class="hover:text-white transition-colors">About NENA</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-semibold text-white mb-3">Connect</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="mailto:info@nenabozeman.org" class="hover:text-white transition-colors">info@nenabozeman.org</a></li>
+          <li><a href="/admin" class="hover:text-white transition-colors">CMS Login</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-green-700 mt-8 pt-6 text-center text-sm text-green-300">
+      <p>&copy; {year} Northeast Neighborhood Association · Bozeman, MT · <a href="/admin" class="hover:text-white">Admin</a></p>
+    </div>
+  </div>
+</footer>

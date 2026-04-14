@@ -1,0 +1,97 @@
+---
+import Base from '../../layouts/Base.astro';
+import BusinessList from '../../components/businesses/BusinessList.astro';
+import BusinessMap from '../../components/businesses/BusinessMap.astro';
+import { getCollection } from 'astro:content';
+
+const allBusinesses = await getCollection('businesses');
+const active = allBusinesses.filter(b => b.data.active !== false);
+
+const categories = [
+  { value: '', label: 'All Categories' },
+  { value: 'food-drink', label: 'Food & Drink' },
+  { value: 'retail', label: 'Retail' },
+  { value: 'services', label: 'Services' },
+  { value: 'arts-culture', label: 'Arts & Culture' },
+  { value: 'fitness-wellness', label: 'Fitness & Wellness' },
+  { value: 'nonprofit', label: 'Nonprofit' },
+  { value: 'other', label: 'Other' },
+];
+---
+
+<Base title="Business Directory" description="Discover local businesses in the Northeast Neighborhood of Bozeman, Montana">
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <h1 class="font-serif text-4xl font-bold text-primary mb-4">Business Directory</h1>
+    <p class="text-gray-600 mb-8">Supporting local businesses in the Northeast Neighborhood.</p>
+
+    <div class="flex flex-wrap items-center gap-4 mb-8">
+      <div class="flex flex-wrap gap-2" id="category-filters">
+        {categories.map((cat) => (
+          <button
+            data-category={cat.value}
+            class={`px-4 py-2 rounded-full text-sm font-medium transition-colors category-filter ${cat.value === '' ? 'bg-primary text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-primary'}`}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+      <div class="ml-auto flex gap-2">
+        <button id="list-view-btn" class="px-4 py-2 rounded text-sm font-medium bg-primary text-white transition-colors">List</button>
+        <button id="map-view-btn" class="px-4 py-2 rounded text-sm font-medium bg-white text-gray-600 border border-gray-200 hover:border-primary transition-colors">Map</button>
+      </div>
+    </div>
+
+    <div id="list-view">
+      <BusinessList businesses={active} />
+    </div>
+    
+    <div id="map-view" class="hidden">
+      <BusinessMap businesses={active} />
+    </div>
+  </div>
+</Base>
+
+<script>
+  const filterBtns = document.querySelectorAll('.category-filter');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('bg-primary', 'text-white'));
+      filterBtns.forEach(b => b.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200'));
+      btn.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+      btn.classList.add('bg-primary', 'text-white');
+      const category = (btn as HTMLButtonElement).dataset.category ?? '';
+      const cards = document.querySelectorAll('[data-business-category]');
+      cards.forEach(card => {
+        const el = card as HTMLElement;
+        if (!category || el.dataset.businessCategory === category) {
+          el.style.display = '';
+        } else {
+          el.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  const listViewBtn = document.getElementById('list-view-btn');
+  const mapViewBtn = document.getElementById('map-view-btn');
+  const listView = document.getElementById('list-view');
+  const mapView = document.getElementById('map-view');
+  
+  listViewBtn?.addEventListener('click', () => {
+    listView?.classList.remove('hidden');
+    mapView?.classList.add('hidden');
+    listViewBtn.classList.add('bg-primary', 'text-white');
+    listViewBtn.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+    mapViewBtn?.classList.remove('bg-primary', 'text-white');
+    mapViewBtn?.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+  });
+  
+  mapViewBtn?.addEventListener('click', () => {
+    mapView?.classList.remove('hidden');
+    listView?.classList.add('hidden');
+    mapViewBtn.classList.add('bg-primary', 'text-white');
+    mapViewBtn.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+    listViewBtn?.classList.remove('bg-primary', 'text-white');
+    listViewBtn?.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+  });
+</script>

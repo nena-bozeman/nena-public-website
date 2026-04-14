@@ -1,0 +1,21 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  projects: CollectionEntry<'development'>[];
+}
+
+const { projects } = Astro.props;
+const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
+const mappable = projects.filter(p => p.data.lat && p.data.lng);
+---
+
+<div class="bg-gray-100 rounded-lg overflow-hidden">
+  {!apiKey && (
+    <div class="flex items-center justify-center h-48 text-gray-500 flex-col gap-2 p-6 text-center">
+      <p class="font-medium">Map view unavailable</p>
+      <p class="text-sm">Add a <code>PUBLIC_GOOGLE_MAPS_API_KEY</code> to enable the map.</p>
+      <p class="text-sm">{mappable.length} projects have location data.</p>
+    </div>
+  )}
+</div>
