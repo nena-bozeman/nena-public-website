@@ -3,7 +3,7 @@ import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
   site: 'https://nena-bozeman.github.io',
-  base: '/nena-public-website',
+  base: '/nena-public-website/',
   output: 'static',
   integrations: [tailwind()],
 });

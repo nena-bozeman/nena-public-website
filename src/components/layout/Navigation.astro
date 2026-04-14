@@ -1,15 +1,16 @@
 ---
+const base = import.meta.env.BASE_URL;
 ---
 
 <nav class="hidden md:flex items-center gap-1" aria-label="Main navigation">
-  <a href="/" class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Home</a>
-  <a href="/news" class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">News</a>
-  <a href="/events" class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Events</a>
-  <a href="/objectives" class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Objectives</a>
-  <a href="/history" class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">History</a>
-  <a href="/businesses" class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Businesses</a>
-  <a href="/development" class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Development</a>
-  <a href="/about" class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">About</a>
+  <a href={base} class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Home</a>
+  <a href={`${base}news`} class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">News</a>
+  <a href={`${base}events`} class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Events</a>
+  <a href={`${base}objectives`} class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Objectives</a>
+  <a href={`${base}history`} class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">History</a>
+  <a href={`${base}businesses`} class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Businesses</a>
+  <a href={`${base}development`} class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Development</a>
+  <a href={`${base}about`} class="px-3 py-2 rounded text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">About</a>
 </nav>
 
 <!-- Mobile menu button -->
@@ -27,14 +28,14 @@
     </svg>
   </button>
   <nav class="flex flex-col items-center gap-4 text-xl" aria-label="Mobile navigation">
-    <a href="/" class="text-green-100 hover:text-white font-medium transition-colors">Home</a>
-    <a href="/news" class="text-green-100 hover:text-white font-medium transition-colors">News</a>
-    <a href="/events" class="text-green-100 hover:text-white font-medium transition-colors">Events</a>
-    <a href="/objectives" class="text-green-100 hover:text-white font-medium transition-colors">Objectives</a>
-    <a href="/history" class="text-green-100 hover:text-white font-medium transition-colors">History</a>
-    <a href="/businesses" class="text-green-100 hover:text-white font-medium transition-colors">Businesses</a>
-    <a href="/development" class="text-green-100 hover:text-white font-medium transition-colors">Development</a>
-    <a href="/about" class="text-green-100 hover:text-white font-medium transition-colors">About</a>
+    <a href={base} class="text-green-100 hover:text-white font-medium transition-colors">Home</a>
+    <a href={`${base}news`} class="text-green-100 hover:text-white font-medium transition-colors">News</a>
+    <a href={`${base}events`} class="text-green-100 hover:text-white font-medium transition-colors">Events</a>
+    <a href={`${base}objectives`} class="text-green-100 hover:text-white font-medium transition-colors">Objectives</a>
+    <a href={`${base}history`} class="text-green-100 hover:text-white font-medium transition-colors">History</a>
+    <a href={`${base}businesses`} class="text-green-100 hover:text-white font-medium transition-colors">Businesses</a>
+    <a href={`${base}development`} class="text-green-100 hover:text-white font-medium transition-colors">Development</a>
+    <a href={`${base}about`} class="text-green-100 hover:text-white font-medium transition-colors">About</a>
   </nav>
 </div>
 

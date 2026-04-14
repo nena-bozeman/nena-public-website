@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>Content Manager · NENA</title>
-    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
+    <link href={`${import.meta.env.BASE_URL}admin/config.yml`} type="text/yaml" rel="cms-config-url" />
   </head>
   <body>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
