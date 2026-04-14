@@ -25,7 +25,7 @@ const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
     <div class="max-w-7xl mx-auto">
       <div class="flex items-center justify-between mb-8">
         <h2 class="font-serif text-3xl font-bold text-primary">Upcoming Events</h2>
-        <a href="/events" class="text-accent hover:text-amber-700 font-medium transition-colors">All Events →</a>
+        <a href={`${import.meta.env.BASE_URL}events`} class="text-accent hover:text-amber-700 font-medium transition-colors">All Events →</a>
       </div>
       {upcomingEvents.length > 0 ? (
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -46,7 +46,7 @@ const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
           ))}
         </div>
       ) : (
-        <p class="text-gray-500">No upcoming events. <a href="/events" class="text-accent">Check the events page</a> for more.</p>
+        <p class="text-gray-500">No upcoming events. <a href={`${import.meta.env.BASE_URL}events`} class="text-accent">Check the events page</a> for more.</p>
       )}
     </div>
   </section>
@@ -63,7 +63,7 @@ const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
         <a href="https://www.paypal.com/donate" target="_blank" rel="noopener noreferrer" class="border-2 border-green-300 hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
           💚 Donate to NENA
         </a>
-        <a href="/events" class="border-2 border-green-300 hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+        <a href={`${import.meta.env.BASE_URL}events`} class="border-2 border-green-300 hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
           📅 Attend a Meeting
         </a>
       </div>
