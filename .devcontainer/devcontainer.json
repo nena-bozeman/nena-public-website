@@ -4,11 +4,11 @@
   "forwardPorts": [4321, 8081],
   "portsAttributes": {
     "4321": {
-      "label": "Astro Dev Server (open /admin/ here)",
+      "label": "Astro Dev Server",
       "onAutoForward": "openPreview"
     },
     "8081": {
-      "label": "Decap Local Backend API",
+      "label": "Decap Local Backend",
       "onAutoForward": "silent"
     }
   },
