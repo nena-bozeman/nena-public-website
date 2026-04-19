@@ -3,7 +3,6 @@ title: "VisionNE"
 summary: "Neighborhood vision, character, and long-range planning for Northeast Bozeman—including the PhotoVoicesNE community photo project."
 active: true
 order: 6
-contactEmail: "vision@nenabozeman.org"
 ---
 
 VisionNE captures where Northeast neighbors want the neighborhood to go: housing mix, open space, mobility, and local character. Work here overlaps with city planning processes and NENA’s other objectives.

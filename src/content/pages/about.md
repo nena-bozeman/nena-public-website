@@ -14,5 +14,5 @@ NENA was founded in 1985 and has been a voice for Northeast Bozeman residents ev
 
 ## Contact
 
-- **Email:** NENAbozeman@gmail.com
+- **Email:** [NENABozeman@gmail.com](mailto:NENABozeman@gmail.com)
 

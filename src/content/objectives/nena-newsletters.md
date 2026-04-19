@@ -3,7 +3,6 @@ title: "NENA Newsletters"
 summary: "Archive of neighborhood newsletters—spring and fall editions—with downloads as they are migrated from the legacy site."
 active: true
 order: 1
-contactEmail: "newsletter@nenabozeman.org"
 ---
 
 NENA publishes regular newsletters for Northeast neighbors. Past issues (PDFs and web versions) will be linked here as they are migrated from [nenabozeman.org](https://nenabozeman.org).
