@@ -10,6 +10,7 @@
  *
  * Flags:
  *   --dir <path>   Root of the static site (default: dist)
+ *   --verbose, -v  Print hrefs grouped by source HTML file (status, href, note columns)
  */
 
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
@@ -121,15 +122,17 @@ function extractHrefs(html) {
   return [...set];
 }
 
-function shouldSkipHref(raw) {
+/** @returns {string | null} skip reason, or null if not skipped by these rules */
+function skipHrefReason(raw) {
   const h = raw.trim();
-  if (!h || h === '#') return true;
+  if (!h) return 'empty';
+  if (h === '#') return 'hash-only';
   const lower = h.toLowerCase();
-  if (lower.startsWith('mailto:')) return true;
-  if (lower.startsWith('tel:')) return true;
-  if (lower.startsWith('javascript:')) return true;
-  if (lower.startsWith('data:')) return true;
-  return false;
+  if (lower.startsWith('mailto:')) return 'mailto';
+  if (lower.startsWith('tel:')) return 'tel';
+  if (lower.startsWith('javascript:')) return 'javascript';
+  if (lower.startsWith('data:')) return 'data';
+  return null;
 }
 
 /**
@@ -196,16 +199,19 @@ function resolveInternalPathname(rawHref, fromDirUrlPath, routing) {
 
 function parseArgs(argv) {
   let dir = DEFAULT_DIST;
+  let verbose = false;
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--dir' && argv[i + 1]) {
       dir = join(ROOT, argv[++i]);
+    } else if (argv[i] === '--verbose' || argv[i] === '-v') {
+      verbose = true;
     }
   }
-  return { dir };
+  return { dir, verbose };
 }
 
 function main() {
-  const { dir: distRoot } = parseArgs(process.argv.slice(2));
+  const { dir: distRoot, verbose } = parseArgs(process.argv.slice(2));
   const routing = readAstroRouting();
 
   if (!existsSync(distRoot)) {
@@ -213,28 +219,77 @@ function main() {
     process.exit(1);
   }
 
-  const htmlFiles = walkHtmlFiles(distRoot);
+  if (verbose) {
+    console.log(
+      '# Each "## …" section is one built HTML file under dist/; rows are href= values found in that file.',
+    );
+    console.log(
+      '# "404.html" is the static error page output (same nav as other pages), not an HTTP 404 for every line.\n',
+    );
+  }
+
+  const htmlFiles = walkHtmlFiles(distRoot).sort((a, b) => {
+    const ra = relative(distRoot, a).split(sep).join('/');
+    const rb = relative(distRoot, b).split(sep).join('/');
+    return ra.localeCompare(rb);
+  });
   const broken = [];
+  let verbosePrintedAny = false;
 
   for (const abs of htmlFiles) {
     const rel = relative(distRoot, abs).split(sep).join('/');
     const fromDirUrlPath = fileRelToDirUrlPath(rel, routing.basePath);
     const html = readFileSync(abs, 'utf8');
+    const hrefs = extractHrefs(html);
 
-    for (const href of extractHrefs(html)) {
-      if (shouldSkipHref(href)) continue;
-      if (href.startsWith('#')) continue;
+    if (verbose && hrefs.length > 0) {
+      if (verbosePrintedAny) console.log('');
+      verbosePrintedAny = true;
+      console.log(`## ${rel}`);
+      console.log('status\thref\tnote');
+      console.log('-----\t----\t----');
+    }
+
+    for (const href of hrefs) {
+      const skipReason = skipHrefReason(href);
+      if (skipReason) {
+        if (verbose) console.log(`SKIP\t${href}\t${skipReason}`);
+        continue;
+      }
+      if (href.startsWith('#')) {
+        if (verbose) console.log(`SKIP\t${href}\tfragment`);
+        continue;
+      }
 
       const pathname = resolveInternalPathname(href, fromDirUrlPath, routing);
-      if (!pathname) continue;
+      if (!pathname) {
+        if (verbose) console.log(`SKIP\t${href}\tnot-internal`);
+        continue;
+      }
 
       const afterBase = routing.basePath
         ? stripBase(pathname, routing.basePath)
         : pathname;
-      if (afterBase === null) continue;
+      if (afterBase === null) {
+        if (verbose) console.log(`SKIP\t${href}\tstrip-base-failed`);
+        continue;
+      }
 
       const posix = afterBase.startsWith('/') ? afterBase : '/' + afterBase;
-      if (!targetExistsOnDisk(distRoot, decodeURI(posix))) {
+      let decodedPosix = posix;
+      try {
+        decodedPosix = decodeURI(posix);
+      } catch {
+        if (verbose) console.log(`BROKEN\t${href}\tinvalid-percent-encoding`);
+        broken.push({ from: rel, href, resolved: pathname });
+        continue;
+      }
+
+      const exists = targetExistsOnDisk(distRoot, decodedPosix);
+      if (verbose) {
+        console.log(`${exists ? 'OK' : 'BROKEN'}\t${href}\t${pathname}`);
+      }
+      if (!exists) {
         broken.push({ from: rel, href, resolved: pathname });
       }
     }
