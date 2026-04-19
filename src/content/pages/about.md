@@ -14,6 +14,5 @@ NENA was founded in 1985 and has been a voice for Northeast Bozeman residents ev
 
 ## Contact
 
-- **Email:** info@nenabozeman.org
-- **Meetings:** Third Thursday of each month, 6:30 PM at Beall Park Recreation Center
-- **Mailing Address:** PO Box 1234, Bozeman, MT 59771
+- **Email:** NENAbozeman@gmail.com
+
