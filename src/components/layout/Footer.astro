@@ -6,9 +6,20 @@ const year = new Date().getFullYear();
 <footer class="bg-primary text-green-100 mt-16">
   <div class="max-w-7xl mx-auto px-4 py-10">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div>
-        <h3 class="font-serif font-bold text-white text-lg mb-3">Northeast Neighborhood Association</h3>
-        <p class="text-sm text-green-200">Bozeman, Montana's Last Best Neighborhood</p>
+      <div class="flex flex-col h-full min-h-0">
+        <div>
+          <h3 class="font-serif font-bold text-white text-lg mb-3">Northeast Neighborhood Association</h3>
+          <p class="text-sm text-green-200">Bozeman, Montana's Last Best Neighborhood</p>
+        </div>
+        <div class="mt-auto pt-6 self-start">
+          <img
+            src={`${base}images/migrated/nenabozeman-org/files/large/c96372aa2a6bcdb.png`}
+            alt="Street map of Bozeman with the Northeast Neighborhood boundary highlighted"
+            class="w-full max-w-[13rem] sm:max-w-xs rounded-md border border-green-600/50 shadow-md object-contain bg-white/5"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
       </div>
       <div>
         <h3 class="font-semibold text-white mb-3">Quick Links</h3>

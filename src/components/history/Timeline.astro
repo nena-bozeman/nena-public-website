@@ -23,6 +23,11 @@ const categoryColors: Record<string, string> = {
   landmark: 'bg-purple-100 text-purple-800',
   other: 'bg-gray-100 text-gray-800',
 };
+
+function historyImageSrc(image: string | undefined): string | undefined {
+  if (!image) return undefined;
+  return image.startsWith('http') ? image : `${base}${image.replace(/^\//, '')}`;
+}
 ---
 
 <div class="space-y-12">
@@ -32,26 +37,44 @@ const categoryColors: Record<string, string> = {
       <div class="relative">
         <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-amber-200"></div>
         <div class="space-y-8">
-          {decadeEntries.map((entry) => (
+          {decadeEntries.map((entry) => {
+            const thumbSrc = historyImageSrc(entry.data.image);
+            return (
             <div class="relative pl-16">
               <div class="absolute left-0 top-1 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold font-serif">
                 {entry.data.year}
               </div>
               <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-5">
-                <div class="flex items-center gap-2 mb-2">
-                  <span class={`text-xs font-medium px-2 py-0.5 rounded-full ${categoryColors[entry.data.category] ?? 'bg-gray-100 text-gray-800'}`}>
-                    {entry.data.category.charAt(0).toUpperCase() + entry.data.category.slice(1)}
-                  </span>
+                <div class:list={[{ 'flex flex-col sm:flex-row gap-4': Boolean(thumbSrc) }]}>
+                  {thumbSrc && (
+                    <div class="shrink-0 w-full sm:w-32 aspect-video sm:aspect-auto sm:h-24 rounded-md overflow-hidden border border-gray-100 bg-gray-50">
+                      <img
+                        src={thumbSrc}
+                        alt={entry.data.imageAlt ?? ''}
+                        class="w-full h-full object-cover object-center"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  )}
+                  <div class:list={[{ 'min-w-0 flex-1': Boolean(thumbSrc) }]}>
+                    <div class="flex items-center gap-2 mb-2">
+                      <span class={`text-xs font-medium px-2 py-0.5 rounded-full ${categoryColors[entry.data.category] ?? 'bg-gray-100 text-gray-800'}`}>
+                        {entry.data.category.charAt(0).toUpperCase() + entry.data.category.slice(1)}
+                      </span>
+                    </div>
+                    <h3 class="font-serif font-bold text-primary text-lg">
+                      <a href={`${base}history/${entry.slug}`} class="hover:text-accent transition-colors">{entry.data.title}</a>
+                    </h3>
+                    <a href={`${base}history/${entry.slug}`} class="inline-block mt-2 text-accent hover:text-amber-700 text-sm font-medium transition-colors">
+                      Read more →
+                    </a>
+                  </div>
                 </div>
-                <h3 class="font-serif font-bold text-primary text-lg">
-                  <a href={`${base}history/${entry.slug}`} class="hover:text-accent transition-colors">{entry.data.title}</a>
-                </h3>
-                <a href={`${base}history/${entry.slug}`} class="inline-block mt-2 text-accent hover:text-amber-700 text-sm font-medium transition-colors">
-                  Read more →
-                </a>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
