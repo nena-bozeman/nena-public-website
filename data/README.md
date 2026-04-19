@@ -22,3 +22,31 @@ npm run inventory:legacy
 | `new_site_path` | Suggested route on the Astro site; placeholders like `/news/(suggested legacy slug: …)` mean no confident news file yet. |
 
 Edit the CSV in place to track human decisions (e.g. set `migrated=yes` when a post is ported, fill `new_site_path`).
+
+---
+
+## Cloudflare redirects (from inventory)
+
+After the inventory JSON exists:
+
+```bash
+npm run redirects:legacy
+```
+
+- **`public/_redirects`** — [Cloudflare Pages](https://developers.cloudflare.com/pages/configuration/redirects/) format (`/old/path /new/path 301`). Only rows with a **concrete** `new_site_path` (no `(suggested …)` placeholders) become rules. Copied to **`dist/_redirects`** on `astro build`.
+
+- **`data/cloudflare-bulk-redirects.csv`** — for [Bulk Redirects](https://developers.cloudflare.com/rules/url-forwarding/bulk-redirects/reference/csv-file-format/) on the **legacy** zone (cross-domain to the new site). **No header row** (Cloudflare requirement). Generated only when you set:
+
+  `MIGRATION_TARGET_ORIGIN=https://YOUR-NEW-PAGES-URL` (no trailing slash)
+
+  Optional: `LEGACY_ALSO_APEX=1` duplicates each line for `nenabozeman.org` (no `www`).
+
+If `MIGRATION_TARGET_ORIGIN` is unset, see **`data/cloudflare-bulk-redirects.env-note.txt`** instead of the CSV.
+
+Typical pipeline:
+
+```bash
+npm run inventory:legacy
+npm run redirects:legacy
+MIGRATION_TARGET_ORIGIN=https://nena.pages.dev npm run redirects:legacy
+```

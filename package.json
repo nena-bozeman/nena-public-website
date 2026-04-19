@@ -8,7 +8,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "inventory:legacy": "node scripts/build-legacy-inventory.mjs",
-    "inventory:legacy:quick": "node scripts/build-legacy-inventory.mjs --no-crawl-assets"
+    "inventory:legacy:quick": "node scripts/build-legacy-inventory.mjs --no-crawl-assets",
+    "redirects:legacy": "node scripts/build-cloudflare-redirects.mjs"
   },
   "dependencies": {
     "@astrojs/tailwind": "^5.1.0",
