@@ -1,11 +1,21 @@
 ---
+import { Image } from 'astro:assets';
+import nenaLogo from '../../assets/nena-logo-lg.png';
 import Navigation from './Navigation.astro';
 ---
 
 <header class="bg-primary text-white shadow-lg">
   <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
     <a href={import.meta.env.BASE_URL} class="flex items-center gap-3 group">
-      <div class="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white font-serif font-bold text-sm">NE</div>
+      <Image
+        src={nenaLogo}
+        alt="Northeast Neighborhood Association"
+        width={48}
+        height={48}
+        class="h-12 w-12 shrink-0 object-contain"
+        loading="eager"
+        fetchpriority="high"
+      />
       <div>
         <div class="font-serif font-bold text-lg leading-tight">Northeast Neighborhood</div>
         <div class="text-xs text-green-200 leading-tight">Association · Bozeman, MT</div>

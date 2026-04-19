@@ -9,7 +9,8 @@
     "astro": "astro",
     "inventory:legacy": "node scripts/build-legacy-inventory.mjs",
     "inventory:legacy:quick": "node scripts/build-legacy-inventory.mjs --no-crawl-assets",
-    "redirects:legacy": "node scripts/build-cloudflare-redirects.mjs"
+    "redirects:legacy": "node scripts/build-cloudflare-redirects.mjs",
+    "check:internal-links": "node scripts/check-internal-links.mjs"
   },
   "dependencies": {
     "@astrojs/tailwind": "^5.1.0",
