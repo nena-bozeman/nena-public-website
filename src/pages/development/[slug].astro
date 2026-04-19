@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('development');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const base = import.meta.env.BASE_URL;
+const { project } = Astro.props;
+const { Content } = await project.render();
+
+const statusConfig: Record<string, { color: string; label: string }> = {
+  proposed: { color: 'bg-yellow-100 text-yellow-800', label: 'Proposed' },
+  'under-review': { color: 'bg-orange-100 text-orange-800', label: 'Under Review' },
+  approved: { color: 'bg-green-100 text-green-800', label: 'Approved' },
+  'under-construction': { color: 'bg-blue-100 text-blue-800', label: 'Under Construction' },
+  complete: { color: 'bg-gray-100 text-gray-800', label: 'Complete' },
+  denied: { color: 'bg-red-100 text-red-800', label: 'Denied' },
+};
+
+const { status } = project.data;
+const statusStyle = statusConfig[status] ?? { color: 'bg-gray-100 text-gray-800', label: status };
+---
+
+<Base
+  title={project.data.title}
+  description={project.data.summary}
+  canonicalURL={`/development/${project.slug}`}
+>
+  <article class="max-w-3xl mx-auto px-4 py-12">
+    <a href={`${base}development`} class="text-accent hover:text-amber-700 text-sm font-medium mb-8 inline-block transition-colors">← Back to Development Watch</a>
+
+    <div class="mb-6">
+      <span class={`text-xs font-semibold px-2.5 py-1 rounded-full ${statusStyle.color}`}>
+        {statusStyle.label}
+      </span>
+      <h1 class="font-serif text-4xl font-bold text-primary mt-4">{project.data.title}</h1>
+      <p class="text-sm text-gray-500 mt-3">📍 {project.data.address}</p>
+      {project.data.developer && (
+        <p class="text-sm text-gray-500 mt-1">Developer: {project.data.developer}</p>
+      )}
+      <p class="text-sm text-gray-400 mt-2">
+        Last updated {project.data.lastUpdated.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+      </p>
+      {project.data.submittedDate && (
+        <p class="text-sm text-gray-400">
+          Submitted {project.data.submittedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+        </p>
+      )}
+      <p class="text-xl text-gray-600 mt-4">{project.data.summary}</p>
+      {project.data.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mt-4">
+          {project.data.tags.map((tag) => (
+            <span class="text-xs bg-gray-50 text-gray-600 px-2 py-1 rounded-full border">{tag}</span>
+          ))}
+        </div>
+      )}
+      {project.data.cityPlanningUrl && (
+        <a
+          href={project.data.cityPlanningUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block mt-6 text-accent hover:text-amber-700 text-sm font-semibold transition-colors"
+        >
+          City Planning Docs →
+        </a>
+      )}
+    </div>
+
+    <div class="prose prose-green max-w-none">
+      <Content />
+    </div>
+  </article>
+</Base>

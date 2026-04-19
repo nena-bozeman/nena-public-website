@@ -13,6 +13,7 @@ const upcomingEvents = allEvents
   .slice(0, 3);
 
 const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
+const base = import.meta.env.BASE_URL;
 ---
 
 <Base title="Home" description="Northeast Neighborhood Association of Bozeman, Montana — Last Best Neighborhood">
@@ -37,9 +38,12 @@ const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
                   <div class="text-xl font-serif font-bold leading-none">{event.data.startDate.getDate()}</div>
                 </div>
                 <div>
-                  <h3 class="font-serif font-semibold text-primary">{event.data.title}</h3>
+                  <h3 class="font-serif font-semibold text-primary">
+                    <a href={`${base}events/${event.slug}`} class="hover:text-accent transition-colors">{event.data.title}</a>
+                  </h3>
                   <p class="text-sm text-gray-500 mt-1">📍 {event.data.location}</p>
                   <p class="text-sm text-gray-600 mt-1">{event.data.summary}</p>
+                  <a href={`${base}events/${event.slug}`} class="inline-block mt-2 text-accent hover:text-amber-700 text-sm font-medium transition-colors">Event details →</a>
                 </div>
               </div>
             </article>

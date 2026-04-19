@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
+const base = import.meta.env.BASE_URL;
 const allObjectives = await getCollection('objectives');
 const activeObjectives = allObjectives.filter(o => o.data.active).sort((a, b) => a.data.order - b.data.order);
 ---
@@ -10,9 +11,9 @@ const activeObjectives = allObjectives.filter(o => o.data.active).sort((a, b) =>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       {activeObjectives.map((objective) => (
         <article class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
-          <h2 class="font-serif font-bold text-primary text-xl mb-2"><a href={`/objectives/${objective.slug}`} class="hover:text-accent transition-colors">{objective.data.title}</a></h2>
+          <h2 class="font-serif font-bold text-primary text-xl mb-2"><a href={`${base}objectives/${objective.slug}`} class="hover:text-accent transition-colors">{objective.data.title}</a></h2>
           <p class="text-gray-600 text-sm mb-4">{objective.data.summary}</p>
-          <a href={`/objectives/${objective.slug}`} class="mt-4 inline-block text-accent text-sm font-medium">Learn more →</a>
+          <a href={`${base}objectives/${objective.slug}`} class="mt-4 inline-block text-accent text-sm font-medium">Learn more →</a>
         </article>
       ))}
     </div>

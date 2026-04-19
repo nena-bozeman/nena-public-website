@@ -5,6 +5,7 @@ export interface Props {
   entries: CollectionEntry<'history'>[];
 }
 
+const base = import.meta.env.BASE_URL;
 const { entries } = Astro.props;
 const sorted = entries.sort((a, b) => a.data.year - b.data.year);
 
@@ -42,7 +43,12 @@ const categoryColors: Record<string, string> = {
                     {entry.data.category.charAt(0).toUpperCase() + entry.data.category.slice(1)}
                   </span>
                 </div>
-                <h3 class="font-serif font-bold text-primary text-lg">{entry.data.title}</h3>
+                <h3 class="font-serif font-bold text-primary text-lg">
+                  <a href={`${base}history/${entry.slug}`} class="hover:text-accent transition-colors">{entry.data.title}</a>
+                </h3>
+                <a href={`${base}history/${entry.slug}`} class="inline-block mt-2 text-accent hover:text-amber-700 text-sm font-medium transition-colors">
+                  Read more →
+                </a>
               </div>
             </div>
           ))}

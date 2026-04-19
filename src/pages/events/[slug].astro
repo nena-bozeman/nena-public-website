@@ -1,0 +1,74 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  return events.map((event) => ({
+    params: { slug: event.slug },
+    props: { event },
+  }));
+}
+
+const base = import.meta.env.BASE_URL;
+const { event } = Astro.props;
+const { Content } = await event.render();
+
+const categoryColors: Record<string, string> = {
+  social: 'bg-blue-100 text-blue-800',
+  civic: 'bg-green-100 text-green-800',
+  committee: 'bg-purple-100 text-purple-800',
+  tour: 'bg-amber-100 text-amber-800',
+  other: 'bg-gray-100 text-gray-800',
+};
+
+const { category } = event.data;
+---
+
+<Base
+  title={event.data.title}
+  description={event.data.summary}
+  canonicalURL={`/events/${event.slug}`}
+>
+  <article class="max-w-3xl mx-auto px-4 py-12">
+    <a href={`${base}events`} class="text-accent hover:text-amber-700 text-sm font-medium mb-8 inline-block transition-colors">← Back to Events</a>
+
+    <div class="mb-6">
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class={`text-xs font-medium px-2 py-0.5 rounded-full ${categoryColors[category] ?? categoryColors.other}`}>
+          {category.charAt(0).toUpperCase() + category.slice(1)}
+        </span>
+      </div>
+      <h1 class="font-serif text-4xl font-bold text-primary">{event.data.title}</h1>
+      <p class="text-sm text-gray-500 mt-3">
+        {event.data.startDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+        {event.data.startDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+        {event.data.endDate && (
+          <>
+            {' — '}
+            {event.data.endDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+          </>
+        )}
+      </p>
+      <p class="text-sm text-gray-600 mt-2">
+        📍 {event.data.location}
+        {event.data.address && ` · ${event.data.address}`}
+      </p>
+      <p class="text-xl text-gray-600 mt-4">{event.data.summary}</p>
+      {event.data.externalUrl && (
+        <a
+          href={event.data.externalUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block mt-6 bg-accent hover:bg-amber-600 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors"
+        >
+          View Details / Register →
+        </a>
+      )}
+    </div>
+
+    <div class="prose prose-green max-w-none">
+      <Content />
+    </div>
+  </article>
+</Base>

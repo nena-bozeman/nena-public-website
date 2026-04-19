@@ -1,5 +1,6 @@
 ---
 export interface Props {
+  slug: string;
   title: string;
   status: string;
   address: string;
@@ -10,7 +11,9 @@ export interface Props {
   tags?: string[];
 }
 
-const { title, status, address, developer, summary, lastUpdated, cityPlanningUrl, tags = [] } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const { slug, title, status, address, developer, summary, lastUpdated, cityPlanningUrl, tags = [] } = Astro.props;
+const projectHref = `${base}development/${slug}`;
 
 const statusConfig: Record<string, { color: string; label: string }> = {
   'proposed': { color: 'bg-yellow-100 text-yellow-800', label: 'Proposed' },
@@ -30,7 +33,9 @@ const config = statusConfig[status] ?? { color: 'bg-gray-100 text-gray-800', lab
       {config.label}
     </span>
   </div>
-  <h3 class="font-serif font-bold text-primary text-lg mb-1">{title}</h3>
+  <h3 class="font-serif font-bold text-primary text-lg mb-1">
+    <a href={projectHref} class="hover:text-accent transition-colors">{title}</a>
+  </h3>
   <p class="text-sm text-gray-500 mb-1">📍 {address}</p>
   {developer && <p class="text-sm text-gray-500 mb-2">Developer: {developer}</p>}
   <p class="text-gray-600 text-sm leading-relaxed mb-3">{summary}</p>
@@ -41,12 +46,15 @@ const config = statusConfig[status] ?? { color: 'bg-gray-100 text-gray-800', lab
       ))}
     </div>
   )}
-  <div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-50">
+  <div class="flex flex-col gap-2 mt-3 pt-3 border-t border-gray-50 sm:flex-row sm:items-center sm:justify-between">
     <span class="text-xs text-gray-400">Updated {lastUpdated.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-    {cityPlanningUrl && (
-      <a href={cityPlanningUrl} target="_blank" rel="noopener noreferrer" class="text-accent hover:text-amber-700 text-xs font-medium transition-colors">
-        City Planning Docs →
-      </a>
-    )}
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+      <a href={projectHref} class="text-accent hover:text-amber-700 text-xs font-medium transition-colors">Project details →</a>
+      {cityPlanningUrl && (
+        <a href={cityPlanningUrl} target="_blank" rel="noopener noreferrer" class="text-accent hover:text-amber-700 text-xs font-medium transition-colors">
+          City Planning Docs →
+        </a>
+      )}
+    </div>
   </div>
 </article>

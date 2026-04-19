@@ -20,6 +20,7 @@ const filtered = selectedCategory
   ) : (
     filtered.map((business) => (
       <BusinessCard
+        slug={business.slug}
         name={business.data.name}
         category={business.data.category}
         address={business.data.address}

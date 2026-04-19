@@ -15,6 +15,7 @@ const { events } = Astro.props;
   ) : (
     events.map((event) => (
       <EventCard
+        slug={event.slug}
         title={event.data.title}
         startDate={event.data.startDate}
         endDate={event.data.endDate}
