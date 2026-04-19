@@ -6,20 +6,20 @@ import Navigation from './Navigation.astro';
 
 <header class="bg-primary text-white shadow-lg">
   <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-    <a href={import.meta.env.BASE_URL} class="flex items-center gap-3 group">
+    <a
+      href={import.meta.env.BASE_URL}
+      class="flex items-center shrink-0 group"
+      aria-label="NENA home"
+    >
       <Image
         src={nenaLogo}
-        alt="Northeast Neighborhood Association"
+        alt=""
         width={48}
         height={48}
         class="h-12 w-12 shrink-0 object-contain"
         loading="eager"
         fetchpriority="high"
       />
-      <div>
-        <div class="font-serif font-bold text-lg leading-tight">Northeast Neighborhood</div>
-        <div class="text-xs text-green-200 leading-tight">Association · Bozeman, MT</div>
-      </div>
     </a>
     <Navigation />
   </div>

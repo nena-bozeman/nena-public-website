@@ -3,6 +3,8 @@ import Base from '../../layouts/Base.astro';
 import EventList from '../../components/events/EventList.astro';
 import { getCollection } from 'astro:content';
 
+const base = import.meta.env.BASE_URL;
+
 const allEvents = await getCollection('events');
 const now = new Date();
 
@@ -19,7 +21,19 @@ const calendarId = import.meta.env.PUBLIC_GOOGLE_CALENDAR_ID;
 
 <Base title="Events" description="Upcoming events in the Northeast Neighborhood of Bozeman, MT">
   <div class="max-w-4xl mx-auto px-4 py-12">
-    <h1 class="font-serif text-4xl font-bold text-primary mb-8">Events</h1>
+    <h1 class="font-serif text-4xl font-bold text-primary mb-6">Events</h1>
+
+    <aside class="bg-cream rounded-lg border border-amber-100 p-5 mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <p class="text-gray-700 text-sm sm:text-base">
+        Board officer nominations and how to run are on the elections page.
+      </p>
+      <a
+        href={`${base}elections`}
+        class="shrink-0 inline-flex justify-center bg-primary hover:bg-green-900 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors"
+      >
+        NENA elections
+      </a>
+    </aside>
     
     <section class="mb-12">
       <h2 class="font-serif text-2xl font-bold text-primary mb-6">Upcoming Events</h2>
