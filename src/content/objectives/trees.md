@@ -1,8 +1,8 @@
 ---
-title: "Trees Committee"
-summary: "Advocating for urban tree canopy expansion, street tree maintenance, and tree preservation in the Northeast Neighborhood."
+title: "NENA Trees"
+summary: "Community tree planting, urban forestry, and preservation projects in the Northeast Neighborhood."
 active: true
-order: 1
+order: 8
 contactEmail: "trees@nenabozeman.org"
 ---
 

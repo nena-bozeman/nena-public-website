@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+
+const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
+---
+
+<Base
+  title="Elections & Leadership"
+  description="NENA board elections, officer roles, and how to run for leadership in the Northeast Neighborhood Association."
+>
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <h1 class="font-serif text-4xl font-bold text-primary mb-6">Elections & Leadership</h1>
+
+    <div class="prose prose-green max-w-none mb-10">
+      <p class="text-xl text-gray-700 leading-relaxed">
+        NENA is led by a volunteer board of directors elected by neighborhood members. Officer positions, election timing, and candidate information from the legacy site will be expanded here during migration.
+      </p>
+
+      <h2 class="font-serif text-2xl font-bold text-primary mt-8 mb-3">Officer roles</h2>
+      <p class="text-gray-700">
+        Typical roles include President, Vice President, Secretary, Treasurer, and members at large. Exact titles and duties from nenabozeman.org should be pasted here when exported.
+      </p>
+
+      <h2 class="font-serif text-2xl font-bold text-primary mt-8 mb-3">How elections work</h2>
+      <ul class="text-gray-700 list-disc pl-5 space-y-2">
+        <li>Eligibility and nomination process (to be filled from legacy <strong>Elections</strong> page).</li>
+        <li>Annual meeting vote or mail-in process—confirm with current bylaws.</li>
+        <li>Term lengths and staggered seats if applicable.</li>
+      </ul>
+
+      <h2 class="font-serif text-2xl font-bold text-primary mt-8 mb-3">Member accounts on the legacy site</h2>
+      <p class="text-gray-700">
+        The old site offered <strong>Register</strong> and <strong>Login</strong> for member profiles. This static site does not replicate that yet. Decide whether you need Supabase/Auth0, a members-only Mailchimp segment, or no login for the relaunch—then document the approach here.
+      </p>
+    </div>
+
+    <div class="bg-cream rounded-lg p-8 border border-amber-100 space-y-4">
+      <h2 class="font-serif text-xl font-bold text-primary">Stay informed</h2>
+      <p class="text-gray-700 text-sm">
+        Election announcements historically appeared under <strong>News</strong> and <strong>Events</strong>. Subscribe for reminders.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href={mailchimpUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-accent hover:bg-amber-600 text-white font-semibold px-5 py-2 rounded-lg transition-colors text-sm"
+        >
+          Newsletter signup
+        </a>
+        <a href={`${import.meta.env.BASE_URL}news`} class="border border-primary text-primary font-semibold px-5 py-2 rounded-lg hover:bg-primary hover:text-white transition-colors text-sm">
+          News
+        </a>
+        <a href={`${import.meta.env.BASE_URL}events`} class="border border-primary text-primary font-semibold px-5 py-2 rounded-lg hover:bg-primary hover:text-white transition-colors text-sm">
+          Events
+        </a>
+      </div>
+    </div>
+  </div>
+</Base>

@@ -2,7 +2,7 @@
 title: "Trails & Pocket Parks"
 summary: "Advocating for expanded trail access, maintenance of existing trails, and development of pocket parks throughout the neighborhood."
 active: true
-order: 3
+order: 9
 contactEmail: "trails@nenabozeman.org"
 ---
 

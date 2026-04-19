@@ -2,7 +2,7 @@
 title: "Traffic Calming"
 summary: "Working to make neighborhood streets safer for pedestrians, cyclists, and drivers through traffic calming measures."
 active: true
-order: 2
+order: 10
 contactEmail: "traffic@nenabozeman.org"
 ---
 

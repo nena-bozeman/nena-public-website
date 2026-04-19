@@ -60,7 +60,7 @@ const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
         <a href={mailchimpUrl} target="_blank" rel="noopener noreferrer" class="bg-accent hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
           📧 Subscribe to Newsletter
         </a>
-        <a href="https://www.paypal.com/donate" target="_blank" rel="noopener noreferrer" class="border-2 border-green-300 hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+        <a href={`${import.meta.env.BASE_URL}donate`} class="border-2 border-green-300 hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
           💚 Donate to NENA
         </a>
         <a href={`${import.meta.env.BASE_URL}events`} class="border-2 border-green-300 hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-lg transition-colors">

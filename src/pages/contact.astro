@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+
+const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
+---
+
+<Base
+  title="Contact"
+  description="Contact the Northeast Neighborhood Association (NENA) in Bozeman, Montana."
+>
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <h1 class="font-serif text-4xl font-bold text-primary mb-6">Contact NENA</h1>
+
+    <div class="prose prose-green max-w-none mb-8">
+      <p class="text-gray-700 text-lg">
+        The legacy public site listed <a href="mailto:NENAbozeman@gmail.com">NENAbozeman@gmail.com</a> for general contact. This rebuild also uses the association email below; use whichever inbox your board actively monitors.
+      </p>
+    </div>
+
+    <div class="space-y-6">
+      <section class="bg-cream rounded-lg p-8 border border-amber-100">
+        <h2 class="font-serif text-xl font-bold text-primary mb-4">Email</h2>
+        <ul class="space-y-2 text-gray-700">
+          <li>
+            <a href="mailto:NENAbozeman@gmail.com" class="text-accent hover:text-amber-700 font-medium">NENAbozeman@gmail.com</a>
+            <span class="text-sm text-gray-500 block">From nenabozeman.org audit (2026)</span>
+          </li>
+          <li>
+            <a href="mailto:info@nenabozeman.org" class="text-accent hover:text-amber-700 font-medium">info@nenabozeman.org</a>
+            <span class="text-sm text-gray-500 block">Used elsewhere on this site template</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
+        <h2 class="font-serif text-xl font-bold text-primary mb-4">Meetings</h2>
+        <p class="text-gray-700">
+          Third Thursday of each month, 6:30 PM — Beall Park Recreation Center (211 N Black Ave). Details on the <a href={`${import.meta.env.BASE_URL}about`} class="text-accent hover:text-amber-700">About</a> page.
+        </p>
+      </section>
+
+      <section class="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
+        <h2 class="font-serif text-xl font-bold text-primary mb-4">Newsletter</h2>
+        <p class="text-gray-700 mb-4">
+          For email updates (replacement for the legacy newsletter signup flow), use the link configured for this deployment.
+        </p>
+        <a
+          href={mailchimpUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block bg-accent hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+        >
+          Subscribe to newsletter
+        </a>
+      </section>
+    </div>
+  </div>
+</Base>

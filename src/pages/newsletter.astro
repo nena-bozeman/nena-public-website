@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+
+const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
+---
+
+<Base
+  title="Newsletter"
+  description="Sign up for NENA email updates for the Northeast Neighborhood, Bozeman."
+>
+  <div class="max-w-2xl mx-auto px-4 py-12">
+    <h1 class="font-serif text-4xl font-bold text-primary mb-4">Newsletter signup</h1>
+    <p class="text-gray-700 text-lg mb-8">
+      Stay informed about meetings, events, and advocacy. This replaces the dedicated signup entry from the legacy site’s primary navigation once your Mailchimp (or other) URL is configured.
+    </p>
+
+    <div class="bg-cream rounded-lg p-8 border border-amber-100">
+      <p class="text-sm text-gray-600 mb-4">
+        Set <code>PUBLIC_MAILCHIMP_URL</code> in your environment (see <code>.env.example</code>) to point this button at your live form.
+      </p>
+      <a
+        href={mailchimpUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block bg-accent hover:bg-amber-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+      >
+        Open signup form
+      </a>
+    </div>
+
+    <p class="text-sm text-gray-500 mt-8">
+      Past newsletter PDFs will be listed on the <a href={`${import.meta.env.BASE_URL}objectives/nena-newsletters`} class="text-accent hover:text-amber-700">NENA Newsletters</a> objective page.
+    </p>
+  </div>
+</Base>

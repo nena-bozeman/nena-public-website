@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+
+const paypalUrl = 'https://www.paypal.com/donate';
+---
+
+<Base
+  title="Donate"
+  description="Support the Northeast Neighborhood Association through donations and community fundraisers."
+>
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <h1 class="font-serif text-4xl font-bold text-primary mb-6">Donate to NENA</h1>
+
+    <div class="prose prose-green max-w-none mb-8">
+      <p class="text-gray-700 text-lg">
+        The legacy nenabozeman.org site used PayPal for donations and sticker purchases. Wire the real PayPal button or hosted campaign URL here when you have the live snippet from your PayPal account.
+      </p>
+      <p class="text-gray-700">
+        Until then, neighbors can use the general donate link below (update <code>src/pages/donate.astro</code> with your organization’s PayPal.me or hosted button ID).
+      </p>
+    </div>
+
+    <div class="bg-cream rounded-lg p-8 border border-amber-100 text-center">
+      <p class="text-primary font-serif text-xl font-semibold mb-4">Support neighborhood programs</p>
+      <a
+        href={paypalUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block bg-accent hover:bg-amber-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+      >
+        Donate with PayPal
+      </a>
+      <p class="text-sm text-gray-600 mt-4">
+        Stickers and other small fundraisers: add product links or images under <code>public/images/migrated/</code> when migrated.
+      </p>
+    </div>
+  </div>
+</Base>
