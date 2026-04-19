@@ -1,3 +1,6 @@
+# legacy site fetch cache (regenerate with node scripts/build-legacy-inventory.mjs)
+data/.cache/
+
 # build output
 dist/
 .output/

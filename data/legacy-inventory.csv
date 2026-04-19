@@ -1,0 +1,115 @@
+url,kind,title_or_label,discovered_from,local_repo_path,downloaded,migrated,new_site_path,notes
+https://www.nenabozeman.org/,page,,sitemap_or_rss,,n/a,yes,/,
+https://www.nenabozeman.org/about,page,,sitemap_or_rss,,n/a,yes,/about,
+https://www.nenabozeman.org/blog/2018/07/bozeman-community-plan-update,page,,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: bozeman-community-plan-update),title_match_score=0.00
+https://www.nenabozeman.org/blog/2018/07/more-details-on-ncod-review,page,,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: more-details-on-ncod-review),title_match_score=0.00
+https://www.nenabozeman.org/blog/2018/07/ncod-review-schedule,page,,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: ncod-review-schedule),title_match_score=0.00
+https://www.nenabozeman.org/blog/2018/09/ncod-review-october-public-events,page,NCOD Review: October Public Events,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: ncod-review-october-public-events),title_match_score=0.00
+https://www.nenabozeman.org/blog/2018/09/round-2-of-ncod-review-oct-13,page,Round 2 of NCOD Review: Oct. 1&#45;3,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: round-2-of-ncod-review-oct-13),title_match_score=0.00
+https://www.nenabozeman.org/blog/2018/11/help-preserve-our-neighborhood-character,page,Help preserve our neighborhood character,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: help-preserve-our-neighborhood-character),title_match_score=0.00
+https://www.nenabozeman.org/blog/2019/05/m,page,MINUTES from NENA Spring Meeting,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: m),title_match_score=0.00
+https://www.nenabozeman.org/blog/2019/05/nena-news-spring-2019-newsletter,page,NENA NEWS: Spring 2019 newsletter,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: nena-news-spring-2019-newsletter),title_match_score=0.00
+https://www.nenabozeman.org/blog/2020/10/trails-projects,page,Trails Projects,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: trails-projects),title_match_score=0.00
+https://www.nenabozeman.org/blog/2021/04/aspen-st-bridge-update,page,Aspen St Bridge Update,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: aspen-st-bridge-update),title_match_score=0.00
+https://www.nenabozeman.org/blog/2021/04/community-solar-access,page,Community Solar Access,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: community-solar-access),title_match_score=0.00
+https://www.nenabozeman.org/blog/2021/04/ne-bozeman-environmental-initiatives,page,“NE Bozeman Environmental Initiatives”,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: ne-bozeman-environmental-initiatives),title_match_score=0.00
+https://www.nenabozeman.org/blog/2021/04/ne-bozeman-environmental-initiatives-part-2,page,“NE Bozeman Environmental Initiatives” part 2,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: ne-bozeman-environmental-initiatives-part-2),title_match_score=0.00
+https://www.nenabozeman.org/blog/2021/04/ne-bozeman-environmental-initiatives-part-3,page,“NE Bozeman Environmental Initiatives” part 3,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: ne-bozeman-environmental-initiatives-part-3),title_match_score=0.00
+https://www.nenabozeman.org/blog/2021/04/the-front-street-pathway-update,page,The Front Street Pathway Update,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: the-front-street-pathway-update),title_match_score=0.00
+https://www.nenabozeman.org/blog/2021/04/the-north-central-master-plan,page,The North Central Master Plan,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: the-north-central-master-plan),title_match_score=0.00
+https://www.nenabozeman.org/blog/2021/04/visions-ne-committee,page,Visions NE Committee,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: visions-ne-committee),title_match_score=0.00
+https://www.nenabozeman.org/blog/2021/09/parking-resolution,page,Parking Resolution,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: parking-resolution),title_match_score=0.00
+https://www.nenabozeman.org/blog/2021/11/aspen-street-bridge,page,Aspen Street Bridge,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: aspen-street-bridge),title_match_score=0.00
+https://www.nenabozeman.org/blog/2021/11/idaho-pole-project-update,page,Idaho Pole Project Update,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: idaho-pole-project-update),title_match_score=0.00
+https://www.nenabozeman.org/blog/2021/11/quiet-and-safe-rail-crossings,page,Quiet &amp;amp; Safe Rail Crossings,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: quiet-and-safe-rail-crossings),title_match_score=0.00
+https://www.nenabozeman.org/blog/2021/12/front-street-connector-trail,page,Front Street Connector Trail,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: front-street-connector-trail),title_match_score=0.00
+https://www.nenabozeman.org/blog/2021/12/north-church-pocket-park,page,North Church Pocket Park,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: north-church-pocket-park),title_match_score=0.00
+https://www.nenabozeman.org/blog/2024/04/nena-news-spring-2024,page,NENA News Spring 2024,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: nena-news-spring-2024),title_match_score=0.00
+https://www.nenabozeman.org/blog/2024/10/2024-parade-of-sheds,page,2024 Parade of Sheds!,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: 2024-parade-of-sheds),title_match_score=0.00
+https://www.nenabozeman.org/blog/2024/12/fall-2024-nena-news,page,FALL 2024 NENA NEWS,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: fall-2024-nena-news),title_match_score=0.00
+https://www.nenabozeman.org/blog/2025/10/nena-news-fall-2025,page,NENA NEWS FALL 2025,sitemap_or_rss,,n/a,no,/news/(suggested legacy slug: nena-news-fall-2025),title_match_score=0.00
+https://www.nenabozeman.org/blog/2026/04/nena-news-spring-2026,page,NENA NEWS Spring 2026,sitemap_or_rss,,n/a,partial,/news/2026-03-15-spring-newsletter,title_match_score=0.67
+https://www.nenabozeman.org/donate,page,,sitemap_or_rss,,n/a,yes,/donate,
+https://www.nenabozeman.org/elections,page,,sitemap_or_rss,,n/a,yes,/elections,
+https://www.nenabozeman.org/email-signup,page,,sitemap_or_rss,,n/a,yes,/newsletter,
+https://www.nenabozeman.org/events-calendar,page,,sitemap_or_rss,,n/a,yes,/events,
+https://www.nenabozeman.org/ne-business-directory,page,,sitemap_or_rss,,n/a,yes,/businesses,
+https://www.nenabozeman.org/objectives,page,,sitemap_or_rss,,n/a,yes,/objectives,
+https://www.nenabozeman.org/objectives/affordable-housing,page,,sitemap_or_rss,,n/a,yes,/objectives/affordable-housing,
+https://www.nenabozeman.org/objectives/nena-bylaws-2024,page,,sitemap_or_rss,,n/a,no,,needs new objective or page
+https://www.nenabozeman.org/objectives/nena-meetings,page,,sitemap_or_rss,,n/a,yes,/objectives/nena-meetings,
+https://www.nenabozeman.org/objectives/nena-newsletters,page,,sitemap_or_rss,,n/a,yes,/objectives/nena-newsletters,
+https://www.nenabozeman.org/objectives/nena-survey,page,,sitemap_or_rss,,n/a,yes,/objectives/nena-survey,
+https://www.nenabozeman.org/objectives/parade-of-sheds,page,,sitemap_or_rss,,n/a,yes,/objectives/parade-of-sheds,
+https://www.nenabozeman.org/objectives/safe-quiet-rail-crossings,page,,sitemap_or_rss,,n/a,yes,/objectives/safe-quiet-rail-crossings,
+https://www.nenabozeman.org/objectives/traffic-calming,page,,sitemap_or_rss,,n/a,yes,/objectives/traffic-calming,
+https://www.nenabozeman.org/objectives/trailsandpocketparks,page,,sitemap_or_rss,,n/a,yes,/objectives/trails-pocket-parks,
+https://www.nenabozeman.org/objectives/trees,page,,sitemap_or_rss,,n/a,yes,/objectives/trees,
+https://www.nenabozeman.org/objectives/trees-2,page,,sitemap_or_rss,,n/a,yes,/objectives/trees,
+https://www.nenabozeman.org/objectives/udc,page,,sitemap_or_rss,,n/a,yes,/objectives/bozeman-udc,
+https://www.nenabozeman.org/objectives/udc/interim-zoning-2026,page,,sitemap_or_rss,,n/a,yes,/objectives/bozeman-udc,legacy child path; may need section anchor
+https://www.nenabozeman.org/objectives/vision-ne,page,,sitemap_or_rss,,n/a,yes,/objectives/visionne,
+https://www.nenabozeman.org/photovoicesne,page,,sitemap_or_rss,,n/a,yes,/objectives/visionne,
+https://www.nenabozeman.org/search,page,,sitemap_or_rss,,n/a,no,,no direct route yet
+https://www.nenabozeman.org/search/results,page,,sitemap_or_rss,,n/a,no,,no direct route yet
+https://www.nenabozeman.org/thank-you,page,,sitemap_or_rss,,n/a,no,,no direct route yet
+https://www.nenabozeman.org/upcoming-events,page,,sitemap_or_rss,,n/a,yes,/events,
+https://www.nenabozeman.org/2018/07/mtpmcbr11694.pdf,pdf_link,,https://www.nenabozeman.org/blog/2021/04/ne-bozeman-environmental-initiatives-part-3,,no,no,,
+https://www.nenabozeman.org/attachment/pdf/885154/21-22_NURB_Work_Plan_draft_041521.pdf,pdf_link,,https://www.nenabozeman.org/blog/2021/04/aspen-st-bridge-update; https://www.nenabozeman.org/objectives/trailsandpocketparks,,no,no,,
+https://www.nenabozeman.org/files/download/279643cd0bdda5c,file_download,,https://www.nenabozeman.org/objectives/nena-meetings,public/documents/migrated/nenabozeman-org/SPRING 2024 MINUTES.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/2a9be73a3811db6,file_download,,https://www.nenabozeman.org/objectives/nena-meetings,public/documents/migrated/nenabozeman-org/NENA Spring Meeting August 2020.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/32319e086e8dec6,file_download,,https://www.nenabozeman.org/objectives/vision-ne,,no,no,,
+https://www.nenabozeman.org/files/download/43f9a5586a95387,file_download,,https://www.nenabozeman.org/objectives/safe-quiet-rail-crossings,,no,no,,
+https://www.nenabozeman.org/files/download/45ad04eeab847b0,file_download,,https://www.nenabozeman.org/objectives/nena-newsletters,public/documents/migrated/nenabozeman-org/NENA_news_SPRING2020_ONLINE.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/473dcfe7b614897,file_download,,https://www.nenabozeman.org/objectives/nena-newsletters,public/documents/migrated/nenabozeman-org/NENA News Spring 2019.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/47e4baee91fa8c7,file_download,,https://www.nenabozeman.org/objectives/nena-meetings,public/documents/migrated/nenabozeman-org/NENA Fall 2025 Meeting Minutes.docx,yes,partial,,
+https://www.nenabozeman.org/files/download/498f378671e878e,file_download,,https://www.nenabozeman.org/about,,no,no,,
+https://www.nenabozeman.org/files/download/4e549db3836396d,file_download,,https://www.nenabozeman.org/objectives/nena-newsletters,public/documents/migrated/nenabozeman-org/NENA SPRING 2025 MEETING MINUTES.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/625a0c1ed1039cf,file_download,,https://www.nenabozeman.org/blog/2019/05/m; https://www.nenabozeman.org/objectives/nena-meetings,public/documents/migrated/nenabozeman-org/minutes-nena-spring-meeting-may-2019.docx,yes,partial,,
+https://www.nenabozeman.org/files/download/6f4fe891e814061,file_download,,https://www.nenabozeman.org/blog/2025/10/nena-news-fall-2025; https://www.nenabozeman.org/objectives/nena-newsletters,public/documents/migrated/nenabozeman-org/NENA News FALL 2025.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/72d13aa41adc2d0,file_download,,https://www.nenabozeman.org/blog/2024/04/nena-news-spring-2024; https://www.nenabozeman.org/objectives/nena-newsletters,public/documents/migrated/nenabozeman-org/NENA News Spring 2024.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/82e3512bc476a4a,file_download,,https://www.nenabozeman.org/blog/2019/05/nena-news-spring-2019-newsletter,public/documents/migrated/nenabozeman-org/NENA News Spring 2019.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/8c9a81bdf8db3d0,file_download,,https://www.nenabozeman.org/objectives/nena-meetings; https://www.nenabozeman.org/objectives/nena-newsletters,public/documents/migrated/nenabozeman-org/NENA Spring Meeting April 2018.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/abea50f66afdd24,file_download,,https://www.nenabozeman.org/objectives/nena-newsletters,public/documents/migrated/nenabozeman-org/NENA_NEWS_SPRING_2021_WEB.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/b0342771d434b0e,file_download,,https://www.nenabozeman.org/objectives/nena-newsletters,public/documents/migrated/nenabozeman-org/NENA_News_Fall-Winter2020.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/b14f9db912878fe,file_download,,https://www.nenabozeman.org/objectives/nena-newsletters,public/documents/migrated/nenabozeman-org/NENA_NEWS_WINTER_2021_FINAL.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/b3b3259700792ba,file_download,,https://www.nenabozeman.org/objectives/vision-ne,,no,no,,
+https://www.nenabozeman.org/files/download/bb344c2b55a2e4b,file_download,,https://www.nenabozeman.org/blog/2021/09/parking-resolution; https://www.nenabozeman.org/objectives/vision-ne,,no,no,,
+https://www.nenabozeman.org/files/download/d13dad82e6c051e,file_download,,https://www.nenabozeman.org/objectives/nena-newsletters,public/documents/migrated/nenabozeman-org/NENA NEWS Fall 2018.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/d1a180ad84574dc,file_download,,https://www.nenabozeman.org/blog/2026/04/nena-news-spring-2026; https://www.nenabozeman.org/objectives/nena-newsletters,public/documents/migrated/nenabozeman-org/NENA NEWS Spring 2026.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/d48f535aeb8217b,file_download,,https://www.nenabozeman.org/objectives/nena-meetings,public/documents/migrated/nenabozeman-org/NENA Spring Update Meeting Minutes _5.13.21.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/d8817c818ff2f4b,file_download,,https://www.nenabozeman.org/objectives/vision-ne,,no,no,,
+https://www.nenabozeman.org/files/download/dd83bd073a37be0,file_download,,https://www.nenabozeman.org/objectives/nena-meetings,public/documents/migrated/nenabozeman-org/FALL 2024 MEETING MINUTES.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/e4410043747a978,file_download,,https://www.nenabozeman.org/objectives/nena-newsletters,public/documents/migrated/nenabozeman-org/NENA News Fall 2024.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/f655d215f2ce940,file_download,,https://www.nenabozeman.org/blog/2024/12/fall-2024-nena-news,public/documents/migrated/nenabozeman-org/FALL 2024 NENA NEWS.pdf,yes,partial,,
+https://www.nenabozeman.org/files/download/ff7336ac46e8005,file_download,,https://www.nenabozeman.org/objectives/nena-newsletters,public/documents/migrated/nenabozeman-org/2022.NENA_NEWS_SPRING_2022_WEB.pdf,yes,partial,,
+https://www.nenabozeman.org/files/large/1958e667263533c,image_upload,,https://www.nenabozeman.org/objectives/affordable-housing,public/images/migrated/nenabozeman-org/files/large/1958e667263533c.jpg,yes,partial,,
+https://www.nenabozeman.org/files/large/260bfeb6bb140d3,image_upload,,https://www.nenabozeman.org/blog/2024/10/2024-parade-of-sheds,,no,no,,
+https://www.nenabozeman.org/files/large/2ca85badaff6b08,image_upload,,https://www.nenabozeman.org/blog/2021/04/ne-bozeman-environmental-initiatives,,no,no,,
+https://www.nenabozeman.org/files/large/2ec09042822984d,image_upload,,https://www.nenabozeman.org/,public/images/migrated/nenabozeman-org/files/large/2ec09042822984d.jpg,yes,partial,,
+https://www.nenabozeman.org/files/large/3ae6e47c625c759,image_upload,,https://www.nenabozeman.org/objectives/trees; https://www.nenabozeman.org/objectives/trees-2,public/images/migrated/nenabozeman-org/files/large/3ae6e47c625c759.jpg,yes,partial,,
+https://www.nenabozeman.org/files/large/3bc4ff3a6ee3523,image_upload,,https://www.nenabozeman.org/objectives/parade-of-sheds,,no,no,,
+https://www.nenabozeman.org/files/large/44492be796ca29b,image_upload,,https://www.nenabozeman.org/blog/2021/04/ne-bozeman-environmental-initiatives,,no,no,,
+https://www.nenabozeman.org/files/large/47b8b156580db6f,image_upload,,https://www.nenabozeman.org/objectives/traffic-calming,,no,no,,
+https://www.nenabozeman.org/files/large/4c5f0b64feb6dd8,image_upload,,https://www.nenabozeman.org/objectives/nena-meetings,public/images/migrated/nenabozeman-org/files/large/4c5f0b64feb6dd8.png,yes,partial,,
+https://www.nenabozeman.org/files/large/4e46602786dc14c,image_upload,,https://www.nenabozeman.org/blog/2021/12/front-street-connector-trail,,no,no,,
+https://www.nenabozeman.org/files/large/56a177f6cefc2fe,image_upload,,https://www.nenabozeman.org/objectives/trees; https://www.nenabozeman.org/objectives/trees-2,public/images/migrated/nenabozeman-org/files/large/56a177f6cefc2fe.jpg,yes,partial,,
+https://www.nenabozeman.org/files/large/58e27c2d11d0ada,image_upload,,https://www.nenabozeman.org/blog/2019/05/m,,no,no,,
+https://www.nenabozeman.org/files/large/5a63bd2c559c6e8,image_upload,,https://www.nenabozeman.org/blog/2021/04/the-front-street-pathway-update,,no,no,,
+https://www.nenabozeman.org/files/large/5b4c41469ba1d16,image_upload,,https://www.nenabozeman.org/objectives/parade-of-sheds,,no,no,,
+https://www.nenabozeman.org/files/large/806572691c7c765,image_upload,,https://www.nenabozeman.org/objectives/parade-of-sheds,,no,no,,
+https://www.nenabozeman.org/files/large/8446123be3ef1d4,image_upload,,https://www.nenabozeman.org/blog/2021/04/visions-ne-committee,,no,no,,
+https://www.nenabozeman.org/files/large/8ab7b035fa2caf0,image_upload,,https://www.nenabozeman.org/upcoming-events,public/images/migrated/nenabozeman-org/files/large/8ab7b035fa2caf0.jpg,yes,partial,,
+https://www.nenabozeman.org/files/large/922245d7dd37dbc,image_upload,,https://www.nenabozeman.org/objectives/parade-of-sheds,,no,no,,
+https://www.nenabozeman.org/files/large/98ef6af4f6f0f60,image_upload,,https://www.nenabozeman.org/blog/2021/12/north-church-pocket-park,,no,no,,
+https://www.nenabozeman.org/files/large/9c80532ecb14568,image_upload,,https://www.nenabozeman.org/blog/2021/04/ne-bozeman-environmental-initiatives-part-2,,no,no,,
+https://www.nenabozeman.org/files/large/ad41f8bdc174734,image_upload,,https://www.nenabozeman.org/objectives/nena-meetings,public/images/migrated/nenabozeman-org/files/large/ad41f8bdc174734.png,yes,partial,,
+https://www.nenabozeman.org/files/large/af5614197a566f1,image_upload,,https://www.nenabozeman.org/blog/2021/04/ne-bozeman-environmental-initiatives-part-3,,no,no,,
+https://www.nenabozeman.org/files/large/bc832fe13263b90,image_upload,,https://www.nenabozeman.org/blog/2018/11/help-preserve-our-neighborhood-character,,no,no,,
+https://www.nenabozeman.org/files/large/c935a6fe556af18,image_upload,,https://www.nenabozeman.org/objectives/affordable-housing,public/images/migrated/nenabozeman-org/files/large/c935a6fe556af18.png,yes,partial,,
+https://www.nenabozeman.org/files/large/c96372aa2a6bcdb,image_upload,,https://www.nenabozeman.org/about,public/images/migrated/nenabozeman-org/files/large/c96372aa2a6bcdb.png,yes,partial,,
+https://www.nenabozeman.org/files/large/cbf064ce6ba515e,image_upload,,https://www.nenabozeman.org/objectives/parade-of-sheds,,no,no,,
+https://www.nenabozeman.org/files/large/d5d1a42c3a1736a,image_upload,,https://www.nenabozeman.org/blog/2018/07/more-details-on-ncod-review,,no,no,,
+https://www.nenabozeman.org/files/large/e188c59bdb2d4b6,image_upload,,https://www.nenabozeman.org/objectives/vision-ne,public/images/migrated/nenabozeman-org/files/large/e188c59bdb2d4b6.jpg,yes,partial,,
+https://www.nenabozeman.org/files/large/e989251b0338989,image_upload,,https://www.nenabozeman.org/blog/2021/04/the-front-street-pathway-update,,no,no,,
+https://www.nenabozeman.org/files/large/f94fa563656e08f,image_upload,,https://www.nenabozeman.org/objectives/nena-meetings,public/images/migrated/nenabozeman-org/files/large/f94fa563656e08f.png,yes,partial,,

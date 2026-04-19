@@ -6,7 +6,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "inventory:legacy": "node scripts/build-legacy-inventory.mjs",
+    "inventory:legacy:quick": "node scripts/build-legacy-inventory.mjs --no-crawl-assets"
   },
   "dependencies": {
     "@astrojs/tailwind": "^5.1.0",
