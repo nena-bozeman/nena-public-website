@@ -1,7 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getMailchimpSignupUrl } from '../utils/mailchimp';
 
-const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
+const mailchimpUrl = getMailchimpSignupUrl();
 ---
 
 <Base
@@ -11,20 +12,21 @@ const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
   <div class="max-w-2xl mx-auto px-4 py-12">
     <h1 class="font-serif text-4xl font-bold text-primary mb-4">Newsletter signup</h1>
     <p class="text-gray-700 text-lg mb-8">
-      Stay informed about meetings, events, and advocacy. This replaces the dedicated signup entry from the legacy site’s primary navigation once your Mailchimp (or other) URL is configured.
+      Stay informed about meetings, events, and advocacy. Subscriptions are handled on Mailchimp’s hosted page so the form always matches your list settings.
     </p>
 
     <div class="bg-cream rounded-lg p-8 border border-amber-100">
-      <p class="text-sm text-gray-600 mb-4">
-        Set <code>PUBLIC_MAILCHIMP_URL</code> in your environment (see <code>.env.example</code>) to point this button at your live form.
+      <h2 class="font-serif text-xl font-bold text-primary mb-4">Email subscribe</h2>
+      <p class="text-sm text-gray-600 mb-6">
+        You’ll leave this site briefly to complete signup. Optional fields (address, etc.) are only on Mailchimp’s page.
       </p>
       <a
         href={mailchimpUrl}
         target="_blank"
         rel="noopener noreferrer"
-        class="inline-block bg-accent hover:bg-amber-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+        class="inline-block rounded-lg bg-accent px-6 py-3 font-semibold text-white shadow-sm transition-colors hover:bg-amber-600"
       >
-        Open signup form
+        Open Mailchimp signup form →
       </a>
     </div>
 

@@ -1,17 +1,22 @@
 ---
 import Base from '../../layouts/Base.astro';
 import NewsList from '../../components/news/NewsList.astro';
+import NewsPagination from '../../components/news/NewsPagination.astro';
 import { getCollection } from 'astro:content';
+import {
+  NEWS_PER_PAGE,
+  sortNewsByDateDesc,
+  totalNewsPages,
+} from '../../utils/news';
 
 const base = import.meta.env.BASE_URL;
 
 const allNews = await getCollection('news');
-const sortedNews = allNews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const sortedNews = sortNewsByDateDesc(allNews);
 
 const page = 1;
-const perPage = 10;
-const paginatedNews = sortedNews.slice((page - 1) * perPage, page * perPage);
-const totalPages = Math.ceil(sortedNews.length / perPage);
+const totalPages = totalNewsPages(sortedNews.length);
+const paginatedNews = sortedNews.slice(0, NEWS_PER_PAGE);
 ---
 
 <Base title="News" description="Latest news from the Northeast Neighborhood Association">
@@ -29,10 +34,6 @@ const totalPages = Math.ceil(sortedNews.length / perPage);
       </a>
     </aside>
     <NewsList posts={paginatedNews} />
-    {totalPages > 1 && (
-      <div class="mt-8 text-center text-sm text-gray-500">
-        Page {page} of {totalPages}
-      </div>
-    )}
+    <NewsPagination currentPage={page} totalPages={totalPages} />
   </div>
 </Base>

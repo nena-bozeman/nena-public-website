@@ -3,9 +3,11 @@ import Base from '../../layouts/Base.astro';
 import ProjectCard from '../../components/development/ProjectCard.astro';
 import ProjectMap from '../../components/development/ProjectMap.astro';
 import { getCollection } from 'astro:content';
+import { getMailchimpSignupUrl } from '../../utils/mailchimp';
+
 const allProjects = await getCollection('development');
 const sorted = allProjects.sort((a, b) => b.data.lastUpdated.valueOf() - a.data.lastUpdated.valueOf());
-const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
+const mailchimpUrl = getMailchimpSignupUrl();
 ---
 <Base title="Development Watch" description="Tracking development projects in the Northeast Neighborhood of Bozeman, MT">
   <div class="max-w-7xl mx-auto px-4 py-12">
@@ -19,7 +21,14 @@ const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
     </div>
     <div class="mt-10 bg-primary text-white rounded-lg p-6 text-center">
       <h2 class="font-serif text-xl font-bold mb-2">Stay Informed</h2>
-      <a href={mailchimpUrl} class="bg-accent hover:bg-amber-600 text-white font-semibold px-6 py-2 rounded-lg transition-colors inline-block">Subscribe to Development Alerts</a>
+      <a
+        href={mailchimpUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="bg-accent hover:bg-amber-600 text-white font-semibold px-6 py-2 rounded-lg transition-colors inline-block"
+      >
+        Subscribe to Development Alerts
+      </a>
     </div>
   </div>
 </Base>

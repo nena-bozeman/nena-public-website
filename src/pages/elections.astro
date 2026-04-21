@@ -1,7 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getMailchimpSignupUrl } from '../utils/mailchimp';
 
-const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
+const mailchimpUrl = getMailchimpSignupUrl();
 ---
 
 <Base

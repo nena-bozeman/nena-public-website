@@ -1,7 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getMailchimpSignupUrl } from '../utils/mailchimp';
 
 const base = import.meta.env.BASE_URL;
+const mailchimpUrl = getMailchimpSignupUrl();
 
 const boardMembers = [
   { name: 'Amy Kelley Hoitsma', role: 'President' },
@@ -64,6 +66,17 @@ const boardMembers = [
           </div>
         ))}
       </div>
+      <aside class="mt-8 bg-cream rounded-lg border border-amber-100 p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <p class="text-gray-700 text-sm sm:text-base">
+          Board officer nominations and how to run are on the elections page.
+        </p>
+        <a
+          href={`${base}elections`}
+          class="shrink-0 inline-flex justify-center bg-primary hover:bg-green-900 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors"
+        >
+          NENA elections
+        </a>
+      </aside>
     </section>
 
     <!-- Contact -->
@@ -77,9 +90,21 @@ const boardMembers = [
         <p>
           For updates and ways to participate, see the{' '}
           <a href={`${base}contact`} class="text-accent hover:text-amber-700 font-medium">Contact</a>
-          {' '}page and the{' '}
+          {' '}page, the{' '}
+          <a href={`${base}newsletter`} class="text-accent hover:text-amber-700 font-medium">newsletter</a>
+          {' '}page, and the{' '}
           <a href={`${base}events`} class="text-accent hover:text-amber-700 font-medium">Events</a>
           {' '}calendar.
+        </p>
+        <p class="pt-2">
+          <a
+            href={mailchimpUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block bg-accent hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+          >
+            Subscribe to newsletter
+          </a>
         </p>
       </div>
     </section>

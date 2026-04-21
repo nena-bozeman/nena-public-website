@@ -12,6 +12,7 @@
     "inventory:legacy:quick": "node scripts/build-legacy-inventory.mjs --no-crawl-assets",
     "redirects:legacy": "node scripts/build-cloudflare-redirects.mjs",
     "check:internal-links": "node scripts/check-internal-links.mjs",
+    "content:news-from-blog": "node scripts/backfill-news-from-blog.mjs",
     "build:cf": "ASTRO_BASE_PATH=/ npm run build",
     "check:internal-links:cf": "ASTRO_BASE_PATH=/ npm run build && ASTRO_BASE_PATH=/ npm run check:internal-links"
   },
@@ -23,6 +24,9 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
     "@tailwindcss/typography": "^0.5.19",
+    "js-yaml": "^4.1.1",
+    "turndown": "^7.2.4",
     "typescript": "^5.9.3"
-  }
+  },
+  "packageManager": "pnpm@10.21.0+sha512.da3337267e400fdd3d479a6c68079ac6db01d8ca4f67572083e722775a796788a7a9956613749e000fac20d424b594f7a791a5f4e2e13581c5ef947f26968a40"
 }

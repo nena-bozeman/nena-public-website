@@ -1,0 +1,70 @@
+---
+import Base from '../../../layouts/Base.astro';
+import EventsIndexSections from '../../../components/events/EventsIndexSections.astro';
+import { getCollection } from 'astro:content';
+import {
+  EVENTS_PER_PAGE,
+  sortPastEventsDesc,
+  sortUpcomingEventsAsc,
+  totalPastEventPages,
+} from '../../../utils/events';
+import { withSiteBase } from '../../../utils/site-link';
+
+export async function getStaticPaths() {
+  const allEvents = await getCollection('events');
+  const now = new Date();
+  const pastAll = sortPastEventsDesc(
+    allEvents.filter((e) => e.data.startDate < now),
+  );
+  const total = totalPastEventPages(pastAll.length);
+  if (total <= 1) return [];
+  return Array.from({ length: total - 1 }, (_, i) => ({
+    params: { page: String(i + 2) },
+  }));
+}
+
+const now = new Date();
+const allEvents = await getCollection('events');
+
+const upcoming = sortUpcomingEventsAsc(
+  allEvents.filter((e) => e.data.startDate >= now),
+);
+
+const pastAll = sortPastEventsDesc(
+  allEvents.filter((e) => e.data.startDate < now),
+);
+
+const totalPastPages = totalPastEventPages(pastAll.length);
+
+const raw = Astro.params.page;
+const pageNum = parseInt(typeof raw === 'string' ? raw : '', 10);
+
+if (
+  !Number.isFinite(pageNum) ||
+  pageNum < 2 ||
+  pageNum > totalPastPages ||
+  totalPastPages <= 1
+) {
+  return Astro.redirect(withSiteBase('/events'));
+}
+
+const pastPaginated = pastAll.slice(
+  (pageNum - 1) * EVENTS_PER_PAGE,
+  pageNum * EVENTS_PER_PAGE,
+);
+
+const title = `Events — Page ${pageNum}`;
+---
+
+<Base
+  title={title}
+  description="Upcoming events in the Northeast Neighborhood of Bozeman, MT"
+  canonicalURL={`/events/page/${pageNum}`}
+>
+  <EventsIndexSections
+    upcoming={upcoming}
+    pastPaginated={pastPaginated}
+    pastPage={pageNum}
+    totalPastPages={totalPastPages}
+  />
+</Base>

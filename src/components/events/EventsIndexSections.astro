@@ -1,0 +1,54 @@
+---
+import EventList from './EventList.astro';
+import EventPagination from './EventPagination.astro';
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  upcoming: CollectionEntry<'events'>[];
+  pastPaginated: CollectionEntry<'events'>[];
+  pastPage: number;
+  totalPastPages: number;
+}
+
+const { upcoming, pastPaginated, pastPage, totalPastPages } = Astro.props;
+
+const calendarId =
+  import.meta.env.PUBLIC_GOOGLE_CALENDAR_ID?.trim() || 'nenabozeman@gmail.com';
+---
+
+<div class="max-w-4xl mx-auto px-4 py-12">
+  <h1 class="font-serif text-4xl font-bold text-primary mb-6">Events</h1>
+
+  <section class="mb-12">
+    <h2 class="font-serif text-2xl font-bold text-primary mb-6">Upcoming Events</h2>
+    <EventList events={upcoming} />
+  </section>
+
+  <section class="mb-12">
+    <h2 class="font-serif text-2xl font-bold text-primary mb-4">NENA Calendar</h2>
+    {calendarId ? (
+      <div class="rounded-lg overflow-hidden shadow-sm border border-gray-200">
+        <iframe
+          src={`https://calendar.google.com/calendar/embed?src=${calendarId}&ctz=America%2FDenver&showTitle=0&showNav=1&showDate=1&showPrint=0`}
+          style="border: 0"
+          width="100%"
+          height="500"
+          frameborder="0"
+          scrolling="no"
+          title="NENA Community Calendar"
+        ></iframe>
+      </div>
+    ) : (
+      <div class="bg-gray-50 rounded-lg p-6 text-center text-gray-500 border border-gray-200">
+        <p class="font-medium mb-2">Google Calendar not configured</p>
+        <p class="text-sm">Set the <code>PUBLIC_GOOGLE_CALENDAR_ID</code> environment variable to embed the NENA community calendar.</p>
+      </div>
+    )}
+  </section>
+
+  <section class="mb-12">
+    <h2 class="font-serif text-2xl font-bold text-primary mb-6">Past Events</h2>
+    <EventList events={pastPaginated} />
+    <EventPagination currentPage={pastPage} totalPages={totalPastPages} />
+  </section>
+</div>

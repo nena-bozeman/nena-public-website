@@ -1,0 +1,68 @@
+---
+import Base from '../../../layouts/Base.astro';
+import NewsList from '../../../components/news/NewsList.astro';
+import NewsPagination from '../../../components/news/NewsPagination.astro';
+import { getCollection } from 'astro:content';
+import {
+  NEWS_PER_PAGE,
+  sortNewsByDateDesc,
+  totalNewsPages,
+} from '../../../utils/news';
+import { withSiteBase } from '../../../utils/site-link';
+
+export async function getStaticPaths() {
+  const allNews = await getCollection('news');
+  const sorted = sortNewsByDateDesc(allNews);
+  const total = totalNewsPages(sorted.length);
+  if (total <= 1) return [];
+  return Array.from({ length: total - 1 }, (_, i) => ({
+    params: { page: String(i + 2) },
+  }));
+}
+
+const allNews = await getCollection('news');
+const sortedNews = sortNewsByDateDesc(allNews);
+const totalPages = totalNewsPages(sortedNews.length);
+
+const raw = Astro.params.page;
+const pageNum = parseInt(typeof raw === 'string' ? raw : '', 10);
+
+if (
+  !Number.isFinite(pageNum) ||
+  pageNum < 2 ||
+  pageNum > totalPages ||
+  totalPages <= 1
+) {
+  return Astro.redirect(withSiteBase('/news'));
+}
+
+const paginatedNews = sortedNews.slice(
+  (pageNum - 1) * NEWS_PER_PAGE,
+  pageNum * NEWS_PER_PAGE,
+);
+
+const title = `News — Page ${pageNum}`;
+---
+
+<Base
+  title={title}
+  description="Latest news from the Northeast Neighborhood Association"
+  canonicalURL={`/news/page/${pageNum}`}
+>
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="font-serif text-4xl font-bold text-primary mb-6">Neighborhood News</h1>
+    <aside class="bg-cream rounded-lg border border-amber-100 p-5 mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <p class="text-gray-700 text-sm sm:text-base">
+        Get meeting recaps and neighborhood updates by email.
+      </p>
+      <a
+        href={`${import.meta.env.BASE_URL}newsletter`}
+        class="shrink-0 inline-flex justify-center bg-accent hover:bg-amber-600 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors"
+      >
+        Newsletter signup
+      </a>
+    </aside>
+    <NewsList posts={paginatedNews} />
+    <NewsPagination currentPage={pageNum} totalPages={totalPages} />
+  </div>
+</Base>

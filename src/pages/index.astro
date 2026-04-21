@@ -4,6 +4,7 @@ import Hero from '../components/home/Hero.astro';
 import MissionStatement from '../components/home/MissionStatement.astro';
 import LatestNews from '../components/home/LatestNews.astro';
 import { getCollection } from 'astro:content';
+import { getMailchimpSignupUrl } from '../utils/mailchimp';
 
 const now = new Date();
 const allEvents = await getCollection('events');
@@ -12,7 +13,7 @@ const upcomingEvents = allEvents
   .sort((a, b) => a.data.startDate.valueOf() - b.data.startDate.valueOf())
   .slice(0, 3);
 
-const mailchimpUrl = import.meta.env.PUBLIC_MAILCHIMP_URL ?? '#';
+const mailchimpUrl = getMailchimpSignupUrl();
 const base = import.meta.env.BASE_URL;
 ---
 

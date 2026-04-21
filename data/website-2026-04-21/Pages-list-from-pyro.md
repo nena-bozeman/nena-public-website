@@ -1,0 +1,39 @@
+Pages
+- Home
+- About
+- Objectives
+    - Affordable Housing
+    - NENA Newsletters  
+    - NENA Meetings
+    - NENA Bylaws 2024
+    - Bozeman UDC  
+        - Interim Zoning 2026
+    - Businesses
+    - Parade Of Sheds
+    - Idaho Pole - A Superfund Site and an Urban Renewal District
+   - Cloverleaf Development
+    - NENA Trees
+    - North Central Development
+    - Wildlands Development
+    - Wallace Works
+    - Safe & Quiet Rail Crossings
+    - Trails & Pocket Parks
+    - VisionNE
+    - Traffic Calming
+    - Wetlands
+    - NENA Survey
+    - NENA Trees 2
+- Donate
+- Events
+- Elections
+- PhotoVoicesNE
+- Photo Voices NE Upload
+- Business Directory
+- TEST VOTING
+- Thank You
+- Search
+    - Results
+- Page missing
+- Meetings
+- Events Calendar
+- Newsletter Sign Up

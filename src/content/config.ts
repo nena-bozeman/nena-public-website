@@ -4,11 +4,18 @@ const news = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    date: z.date(),
+    date: z.coerce.date(),
     summary: z.string(),
     author: z.string().optional(),
     featured: z.boolean().default(false),
     tags: z.array(z.string()).default([]),
+    /** Last update from the legacy CMS (Pyro), when different from publish date */
+    updated: z.coerce.date().optional(),
+    /** Posts migrated from Pyro CMS blog export */
+    legacySource: z.enum(['pyro-cms']).optional(),
+    legacyId: z.string().optional(),
+    legacySlug: z.string().optional(),
+    legacyBlogUrl: z.string().url().optional(),
   }),
 });
 
