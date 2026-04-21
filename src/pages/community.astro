@@ -1,0 +1,135 @@
+---
+import Base from '../layouts/Base.astro';
+
+const cityHome = 'https://www.bozeman.net/';
+const neighborhoodsProgram =
+  'https://www.bozeman.net/departments/administration/communications-engagement/neighborhoods-program';
+const neighborhoodAssociations = `${neighborhoodsProgram}/neighborhood-associations`;
+const interneighborhoodCouncil = `${neighborhoodsProgram}/interneighborhood-council`;
+
+const northsideHome = 'https://www.northsidebozeman.com/';
+const northsideBusinesses = 'https://www.northsidebozeman.com/businesses';
+
+const downtownBozeman = 'https://downtownbozeman.org/';
+const emersonCenter = 'https://www.theemerson.org/';
+const bozemanArtMuseum = 'https://bozemanartmuseum.org/';
+---
+
+<Base
+  title="Friends of NENA & neighborhood resources"
+  description="City of Bozeman resources, nearby neighborhood associations, Northside businesses, and Bozeman arts organizations linked from NENA."
+>
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <h1 class="font-serif text-4xl font-bold text-primary mb-6">Friends of NENA & neighborhood resources</h1>
+
+    <div class="prose prose-green max-w-none mb-10">
+      <p class="text-gray-700 text-lg">
+        NENA works alongside the City of Bozeman, the Inter Neighborhood Council, and neighbors across town. These links point to official city resources, other neighborhood groups, nearby business communities, and Bozeman’s arts organizations.
+      </p>
+    </div>
+
+    <div class="space-y-8">
+      <section class="bg-cream rounded-lg p-8 border border-amber-100">
+        <h2 class="font-serif text-xl font-bold text-primary mb-4">City of Bozeman</h2>
+        <ul class="space-y-3 text-gray-700 list-none pl-0">
+          <li>
+            <a href={cityHome} class="text-accent hover:text-amber-700 font-medium" target="_blank" rel="noopener noreferrer">
+              City of Bozeman
+            </a>
+            <span class="text-gray-600"> — main city site</span>
+          </li>
+          <li>
+            <a
+              href={neighborhoodsProgram}
+              class="text-accent hover:text-amber-700 font-medium"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Neighborhoods program
+            </a>
+            <span class="text-gray-600"> — how associations partner with the city</span>
+          </li>
+          <li>
+            <a
+              href={neighborhoodAssociations}
+              class="text-accent hover:text-amber-700 font-medium"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Neighborhood associations
+            </a>
+            <span class="text-gray-600"> — directory of recognized associations</span>
+          </li>
+          <li>
+            <a
+              href={interneighborhoodCouncil}
+              class="text-accent hover:text-amber-700 font-medium"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Inter Neighborhood Council (INC)
+            </a>
+            <span class="text-gray-600"> — monthly forum for neighborhood reps</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
+        <h2 class="font-serif text-xl font-bold text-primary mb-4">Nearby neighborhoods & business community</h2>
+        <ul class="space-y-3 text-gray-700 list-none pl-0">
+          <li>
+            <a href={northsideHome} class="text-accent hover:text-amber-700 font-medium" target="_blank" rel="noopener noreferrer">
+              Northside Neighborhood
+            </a>
+            <span class="text-gray-600"> — adjacent community north of downtown</span>
+          </li>
+          <li>
+            <a
+              href={northsideBusinesses}
+              class="text-accent hover:text-amber-700 font-medium"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Northside Neighborhood business listing
+            </a>
+            <span class="text-gray-600"> — shops and services on the Northside</span>
+          </li>
+        </ul>
+        <p class="text-gray-600 text-sm mt-4">
+          For other neighborhood associations across Bozeman, use the city’s{' '}
+          <a href={neighborhoodAssociations} class="text-accent hover:text-amber-700 font-medium" target="_blank" rel="noopener noreferrer">
+            neighborhood associations
+          </a>{' '}
+          directory (NENA is the Northeast association).
+        </p>
+      </section>
+
+      <section class="bg-cream rounded-lg p-8 border border-amber-100">
+        <h2 class="font-serif text-xl font-bold text-primary mb-4">Bozeman arts & downtown culture</h2>
+        <p class="text-gray-700 mb-4">
+          Much of Bozeman’s gallery, studio, and performance activity clusters downtown and around the Emerson. These organizations are useful starting points if you are looking for the “arts district” side of town.
+        </p>
+        <ul class="space-y-3 text-gray-700 list-none pl-0">
+          <li>
+            <a href={downtownBozeman} class="text-accent hover:text-amber-700 font-medium" target="_blank" rel="noopener noreferrer">
+              Downtown Bozeman
+            </a>
+            <span class="text-gray-600"> — downtown events, businesses, and district info</span>
+          </li>
+          <li>
+            <a href={emersonCenter} class="text-accent hover:text-amber-700 font-medium" target="_blank" rel="noopener noreferrer">
+              Emerson Center for the Arts &amp; Culture
+            </a>
+            <span class="text-gray-600"> — galleries, studios, and performances</span>
+          </li>
+          <li>
+            <a href={bozemanArtMuseum} class="text-accent hover:text-amber-700 font-medium" target="_blank" rel="noopener noreferrer">
+              Bozeman Art Museum
+            </a>
+            <span class="text-gray-600"> — exhibitions and public art programs</span>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</Base>

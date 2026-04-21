@@ -1,13 +1,12 @@
 ---
 name: "Wild Crumb"
 category: "food-drink"
-address: "703 N Black Ave, Bozeman, MT 59715"
+address: "600 N Wallace Ave, Bozeman, MT 59715"
 website: "https://www.wildcrumb.com"
 founded: 2010
 legacy: true
-active: true
-lat: 45.6844
-lng: -111.0352
+lat: 45.6843
+lng: -111.032
 ---
 
-Wild Crumb is a beloved neighborhood bakery known for its artisan bread, pastries, and community spirit. A cornerstone of the Northeast Neighborhood since 2010.
+Artisan bread and pastries baked daily. Ingredients from local farms and Montana-made products when available.

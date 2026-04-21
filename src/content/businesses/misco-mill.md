@@ -4,7 +4,6 @@ category: "retail"
 address: "502 N Wallace Ave, Bozeman, MT 59715"
 founded: 2016
 legacy: false
-active: true
 lat: 45.6838
 lng: -111.0321
 ---

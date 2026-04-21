@@ -53,7 +53,10 @@ const businesses = defineCollection({
     founded: z.number().optional(),
     logo: z.string().optional(),
     legacy: z.boolean().default(false),
-    active: z.boolean().default(true),
+    /** Open listings appear in the main directory; closed listings are hidden there but kept for the archive. */
+    status: z.enum(['open', 'closed']).default('open'),
+    /** Year the business closed (optional; shown in archive when set). */
+    closedYear: z.number().int().min(1900).max(2100).optional(),
     lat: z.number().optional(),
     lng: z.number().optional(),
   }),

@@ -57,8 +57,14 @@ const logoSrc =
         <h1 class="font-serif text-4xl font-bold text-primary mt-2">{name}</h1>
         <p class="text-sm text-gray-600 mt-2">📍 {business.data.address}</p>
         {business.data.founded && <p class="text-sm text-gray-400 mt-1">Est. {business.data.founded}</p>}
-        {!business.data.active && (
-          <p class="text-sm font-medium text-red-700 mt-2">This listing is marked as closed.</p>
+        {business.data.status === 'closed' && (
+          <p class="text-sm font-medium text-red-700 mt-2">
+            This business has closed
+            {business.data.closedYear != null ? ` (${business.data.closedYear})` : ''}.{' '}
+            <a href={`${base}businesses/archive`} class="underline hover:text-red-900">
+              View archive
+            </a>
+          </p>
         )}
         <div class="flex flex-wrap gap-4 mt-4">
           {business.data.website && (

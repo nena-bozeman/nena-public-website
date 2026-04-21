@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import BusinessList from '../../components/businesses/BusinessList.astro';
+import { getCollection } from 'astro:content';
+
+const base = import.meta.env.BASE_URL;
+const allBusinesses = await getCollection('businesses');
+const closed = allBusinesses
+  .filter((b) => b.data.status === 'closed')
+  .sort((a, b) => {
+    const ya = a.data.closedYear ?? 0;
+    const yb = b.data.closedYear ?? 0;
+    if (yb !== ya) return yb - ya;
+    return a.data.name.localeCompare(b.data.name);
+  });
+---
+
+<Base
+  title="Business archive"
+  description="Former Northeast Neighborhood businesses kept on record for neighborhood history."
+  canonicalURL="/businesses/archive"
+>
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <a href={`${base}businesses`} class="text-accent hover:text-amber-700 text-sm font-medium mb-6 inline-block transition-colors">
+      ← Back to Business Directory
+    </a>
+    <h1 class="font-serif text-4xl font-bold text-primary mb-4">Past businesses</h1>
+    <p class="text-gray-600 mb-8 max-w-2xl">
+      Listings for businesses that have closed remain here for reference. Year shown is when they closed, when known.
+    </p>
+
+    {closed.length === 0 ? (
+      <p class="text-gray-500">No closed listings yet.</p>
+    ) : (
+      <BusinessList businesses={closed} />
+    )}
+  </div>
+</Base>

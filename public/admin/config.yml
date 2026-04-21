@@ -40,7 +40,8 @@ collections:
       - { label: "Category", name: "category", widget: "select", options: ["food-drink","retail","services","arts-culture","fitness-wellness","nonprofit","other"] }
       - { label: "Address", name: "address", widget: "string" }
       - { label: "Website", name: "website", widget: "string", required: false }
-      - { label: "Active", name: "active", widget: "boolean", default: true }
+      - { label: "Status", name: "status", widget: "select", options: ["open", "closed"], default: "open" }
+      - { label: "Closed year (if closed)", name: "closedYear", widget: "number", required: false }
       - { label: "Body", name: "body", widget: "markdown" }
   - name: "development"
     label: "Development Watch"

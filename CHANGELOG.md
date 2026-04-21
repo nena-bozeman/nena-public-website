@@ -1,0 +1,41 @@
+# Changelog
+
+All notable changes to this project are documented here. Entries are derived from the git history and grouped by release period.
+
+## [Unreleased]
+
+Changes not yet released.
+
+---
+
+## 2026-04-21
+
+- **News and objectives:** Link news posts to objectives via tags; filter and display related news on objective pages (`ObjectiveRelatedNews`, `news.ts` utilities).
+- **Meeting minutes:** Meeting minutes archive and improved base URL handling for assets and links.
+- **Legacy migration:** Inventory scripts and news backfill tooling for migrating content from the legacy site.
+
+## 2026-04-19
+
+- **Navigation and content:** Navigation and footer updates; objectives order and titles; timeline and footer with images and layout tweaks.
+- **Legacy redirects:** Initial `_redirects` mapping from old URLs to the new site.
+- **Branding and UX:** Favicon, logo, Tailwind styling, simplified header, email copy clarification.
+- **Quality:** Internal link checker enhancements (verbose output, skip reasons); CI workflow and dependency updates.
+- **Tooling:** Legacy inventory management scripts and data; migration-related documentation under `public/documents/migrated` and scripts.
+
+## 2026-04-14
+
+- **Core site:** Initial static NENA website (Astro): pages, content collections, layouts, and styling.
+- **Security:** Astro upgraded to 5.15.8 (patch for reflected XSS advisory).
+- **CMS / admin:** Decap CMS admin route and `config.yml` path fixes for Astro 5 dev server and GitHub Pages.
+- **Hosting:** GitHub Actions workflow to publish to GitHub Pages; `BASE_URL` applied across internal links for project-page hosting.
+- **Repository:** `.gitignore` added; build artifacts and `node_modules` removed from tracking.
+
+## 2026-04-13
+
+- **Bootstrap:** Initial repository and merge of the first static-site implementation (pull request #1).
+
+---
+
+### Earlier planning
+
+- Initial planning and prompt artifacts committed at the start of the project (`Initial commit`, `Initial plan`, `initial prompt for building the site`).

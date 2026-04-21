@@ -8,11 +8,13 @@ export interface Props {
   phone?: string;
   founded?: number;
   legacy?: boolean;
-  active?: boolean;
+  status?: 'open' | 'closed';
+  closedYear?: number;
 }
 
 const base = import.meta.env.BASE_URL;
-const { slug, name, category, address, website, phone, founded, legacy = false, active = true } = Astro.props;
+const { slug, name, category, address, website, phone, founded, legacy = false, status = 'open', closedYear } = Astro.props;
+const isClosed = status === 'closed';
 const listingHref = `${base}businesses/${slug}`;
 
 const categoryLabels: Record<string, string> = {
@@ -44,7 +46,11 @@ const categoryColors: Record<string, string> = {
           {categoryLabels[category] ?? category}
         </span>
         {legacy && <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">Legacy 10+</span>}
-        {!active && <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-red-100 text-red-800">Closed</span>}
+        {isClosed && (
+          <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-red-100 text-red-800">
+            Closed{closedYear != null ? ` ${closedYear}` : ''}
+          </span>
+        )}
       </div>
       <h3 class="font-serif font-bold text-primary text-lg">
         <a href={listingHref} class="hover:text-accent transition-colors">{name}</a>

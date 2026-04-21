@@ -6,7 +6,6 @@ website: "https://www.bozemanbrewing.com"
 phone: "(406) 585-9142"
 founded: 1999
 legacy: true
-active: true
 lat: 45.6832
 lng: -111.0381
 ---
