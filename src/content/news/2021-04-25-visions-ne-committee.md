@@ -3,7 +3,7 @@ title: Visions NE Committee
 date: "2021-04-25"
 summary: "Visions NE Committee: Defining Community Character"
 featured: false
-tags: []
+tags: ["visionne"]
 legacySource: pyro-cms
 legacyId: "55"
 legacySlug: visions-ne-committee

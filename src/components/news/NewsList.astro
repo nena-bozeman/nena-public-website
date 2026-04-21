@@ -4,14 +4,16 @@ import type { CollectionEntry } from 'astro:content';
 
 export interface Props {
   posts: CollectionEntry<'news'>[];
+  showTags?: boolean;
+  emptyMessage?: string;
 }
 
-const { posts } = Astro.props;
+const { posts, showTags = true, emptyMessage } = Astro.props;
 ---
 
 <div class="space-y-6">
   {posts.length === 0 ? (
-    <p class="text-gray-500 text-center py-8">No news posts found.</p>
+    <p class="text-gray-500 text-center py-8">{emptyMessage ?? 'No news posts found.'}</p>
   ) : (
     posts.map((post) => (
       <NewsCard
@@ -21,6 +23,7 @@ const { posts } = Astro.props;
         author={post.data.author}
         tags={post.data.tags}
         slug={post.slug}
+        showTags={showTags}
       />
     ))
   )}

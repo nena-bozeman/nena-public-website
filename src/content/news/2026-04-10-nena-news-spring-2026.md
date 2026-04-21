@@ -3,7 +3,7 @@ title: NENA NEWS Spring 2026
 date: "2026-04-10"
 summary: NENA NEWS Spring 2026
 featured: false
-tags: []
+tags: ["newsletter"]
 legacySource: pyro-cms
 legacyId: "91"
 legacySlug: nena-news-spring-2026

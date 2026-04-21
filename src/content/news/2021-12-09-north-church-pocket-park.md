@@ -3,7 +3,7 @@ title: North Church Pocket Park
 date: "2021-12-09"
 summary: Potential for another "pocket park" in the neighborhood
 featured: false
-tags: []
+tags: ["trails-pocket-parks"]
 legacySource: pyro-cms
 legacyId: "72"
 legacySlug: north-church-pocket-park

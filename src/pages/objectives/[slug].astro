@@ -1,6 +1,9 @@
 ---
 import Base from '../../layouts/Base.astro';
+import ObjectiveRelatedNews from '../../components/objectives/ObjectiveRelatedNews.astro';
 import { getCollection } from 'astro:content';
+import { newsPostsMatchingAnyTag } from '../../utils/news';
+
 export async function getStaticPaths() {
   const objectives = await getCollection('objectives');
   return objectives
@@ -9,12 +12,18 @@ export async function getStaticPaths() {
 }
 const { objective } = Astro.props;
 const { Content } = await objective.render();
+
+const newsTags = objective.data.newsTags;
+const allNews = await getCollection('news');
+const relatedNews = newsPostsMatchingAnyTag(allNews, newsTags);
+const wideLayout = newsTags.length > 0;
 ---
 <Base title={objective.data.title} description={objective.data.summary}>
-  <div class="max-w-3xl mx-auto px-4 py-12">
+  <div class:list={['mx-auto px-4 py-12', wideLayout ? 'max-w-4xl' : 'max-w-3xl']}>
     <a href={`${import.meta.env.BASE_URL}objectives`} class="text-accent text-sm font-medium mb-8 inline-block">← Back to Objectives</a>
     <h1 class="font-serif text-4xl font-bold text-primary mb-3">{objective.data.title}</h1>
     <p class="text-xl text-gray-600 mb-6">{objective.data.summary}</p>
     <div class="prose prose-green max-w-none"><Content /></div>
+    <ObjectiveRelatedNews tags={newsTags} posts={relatedNews} />
   </div>
 </Base>

@@ -3,6 +3,7 @@ title: "Trails & Pocket Parks"
 summary: "Advocating for expanded trail access, maintenance of existing trails, and development of pocket parks throughout the neighborhood."
 active: true
 order: 9
+newsTags: ["trails-pocket-parks"]
 ---
 
 The Trails & Pocket Parks Committee focuses on expanding recreational opportunities within the Northeast Neighborhood. We advocate for new trails, maintain existing ones, and work to create small pocket parks on underutilized parcels.

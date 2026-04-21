@@ -3,7 +3,7 @@ title: Front Street Connector Trail
 date: "2021-12-10"
 summary: New connector "Front Street Trail" in Northeast Neighborhood.
 featured: false
-tags: []
+tags: ["trails-pocket-parks"]
 legacySource: pyro-cms
 legacyId: "77"
 legacySlug: front-street-connector-trail

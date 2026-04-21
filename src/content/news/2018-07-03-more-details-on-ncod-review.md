@@ -3,7 +3,7 @@ title: More Details on NCOD Review
 date: "2018-07-03"
 summary: The Neighborhood Conservartion Overlay District (NCOD) is a zoning overlay district that was created by the City in 1991 to conserve neighborhood character and protect historic properties. The City has engaged a consultant team to conduct a comprehensive review of the NCOD. This…
 featured: false
-tags: []
+tags: ["bozeman-udc"]
 legacySource: pyro-cms
 legacyId: "5"
 legacySlug: more-details-on-ncod-review

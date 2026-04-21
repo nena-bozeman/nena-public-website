@@ -6,10 +6,11 @@ export interface Props {
   author?: string;
   tags?: string[];
   slug: string;
+  showTags?: boolean;
 }
 
 const base = import.meta.env.BASE_URL;
-const { title, date, summary, author, tags = [], slug } = Astro.props;
+const { title, date, summary, author, tags = [], slug, showTags = true } = Astro.props;
 const postHref = `${base}news/${slug}`;
 ---
 
@@ -24,7 +25,7 @@ const postHref = `${base}news/${slug}`;
     <a href={postHref} class="hover:text-accent transition-colors">{title}</a>
   </h2>
   <p class="text-gray-600 text-sm leading-relaxed mb-4">{summary}</p>
-  {tags.length > 0 && (
+  {showTags && tags.length > 0 && (
     <div class="flex flex-wrap gap-2 mb-4">
       {tags.map((tag) => (
         <span class="text-xs bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full">{tag}</span>

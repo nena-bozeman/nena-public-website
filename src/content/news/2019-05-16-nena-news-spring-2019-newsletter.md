@@ -3,7 +3,7 @@ title: "NENA NEWS: Spring 2019 newsletter"
 date: "2019-05-16"
 summary: In case you didn't see the print version our loyal volunteers handed out at every house in the neighborhood, here's an online version!
 featured: false
-tags: []
+tags: ["newsletter"]
 legacySource: pyro-cms
 legacyId: "31"
 legacySlug: nena-news-spring-2019-newsletter

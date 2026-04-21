@@ -1,0 +1,50 @@
+---
+import Base from '../../../layouts/Base.astro';
+import NewsList from '../../../components/news/NewsList.astro';
+import NewsPagination from '../../../components/news/NewsPagination.astro';
+import NewsPageShell from '../../../components/news/NewsPageShell.astro';
+import { getCollection } from 'astro:content';
+import {
+  NEWS_PER_PAGE,
+  collectUniqueNewsTags,
+  filterNewsByTag,
+  formatNewsTagLabel,
+  totalNewsPages,
+} from '../../../utils/news';
+import { withSiteBase } from '../../../utils/site-link';
+
+export async function getStaticPaths() {
+  const allNews = await getCollection('news');
+  const tags = collectUniqueNewsTags(allNews);
+  return tags.map((tag) => ({ params: { tag } }));
+}
+
+const allNews = await getCollection('news');
+const allTags = collectUniqueNewsTags(allNews);
+const rawTag = Astro.params.tag;
+const tag = typeof rawTag === 'string' ? rawTag : '';
+
+if (!allTags.includes(tag)) {
+  return Astro.redirect(withSiteBase('/news'));
+}
+
+const filtered = filterNewsByTag(allNews, tag);
+const totalPages = totalNewsPages(filtered.length);
+const paginatedNews = filtered.slice(0, NEWS_PER_PAGE);
+const page = 1;
+
+const label = formatNewsTagLabel(tag);
+const title = `News — ${label}`;
+const description = `Neighborhood news posts tagged ${label} from the Northeast Neighborhood Association.`;
+---
+
+<Base
+  title={title}
+  description={description}
+  canonicalURL={`/news/tag/${encodeURIComponent(tag)}`}
+>
+  <NewsPageShell allTags={allTags} activeTag={tag}>
+    <NewsList posts={paginatedNews} />
+    <NewsPagination currentPage={page} totalPages={totalPages} activeTag={tag} />
+  </NewsPageShell>
+</Base>

@@ -1,0 +1,74 @@
+---
+import Base from '../../../../../layouts/Base.astro';
+import NewsList from '../../../../../components/news/NewsList.astro';
+import NewsPagination from '../../../../../components/news/NewsPagination.astro';
+import NewsPageShell from '../../../../../components/news/NewsPageShell.astro';
+import { getCollection } from 'astro:content';
+import {
+  NEWS_PER_PAGE,
+  collectUniqueNewsTags,
+  filterNewsByTag,
+  formatNewsTagLabel,
+  totalNewsPages,
+} from '../../../../../utils/news';
+import { withSiteBase } from '../../../../../utils/site-link';
+
+export async function getStaticPaths() {
+  const allNews = await getCollection('news');
+  const tags = collectUniqueNewsTags(allNews);
+  const paths: { params: { tag: string; page: string } }[] = [];
+  for (const tag of tags) {
+    const filtered = filterNewsByTag(allNews, tag);
+    const total = totalNewsPages(filtered.length);
+    if (total <= 1) continue;
+    for (let p = 2; p <= total; p++) {
+      paths.push({ params: { tag, page: String(p) } });
+    }
+  }
+  return paths;
+}
+
+const allNews = await getCollection('news');
+const allTags = collectUniqueNewsTags(allNews);
+const rawTag = Astro.params.tag;
+const tag = typeof rawTag === 'string' ? rawTag : '';
+const rawPage = Astro.params.page;
+const pageNum = parseInt(typeof rawPage === 'string' ? rawPage : '', 10);
+
+const filtered = filterNewsByTag(allNews, tag);
+const totalPages = totalNewsPages(filtered.length);
+
+if (
+  !allTags.includes(tag) ||
+  !Number.isFinite(pageNum) ||
+  pageNum < 2 ||
+  pageNum > totalPages ||
+  totalPages <= 1
+) {
+  return Astro.redirect(
+    allTags.includes(tag)
+      ? withSiteBase(`/news/tag/${encodeURIComponent(tag)}`)
+      : withSiteBase('/news'),
+  );
+}
+
+const paginatedNews = filtered.slice(
+  (pageNum - 1) * NEWS_PER_PAGE,
+  pageNum * NEWS_PER_PAGE,
+);
+
+const label = formatNewsTagLabel(tag);
+const title = `News — ${label} — Page ${pageNum}`;
+const description = `Neighborhood news posts tagged ${label}, page ${pageNum}.`;
+---
+
+<Base
+  title={title}
+  description={description}
+  canonicalURL={`/news/tag/${encodeURIComponent(tag)}/page/${pageNum}`}
+>
+  <NewsPageShell allTags={allTags} activeTag={tag}>
+    <NewsList posts={paginatedNews} />
+    <NewsPagination currentPage={pageNum} totalPages={totalPages} activeTag={tag} />
+  </NewsPageShell>
+</Base>

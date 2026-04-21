@@ -4,10 +4,12 @@ import { newsListingHref } from '../../utils/news';
 export interface Props {
   currentPage: number;
   totalPages: number;
+  /** When set, pagination links stay under `/news/tag/...`. */
+  activeTag?: string | null;
 }
 
 const base = import.meta.env.BASE_URL;
-const { currentPage, totalPages } = Astro.props;
+const { currentPage, totalPages, activeTag = null } = Astro.props;
 
 const show = totalPages > 1;
 ---
@@ -24,7 +26,7 @@ const show = totalPages > 1;
     <div class="flex items-center justify-center sm:justify-end gap-3 order-1 sm:order-2">
       {currentPage > 1 ? (
         <a
-          href={newsListingHref(currentPage - 1, base)}
+          href={newsListingHref(currentPage - 1, base, activeTag)}
           class="inline-flex items-center justify-center min-w-[7rem] px-4 py-2 rounded-lg border border-amber-200 bg-white text-sm font-medium text-primary hover:bg-cream hover:border-accent transition-colors"
         >
           ← Previous
@@ -39,7 +41,7 @@ const show = totalPages > 1;
       )}
       {currentPage < totalPages ? (
         <a
-          href={newsListingHref(currentPage + 1, base)}
+          href={newsListingHref(currentPage + 1, base, activeTag)}
           class="inline-flex items-center justify-center min-w-[7rem] px-4 py-2 rounded-lg bg-accent hover:bg-amber-600 text-white text-sm font-medium transition-colors"
         >
           Next →

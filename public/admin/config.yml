@@ -73,4 +73,8 @@ collections:
       - { label: "Active", name: "active", widget: "boolean", default: true }
       - { label: "Order", name: "order", widget: "number", default: 99 }
       - { label: "Contact Email", name: "contactEmail", widget: "string", required: false }
+      - label: "News tags (related posts)"
+        name: "newsTags"
+        widget: "list"
+        required: false
       - { label: "Body", name: "body", widget: "markdown" }

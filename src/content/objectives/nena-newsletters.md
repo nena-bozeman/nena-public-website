@@ -3,15 +3,12 @@ title: "NENA Newsletters"
 summary: "Archive of neighborhood newsletters—spring and fall editions—with downloads as they are migrated from the legacy site."
 active: true
 order: 1
+newsTags: ["newsletter"]
 ---
 
-NENA publishes regular newsletters for Northeast neighbors. Past issues (PDFs and web versions) will be linked here as they are migrated from [nenabozeman.org](https://nenabozeman.org).
+NENA publishes regular newsletters for Northeast neighbors. Past issues (PDFs and web versions) appear under **Related news** below. Each issue is a **News** post tagged `newsletter` (see `newsTags` on this objective in the CMS) so titles, summaries, and download links stay in one place.
 
 ## Migration notes
 
 - Add PDF files under `public/documents/migrated/newsletters/` (see `public/documents/migrated/README.md`).
-- Link each issue below with title, season/year, and file path.
-
-## Archive
-
-_Content pending migration from the legacy PyroCMS site._
+- Create or update the matching **News** post and include the `newsletter` tag so it is listed here automatically.

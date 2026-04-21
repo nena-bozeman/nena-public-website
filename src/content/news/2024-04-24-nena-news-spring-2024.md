@@ -3,7 +3,7 @@ title: NENA News Spring 2024
 date: "2024-04-24"
 summary: NENA News Spring 2024
 featured: false
-tags: []
+tags: ["newsletter"]
 legacySource: pyro-cms
 legacyId: "86"
 legacySlug: nena-news-spring-2024

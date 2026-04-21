@@ -1,0 +1,38 @@
+---
+import { formatNewsTagLabel } from '../../utils/news';
+
+export interface Props {
+  tags: string[];
+  activeTag: string | null;
+}
+
+const base = import.meta.env.BASE_URL;
+const { tags, activeTag } = Astro.props;
+
+const pill =
+  'inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium transition-colors';
+const idle = 'border-amber-200 bg-white text-primary hover:bg-cream hover:border-accent';
+const selected = 'border-accent bg-accent text-white shadow-sm';
+---
+
+<nav aria-label="Filter news by topic" class="mb-8 flex flex-wrap items-center gap-2">
+  <span class="text-sm text-gray-600 w-full sm:w-auto sm:mr-1">Topics</span>
+  <a
+    href={`${base}news`}
+    class:list={[pill, activeTag === null ? selected : idle]}
+    aria-current={activeTag === null ? 'page' : undefined}
+  >
+    All
+  </a>
+  {
+    tags.map((tag) => (
+      <a
+        href={`${base}news/tag/${encodeURIComponent(tag)}`}
+        class:list={[pill, activeTag === tag ? selected : idle]}
+        aria-current={activeTag === tag ? 'page' : undefined}
+      >
+        {formatNewsTagLabel(tag)}
+      </a>
+    ))
+  }
+</nav>

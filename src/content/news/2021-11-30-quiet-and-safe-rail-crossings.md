@@ -3,7 +3,7 @@ title: Quiet &amp; Safe Rail Crossings
 date: "2021-11-30"
 summary: With the generous support of donors, the City of Bozeman has engaged Sanderson Stewart to complete design of quiet crossing improvements for the Wallace Ave. and Rouse Ave. crossings. The effort will allow the City to have a shovel-ready project in the event that City can identi…
 featured: false
-tags: []
+tags: ["safe-quiet-rail-crossings"]
 legacySource: pyro-cms
 legacyId: "68"
 legacySlug: quiet-and-safe-rail-crossings

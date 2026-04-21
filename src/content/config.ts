@@ -96,6 +96,8 @@ const objectives = defineCollection({
     active: z.boolean().default(true),
     order: z.number().default(99),
     contactEmail: z.string().email().optional(),
+    /** If non-empty, the objective page lists news posts tagged with any of these strings. */
+    newsTags: z.array(z.string()).default([]),
   }),
 });
 

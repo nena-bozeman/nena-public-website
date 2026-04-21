@@ -1,0 +1,24 @@
+---
+import NewsList from '../news/NewsList.astro';
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  tags: string[];
+  posts: CollectionEntry<'news'>[];
+}
+
+const { tags, posts } = Astro.props;
+
+const emptyMessage = `No related posts yet. Tag a news post with at least one of: ${tags.map((t) => `"${t}"`).join(', ')}.`;
+---
+
+{
+  tags.length > 0 && (
+    <section class="mt-12 not-prose" aria-labelledby="objective-related-news-heading">
+      <h2 id="objective-related-news-heading" class="font-serif text-2xl font-bold text-primary mb-6">
+        Related news
+      </h2>
+      <NewsList posts={posts} showTags={false} emptyMessage={emptyMessage} />
+    </section>
+  )
+}

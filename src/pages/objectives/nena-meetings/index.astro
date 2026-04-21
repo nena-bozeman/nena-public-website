@@ -1,13 +1,23 @@
 ---
 import Base from '../../../layouts/Base.astro';
-import { getCollection } from 'astro:content';
+import ObjectiveRelatedNews from '../../../components/objectives/ObjectiveRelatedNews.astro';
+import { getCollection, getEntry } from 'astro:content';
+import { newsPostsMatchingAnyTag } from '../../../utils/news';
+
 const base = import.meta.env.BASE_URL;
 const meetings = (await getCollection('meetings')).sort(
   (a, b) => b.data.meetingDate.valueOf() - a.data.meetingDate.valueOf(),
 );
+
+const objective = await getEntry('objectives', 'nena-meetings');
+if (!objective) throw new Error('Missing content: objectives/nena-meetings');
+const newsTags = objective.data.newsTags;
+const allNews = await getCollection('news');
+const relatedNews = newsPostsMatchingAnyTag(allNews, newsTags);
+const wideLayout = newsTags.length > 0;
 ---
 <Base title="NENA Meetings" description="Neighborhood meeting minutes and archives for the Northeast Neighborhood Association.">
-  <div class="max-w-3xl mx-auto px-4 py-12">
+  <div class:list={['mx-auto px-4 py-12', wideLayout ? 'max-w-4xl' : 'max-w-3xl']}>
     <a href={`${base}objectives`} class="text-accent text-sm font-medium mb-8 inline-block">← Back to Objectives</a>
     <h1 class="font-serif text-4xl font-bold text-primary mb-3">NENA Meetings</h1>
     <p class="text-xl text-gray-600 mb-8">
@@ -32,5 +42,6 @@ const meetings = (await getCollection('meetings')).sort(
     <p class="text-gray-600 text-sm mt-10">
       Additional agendas, recordings, or newer minutes can be added as new entries under <code class="text-xs bg-gray-100 px-1 rounded">src/content/meetings/</code>.
     </p>
+    <ObjectiveRelatedNews tags={newsTags} posts={relatedNews} />
   </div>
 </Base>

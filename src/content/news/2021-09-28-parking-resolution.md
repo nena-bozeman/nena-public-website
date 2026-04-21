@@ -3,7 +3,7 @@ title: Parking Resolution
 date: "2021-09-28"
 summary: A parking resolution was passed recently by the Parking Commission on a 3-1 vote to eliminate parking minimums in any B3 zoning (especially downtown). Parking Commissioner Paul Neubauer would likely have voted no (making it 3-2) but was not able to connect to the meeting due to…
 featured: false
-tags: []
+tags: ["traffic-calming"]
 legacySource: pyro-cms
 legacyId: "66"
 legacySlug: parking-resolution
