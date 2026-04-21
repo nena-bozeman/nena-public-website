@@ -6,6 +6,13 @@
  * /index.html, /path/index.html, and /path.html. Uses `base` and `site` from
  * astro.config.mjs so URL paths match the deployed GitHub Pages layout.
  *
+ * Relative hrefs are checked twice: with the page URL as a directory (…/slug/)
+ * and without a trailing slash (…/slug). Browsers differ; e.g. ../../x from
+ * …/slug (no slash) resolves from the parent segment and can bypass `base`.
+ * Those must still land on the same internal target or the link is reported
+ * broken. Root-absolute hrefs that omit `base` (e.g. /documents/…) are broken
+ * when this project uses a non-root base.
+ *
  * Usage: npm run build && npm run check:internal-links
  *
  * Flags:
@@ -16,6 +23,7 @@
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { join, dirname, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { normalizeAstroBase } from '../src/utils/site-base.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -32,8 +40,10 @@ function readAstroStringField(name) {
 
 /** @returns {{ basePath: string, siteOrigin: string | null }} */
 function readAstroRouting() {
-  const baseRaw = readAstroStringField('base') || '/';
-  const baseNorm = '/' + baseRaw.replace(/^\/+|\/+$/g, '');
+  const envBase = process.env.ASTRO_BASE_PATH?.trim();
+  const fromFile = readAstroStringField('base');
+  const baseWithSlash = normalizeAstroBase(envBase || fromFile || '/nena-public-website/');
+  const baseNorm = baseWithSlash.replace(/\/$/, '') || '/';
   const basePath = baseNorm === '/' ? '' : baseNorm;
 
   const site = readAstroStringField('site');
@@ -154,9 +164,8 @@ function resolveInternalPathname(rawHref, fromDirUrlPath, routing) {
       host = u.host;
       pathname = u.pathname;
     } else {
-      const baseForResolve = fromDirUrlPath.endsWith('/')
-        ? new URL(fromDirUrlPath, dummy)
-        : new URL(fromDirUrlPath + '/', dummy);
+      const path = fromDirUrlPath.startsWith('/') ? fromDirUrlPath : `/${fromDirUrlPath}`;
+      const baseForResolve = new URL(path, dummy);
       const u = new URL(rawHref, baseForResolve);
       pathname = u.pathname;
     }
@@ -262,9 +271,40 @@ function main() {
       }
 
       const pathname = resolveInternalPathname(href, fromDirUrlPath, routing);
+      const trimmed = href.trim();
+      const isSchemeRelative = trimmed.startsWith('//');
+      const isRootAbsolute = trimmed.startsWith('/') && !isSchemeRelative;
+      if (
+        !pathname &&
+        isRootAbsolute &&
+        routing.basePath &&
+        !(trimmed === routing.basePath || trimmed.startsWith(`${routing.basePath}/`))
+      ) {
+        broken.push({
+          from: rel,
+          href,
+          resolved: '(root-absolute path omits configured base; breaks with base in astro.config)',
+        });
+        continue;
+      }
       if (!pathname) {
         if (verbose) console.log(`SKIP\t${href}\tnot-internal`);
         continue;
+      }
+
+      const fromNoTrailing = fromDirUrlPath.replace(/\/$/, '');
+      const isRelativeHref =
+        !/^https?:\/\//i.test(href) && !trimmed.startsWith('/') && !trimmed.startsWith('#');
+      if (isRelativeHref && fromNoTrailing !== fromDirUrlPath) {
+        const pathnameNoTrailing = resolveInternalPathname(href, fromNoTrailing, routing);
+        if (pathnameNoTrailing !== pathname) {
+          broken.push({
+            from: rel,
+            href,
+            resolved: `ambiguous: ${pathname} vs ${pathnameNoTrailing ?? '(outside site base)'}`,
+          });
+          continue;
+        }
       }
 
       const afterBase = routing.basePath

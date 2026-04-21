@@ -99,4 +99,21 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { news, events, businesses, history, development, objectives, pages };
+const meetings = defineCollection({
+  type: 'content',
+  schema: z
+    .object({
+      title: z.string(),
+      meetingDate: z.coerce.date(),
+      summary: z.string(),
+      season: z.enum(['spring', 'fall', 'annual', 'other']).optional(),
+      minutesPdf: z.string().optional(),
+      minutesDocx: z.string().optional(),
+      legacyUrl: z.string().url().optional(),
+    })
+    .refine((d) => Boolean(d.minutesPdf || d.minutesDocx), {
+      message: 'Each meeting needs minutesPdf and/or minutesDocx',
+    }),
+});
+
+export const collections = { news, events, businesses, history, development, objectives, pages, meetings };

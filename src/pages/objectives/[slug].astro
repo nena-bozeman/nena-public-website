@@ -3,7 +3,9 @@ import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 export async function getStaticPaths() {
   const objectives = await getCollection('objectives');
-  return objectives.map((objective) => ({ params: { slug: objective.slug }, props: { objective } }));
+  return objectives
+    .filter((objective) => objective.slug !== 'nena-meetings')
+    .map((objective) => ({ params: { slug: objective.slug }, props: { objective } }));
 }
 const { objective } = Astro.props;
 const { Content } = await objective.render();

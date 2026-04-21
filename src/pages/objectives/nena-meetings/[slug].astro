@@ -1,0 +1,62 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { publicFileUrl } from '../../../utils/public-url';
+
+export async function getStaticPaths() {
+  const meetings = await getCollection('meetings');
+  return meetings.map((meeting) => ({ params: { slug: meeting.slug }, props: { meeting } }));
+}
+
+const { meeting } = Astro.props;
+const { Content } = await meeting.render();
+const base = import.meta.env.BASE_URL;
+const { title, meetingDate, summary, minutesPdf, minutesDocx, legacyUrl } = meeting.data;
+const dateLabel = meetingDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<Base {title} description={summary}>
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <a href={`${base}objectives/nena-meetings`} class="text-accent text-sm font-medium mb-6 inline-block">← All meetings</a>
+    <p class="text-sm text-gray-500 mb-2">{dateLabel}</p>
+    <h1 class="font-serif text-4xl font-bold text-primary mb-4">{title}</h1>
+    <p class="text-lg text-gray-600 mb-8">{summary}</p>
+
+    <div class="flex flex-wrap gap-3 mb-10">
+      {
+        minutesPdf && (
+          <a
+            href={publicFileUrl(minutesPdf)}
+            class="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-green-900 transition-colors"
+          >
+            Download PDF minutes
+          </a>
+        )
+      }
+      {
+        minutesDocx && (
+          <a
+            href={publicFileUrl(minutesDocx)}
+            class="inline-flex items-center rounded-md border border-primary px-4 py-2 text-sm font-medium text-primary hover:bg-green-50 transition-colors"
+          >
+            Download Word minutes
+          </a>
+        )
+      }
+    </div>
+
+    <div class="prose prose-green max-w-none">
+      <Content />
+    </div>
+
+    {
+      legacyUrl && (
+        <p class="text-sm text-gray-500 mt-10">
+          Legacy listing:{' '}
+          <a href={legacyUrl} class="text-accent hover:underline">
+            nenabozeman.org
+          </a>
+        </p>
+      )
+    }
+  </div>
+</Base>
