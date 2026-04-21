@@ -10,16 +10,10 @@ VisionNE captures where Northeast neighbors want the neighborhood to go: housing
 
 ## PhotoVoicesNE
 
-PhotoVoicesNE was documented on the legacy site as its own page; it now lives under VisionNE. This community photo project invites residents to show the neighborhood through their own lens. After migration, add:
+PhotoVoicesNE was documented on the legacy site as its own page; it now lives under VisionNE. This community photo project invites residents to show the neighborhood through their own lens. Planned additions include:
 
 - Project narrative and timeline
 - Gallery or link to curated albums
 - Participant consent and credit guidelines
 
 Store images under `public/images/migrated/photovoicesne/` where appropriate.
-
-## Migration notes
-
-- Merge legacy **VisionNE** and **PhotoVoicesNE** URLs into this single page; plan redirects from old paths.
-
-_Content pending migration._

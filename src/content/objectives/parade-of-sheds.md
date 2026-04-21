@@ -11,9 +11,3 @@ The Parade of Sheds is a signature Northeast Neighborhood gathering. Details, ro
 ## Upcoming
 
 See the [events listing](/events) for the next Parade of Sheds date and any registration links.
-
-## Migration notes
-
-- Pull historical descriptions, sponsor lists, and images from the legacy **Parade of Sheds** page into this objective and/or `public/images/migrated/parade-of-sheds/`.
-
-_Content pending migration._

@@ -7,8 +7,3 @@ newsTags: ["newsletter"]
 ---
 
 NENA publishes regular newsletters for Northeast neighbors. Past issues (PDFs and web versions) appear under **Related news** below. Each issue is a **News** post tagged `newsletter` (see `newsTags` on this objective in the CMS) so titles, summaries, and download links stay in one place.
-
-## Migration notes
-
-- Add PDF files under `public/documents/migrated/newsletters/` (see `public/documents/migrated/README.md`).
-- Create or update the matching **News** post and include the `newsletter` tag so it is listed here automatically.
