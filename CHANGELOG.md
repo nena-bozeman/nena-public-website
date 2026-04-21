@@ -10,6 +10,9 @@ Changes not yet released.
 
 ## 2026-04-21
 
+- **Business directory:** Many Northeast / Northside business listings added as markdown entries with individual pages; main directory list and map limited to **open** listings.
+- **Business status and archive:** Replaced `active` with **`status`** (`open` | `closed`) and optional **`closedYear`** in the content schema; **`/businesses/archive`** page for past businesses; cards and detail pages show closed state; Decap CMS business fields updated.
+- **Business content corrections:** **Misco Mill** kept open; **Live from the Divide** marked closed (former Bozeman location; venue now in Livingston); removed erroneous closed status from Misco Mill.
 - **News and objectives:** Link news posts to objectives via tags; filter and display related news on objective pages (`ObjectiveRelatedNews`, `news.ts` utilities).
 - **Meeting minutes:** Meeting minutes archive and improved base URL handling for assets and links.
 - **Legacy migration:** Inventory scripts and news backfill tooling for migrating content from the legacy site.
