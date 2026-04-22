@@ -7,6 +7,8 @@ on:
 jobs:
   deploy-preview:
     runs-on: ubuntu-latest
+    env:
+      PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.PUBLIC_GOOGLE_MAPS_API_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
