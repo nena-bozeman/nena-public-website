@@ -14,6 +14,8 @@ import {
 } from '../../../utils/news';
 import { withSiteBase } from '../../../utils/site-link';
 
+void withSiteBase;
+
 export async function getStaticPaths() {
   const allNews = newsEntriesForSite(await getCollection('news'));
   const tags = collectUniqueNewsTags(allNews);

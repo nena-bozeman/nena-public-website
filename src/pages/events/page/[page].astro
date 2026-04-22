@@ -10,6 +10,8 @@ import {
 } from '../../../utils/events';
 import { withSiteBase } from '../../../utils/site-link';
 
+void withSiteBase;
+
 export async function getStaticPaths() {
   const allEvents = await getCollection('events');
   const now = new Date();

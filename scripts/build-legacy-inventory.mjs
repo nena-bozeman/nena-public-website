@@ -129,7 +129,7 @@ function parseRssItemMeta(xml) {
   return map;
 }
 
-function extractUrlsFromHtml(html, pageUrl) {
+function extractUrlsFromHtml(html) {
   const found = new Set();
   const add = (raw) => {
     const n = normalizeUrl(raw);
@@ -423,7 +423,7 @@ async function main() {
         process.stderr.write(`\rCrawl ${i}/${sortedPages.length} ${pageUrl.slice(0, 70).padEnd(70)}`);
         await delay(120);
         const html = await fetchText(pageUrl);
-        for (const raw of extractUrlsFromHtml(html, pageUrl)) {
+        for (const raw of extractUrlsFromHtml(html)) {
           const k = classifyUrl(raw);
           if (k === 'page' || k === 'static_script_or_css') continue;
           if (!assetIndex.has(raw)) assetIndex.set(raw, { kind: k, sources: new Set() });
@@ -440,7 +440,6 @@ async function main() {
   const records = [];
 
   for (const url of [...pageUrls].sort()) {
-    const u = new URL(url);
     const kind = classifyUrl(url);
     const title = rssTitles.get(url) || '';
     const sug = suggestPagePath(url, rssTitles, newsPosts);
