@@ -1,5 +1,10 @@
 # legacy site fetch cache (regenerate with node scripts/build-legacy-inventory.mjs)
 data/.cache/
+data
+!data/legacy-inventory.json
+!data/legacy-inventory.csv
+!data/cloudflare-bulk-redirects.csv
+!data/cloudflare-bulk-redirects.env-note.txt
 
 # build output
 dist/
@@ -36,3 +41,4 @@ pnpm-debug.log*
 *.sln
 *.sw?
 .pnpm-store
+
