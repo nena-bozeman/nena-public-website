@@ -1,5 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
+import BusinessList from '../components/businesses/BusinessList.astro';
+import { getCollection } from 'astro:content';
+
+const allBusinesses = await getCollection('businesses');
+const openArtsBusinesses = allBusinesses
+  .filter((b) => b.data.status === 'open' && b.data.category === 'arts-culture')
+  .sort((a, b) => a.data.name.localeCompare(b.data.name, undefined, { sensitivity: 'base' }));
+
+const base = import.meta.env.BASE_URL;
 
 const cityHome = 'https://www.bozeman.net/';
 const neighborhoodsProgram =
@@ -17,19 +26,20 @@ const bozemanArtMuseum = 'https://bozemanartmuseum.org/';
 
 <Base
   title="Friends of NENA & neighborhood resources"
-  description="City of Bozeman resources, nearby neighborhood associations, Northside businesses, and Bozeman arts organizations linked from NENA."
+  description="City of Bozeman resources, nearby neighborhood associations, Northside businesses, neighborhood Arts &amp; Culture business listings, and Bozeman arts organizations linked from NENA."
 >
-  <div class="max-w-3xl mx-auto px-4 py-12">
-    <h1 class="font-serif text-4xl font-bold text-primary mb-6">Friends of NENA & neighborhood resources</h1>
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="max-w-3xl mx-auto">
+      <h1 class="font-serif text-4xl font-bold text-primary mb-6">Friends of NENA & neighborhood resources</h1>
 
-    <div class="prose prose-green max-w-none mb-10">
-      <p class="text-gray-700 text-lg">
-        NENA works alongside the City of Bozeman, the Inter Neighborhood Council, and neighbors across town. These links point to official city resources, other neighborhood groups, nearby business communities, and Bozeman’s arts organizations.
-      </p>
-    </div>
+      <div class="prose prose-green max-w-none mb-10">
+        <p class="text-gray-700 text-lg">
+          NENA works alongside the City of Bozeman, the Inter Neighborhood Council, and neighbors across town. These links point to official city resources, other neighborhood groups, nearby business communities, and Bozeman’s arts organizations.
+        </p>
+      </div>
 
-    <div class="space-y-8">
-      <section class="bg-cream rounded-lg p-8 border border-amber-100">
+      <div class="space-y-8">
+        <section class="bg-cream rounded-lg p-8 border border-amber-100">
         <h2 class="font-serif text-xl font-bold text-primary mb-4">City of Bozeman</h2>
         <ul class="space-y-3 text-gray-700 list-none pl-0">
           <li>
@@ -129,7 +139,17 @@ const bozemanArtMuseum = 'https://bozemanartmuseum.org/';
             <span class="text-gray-600"> — exhibitions and public art programs</span>
           </li>
         </ul>
-      </section>
+        </section>
+      </div>
     </div>
+
+    <section class="bg-white rounded-lg shadow-sm border border-gray-100 p-8 mt-8">
+      <h2 class="font-serif text-xl font-bold text-primary mb-4">Neighborhood arts</h2>
+      <p class="text-gray-700 mb-6 max-w-3xl">
+        Open Arts &amp; Culture listings in the NENA business directory. For every category, see the full{' '}
+        <a href={`${base}businesses`} class="text-accent hover:text-amber-700 font-medium">business directory</a>.
+      </p>
+      <BusinessList businesses={openArtsBusinesses} />
+    </section>
   </div>
 </Base>
