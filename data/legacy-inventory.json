@@ -469,7 +469,7 @@
     "local_repo_path": "",
     "downloaded": "n/a",
     "migrated": "yes",
-    "new_site_path": "/objectives/safe-quiet-rail-crossings",
+    "new_site_path": "/news/2021-11-30-quiet-and-safe-rail-crossings",
     "notes": ""
   },
   {
@@ -557,8 +557,8 @@
     "local_repo_path": "",
     "downloaded": "n/a",
     "migrated": "yes",
-    "new_site_path": "/objectives/visionne",
-    "notes": ""
+    "new_site_path": "/objectives/visionne#photovoicesne",
+    "notes": "PhotoVoicesNE content is on VisionNE; hash scrolls to section"
   },
   {
     "url": "https://www.nenabozeman.org/search",

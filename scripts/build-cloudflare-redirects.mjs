@@ -39,12 +39,27 @@ function normPath(p) {
   return s.replace(/\/+$/, '') || '/';
 }
 
+/** Path for redirects/CSV: normalize path, keep URL hash (e.g. /objectives/visionne#photovoicesne). */
+function normDestPath(p) {
+  if (!p || p === '/') return '/';
+  const noQuery = p.split('?')[0];
+  const hashIdx = noQuery.indexOf('#');
+  if (hashIdx === -1) {
+    return normPath(noQuery);
+  }
+  const pathPart = noQuery.slice(0, hashIdx);
+  const frag = noQuery.slice(hashIdx);
+  const base = normPath(pathPart);
+  return `${base}${frag}`;
+}
+
 function isConcreteSitePath(p) {
   if (!p || typeof p !== 'string') return false;
   const t = p.trim();
   if (!t.startsWith('/')) return false;
   if (t.includes('(') || t.includes(')')) return false;
-  if (/\s/.test(t)) return false;
+  const pathOnly = t.split('#')[0];
+  if (/\s/.test(pathOnly)) return false;
   return true;
 }
 
@@ -76,8 +91,8 @@ function main() {
     }
     const destRaw = (row.new_site_path || '').trim();
     if (!isConcreteSitePath(destRaw)) continue;
-    const destPath = normPath(destRaw);
-    if (sourcePath === destPath) continue;
+    const destPath = normDestPath(destRaw);
+    if (sourcePath === normPath(destRaw) && !destRaw.includes('#')) continue;
 
     const rank = MIGRATED_RANK[row.migrated] ?? 0;
     const prev = best.get(sourcePath);

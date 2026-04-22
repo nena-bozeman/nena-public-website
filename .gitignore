@@ -1,10 +1,14 @@
 # legacy site fetch cache (regenerate with node scripts/build-legacy-inventory.mjs)
 data/.cache/
 data
+!data/README.md
 !data/legacy-inventory.json
 !data/legacy-inventory.csv
 !data/cloudflare-bulk-redirects.csv
 !data/cloudflare-bulk-redirects.env-note.txt
+!data/docker/
+!data/docker/legacy-mysql/
+!data/docker/legacy-mysql/**
 
 # build output
 dist/
@@ -26,6 +30,7 @@ pnpm-debug.log*
 .env
 .env.local
 .env.production
+data/docker/legacy-mysql/.env
 
 # macOS-specific files
 .DS_Store

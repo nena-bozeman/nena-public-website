@@ -1,7 +1,7 @@
 ---
-title: Quiet &amp; Safe Rail Crossings
+title: "Safe & Quiet Rail Crossings"
 date: "2021-11-30"
-summary: With the generous support of donors, the City of Bozeman has engaged Sanderson Stewart to complete design of quiet crossing improvements for the Wallace Ave. and Rouse Ave. crossings. The effort will allow the City to have a shovel-ready project in the event that City can identi…
+summary: "Transportation and safety around Northeast Bozeman rail corridors—Tame the Train, quiet crossing design, and funding to reduce horn noise at at-grade crossings."
 featured: false
 tags: ["safe-quiet-rail-crossings"]
 legacySource: pyro-cms
@@ -9,6 +9,8 @@ legacyId: "68"
 legacySlug: quiet-and-safe-rail-crossings
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/11/quiet-and-safe-rail-crossings
 ---
+
+NENA’s interest in this topic is **at-grade crossings, train horn noise, and safe routes** along rail corridors that affect the neighborhood. The article below (originally published as “quiet and safe” crossings) is the home for updates; related posts are [tagged *safe-quiet-rail-crossings*](/news/tag/safe-quiet-rail-crossings).
 
 Tame the Train
 
