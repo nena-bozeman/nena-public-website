@@ -22,6 +22,18 @@ const CACHE_DIR = join(ROOT, 'data', '.cache', 'legacy-fetch');
 const IMG_ROOT = join(ROOT, 'public', 'images', 'migrated', 'nenabozeman-org');
 const DOC_ROOT = join(ROOT, 'public', 'documents', 'migrated', 'nenabozeman-org');
 const CONTENT_DIR = join(ROOT, 'src', 'content');
+const LEGACY_LARGE_ID_MAP = join(ROOT, 'data', 'migrated-legacy-large-by-id.json');
+
+/** PyroCMS file id → renamed basename under `files/large/`; see `data/migrated-legacy-large-by-id.json`. */
+const legacyLargeIdToFilename = existsSync(LEGACY_LARGE_ID_MAP)
+  ? (() => {
+      try {
+        return JSON.parse(readFileSync(LEGACY_LARGE_ID_MAP, 'utf8'));
+      } catch {
+        return {};
+      }
+    })()
+  : {};
 
 const UA = 'Mozilla/5.0 (compatible; NENA-inventory/1.0)';
 const HOST = 'www.nenabozeman.org';
@@ -222,7 +234,12 @@ async function resolveDownloadedPath(url) {
     return existsSync(rel) ? `public/images/migrated/nenabozeman-org${p}` : '';
   }
   if (p.match(/^\/files\/large\/[0-9a-f]+$/i)) {
-    const id = p.split('/').pop();
+    const id = p.split('/').pop() ?? '';
+    const mapped = legacyLargeIdToFilename[id];
+    if (mapped) {
+      const rel = join(IMG_ROOT, 'files', 'large', mapped);
+      if (existsSync(rel)) return `public/images/migrated/nenabozeman-org/files/large/${mapped}`;
+    }
     for (const ext of ['.jpg', '.jpeg', '.png', '.gif', '.webp']) {
       const rel = join(IMG_ROOT, 'files', 'large', `${id}${ext}`);
       if (existsSync(rel)) return `public/images/migrated/nenabozeman-org/files/large/${id}${ext}`;

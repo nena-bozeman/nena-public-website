@@ -19,7 +19,7 @@ The Neighborhood Conservartion Overlay District (NCOD) is a zoning overlay distr
   
 _Posted by [Tanya Andreasen](https://nextdoor.com/profile/24133105/), [City of Bozeman](https://nextdoor.com/agency-detail/mt/bozeman/city-of-bozeman/) Neighborhood Coordinator, on NextDoor 7/2/18_  
   
-![](https://www.nenabozeman.org/files/large/d5d1a42c3a1736a)The NCOD is a zoning overlay district that was created by the City in 1991 to conserve neighborhood character and protect historic properties. Since the implementation of the NCOD, Bozeman has experienced significant growth both inside and outside of the District. Starting in 2015, the City began to evaluate the effectiveness of the overlay district, and how it affects development, housing, future land use needs, and the preservation of Bozeman's historic resources.  
+![](/images/migrated/nenabozeman-org/files/large/ncod-map.png)The NCOD is a zoning overlay district that was created by the City in 1991 to conserve neighborhood character and protect historic properties. Since the implementation of the NCOD, Bozeman has experienced significant growth both inside and outside of the District. Starting in 2015, the City began to evaluate the effectiveness of the overlay district, and how it affects development, housing, future land use needs, and the preservation of Bozeman's historic resources.  
   
 Now, the City of Bozeman has engaged a consultant team (BendonAdams and Orion Planning + Design) to conduct a comprehensive review of the NCOD. This exploration will begin with two weeks of outreach July 13th through the 24th.  
   

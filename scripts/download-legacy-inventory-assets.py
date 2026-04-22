@@ -13,6 +13,7 @@ import urllib.request
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
+LEGACY_LARGE_ID_MAP = REPO / "data/migrated-legacy-large-by-id.json"
 FILES_JSON = REPO / "data/website-2026-04-21/files.json"
 CSV_PATH = REPO / "data/legacy-inventory.csv"
 JSON_PATH = REPO / "data/legacy-inventory.json"
@@ -57,7 +58,17 @@ def http_get(url: str) -> tuple[bytes, dict[str, str]]:
     return data, headers
 
 
+def load_large_id_to_filename() -> dict[str, str]:
+    if not LEGACY_LARGE_ID_MAP.is_file():
+        return {}
+    try:
+        return json.loads(LEGACY_LARGE_ID_MAP.read_text())
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
 def main() -> None:
+    large_id_to_name = load_large_id_to_filename()
     with FILES_JSON.open() as f:
         files_by_id: dict[str, dict] = {o["id"]: o for o in json.load(f)}
 
@@ -133,7 +144,10 @@ def main() -> None:
                 img_url = f"https://www.nenabozeman.org/files/large/{fn}"
                 data, _ = http_get(img_url)
                 ext = "." + fn.split(".")[-1] if "." in fn else ".jpg"
-                dest = IMAGES_DIR / f"{iid}{ext}"
+                if iid in large_id_to_name:
+                    dest = IMAGES_DIR / large_id_to_name[iid]
+                else:
+                    dest = IMAGES_DIR / f"{iid}{ext}"
                 dest.write_bytes(data)
                 local_rel = str(dest.relative_to(REPO))
         except (urllib.error.HTTPError, urllib.error.URLError, RuntimeError, OSError) as e:

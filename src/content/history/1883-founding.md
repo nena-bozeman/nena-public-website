@@ -3,7 +3,7 @@ title: "Northeast Bozeman Platted"
 year: 1883
 decade: 1880
 category: "founding"
-image: images/migrated/nenabozeman-org/files/large/2ec09042822984d.jpg
+image: images/migrated/nenabozeman-org/files/large/historicne.jpg
 imageAlt: "Late-19th-century bird's-eye view of Bozeman's Northern Pacific Addition, with the railroad, flour mills, and gridded streets."
 ---
 

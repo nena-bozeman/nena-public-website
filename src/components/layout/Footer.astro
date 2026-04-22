@@ -5,7 +5,7 @@ const year = new Date().getFullYear();
 
 <footer class="bg-primary text-green-100 mt-16">
   <div class="max-w-7xl mx-auto px-4 py-10">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div class="flex flex-col h-full min-h-0">
         <div>
           <h3 class="font-serif font-bold text-white text-lg mb-3">Northeast Neighborhood Association</h3>
@@ -13,7 +13,7 @@ const year = new Date().getFullYear();
         </div>
         <div class="mt-auto pt-6 self-start">
           <img
-            src={`${base}images/migrated/nenabozeman-org/files/large/c96372aa2a6bcdb.png`}
+            src={`${base}images/migrated/nenabozeman-org/files/large/nena-map.png`}
             alt="Street map of Bozeman with the Northeast Neighborhood boundary highlighted"
             class="w-full max-w-[13rem] sm:max-w-xs rounded-md border border-green-600/50 shadow-md object-contain bg-white/5"
             loading="lazy"
@@ -23,39 +23,27 @@ const year = new Date().getFullYear();
       </div>
       <div>
         <h3 class="font-semibold text-white mb-3">Quick Links</h3>
-        <ul class="space-y-1 text-sm">
+        <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-1 text-sm">
+          <li><a href={`${base}about`} class="hover:text-white transition-colors">About NENA</a></li>
           <li><a href={`${base}news`} class="hover:text-white transition-colors">News</a></li>
           <li><a href={`${base}events`} class="hover:text-white transition-colors">Events</a></li>
-          <li><a href={`${base}elections`} class="hover:text-white transition-colors">Elections</a></li>
-          <li>
-            <a
-              href={`${base}documents/migrated/nenabozeman-org/NENA%20BYLAWS%202024.pdf`}
-              class="hover:text-white transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Bylaws (PDF)
-            </a>
-          </li>
+          <li><a href={`${base}governance`} class="hover:text-white transition-colors">Governance</a></li>
           <li><a href={`${base}objectives`} class="hover:text-white transition-colors">Objectives</a></li>
           <li><a href={`${base}development`} class="hover:text-white transition-colors">Development Watch</a></li>
           <li><a href={`${base}community`} class="hover:text-white transition-colors">Friends &amp; neighbors</a></li>
-          <li><a href={`${base}about`} class="hover:text-white transition-colors">About NENA</a></li>
           <li><a href={`${base}newsletter`} class="hover:text-white transition-colors">Newsletter</a></li>
           <li><a href={`${base}donate`} class="hover:text-white transition-colors">Donate</a></li>
           <li><a href={`${base}contact`} class="hover:text-white transition-colors">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="font-semibold text-white mb-3">Connect</h3>
-        <ul class="space-y-1 text-sm">
-          <li><a href="mailto:NENABozeman@gmail.com" class="hover:text-white transition-colors">NENABozeman@gmail.com</a></li>
-          <li><a href={`${base}admin`} class="hover:text-white transition-colors">CMS Login</a></li>
+          <li><a href={`${base}admin`} class="hover:text-white transition-colors">Admin</a></li>
         </ul>
       </div>
     </div>
     <div class="border-t border-green-700 mt-8 pt-6 text-center text-sm text-green-300">
-      <p>&copy; {year} Northeast Neighborhood Association · Bozeman, MT · <a href={`${base}admin`} class="hover:text-white">Admin</a></p>
+      <p>
+        &copy; {year} Northeast Neighborhood Association · Bozeman, MT · <a
+          href="mailto:NENABozeman@gmail.com"
+          class="hover:text-white">NENABozeman@gmail.com</a>
+      </p>
     </div>
   </div>
 </footer>

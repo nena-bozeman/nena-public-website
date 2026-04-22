@@ -14,7 +14,7 @@ New connector "Front Street Trail" in Northeast Neighborhood.  
 
 * * *
 
-![](https://www.nenabozeman.org/files/large/4e46602786dc14c)
+![](/images/migrated/nenabozeman-org/files/large/gilt-2.jpeg)
 
   
 Gallatin Valley Land Trust and the City of Bozeman are pleased to say that the Front Street Pathway Project on the north edge of the Northeast Neighborhood is now complete and open to the public! As the sixth of eight 2012 Trails, Open Space and Parks bond projects, the paved pathway and bridge over Bozeman Creek provide a key connection within the neighborhood and to points beyond—Midtown, Oak Street Pathway, and the fairgrounds on the west and Story Mill Community Park and the Path to the M and Drinking Horse on the east. GVLT and the City extend huge thanks to NENA for their ongoing support of the project.   

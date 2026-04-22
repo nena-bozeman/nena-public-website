@@ -14,7 +14,7 @@ The annual Northeast Neighborhood Parade of Sheds is a must-do event! The Parade
 
 * * *
 
-![](https://www.nenabozeman.org/files/large/260bfeb6bb140d3)**This year's Parade of Sheds is SUNDAY, OCTOBER 13**  
+![](/images/migrated/nenabozeman-org/files/large/2024-parade-of-sheds.jpg)**This year's Parade of Sheds is SUNDAY, OCTOBER 13**  
   
 Here's the schedule of events:
 

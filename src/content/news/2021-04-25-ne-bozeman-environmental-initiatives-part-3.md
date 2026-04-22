@@ -15,7 +15,7 @@ Go Native- Spring garden tips and resources
 
 * * *
 
-![](https://www.nenabozeman.org/files/large/af5614197a566f1)
+![](/images/migrated/nenabozeman-org/files/large/images-8.jpeg)
 
 GARDENING FOR POLLINATORS- by Beth MacFawn
 

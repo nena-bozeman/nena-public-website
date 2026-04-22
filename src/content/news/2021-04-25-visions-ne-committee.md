@@ -14,7 +14,7 @@ Visions NE Committee: Defining Community Character
 
 * * *
 
-![](https://www.nenabozeman.org/files/large/8446123be3ef1d4)
+![](/images/migrated/nenabozeman-org/files/large/images-7.jpeg)
 
 Visions NE Committee: Defining Community Character
 

@@ -51,8 +51,8 @@ for path in "${THEME_IMGS[@]}"; do
   download "${BASE}${path}" "${DEST}${path}"
 done
 
-# Homepage inline file (PyroCMS) — Content-Type image/jpeg
-download "${BASE}/files/large/2ec09042822984d" "${DEST}/files/large/2ec09042822984d.jpg"
+# Homepage inline (PyroCMS /files/large/2ec09042822984d — DB title historicNE.jpg); name in data/migrated-legacy-large-by-id.json
+download "${BASE}/files/large/2ec09042822984d" "${DEST}/files/large/historicne.jpg"
 
 TMP=$(mktemp)
 cleanup() { rm -f "$TMP"; }

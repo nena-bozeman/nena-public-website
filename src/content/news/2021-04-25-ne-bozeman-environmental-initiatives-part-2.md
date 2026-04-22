@@ -14,7 +14,7 @@ Tree care
 
 * * *
 
-![](https://www.nenabozeman.org/files/large/9c80532ecb14568)  
+![](/images/migrated/nenabozeman-org/files/large/images-3.jpeg)  
  
 
 Greetings from the Forestry Division!

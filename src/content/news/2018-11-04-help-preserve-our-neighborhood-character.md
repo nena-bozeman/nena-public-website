@@ -14,7 +14,7 @@ From November 7 through 9 there will be three opportunities to give your feedbac
 
 * * *
 
-![](https://www.nenabozeman.org/files/large/bc832fe13263b90)Bozeman’s decision to adopt a Conservation Overlay District (NCOD) that includes the areas between designated Historic Districts was a gutsy solution in 1991 that made Bozeman a pioneer in the preservation of neighborhood character, scale, and context. The result—27 years later—is well preserved historic districts and neighborhood character that supports a sense of place and a sense of pride for the community.
+![](/images/migrated/nenabozeman-org/files/large/ncod.png)Bozeman’s decision to adopt a Conservation Overlay District (NCOD) that includes the areas between designated Historic Districts was a gutsy solution in 1991 that made Bozeman a pioneer in the preservation of neighborhood character, scale, and context. The result—27 years later—is well preserved historic districts and neighborhood character that supports a sense of place and a sense of pride for the community.
 
 The NCOD is now being updated. There was concern among many residents that the NCOD would be weakened or removed. The [draft report](https://nenabozeman.us18.list-manage.com/track/click?u=f1ec16560a226111c086eeb58&id=4e0e3578a0&e=f1be029396), however, recommends (among other things) retaining the NCOD, while creating two programs within the NCOD boundary to meet the two separate goals of 1) preserving historic buildings and 2) enhancing neighborhood character and context.  
   
