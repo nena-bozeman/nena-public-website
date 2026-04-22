@@ -1,0 +1,35 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "dev: Astro",
+      "type": "shell",
+      "command": "pnpm run dev",
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "dev",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "dev: Decap (local server)",
+      "type": "shell",
+      "command": "pnpm dlx decap-server",
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "dev",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "dev: Astro + Decap (local)",
+      "dependsOn": ["dev: Astro", "dev: Decap (local server)"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    }
+  ]
+}

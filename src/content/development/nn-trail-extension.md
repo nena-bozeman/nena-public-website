@@ -4,7 +4,7 @@ status: "proposed"
 address: "N Wallace Ave to Story Mill, Bozeman, MT"
 developer: "City of Bozeman Parks Department"
 submittedDate: 2026-01-05
-lastUpdated: 2026-03-01
+dateUpdated: 2026-03-01
 summary: "Proposed multi-use trail connecting the Northeast Neighborhood to Story Mill Community Park."
 tags: ["trails", "parks", "transportation"]
 ---

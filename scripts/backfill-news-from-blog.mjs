@@ -167,7 +167,7 @@ function buildFrontmatter(post, { summary, author, legacyBySlug }) {
     legacyBlogUrl: resolveLegacyBlogUrl(post.slug, post.created_on, legacyBySlug),
   };
   if (author) data.author = author;
-  if (updated) data.updated = updated;
+  if (updated) data.dateUpdated = updated;
 
   return yaml.dump(data, {
     lineWidth: -1,

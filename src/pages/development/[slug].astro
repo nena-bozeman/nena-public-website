@@ -45,7 +45,7 @@ const statusStyle = statusConfig[status] ?? { color: 'bg-gray-100 text-gray-800'
         <p class="text-sm text-gray-500 mt-1">Developer: {project.data.developer}</p>
       )}
       <p class="text-sm text-gray-400 mt-2">
-        Last updated {project.data.lastUpdated.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+        Last updated {project.data.dateUpdated.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
       </p>
       {project.data.submittedDate && (
         <p class="text-sm text-gray-400">

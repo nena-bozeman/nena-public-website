@@ -1,0 +1,5 @@
+/* Shown next to titles in collection entry lists (see entry-list.js + config summary strings). */
+a[href*="/collections/"][href*="/entries/"] h2 span.nena-decap-date {
+  color: #6f6f6f;
+  font-weight: 400;
+}

@@ -27,6 +27,7 @@
     "@astrojs/check": "^0.9.8",
     "@tailwindcss/typography": "^0.5.19",
     "js-yaml": "^4.1.1",
+    "pdf-parse": "1.1.1",
     "turndown": "^7.2.4",
     "typescript": "^5.9.3"
   },

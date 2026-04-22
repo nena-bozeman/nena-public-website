@@ -1,6 +1,7 @@
 ---
 // Decap CMS admin interface — served by Astro's router at /admin/
 // The config.yml is served as a static file from public/admin/config.yml
+const cmsBase = import.meta.env.BASE_URL;
 ---
 
 <!doctype html>
@@ -10,9 +11,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>Content Manager · NENA</title>
+    <link rel="stylesheet" href={`${import.meta.env.BASE_URL}admin/entry-list.css`} />
     <link href={`${import.meta.env.BASE_URL}admin/config.yml`} type="text/yaml" rel="cms-config-url" />
   </head>
   <body>
+    <script
+      is:inline
+      set:html={`(function (b) {
+  window.__NENA_CMS_BASE__ = b;
+  var raw = String(b || '/').trim() || '/';
+  var full = raw[0] === '/' ? raw : '/' + raw;
+  if (full !== '/' && full[full.length - 1] !== '/') full += '/';
+  function applyPath(p) {
+    if (typeof p !== 'string' || !p || p[0] !== '/' || p[1] === '/') return p;
+    var basePath = full === '/' ? '' : full.replace(/\\/$/, '');
+    if (!basePath) return p;
+    if (p === basePath || p.indexOf(basePath + '/') === 0) return p;
+    return basePath + p;
+  }
+  var orig = Element.prototype.setAttribute;
+  Element.prototype.setAttribute = function (name, value) {
+    if (name === 'src' && typeof value === 'string') {
+      var t = this.tagName;
+      if (t === 'IMG' || t === 'VIDEO' || t === 'SOURCE') {
+        var v = applyPath(value);
+        if (v !== value) return orig.call(this, name, v);
+      }
+    }
+    return orig.call(this, name, value);
+  };
+  function patchSrcIdl(Ctor) {
+    if (typeof Ctor === 'undefined' || !Ctor.prototype) return;
+    var d = Object.getOwnPropertyDescriptor(Ctor.prototype, 'src');
+    if (!d || !d.set) return;
+    try {
+      Object.defineProperty(Ctor.prototype, 'src', {
+        configurable: true,
+        enumerable: d.enumerable,
+        get: d.get,
+        set: function (value) {
+          var v = typeof value === 'string' ? applyPath(value) : value;
+          d.set.call(this, v);
+        },
+      });
+    } catch (e) {}
+  }
+  // React/Decap often set img.src / video.src directly (bypasses setAttribute).
+  patchSrcIdl(HTMLImageElement);
+  patchSrcIdl(HTMLVideoElement);
+  patchSrcIdl(HTMLSourceElement);
+})(${JSON.stringify(cmsBase)});`}></script>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script is:inline define:vars={{ base: import.meta.env.BASE_URL }}>
+      (function (root) {
+        const norm = root.endsWith('/') ? root : `${root}/`;
+        for (const path of ['admin/entry-list.js', 'admin/decap-image-preview.js']) {
+          const s = document.createElement('script');
+          s.src = norm + path;
+          document.body.appendChild(s);
+        }
+      })(base);
+    </script>
   </body>
 </html>

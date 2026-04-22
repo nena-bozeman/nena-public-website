@@ -8,7 +8,7 @@ legacySource: pyro-cms
 legacyId: "48"
 legacySlug: aspen-st-bridge-update
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/04/aspen-st-bridge-update
-updated: "1970-01-01"
+dateUpdated: "1970-01-01"
 ---
 
 April 15, 2021 NURB meeting to approve budget for 2021-2022

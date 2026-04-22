@@ -4,7 +4,7 @@ status: "under-review"
 address: "845 N Rouse Ave, Bozeman, MT 59715"
 developer: "Peak Development Group"
 submittedDate: 2025-11-15
-lastUpdated: 2026-02-10
+dateUpdated: 2026-02-10
 summary: "Proposed 4-story mixed-use building with ground-floor retail and 24 residential units."
 cityPlanningUrl: "https://www.bozeman.net/city-projects/planning"
 lat: 45.6871

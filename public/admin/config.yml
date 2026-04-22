@@ -9,10 +9,13 @@ collections:
     label: "News"
     folder: "src/content/news"
     create: true
+    summary: "{{title}}  ·  {{date | date('YYYY-MM-DD')}}"
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Record created (optional)", name: "dateCreated", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - { label: "Record updated (optional)", name: "dateUpdated", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, required: false }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Author", name: "author", widget: "string", required: false }
       - { label: "Featured", name: "featured", widget: "boolean", default: false }
@@ -23,6 +26,7 @@ collections:
     label: "Events"
     folder: "src/content/events"
     create: true
+    summary: "{{title}}  ·  {{startDate | date('YYYY-MM-DD')}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Start Date", name: "startDate", widget: "datetime" }
@@ -31,11 +35,15 @@ collections:
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Category", name: "category", widget: "select", options: ["social","civic","committee","tour","other"] }
       - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Record created (optional)", name: "dateCreated", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - { label: "Record updated (optional)", name: "dateUpdated", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, required: false }
       - { label: "Body", name: "body", widget: "markdown" }
   - name: "businesses"
     label: "Business Directory"
     folder: "src/content/businesses"
     create: true
+    identifier_field: name
+    summary: "{{name}}  ·  {{commit_date | date('YYYY-MM-DD')}}"
     fields:
       - { label: "Name", name: "name", widget: "string" }
       - { label: "Category", name: "category", widget: "select", options: ["food-drink","retail","services","arts-culture","fitness-wellness","nonprofit","other"] }
@@ -48,27 +56,40 @@ collections:
         hint: "Optional, e.g. my-shop.webp. Or add a file named <entry-slug>.webp|jpg|png in that folder and leave this blank."
       - { label: "Status", name: "status", widget: "select", options: ["open", "closed"], default: "open" }
       - { label: "Closed year (if closed)", name: "closedYear", widget: "number", required: false }
+      - { label: "Record created (optional)", name: "dateCreated", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - { label: "Record updated (optional)", name: "dateUpdated", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, required: false }
       - { label: "Body", name: "body", widget: "markdown" }
   - name: "development"
     label: "Development Watch"
     folder: "src/content/development"
     create: true
+    summary: "{{title}}  ·  {{dateUpdated | date('YYYY-MM-DD')}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Status", name: "status", widget: "select", options: ["proposed","under-review","approved","under-construction","complete","denied"] }
       - { label: "Address", name: "address", widget: "string" }
-      - { label: "Last Updated", name: "lastUpdated", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Developer (optional)", name: "developer", widget: "string", required: false }
+      - { label: "Submitted to city (optional)", name: "submittedDate", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - { label: "Record created (optional)", name: "dateCreated", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - { label: "Last updated (project status)", name: "dateUpdated", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
       - { label: "Summary", name: "summary", widget: "text" }
+      - { label: "City planning URL (optional)", name: "cityPlanningUrl", widget: "string", required: false }
+      - { label: "Latitude (optional)", name: "lat", widget: "number", value_type: "float", step: 0.0001, required: false }
+      - { label: "Longitude (optional)", name: "lng", widget: "number", value_type: "float", step: 0.0001, required: false }
+      - { label: "Tags (optional)", name: "tags", widget: "list", required: false }
       - { label: "Body", name: "body", widget: "markdown" }
   - name: "history"
     label: "History"
     folder: "src/content/history"
     create: true
+    summary: "{{title}}  ·  {{year}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Year", name: "year", widget: "number" }
       - { label: "Decade", name: "decade", widget: "number" }
       - { label: "Category", name: "category", widget: "select", options: ["founding","development","community","landmark","other"] }
+      - { label: "Record created (optional)", name: "dateCreated", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - { label: "Record updated (optional)", name: "dateUpdated", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, required: false }
       - { label: "Body", name: "body", widget: "markdown" }
   - name: "objectives"
     label: "Objectives"
@@ -84,4 +105,6 @@ collections:
         name: "newsTags"
         widget: "list"
         required: false
+      - { label: "Record created (optional)", name: "dateCreated", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - { label: "Record updated (optional)", name: "dateUpdated", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, required: false }
       - { label: "Body", name: "body", widget: "markdown" }

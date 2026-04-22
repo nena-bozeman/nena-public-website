@@ -6,7 +6,7 @@ import { getCollection } from 'astro:content';
 import { getMailchimpSignupUrl } from '../../utils/mailchimp';
 
 const allProjects = await getCollection('development');
-const sorted = allProjects.sort((a, b) => b.data.lastUpdated.valueOf() - a.data.lastUpdated.valueOf());
+const sorted = allProjects.sort((a, b) => b.data.dateUpdated.valueOf() - a.data.dateUpdated.valueOf());
 const mailchimpUrl = getMailchimpSignupUrl();
 ---
 <Base title="Development Watch" description="Tracking development projects in the Northeast Neighborhood of Bozeman, MT">
@@ -16,7 +16,7 @@ const mailchimpUrl = getMailchimpSignupUrl();
     <ProjectMap projects={allProjects} />
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
       {sorted.map((project) => (
-        <ProjectCard slug={project.slug} title={project.data.title} status={project.data.status} address={project.data.address} developer={project.data.developer} summary={project.data.summary} lastUpdated={project.data.lastUpdated} cityPlanningUrl={project.data.cityPlanningUrl} tags={project.data.tags} />
+        <ProjectCard slug={project.slug} title={project.data.title} status={project.data.status} address={project.data.address} developer={project.data.developer} summary={project.data.summary} dateUpdated={project.data.dateUpdated} cityPlanningUrl={project.data.cityPlanningUrl} tags={project.data.tags} />
       ))}
     </div>
     <div class="mt-10 bg-primary text-white rounded-lg p-6 text-center">

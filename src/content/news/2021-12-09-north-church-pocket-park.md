@@ -8,7 +8,7 @@ legacySource: pyro-cms
 legacyId: "72"
 legacySlug: north-church-pocket-park
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/12/north-church-pocket-park
-updated: "1970-01-01"
+dateUpdated: "1970-01-01"
 ---
 
 Potential for another "pocket park" in the neighborhood

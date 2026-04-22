@@ -8,6 +8,11 @@ Changes not yet released.
 
 ---
 
+## 2026-04-22
+
+- **News drafts:** Boolean `draft` on news entries so unfinished posts are omitted from production builds but still appear in development; `NewsDraftBadge.astro` on listings and post pages; filtering consolidated in `news.ts` and applied across news index, pagination, tag, home, and objective-related views; Decap CMS field in `public/admin/config.yml`.
+- **Business geocoding:** Batch address geocoding via `scripts/geocode-business-addresses.mjs` with Geocoding API setup noted in `.env.example`; refined coordinates and optional image fields in business front matter feed the map, cards, and detail pages, with supporting helpers (`business-image.ts`, `website-label.ts`, category utilities).
+
 ## 2026-04-21
 
 - **Google map (business directory):** **Map** view on `/businesses` (list / map toggle) using the **Google Maps JavaScript API** via `BusinessMap.astro` and a **`PUBLIC_GOOGLE_MAPS_API_KEY`** in the environment. Category-colored pins, legend, info windows, and overlapping-pin spreading (`business-map-points.ts`); map initializes when the map tab is shown, with a clear message when the key is missing or the API is misconfigured.

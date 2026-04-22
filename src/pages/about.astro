@@ -4,6 +4,7 @@ import { getMailchimpSignupUrl } from '../utils/mailchimp';
 
 const base = import.meta.env.BASE_URL;
 const mailchimpUrl = getMailchimpSignupUrl();
+const bylawsPdfUrl = `${base}documents/migrated/nenabozeman-org/NENA%20BYLAWS%202024.pdf`;
 
 const boardMembers = [
   { name: 'Amy Kelley Hoitsma', role: 'President' },
@@ -77,6 +78,23 @@ const boardMembers = [
           NENA elections
         </a>
       </aside>
+    </section>
+
+    <section class="mb-12" aria-labelledby="bylaws-heading">
+      <h2 id="bylaws-heading" class="font-serif text-2xl font-bold text-primary mb-4">Bylaws</h2>
+      <p class="text-gray-700 mb-3">
+        NENA's bylaws describe membership, meetings, elections, and how the board operates.
+      </p>
+      <p>
+        <a
+          href={bylawsPdfUrl}
+          class="text-accent hover:text-amber-700 font-medium"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          NENA Bylaws 2024 (PDF)
+        </a>
+      </p>
     </section>
 
     <!-- Contact -->

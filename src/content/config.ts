@@ -11,8 +11,9 @@ const news = defineCollection({
     /** When true, omitted from production builds; in dev, listings and the post show a DRAFT label. */
     draft: z.boolean().default(false),
     tags: z.array(z.string()).default([]),
+    dateCreated: z.coerce.date().optional(),
     /** Last update from the legacy CMS (Pyro), when different from publish date */
-    updated: z.coerce.date().optional(),
+    dateUpdated: z.coerce.date().optional(),
     /** Posts migrated from Pyro CMS blog export */
     legacySource: z.enum(['pyro-cms']).optional(),
     legacyId: z.string().optional(),
@@ -33,6 +34,8 @@ const events = defineCollection({
     category: z.enum(['social', 'civic', 'committee', 'tour', 'other']),
     featured: z.boolean().default(false),
     externalUrl: z.string().url().optional(),
+    dateCreated: z.coerce.date().optional(),
+    dateUpdated: z.coerce.date().optional(),
   }),
 });
 
@@ -66,6 +69,8 @@ const businesses = defineCollection({
      * If omitted, a file named `<slug>.{webp,jpg,png,…}` in that folder is used when present.
      */
     image: z.string().optional(),
+    dateCreated: z.coerce.date().optional(),
+    dateUpdated: z.coerce.date().optional(),
   }),
 });
 
@@ -78,6 +83,8 @@ const history = defineCollection({
     category: z.enum(['founding', 'development', 'community', 'landmark', 'other']),
     image: z.string().optional(),
     imageAlt: z.string().optional(),
+    dateCreated: z.coerce.date().optional(),
+    dateUpdated: z.coerce.date().optional(),
   }),
 });
 
@@ -88,8 +95,9 @@ const development = defineCollection({
     status: z.enum(['proposed', 'under-review', 'approved', 'under-construction', 'complete', 'denied']),
     address: z.string(),
     developer: z.string().optional(),
-    submittedDate: z.date().optional(),
-    lastUpdated: z.date(),
+    submittedDate: z.coerce.date().optional(),
+    dateCreated: z.coerce.date().optional(),
+    dateUpdated: z.coerce.date(),
     summary: z.string(),
     cityPlanningUrl: z.string().url().optional(),
     lat: z.number().optional(),
@@ -108,6 +116,8 @@ const objectives = defineCollection({
     contactEmail: z.string().email().optional(),
     /** If non-empty, the objective page lists news posts tagged with any of these strings. */
     newsTags: z.array(z.string()).default([]),
+    dateCreated: z.coerce.date().optional(),
+    dateUpdated: z.coerce.date().optional(),
   }),
 });
 
@@ -115,6 +125,8 @@ const pages = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    dateCreated: z.coerce.date().optional(),
+    dateUpdated: z.coerce.date().optional(),
   }),
 });
 
@@ -129,6 +141,8 @@ const meetings = defineCollection({
       minutesPdf: z.string().optional(),
       minutesDocx: z.string().optional(),
       legacyUrl: z.string().url().optional(),
+      dateCreated: z.coerce.date().optional(),
+      dateUpdated: z.coerce.date().optional(),
     })
     .refine((d) => Boolean(d.minutesPdf || d.minutesDocx), {
       message: 'Each meeting needs minutesPdf and/or minutesDocx',

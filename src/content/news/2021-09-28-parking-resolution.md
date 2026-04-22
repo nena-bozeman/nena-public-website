@@ -8,7 +8,7 @@ legacySource: pyro-cms
 legacyId: "66"
 legacySlug: parking-resolution
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/09/parking-resolution
-updated: "1970-01-01"
+dateUpdated: "1970-01-01"
 ---
 
 **Parking Resolution**

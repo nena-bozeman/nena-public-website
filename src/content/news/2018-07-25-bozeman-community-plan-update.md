@@ -8,7 +8,7 @@ legacySource: pyro-cms
 legacyId: "9"
 legacySlug: bozeman-community-plan-update
 legacyBlogUrl: https://www.nenabozeman.org/blog/2018/07/bozeman-community-plan-update
-updated: "1970-01-01"
+dateUpdated: "1970-01-01"
 ---
 
 **The Bozeman Community Plan, which outlines priorities and policies for the city's growth and development, is being updated. Find out how you can participate.**
