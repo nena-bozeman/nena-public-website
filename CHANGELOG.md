@@ -10,6 +10,8 @@ Changes not yet released.
 
 ## 2026-04-21
 
+- **Google map (business directory):** **Map** view on `/businesses` (list / map toggle) using the **Google Maps JavaScript API** via `BusinessMap.astro` and a **`PUBLIC_GOOGLE_MAPS_API_KEY`** in the environment. Category-colored pins, legend, info windows, and overlapping-pin spreading (`business-map-points.ts`); map initializes when the map tab is shown, with a clear message when the key is missing or the API is misconfigured.
+- **Business hero / cover images:** Per-listing cover art in `src/assets/businesses/<slug>.*`, resolved with `getBusinessCoverImage()` and shown on `BusinessCard` and business detail pages. **Batch fetch** of `og:image` / `twitter:image` from public sites with `scripts/fetch-business-hero-images.mjs`, with **manual** assets for listings where a site has no useful preview, only a logo, or a fetch fails.
 - **Business directory:** Many Northeast / Northside business listings added as markdown entries with individual pages; main directory list and map limited to **open** listings.
 - **Business status and archive:** Replaced `active` with **`status`** (`open` | `closed`) and optional **`closedYear`** in the content schema; **`/businesses/archive`** page for past businesses; cards and detail pages show closed state; Decap CMS business fields updated.
 - **Business content corrections:** **Misco Mill** kept open; **Live from the Divide** marked closed (former Bozeman location; venue now in Livingston); removed erroneous closed status from Misco Mill.

@@ -80,6 +80,7 @@ const categories = [
           el.style.display = 'none';
         }
       });
+      window.dispatchEvent(new CustomEvent('nena-businesses-filter', { detail: { category } }));
     });
   });
 

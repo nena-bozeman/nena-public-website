@@ -40,6 +40,11 @@ collections:
       - { label: "Category", name: "category", widget: "select", options: ["food-drink","retail","services","arts-culture","fitness-wellness","nonprofit","other"] }
       - { label: "Address", name: "address", widget: "string" }
       - { label: "Website", name: "website", widget: "string", required: false }
+      - label: "Cover image (filename in src/assets/businesses/)"
+        name: "image"
+        widget: "string"
+        required: false
+        hint: "Optional, e.g. my-shop.webp. Or add a file named <entry-slug>.webp|jpg|png in that folder and leave this blank."
       - { label: "Status", name: "status", widget: "select", options: ["open", "closed"], default: "open" }
       - { label: "Closed year (if closed)", name: "closedYear", widget: "number", required: false }
       - { label: "Body", name: "body", widget: "markdown" }

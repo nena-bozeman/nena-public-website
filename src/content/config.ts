@@ -59,6 +59,11 @@ const businesses = defineCollection({
     closedYear: z.number().int().min(1900).max(2100).optional(),
     lat: z.number().optional(),
     lng: z.number().optional(),
+    /**
+     * Optional filename under `src/assets/businesses/` (e.g. `echo-arts.webp` or `brand/foo.png`).
+     * If omitted, a file named `<slug>.{webp,jpg,png,…}` in that folder is used when present.
+     */
+    image: z.string().optional(),
   }),
 });
 

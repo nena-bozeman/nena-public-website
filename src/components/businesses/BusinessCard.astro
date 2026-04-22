@@ -1,4 +1,9 @@
 ---
+import { Image } from 'astro:assets';
+import { businessCategoryBadgeClass, businessCategoryLabels } from '../../utils/business-categories';
+import { getBusinessCoverImage } from '../../utils/business-image';
+import { getWebsiteLabel } from '../../utils/website-label';
+
 export interface Props {
   slug: string;
   name: string;
@@ -10,40 +15,43 @@ export interface Props {
   legacy?: boolean;
   status?: 'open' | 'closed';
   closedYear?: number;
+  image?: string;
 }
 
 const base = import.meta.env.BASE_URL;
-const { slug, name, category, address, website, phone, founded, legacy = false, status = 'open', closedYear } = Astro.props;
+const { slug, name, category, address, website, phone, founded, legacy = false, status = 'open', closedYear, image: imageFile } = Astro.props;
+const cover = getBusinessCoverImage(slug, imageFile);
 const isClosed = status === 'closed';
 const listingHref = `${base}businesses/${slug}`;
-
-const categoryLabels: Record<string, string> = {
-  'food-drink': 'Food & Drink',
-  'retail': 'Retail',
-  'services': 'Services',
-  'arts-culture': 'Arts & Culture',
-  'fitness-wellness': 'Fitness & Wellness',
-  'nonprofit': 'Nonprofit',
-  'other': 'Other',
-};
-
-const categoryColors: Record<string, string> = {
-  'food-drink': 'bg-orange-100 text-orange-800',
-  'retail': 'bg-blue-100 text-blue-800',
-  'services': 'bg-gray-100 text-gray-800',
-  'arts-culture': 'bg-purple-100 text-purple-800',
-  'fitness-wellness': 'bg-green-100 text-green-800',
-  'nonprofit': 'bg-teal-100 text-teal-800',
-  'other': 'bg-gray-100 text-gray-800',
-};
 ---
 
-<article class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 p-5" data-business-category={category}>
-  <div class="flex items-start justify-between gap-3">
+<article
+  class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 overflow-hidden flex flex-col h-full"
+  data-business-category={category}
+>
+  {cover && (
+    <a
+      href={listingHref}
+      class="block aspect-[4/3] w-full overflow-hidden bg-gray-100 shrink-0 group"
+      aria-label={`${name} — business listing`}
+    >
+      <Image
+        src={cover}
+        alt={name}
+        class="h-full w-full object-cover transition-transform group-hover:scale-[1.02] duration-300"
+        width={800}
+        height={600}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        loading="lazy"
+        decoding="async"
+      />
+    </a>
+  )}
+  <div class="flex items-start justify-between gap-3 p-5 grow">
     <div class="flex-1 min-w-0">
       <div class="flex items-center gap-2 mb-1 flex-wrap">
-        <span class={`text-xs font-medium px-2 py-0.5 rounded-full ${categoryColors[category] ?? 'bg-gray-100 text-gray-800'}`}>
-          {categoryLabels[category] ?? category}
+        <span class={`text-xs font-medium px-2 py-0.5 rounded-full ${businessCategoryBadgeClass[category] ?? 'bg-gray-100 text-gray-800'}`}>
+          {businessCategoryLabels[category] ?? category}
         </span>
         {legacy && <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">Legacy 10+</span>}
         {isClosed && (
@@ -55,17 +63,22 @@ const categoryColors: Record<string, string> = {
       <h3 class="font-serif font-bold text-primary text-lg">
         <a href={listingHref} class="hover:text-accent transition-colors">{name}</a>
       </h3>
-      <p class="text-sm text-gray-500 mt-1">📍 {address}</p>
+      {website && (
+        <a
+          href={website}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-gray-600 hover:text-primary text-sm font-medium transition-colors break-all block mt-1.5"
+        >
+          {getWebsiteLabel(website)} →
+        </a>
+      )}
+      <p class="text-sm text-gray-500 mt-1.5">📍 {address}</p>
       {founded && <p class="text-xs text-gray-400 mt-1">Est. {founded}</p>}
     </div>
   </div>
-  <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+  <div class="px-5 pb-5 pt-0 flex flex-wrap items-center gap-x-4 gap-y-2 -mt-1">
     <a href={listingHref} class="text-accent hover:text-amber-700 text-sm font-medium transition-colors">Listing details →</a>
-    {website && (
-      <a href={website} target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-primary text-sm font-medium transition-colors">
-        Visit Website →
-      </a>
-    )}
     {phone && <span class="text-sm text-gray-500">{phone}</span>}
   </div>
 </article>

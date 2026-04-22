@@ -13,6 +13,8 @@
     "redirects:legacy": "node scripts/build-cloudflare-redirects.mjs",
     "check:internal-links": "node scripts/check-internal-links.mjs",
     "content:news-from-blog": "node scripts/backfill-news-from-blog.mjs",
+    "geocode:businesses": "node scripts/geocode-business-addresses.mjs",
+    "images:business-heroes": "node scripts/fetch-business-hero-images.mjs",
     "build:cf": "ASTRO_BASE_PATH=/ npm run build",
     "check:internal-links:cf": "ASTRO_BASE_PATH=/ npm run build && ASTRO_BASE_PATH=/ npm run check:internal-links"
   },

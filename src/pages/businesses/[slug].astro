@@ -1,6 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
+import { getBusinessCoverImage } from '../../utils/business-image';
+import { getWebsiteLabel } from '../../utils/website-label';
 
 export async function getStaticPaths() {
   const businesses = await getCollection('businesses');
@@ -40,14 +43,34 @@ const logoSrc =
   (business.data.logo.startsWith('http')
     ? business.data.logo
     : `${base}${business.data.logo.replace(/^\//, '')}`);
+
+const hero = getBusinessCoverImage(business.slug, business.data.image);
 ---
 
 <Base title={name} description={`${name} — Northeast Neighborhood business directory`} canonicalURL={`/businesses/${business.slug}`}>
   <article class="max-w-3xl mx-auto px-4 py-12">
-    <a href={`${base}businesses`} class="text-accent hover:text-amber-700 text-sm font-medium mb-8 inline-block transition-colors">← Back to Business Directory</a>
+    <a href={`${base}businesses`} class="text-accent hover:text-amber-700 text-sm font-medium mb-6 inline-block transition-colors">
+      ← Back to Business Directory
+    </a>
+
+    {hero && (
+      <div class="mb-8 w-full overflow-hidden rounded-xl border border-gray-200 bg-gray-100 shadow-sm aspect-[2/1] max-h-[22rem]">
+        <Image
+          src={hero}
+          alt={`${name} — photo`}
+          class="h-full w-full object-cover"
+          width={1200}
+          height={600}
+          sizes="(max-width: 768px) 100vw, 48rem"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+    )}
 
     <div class="flex flex-wrap items-start gap-4 mb-6">
-      {logoSrc && (
+      {!hero && logoSrc && (
         <img src={logoSrc} alt={`${name} logo`} class="h-16 w-16 object-contain rounded border border-gray-100 bg-white p-1" loading="lazy" />
       )}
       <div class="flex-1 min-w-0">
@@ -55,6 +78,16 @@ const logoSrc =
           {categoryLabels[category] ?? category}
         </span>
         <h1 class="font-serif text-4xl font-bold text-primary mt-2">{name}</h1>
+        {business.data.website && (
+          <a
+            href={business.data.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-accent hover:text-amber-700 text-sm font-semibold transition-colors break-all block mt-1.5"
+          >
+            {getWebsiteLabel(business.data.website)} →
+          </a>
+        )}
         <p class="text-sm text-gray-600 mt-2">📍 {business.data.address}</p>
         {business.data.founded && <p class="text-sm text-gray-400 mt-1">Est. {business.data.founded}</p>}
         {business.data.status === 'closed' && (
@@ -66,19 +99,7 @@ const logoSrc =
             </a>
           </p>
         )}
-        <div class="flex flex-wrap gap-4 mt-4">
-          {business.data.website && (
-            <a
-              href={business.data.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-accent hover:text-amber-700 text-sm font-semibold transition-colors"
-            >
-              Visit Website →
-            </a>
-          )}
-          {business.data.phone && <span class="text-sm text-gray-600">{business.data.phone}</span>}
-        </div>
+        {business.data.phone && <p class="text-sm text-gray-600 mt-2">{business.data.phone}</p>}
       </div>
     </div>
 

@@ -1,19 +1,99 @@
 ---
+import { getImage } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import { businessCategoryLabels, getBusinessCategoryMarker } from '../../utils/business-categories';
+import { getBusinessCoverImage } from '../../utils/business-image';
+import { getWebsiteLabel } from '../../utils/website-label';
 
 export interface Props {
   businesses: CollectionEntry<'businesses'>[];
 }
 
 const { businesses } = Astro.props;
-const apiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
+const rawKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
+const apiKey = typeof rawKey === 'string' ? rawKey.trim() : rawKey;
 const mappable = businesses.filter(b => b.data.lat && b.data.lng);
+const siteBase = import.meta.env.BASE_URL;
+const rawMapPoints = await Promise.all(
+  mappable.map(async (b) => {
+    const m = getBusinessCategoryMarker(b.data.category);
+    const cover = getBusinessCoverImage(b.slug, b.data.image);
+    let coverSrc: string | undefined;
+    if (cover) {
+      const { src } = await getImage({ src: cover, width: 400, height: 300 });
+      coverSrc = src;
+    }
+    const website = b.data.website;
+    return {
+      name: b.data.name,
+      lat: b.data.lat!,
+      lng: b.data.lng!,
+      slug: b.slug,
+      category: b.data.category,
+      address: b.data.address,
+      fill: m.fill,
+      stroke: m.stroke,
+      categoryLabel: businessCategoryLabels[b.data.category] ?? b.data.category,
+      coverSrc,
+      website: website ?? undefined,
+      websiteLabel: website ? getWebsiteLabel(website) : undefined,
+    };
+  }),
+);
+const categoryLegend = [...new Set(mappable.map((b) => b.data.category))]
+  .sort()
+  .map((cat) => ({
+    id: cat,
+    label: businessCategoryLabels[cat] ?? cat,
+    fill: getBusinessCategoryMarker(cat).fill,
+  }));
+const businessMapConfig = JSON.stringify({ allPoints: rawMapPoints, key: apiKey, siteBase, categoryLegend });
 ---
 
+<style is:global>
+  /* Google’s default info window max-height is small (~200px), which forces scroll on our cards. */
+  #business-map .gm-style-iw-c,
+  #business-map .gm-style-iw-chr {
+    max-height: min(75vh, 520px) !important;
+  }
+  #business-map .gm-style-iw-d {
+    max-height: min(72vh, 500px) !important;
+  }
+</style>
 <div class="bg-gray-100 rounded-lg overflow-hidden">
-  {apiKey ? (
-    <div id="business-map" class="w-full h-96"></div>
-  ) : (
+  {apiKey && mappable.length > 0 && (
+    <>
+      <div id="business-map" class="w-full h-96"></div>
+      <div class="border-t border-gray-200/80 bg-white/50 px-3 py-2.5 text-xs text-gray-700">
+        <div
+          class="flex flex-wrap items-center gap-x-4 gap-y-2"
+          id="business-map-legend"
+          aria-label="Map pin categories"
+        >
+          {categoryLegend.map((row) => (
+            <span class="inline-flex items-center gap-1.5" data-legend-cat={row.id}>
+              <span
+                class="h-2.5 w-2.5 shrink-0 rounded-full border-2 border-white shadow-sm"
+                style={{ backgroundColor: row.fill }}
+                aria-hidden="true"
+              />
+              <span>{row.label}</span>
+            </span>
+          ))}
+        </div>
+        <span class="text-gray-500 block mt-2 min-[500px]:inline min-[500px]:mt-0 min-[500px]:ml-2">
+          Shared coordinates are fanned in a small ring so every pin is clickable. Run the geocode script to align pins to each street address.
+        </span>
+      </div>
+    </>
+  )}
+  {apiKey && mappable.length === 0 && (
+    <div class="flex items-center justify-center h-64 text-gray-500 flex-col gap-2 p-8 text-center">
+      <p class="font-medium">No map pins yet</p>
+      <p class="text-sm">No open businesses in the directory have latitude and longitude set.</p>
+    </div>
+  )}
+  {!apiKey && (
     <div class="flex items-center justify-center h-64 text-gray-500 flex-col gap-3 p-8 text-center">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
@@ -24,3 +104,317 @@ const mappable = businesses.filter(b => b.data.lat && b.data.lng);
     </div>
   )}
 </div>
+
+{apiKey && mappable.length > 0 && (
+  <>
+    <script is:inline set:html={`window.__NENA_BUSINESS_MAP__ = ${businessMapConfig};`}></script>
+    <script is:inline>
+    (function () {
+      const cfg = window.__NENA_BUSINESS_MAP__;
+      if (!cfg) return;
+      const allPoints = cfg.allPoints;
+      const key = cfg.key;
+      const base = cfg.siteBase;
+
+      let map;
+      let infoWindow;
+      const markerList = [];
+      var mapReady = false;
+      var mapLoadError = false;
+
+      /** Same algorithm as `src/utils/business-map-points.ts` (kept in sync). */
+      var GROUP_PRECISION = 5;
+      var SPREAD_M = 20;
+      function spreadOverlapping(pts) {
+        if (pts.length <= 1) return pts.map(function (p) { return Object.assign({}, p); });
+        var groups = new Map();
+        for (var i = 0; i < pts.length; i++) {
+          var item = pts[i];
+          var k = item.lat.toFixed(GROUP_PRECISION) + ',' + item.lng.toFixed(GROUP_PRECISION);
+          if (!groups.has(k)) groups.set(k, []);
+          groups.get(k).push(item);
+        }
+        var out = [];
+        groups.forEach(function (group) {
+          if (group.length === 1) {
+            out.push(Object.assign({}, group[0]));
+            return;
+          }
+          var sorted = group.slice().sort(function (a, b) {
+            return (a.slug || '').localeCompare(b.slug || '');
+          });
+          var n = sorted.length;
+          sorted.forEach(function (p, j) {
+            var angle = (2 * Math.PI * j) / n;
+            var lat0 = p.lat;
+            var latRad = (lat0 * Math.PI) / 180;
+            var dLat = (SPREAD_M * Math.sin(angle)) / 111320;
+            var dLng = (SPREAD_M * Math.cos(angle)) / (111320 * Math.cos(latRad));
+            out.push(
+              Object.assign({}, p, { lat: lat0 + dLat, lng: p.lng + dLng })
+            );
+          });
+        });
+        return out;
+      }
+
+      function getActiveCategory() {
+        var el = document.querySelector('#category-filters button.category-filter.bg-primary');
+        if (!el) return '';
+        return el.getAttribute('data-category') || '';
+      }
+
+      function isMapViewVisible() {
+        var v = document.getElementById('map-view');
+        return v && !v.classList.contains('hidden');
+      }
+
+      function esc(s) {
+        return String(s)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function updateLegend(selectedCat) {
+        var leg = document.getElementById('business-map-legend');
+        if (!leg || !cfg.categoryLegend) return;
+        var rows = selectedCat
+          ? cfg.categoryLegend.filter(function (r) { return r.id === selectedCat; })
+          : cfg.categoryLegend;
+        var html = rows
+          .map(function (r) {
+            return (
+              '<span class="inline-flex items-center gap-1.5" data-legend-cat="' +
+              esc(r.id) +
+              '"><span class="h-2.5 w-2.5 shrink-0 rounded-full border-2 border-white shadow-sm" style="background-color:' +
+              r.fill +
+              '" aria-hidden="true"></span><span>' +
+              esc(r.label) +
+              '</span></span>'
+            );
+          })
+          .join('');
+        leg.innerHTML = html;
+      }
+
+      function getFilteredAndSpread() {
+        var cat = getActiveCategory();
+        var list = !cat
+          ? allPoints.slice()
+          : allPoints.filter(function (p) { return p.category === cat; });
+        return spreadOverlapping(list);
+      }
+
+      function clearMarkers() {
+        for (var m = 0; m < markerList.length; m++) {
+          markerList[m].setMap(null);
+        }
+        markerList.length = 0;
+        if (infoWindow) infoWindow.close();
+      }
+
+      function redrawMap() {
+        if (mapLoadError || !map || !mapReady) return;
+        // eslint-disable-next-line no-undef
+        var g = window.google;
+        if (!g || !g.maps) return;
+        var points = getFilteredAndSpread();
+        var pathPrefix = base && base.endsWith('/') ? base : base + '/';
+        var cat = getActiveCategory();
+        updateLegend(cat);
+        clearMarkers();
+        if (points.length === 0) {
+          map.setCenter({ lat: 45.684, lng: -111.03 });
+          map.setZoom(12);
+          if (isMapViewVisible()) g.maps.event.trigger(map, 'resize');
+          return;
+        }
+        var bounds = new g.maps.LatLngBounds();
+        var center0 = { lat: points[0].lat, lng: points[0].lng };
+        points.forEach(function (p) {
+          var position = { lat: p.lat, lng: p.lng };
+          bounds.extend(position);
+          var marker = new g.maps.Marker({
+            position: position,
+            map: map,
+            title: p.name,
+            icon: {
+              path: g.maps.SymbolPath.CIRCLE,
+              fillColor: p.fill,
+              fillOpacity: 1,
+              strokeColor: p.stroke,
+              strokeWeight: 2,
+              scale: 9,
+            },
+          });
+          markerList.push(marker);
+          var url = pathPrefix + 'businesses/' + encodeURIComponent(p.slug) + '/';
+          marker.addListener('click', function () {
+            var chtml = p.categoryLabel
+              ? '<div style="font-size:11px;text-transform:uppercase;letter-spacing:0.04em;color:#6b7280;margin-bottom:6px;">' + esc(p.categoryLabel) + '</div>'
+              : '';
+            var imgBlock = p.coverSrc
+              ? '<a href="' +
+                esc(url) +
+                '" style="display:block;margin:0 0 8px;border-radius:6px;overflow:hidden;border:1px solid #e5e7eb;max-height:130px"><img src="' +
+                esc(p.coverSrc) +
+                '" alt="' +
+                esc(p.name) +
+                '" width="400" height="130" style="width:100%;height:130px;object-fit:cover;vertical-align:middle" loading="lazy" decoding="async" /></a>'
+              : '';
+            var nameBlock =
+              '<strong style="font-size:15px;display:block"><a style="color:#1e3a2f;text-decoration:none" href="' +
+              esc(url) +
+              '">' +
+              esc(p.name) +
+              '</a></strong>';
+            var siteBlock =
+              p.website && p.websiteLabel
+                ? '<p style="font-size:13px;font-weight:500;margin:6px 0 0;line-height:1.35"><a style="color:#4b5563" href="' +
+                  esc(p.website) +
+                  '" target="_blank" rel="noopener noreferrer">' +
+                  esc(p.websiteLabel) +
+                  ' →</a></p>'
+                : '';
+            var addr = p.address
+              ? '<p style="font-size:12px;color:#4b5563;margin:6px 0 8px;line-height:1.35;">' + esc(p.address) + '</p>'
+              : '';
+            infoWindow.setContent(
+              '<div class="nena-business-iw" style="max-width:380px;min-width:280px;box-sizing:border-box;padding:2px 2px 6px">' +
+                chtml +
+                imgBlock +
+                nameBlock +
+                siteBlock +
+                addr +
+                '<a style="color:#b45309;font-weight:500" href="' +
+                esc(url) +
+                '">View listing →</a></div>'
+            );
+            infoWindow.open({ map: map, anchor: marker, shouldFocus: false });
+          });
+        });
+        if (points.length === 1) {
+          map.setCenter(center0);
+          map.setZoom(16);
+        } else {
+          map.fitBounds(bounds, 64);
+        }
+        if (isMapViewVisible()) g.maps.event.trigger(map, 'resize');
+      }
+
+      function showMapAuthHelp() {
+        mapLoadError = true;
+        var el = document.getElementById('business-map');
+        if (!el) return;
+        var origin = typeof location !== 'undefined' ? location.origin : '';
+        el.innerHTML =
+          '<div class="p-5 text-left text-sm text-gray-800 max-w-lg space-y-3">' +
+          '<p class="font-medium text-primary">Google Maps could not use this API key</p>' +
+          '<p class="text-gray-700">In Google Cloud Console for this key, check:</p>' +
+          '<ul class="list-disc pl-5 space-y-1 text-gray-700">' +
+          '<li><strong>Maps JavaScript API</strong> is enabled (APIs &amp; Services &rarr; Library).</li>' +
+          '<li><strong>Billing</strong> is enabled for the project.</li>' +
+          '<li>If the key has <strong>Application restrictions &rarr; HTTP referrers</strong>, add your dev origin, e.g. ' +
+          '<code class="text-xs bg-white px-1 rounded">http://localhost:4321/*</code> and (if you use it) ' +
+          '<code class="text-xs bg-white px-1 rounded">http://127.0.0.1:4321/*</code> — and your production site URL. Current page origin: <code class="text-xs break-all bg-white px-1 rounded">' +
+          (origin || 'unknown') +
+          '</code></li>' +
+          '<li>Under <strong>API restrictions</strong>, either don&rsquo;t restrict, or allow at least the Maps JavaScript API.</li>' +
+          '</ul>' +
+          '<p class="text-gray-500 text-xs">The browser console lists the exact error (e.g. RefererNotAllowedMapError, ApiNotActivatedMapError). ' +
+          'See <a class="text-accent underline" href="https://developers.google.com/maps/documentation/javascript/error-messages" target="_blank" rel="noopener">Maps JavaScript API errors</a>.</p>' +
+          '</div>';
+        console.error(
+          '[NENA business map] Google Maps auth failed. See the Google error in the console. If the code is RefererNotAllowedMapError, add ' +
+            (origin || 'your site origin') +
+            '/* to this API key HTTP referrers in Google Cloud, Credentials.'
+        );
+      }
+
+      function loadMapsLibrary() {
+        if (window.google && window.google.maps) {
+          return Promise.resolve();
+        }
+        window.gm_authFailure = showMapAuthHelp;
+        return new Promise(function (resolve, reject) {
+          var existing = document.querySelector('script[data-nena-maps]');
+          if (existing) {
+            existing.addEventListener('load', function () { resolve(); });
+            existing.addEventListener('error', function () { reject(new Error('Maps script failed to load')); });
+            return;
+          }
+          var s = document.createElement('script');
+          s.setAttribute('data-nena-maps', '');
+          s.async = true;
+          s.defer = true;
+          s.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(key);
+          s.onload = function () { resolve(); };
+          s.onerror = function () { reject(new Error('Maps script failed to load')); };
+          document.head.appendChild(s);
+        });
+      }
+
+      function initOrRefreshMap() {
+        var el = document.getElementById('business-map');
+        if (!el || mapLoadError) return;
+        if (mapReady) {
+          redrawMap();
+          if (isMapViewVisible() && window.google && window.google.maps) {
+            window.google.maps.event.trigger(map, 'resize');
+          }
+          return;
+        }
+        void loadMapsLibrary()
+          .then(function () {
+            if (mapLoadError) return;
+            // eslint-disable-next-line no-undef
+            var g = window.google;
+            if (!g || !g.maps) return;
+            /** Grayscale basemap; hide default POI/transit so Google’s pins don’t stack on our directory markers. */
+            var mapStyles = [
+              { featureType: 'all', elementType: 'all', stylers: [{ saturation: -100 }, { gamma: 0.98 }] },
+              { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+              { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+            ];
+            map = new g.maps.Map(el, {
+              center: { lat: 45.684, lng: -111.03 },
+              zoom: 12,
+              mapTypeControl: false,
+              styles: mapStyles,
+            });
+            infoWindow = new g.maps.InfoWindow({ maxWidth: 400 });
+            mapReady = true;
+            redrawMap();
+          })
+          .catch(function (err) {
+            mapLoadError = true;
+            console.error(err);
+            el.innerHTML = '';
+            var p = document.createElement('p');
+            p.className = 'text-sm text-red-600 p-4';
+            p.textContent =
+              'Map failed to load. Check that the Maps JavaScript API is enabled for this key, billing is on, and (for local dev) your key allows http://localhost.';
+            el.appendChild(p);
+          });
+      }
+
+      window.addEventListener('nena-businesses-filter', function () {
+        if (mapReady) {
+          redrawMap();
+        } else {
+          updateLegend(getActiveCategory());
+        }
+      });
+
+      var mapTab = document.getElementById('map-view-btn');
+      mapTab &&
+        mapTab.addEventListener('click', function () {
+          requestAnimationFrame(function () {
+            requestAnimationFrame(initOrRefreshMap);
+          });
+        });
+    })();
+    </script>
+  </>
+)}
