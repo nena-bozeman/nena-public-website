@@ -1,6 +1,8 @@
 # legacy site fetch cache (regenerate with node scripts/build-legacy-inventory.mjs)
 data/.cache/
 data
+!src/data/
+!src/data/**
 !data/README.md
 !data/legacy-inventory.json
 !data/legacy-inventory.csv
