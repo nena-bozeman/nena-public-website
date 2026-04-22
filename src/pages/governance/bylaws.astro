@@ -1,0 +1,44 @@
+---
+import Base from '../../layouts/Base.astro';
+import bylawsBody from '../../data/bylaws-2024-body.html?raw';
+
+const base = import.meta.env.BASE_URL;
+const bylawsPdfUrl = `${base}documents/migrated/nenabozeman-org/NENA%20BYLAWS%202024.pdf`;
+---
+
+<Base
+  title="Bylaws"
+  description="Northeast Neighborhood Association (NENA) bylaws, amended 21 November 2024: membership, meetings, officers, elections, and voting."
+>
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <p class="text-sm text-gray-600 mb-2">
+      <a href={`${base}governance`} class="text-accent hover:text-amber-700 font-medium">Governance</a>
+      <span class="text-gray-400 mx-1" aria-hidden="true">/</span>
+      <span class="text-gray-800">Bylaws</span>
+    </p>
+
+    <h1 class="font-serif text-4xl font-bold text-primary mb-6">NENA Bylaws</h1>
+    <p class="text-gray-600 text-sm mb-8">(Amended 21 November 2024)</p>
+
+    <div class="bg-cream rounded-lg p-6 border border-amber-100 mb-10">
+      <h2 class="font-serif text-lg font-bold text-primary mb-3">Summary</h2>
+      <p class="text-gray-800 leading-relaxed">
+        These bylaws govern the <strong>Northeast Neighborhood Association (NENA)</strong>, a Bozeman neighborhood group within defined boundaries. <strong>Membership</strong> is open to residents, property owners, businesses, and
+        nonprofit representatives in that area. NENA holds <strong>at least two meetings per year</strong> (spring and fall) and may hold more as needed; notice can go out by newsletter, online, email, and other practical means. The
+        association is run by <strong>four elected officers</strong>—President, Vice President, Secretary, and Treasurer—on <strong>staggered two-year terms</strong> (President and Vice President in even years; Secretary and
+        Treasurer in odd years), with spring elections. A <strong>quorum of 45 members</strong> (in person, online, or combined) is required for binding action, including when NENA <strong>takes a public position</strong> toward the
+        city, county, developers, or similar. <strong>Bylaw changes</strong> need the same quorum and a two-thirds vote of those participating. There are <strong>no required dues</strong>; donations support activities like the
+        newsletter. The full legal text, including the boundary map, is in the official PDF.
+      </p>
+    </div>
+
+    <div class="prose prose-green max-w-none mb-8">
+      <p>
+        <a href={bylawsPdfUrl} class="text-accent hover:text-amber-700 font-medium" target="_blank" rel="noopener noreferrer">NENA Bylaws 2024 (PDF)</a>
+        — download or open in a new tab.
+      </p>
+    </div>
+
+    <div class="bylaws-full border-t border-amber-100 pt-6" set:html={bylawsBody} />
+  </div>
+</Base>

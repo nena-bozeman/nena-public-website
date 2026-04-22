@@ -2,10 +2,11 @@
 # Regenerate: npm run inventory:legacy && npm run redirects:legacy
 # Cloudflare Pages: https://developers.cloudflare.com/pages/configuration/redirects/
 
+/objectives/safe-quiet-rail-crossings /news/2021-11-30-quiet-and-safe-rail-crossings 301
 /blog/2026/04/nena-news-spring-2026 /news/2026-03-15-spring-newsletter 301
 /objectives/udc/interim-zoning-2026 /objectives/bozeman-udc 301
 /objectives/trailsandpocketparks /objectives/trails-pocket-parks 301
-/objectives/nena-bylaws-2024 /governance 301
+/objectives/nena-bylaws-2024 /governance/bylaws 301
 /ne-business-directory /businesses 301
 /objectives/vision-ne /objectives/visionne 301
 /objectives/trees-2 /objectives/trees 301

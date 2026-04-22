@@ -414,8 +414,8 @@
     "local_repo_path": "",
     "downloaded": "n/a",
     "migrated": "yes",
-    "new_site_path": "/governance",
-    "notes": "Bylaws PDF linked from governance page"
+    "new_site_path": "/governance/bylaws",
+    "notes": "Bylaws page (HTML + PDF linked from governance)"
   },
   {
     "url": "https://www.nenabozeman.org/objectives/nena-meetings",
