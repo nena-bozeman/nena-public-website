@@ -8,6 +8,8 @@ const news = defineCollection({
     summary: z.string(),
     author: z.string().optional(),
     featured: z.boolean().default(false),
+    /** When true, omitted from production builds; in dev, listings and the post show a DRAFT label. */
+    draft: z.boolean().default(false),
     tags: z.array(z.string()).default([]),
     /** Last update from the legacy CMS (Pyro), when different from publish date */
     updated: z.coerce.date().optional(),

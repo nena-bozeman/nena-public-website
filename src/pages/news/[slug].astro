@@ -1,10 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
+import NewsDraftBadge from '../../components/news/NewsDraftBadge.astro';
 import { getCollection } from 'astro:content';
+import { newsEntriesForSite } from '../../utils/news';
 
 export async function getStaticPaths() {
   const news = await getCollection('news');
-  return news.map((post) => ({
+  return newsEntriesForSite(news).map((post) => ({
     params: { slug: post.slug },
     props: { post },
   }));
@@ -29,7 +31,10 @@ const { Content } = await post.render();
         </time>
         {post.data.author && <span class="text-sm text-gray-400">by {post.data.author}</span>}
       </div>
-      <h1 class="font-serif text-4xl font-bold text-primary">{post.data.title}</h1>
+      <h1 class="font-serif text-4xl font-bold text-primary flex flex-wrap items-center gap-3">
+        {post.data.title}
+        <NewsDraftBadge show={post.data.draft} />
+      </h1>
       <p class="text-xl text-gray-600 mt-3">{post.data.summary}</p>
       {post.data.tags && post.data.tags.length > 0 && (
         <div class="flex flex-wrap gap-2 mt-4">

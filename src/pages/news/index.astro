@@ -9,9 +9,10 @@ import {
   sortNewsByDateDesc,
   totalNewsPages,
   collectUniqueNewsTags,
+  newsEntriesForSite,
 } from '../../utils/news';
 
-const allNews = await getCollection('news');
+const allNews = newsEntriesForSite(await getCollection('news'));
 const allTags = collectUniqueNewsTags(allNews);
 const sortedNews = sortNewsByDateDesc(allNews);
 

@@ -9,11 +9,12 @@ import {
   sortNewsByDateDesc,
   totalNewsPages,
   collectUniqueNewsTags,
+  newsEntriesForSite,
 } from '../../../utils/news';
 import { withSiteBase } from '../../../utils/site-link';
 
 export async function getStaticPaths() {
-  const allNews = await getCollection('news');
+  const allNews = newsEntriesForSite(await getCollection('news'));
   const sorted = sortNewsByDateDesc(allNews);
   const total = totalNewsPages(sorted.length);
   if (total <= 1) return [];
@@ -22,7 +23,7 @@ export async function getStaticPaths() {
   }));
 }
 
-const allNews = await getCollection('news');
+const allNews = newsEntriesForSite(await getCollection('news'));
 const allTags = collectUniqueNewsTags(allNews);
 const sortedNews = sortNewsByDateDesc(allNews);
 const totalPages = totalNewsPages(sortedNews.length);

@@ -1,4 +1,6 @@
 ---
+import NewsDraftBadge from './NewsDraftBadge.astro';
+
 export interface Props {
   title: string;
   date: Date;
@@ -7,10 +9,11 @@ export interface Props {
   tags?: string[];
   slug: string;
   showTags?: boolean;
+  draft?: boolean;
 }
 
 const base = import.meta.env.BASE_URL;
-const { title, date, summary, author, tags = [], slug, showTags = true } = Astro.props;
+const { title, date, summary, author, tags = [], slug, showTags = true, draft = false } = Astro.props;
 const postHref = `${base}news/${slug}`;
 ---
 
@@ -21,8 +24,9 @@ const postHref = `${base}news/${slug}`;
     </time>
     {author && <span class="text-xs text-gray-400">by {author}</span>}
   </div>
-  <h2 class="font-serif font-bold text-primary text-xl mb-2">
+  <h2 class="font-serif font-bold text-primary text-xl mb-2 flex flex-wrap items-center gap-2">
     <a href={postHref} class="hover:text-accent transition-colors">{title}</a>
+    <NewsDraftBadge show={draft} />
   </h2>
   <p class="text-gray-600 text-sm leading-relaxed mb-4">{summary}</p>
   {showTags && tags.length > 0 && (

@@ -24,6 +24,7 @@ const { posts, showTags = true, emptyMessage } = Astro.props;
         tags={post.data.tags}
         slug={post.slug}
         showTags={showTags}
+        draft={post.data.draft}
       />
     ))
   )}

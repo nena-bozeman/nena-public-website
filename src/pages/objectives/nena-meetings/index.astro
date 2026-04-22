@@ -2,7 +2,7 @@
 import Base from '../../../layouts/Base.astro';
 import ObjectiveRelatedNews from '../../../components/objectives/ObjectiveRelatedNews.astro';
 import { getCollection, getEntry } from 'astro:content';
-import { newsPostsMatchingAnyTag } from '../../../utils/news';
+import { newsEntriesForSite, newsPostsMatchingAnyTag } from '../../../utils/news';
 
 const base = import.meta.env.BASE_URL;
 const meetings = (await getCollection('meetings')).sort(
@@ -12,7 +12,7 @@ const meetings = (await getCollection('meetings')).sort(
 const objective = await getEntry('objectives', 'nena-meetings');
 if (!objective) throw new Error('Missing content: objectives/nena-meetings');
 const newsTags = objective.data.newsTags;
-const allNews = await getCollection('news');
+const allNews = newsEntriesForSite(await getCollection('news'));
 const relatedNews = newsPostsMatchingAnyTag(allNews, newsTags);
 const wideLayout = newsTags.length > 0;
 ---

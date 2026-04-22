@@ -2,6 +2,16 @@ import type { CollectionEntry } from 'astro:content';
 
 export const NEWS_PER_PAGE = 10;
 
+/** In production builds, excludes entries with `draft: true`. Dev servers include all posts. */
+export function newsEntriesForSite(
+  entries: CollectionEntry<'news'>[],
+): CollectionEntry<'news'>[] {
+  if (import.meta.env.PROD) {
+    return entries.filter((e) => !e.data.draft);
+  }
+  return entries;
+}
+
 /** News posts that include at least one of the given tags (OR), newest first. */
 export function newsPostsMatchingAnyTag(
   entries: CollectionEntry<'news'>[],

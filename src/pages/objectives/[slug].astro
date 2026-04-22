@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import ObjectiveRelatedNews from '../../components/objectives/ObjectiveRelatedNews.astro';
 import { getCollection } from 'astro:content';
-import { newsPostsMatchingAnyTag } from '../../utils/news';
+import { newsEntriesForSite, newsPostsMatchingAnyTag } from '../../utils/news';
 
 export async function getStaticPaths() {
   const objectives = await getCollection('objectives');
@@ -14,7 +14,7 @@ const { objective } = Astro.props;
 const { Content } = await objective.render();
 
 const newsTags = objective.data.newsTags;
-const allNews = await getCollection('news');
+const allNews = newsEntriesForSite(await getCollection('news'));
 const relatedNews = newsPostsMatchingAnyTag(allNews, newsTags);
 const wideLayout = newsTags.length > 0;
 ---

@@ -10,16 +10,17 @@ import {
   filterNewsByTag,
   formatNewsTagLabel,
   totalNewsPages,
+  newsEntriesForSite,
 } from '../../../utils/news';
 import { withSiteBase } from '../../../utils/site-link';
 
 export async function getStaticPaths() {
-  const allNews = await getCollection('news');
+  const allNews = newsEntriesForSite(await getCollection('news'));
   const tags = collectUniqueNewsTags(allNews);
   return tags.map((tag) => ({ params: { tag } }));
 }
 
-const allNews = await getCollection('news');
+const allNews = newsEntriesForSite(await getCollection('news'));
 const allTags = collectUniqueNewsTags(allNews);
 const rawTag = Astro.params.tag;
 const tag = typeof rawTag === 'string' ? rawTag : '';

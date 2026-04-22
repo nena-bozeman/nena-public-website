@@ -16,6 +16,7 @@ collections:
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Author", name: "author", widget: "string", required: false }
       - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Draft (hidden in production)", name: "draft", widget: "boolean", default: false }
       - { label: "Tags", name: "tags", widget: "list", required: false }
       - { label: "Body", name: "body", widget: "markdown" }
   - name: "events"
