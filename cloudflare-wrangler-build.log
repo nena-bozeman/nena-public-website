@@ -1,0 +1,1058 @@
+2026-05-07T14:44:26.569Z	Initializing build environment...
+2026-05-07T14:44:26.569Z	Initializing build environment...
+2026-05-07T14:44:29.468Z	Success: Finished initializing build environment
+2026-05-07T14:44:30.247Z	Cloning repository...
+2026-05-07T14:44:34.809Z	Restoring from dependencies cache
+2026-05-07T14:44:34.816Z	Restoring from build output cache
+2026-05-07T14:44:36.237Z	Detected the following tools from environment: pnpm@10.21.0, nodejs@22.16.0
+2026-05-07T14:44:37.824Z	Installing project dependencies: pnpm install --frozen-lockfile
+2026-05-07T14:44:38.519Z	Lockfile is up to date, resolution step is skipped
+2026-05-07T14:44:38.599Z	Progress: resolved 1, reused 0, downloaded 0, added 0
+2026-05-07T14:44:38.654Z	Packages: +438
+2026-05-07T14:44:38.655Z	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-05-07T14:44:39.603Z	Progress: resolved 438, reused 0, downloaded 74, added 22
+2026-05-07T14:44:40.603Z	Progress: resolved 438, reused 0, downloaded 202, added 64
+2026-05-07T14:44:41.606Z	Progress: resolved 438, reused 0, downloaded 267, added 84
+2026-05-07T14:44:42.604Z	Progress: resolved 438, reused 0, downloaded 372, added 124
+2026-05-07T14:44:43.606Z	Progress: resolved 438, reused 0, downloaded 437, added 147
+2026-05-07T14:44:44.606Z	Progress: resolved 438, reused 0, downloaded 437, added 378
+2026-05-07T14:44:44.840Z	Progress: resolved 438, reused 0, downloaded 438, added 438, done
+2026-05-07T14:44:45.094Z
+2026-05-07T14:44:45.095Z	dependencies:
+2026-05-07T14:44:45.096Z	+ @astrojs/tailwind 5.1.5
+2026-05-07T14:44:45.096Z	+ astro 5.18.1
+2026-05-07T14:44:45.097Z	+ sharp 0.34.5
+2026-05-07T14:44:45.097Z	+ tailwindcss 3.4.19
+2026-05-07T14:44:45.097Z
+2026-05-07T14:44:45.097Z	devDependencies:
+2026-05-07T14:44:45.098Z	+ @astrojs/check 0.9.8
+2026-05-07T14:44:45.098Z	+ @tailwindcss/typography 0.5.19
+2026-05-07T14:44:45.098Z	+ js-yaml 4.1.1
+2026-05-07T14:44:45.098Z	+ mysql2 3.22.2
+2026-05-07T14:44:45.099Z	+ pagefind 1.5.2
+2026-05-07T14:44:45.099Z	+ pdf-parse 1.1.1
+2026-05-07T14:44:45.099Z	+ turndown 7.2.4
+2026-05-07T14:44:45.099Z	+ typescript 5.9.3
+2026-05-07T14:44:45.100Z
+2026-05-07T14:44:45.102Z	╭ Warning ─────────────────────────────────────────────────────────────────────╮
+2026-05-07T14:44:45.102Z	│                                                                              │
+2026-05-07T14:44:45.102Z	│   Ignored build scripts: esbuild, sharp.                                     │
+2026-05-07T14:44:45.102Z	│   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+2026-05-07T14:44:45.102Z	│   to run scripts.                                                            │
+2026-05-07T14:44:45.102Z	│                                                                              │
+2026-05-07T14:44:45.102Z	╰──────────────────────────────────────────────────────────────────────────────╯
+2026-05-07T14:44:45.102Z
+2026-05-07T14:44:45.119Z	Done in 7.1s using pnpm v10.21.0
+2026-05-07T14:44:45.327Z	Executing user build command: pnpm run build
+2026-05-07T14:44:45.716Z
+2026-05-07T14:44:45.716Z	> nena-website@0.1.0 build /opt/buildhome/repo
+2026-05-07T14:44:45.716Z	> astro build && pagefind --site dist
+2026-05-07T14:44:45.717Z
+2026-05-07T14:44:47.969Z	14:44:47 [content] Syncing content
+2026-05-07T14:44:48.437Z	[Shiki] 10 instances have been created. Shiki is supposed to be used as a singleton, consider refactoring your code to cache your highlighter instance; Or call `highlighter.dispose()` to release unused instances.
+2026-05-07T14:44:48.437Z	[Shiki] 20 instances have been created. Shiki is supposed to be used as a singleton, consider refactoring your code to cache your highlighter instance; Or call `highlighter.dispose()` to release unused instances.
+2026-05-07T14:44:48.440Z	[Shiki] 30 instances have been created. Shiki is supposed to be used as a singleton, consider refactoring your code to cache your highlighter instance; Or call `highlighter.dispose()` to release unused instances.
+2026-05-07T14:44:48.441Z	[Shiki] 40 instances have been created. Shiki is supposed to be used as a singleton, consider refactoring your code to cache your highlighter instance; Or call `highlighter.dispose()` to release unused instances.
+2026-05-07T14:44:48.446Z	[Shiki] 50 instances have been created. Shiki is supposed to be used as a singleton, consider refactoring your code to cache your highlighter instance; Or call `highlighter.dispose()` to release unused instances.
+2026-05-07T14:44:48.706Z	14:44:48 [content] Synced content
+2026-05-07T14:44:48.706Z	14:44:48 [types] Generated 1.27s
+2026-05-07T14:44:48.708Z	14:44:48 [build] output: "static"
+2026-05-07T14:44:48.708Z	14:44:48 [build] mode: "static"
+2026-05-07T14:44:48.709Z	14:44:48 [build] directory: /opt/buildhome/repo/dist/
+2026-05-07T14:44:48.709Z	14:44:48 [build] Collecting build info...
+2026-05-07T14:44:48.709Z	14:44:48 [build] ✓ Completed in 1.34s.
+2026-05-07T14:44:48.711Z	14:44:48 [build] Building static entrypoints...
+2026-05-07T14:44:53.185Z	14:44:53 [vite] ✓ built in 4.42s
+2026-05-07T14:44:53.186Z	14:44:53 [build] ✓ Completed in 4.47s.
+2026-05-07T14:44:53.187Z
+2026-05-07T14:44:53.187Z	 building client (vite)
+2026-05-07T14:44:53.202Z	14:44:53 [vite] transforming...
+2026-05-07T14:44:53.233Z	14:44:53 [vite] ✓ 8 modules transformed.
+2026-05-07T14:44:53.243Z	14:44:53 [vite] rendering chunks...
+2026-05-07T14:44:53.250Z	14:44:53 [vite] computing gzip size...
+2026-05-07T14:44:53.252Z	14:44:53 [vite] dist/_astro/index.astro_astro_type_script_index_0_lang.ClYIQhV0.js  0.06 kB │ gzip: 0.07 kB
+2026-05-07T14:44:53.252Z	14:44:53 [vite] ✓ built in 63ms
+2026-05-07T14:44:53.259Z
+2026-05-07T14:44:53.259Z	 generating static routes
+2026-05-07T14:44:53.272Z	14:44:53 ▶ src/pages/404.astro
+2026-05-07T14:44:53.287Z	14:44:53   └─ /404.html (+15ms)
+2026-05-07T14:44:53.291Z	14:44:53 ▶ src/pages/about.astro
+2026-05-07T14:44:53.294Z	14:44:53   └─ /about/index.html (+5ms)
+2026-05-07T14:44:53.295Z	14:44:53 ▶ src/pages/admin/index.astro
+2026-05-07T14:44:53.298Z	14:44:53   └─ /admin/index.html (+2ms)
+2026-05-07T14:44:53.303Z	14:44:53 ▶ src/pages/businesses/archive.astro
+2026-05-07T14:44:53.326Z	14:44:53   └─ /businesses/archive/index.html (+23ms)
+2026-05-07T14:44:53.329Z	14:44:53 ▶ src/pages/businesses/[slug].astro
+2026-05-07T14:44:53.335Z	14:44:53   ├─ /businesses/alter-cycles/index.html (+4ms)
+2026-05-07T14:44:53.337Z	14:44:53   ├─ /businesses/beringia-house/index.html (+3ms)
+2026-05-07T14:44:53.341Z	14:44:53   ├─ /businesses/biome-slow-craft/index.html (+3ms)
+2026-05-07T14:44:53.345Z	14:44:53   ├─ /businesses/bozeman-brewing/index.html (+4ms)
+2026-05-07T14:44:53.352Z	14:44:53   ├─ /businesses/bridger-pilates/index.html (+6ms)
+2026-05-07T14:44:53.353Z	14:44:53   ├─ /businesses/echo-arts/index.html (+3ms)
+2026-05-07T14:44:53.355Z	14:44:53   ├─ /businesses/fat-toads-farm-pantry/index.html (+2ms)
+2026-05-07T14:44:53.357Z	14:44:53   ├─ /businesses/bozeman-classic-pickleball-club/index.html (+2ms)
+2026-05-07T14:44:53.359Z	14:44:53   ├─ /businesses/finks-deli/index.html (+2ms)
+2026-05-07T14:44:53.361Z	14:44:53   ├─ /businesses/gangbusters-pottery/index.html (+2ms)
+2026-05-07T14:44:53.364Z	14:44:53   ├─ /businesses/green-seam-designs/index.html (+1ms)
+2026-05-07T14:44:53.364Z	14:44:53   ├─ /businesses/grotto-meats/index.html (+1ms)
+2026-05-07T14:44:53.365Z	14:44:53   ├─ /businesses/live-from-the-divide/index.html (+1ms)
+2026-05-07T14:44:53.367Z	14:44:53   ├─ /businesses/medium-gallery/index.html (+2ms)
+2026-05-07T14:44:53.369Z	14:44:53   ├─ /businesses/mischas-fine-food/index.html (+2ms)
+2026-05-07T14:44:53.371Z	14:44:53   ├─ /businesses/misco-goods/index.html (+2ms)
+2026-05-07T14:44:53.374Z	14:44:53   ├─ /businesses/misco-mill/index.html (+3ms)
+2026-05-07T14:44:53.378Z	14:44:53   ├─ /businesses/mountains-walking-brewery/index.html (+4ms)
+2026-05-07T14:44:53.380Z	14:44:53   ├─ /businesses/portal-bozeman/index.html (+2ms)
+2026-05-07T14:44:53.382Z	14:44:53   ├─ /businesses/refillery-supply-co/index.html (+1ms)
+2026-05-07T14:44:53.383Z	14:44:53   ├─ /businesses/roly-poly-coffee-co/index.html (+1ms)
+2026-05-07T14:44:53.385Z	14:44:53   ├─ /businesses/royal-road-bookstore/index.html (+2ms)
+2026-05-07T14:44:53.388Z	14:44:53   ├─ /businesses/sav-digital-environments/index.html (+3ms)
+2026-05-07T14:44:53.389Z	14:44:53   ├─ /businesses/tinworks/index.html (+2ms)
+2026-05-07T14:44:53.394Z	14:44:53   ├─ /businesses/treeline-coffee/index.html (+5ms)
+2026-05-07T14:44:53.397Z	14:44:53   ├─ /businesses/vantage-designs/index.html (+2ms)
+2026-05-07T14:44:53.399Z	14:44:53   ├─ /businesses/wild-crumb/index.html (+3ms)
+2026-05-07T14:44:53.402Z	14:44:53   └─ /businesses/zuri-salon/index.html (+2ms)
+2026-05-07T14:44:53.404Z	14:44:53 ▶ src/pages/businesses/index.astro
+2026-05-07T14:44:53.426Z	14:44:53   └─ /businesses/index.html (+22ms)
+2026-05-07T14:44:53.428Z	14:44:53 ▶ src/pages/community.astro
+2026-05-07T14:44:53.431Z	14:44:53   └─ /community/index.html (+3ms)
+2026-05-07T14:44:53.432Z	14:44:53 ▶ src/pages/contact.astro
+2026-05-07T14:44:53.433Z	14:44:53   └─ /contact/index.html (+1ms)
+2026-05-07T14:44:53.434Z	14:44:53 ▶ src/pages/development/[slug].astro
+2026-05-07T14:44:53.437Z	14:44:53   ├─ /development/cloverleaf/index.html (+2ms)
+2026-05-07T14:44:53.438Z	14:44:53   ├─ /development/idaho-pole/index.html (+1ms)
+2026-05-07T14:44:53.441Z	14:44:53   ├─ /development/north-central-development/index.html (+3ms)
+2026-05-07T14:44:53.446Z	14:44:53   ├─ /development/wallaceworks/index.html (+3ms)
+2026-05-07T14:44:53.448Z	14:44:53   └─ /development/wildlands-development/index.html (+4ms)
+2026-05-07T14:44:53.450Z	14:44:53 ▶ src/pages/development/index.astro
+2026-05-07T14:44:53.455Z	14:44:53   └─ /development/index.html (+4ms)
+2026-05-07T14:44:53.456Z	14:44:53 ▶ src/pages/donate.astro
+2026-05-07T14:44:53.458Z	14:44:53   └─ /donate/index.html (+2ms)
+2026-05-07T14:44:53.461Z	14:44:53 ▶ src/pages/elections.astro
+2026-05-07T14:44:53.463Z	14:44:53   └─ /elections/index.html (+1ms)
+2026-05-07T14:44:53.468Z	14:44:53 ▶ src/pages/events/page/[page].astro
+2026-05-07T14:44:53.470Z	14:44:53 ▶ src/pages/events/[slug].astro
+2026-05-07T14:44:53.476Z	14:44:53   ├─ /events/2025-09-15-walking-tour/index.html (+6ms)
+2026-05-07T14:44:53.479Z	14:44:53   ├─ /events/2026-04-20-annual-meeting/index.html (+3ms)
+2026-05-07T14:44:53.485Z	14:44:53   ├─ /events/2026-05-10-neighborhood-cleanup/index.html (+6ms)
+2026-05-07T14:44:53.490Z	14:44:53   ├─ /events/2026-07-29-northeast-business-stroll/index.html (+3ms)
+2026-05-07T14:44:53.491Z	14:44:53   └─ /events/2025-08-03-parade-of-sheds/index.html (+3ms)
+2026-05-07T14:44:53.492Z	14:44:53 ▶ src/pages/events/index.astro
+2026-05-07T14:44:53.497Z	14:44:53   └─ /events/index.html (+4ms)
+2026-05-07T14:44:53.498Z	14:44:53 ▶ src/pages/governance/bylaws.astro
+2026-05-07T14:44:53.500Z	14:44:53   └─ /governance/bylaws/index.html (+2ms)
+2026-05-07T14:44:53.501Z	14:44:53 ▶ src/pages/governance.astro
+2026-05-07T14:44:53.503Z	14:44:53   └─ /governance/index.html (+2ms)
+2026-05-07T14:44:53.504Z	14:44:53 ▶ src/pages/history/[slug].astro
+2026-05-07T14:44:53.506Z	14:44:53   ├─ /history/1883-founding/index.html (+2ms)
+2026-05-07T14:44:53.511Z	14:44:53   ├─ /history/1902-beall-park/index.html (+5ms)
+2026-05-07T14:44:53.513Z	14:44:53   ├─ /history/1940-post-war-growth/index.html (+1ms)
+2026-05-07T14:44:53.514Z	14:44:53   ├─ /history/1985-nena-founded/index.html (+2ms)
+2026-05-07T14:44:53.516Z	14:44:53   ├─ /history/2010-renaissance/index.html (+1ms)
+2026-05-07T14:44:53.517Z	14:44:53   └─ /history/bozeman-brewery-district-added-to-the-national-register-of-historic-places/index.html (+1ms)
+2026-05-07T14:44:53.518Z	14:44:53 ▶ src/pages/history/index.astro
+2026-05-07T14:44:53.521Z	14:44:53   └─ /history/index.html (+3ms)
+2026-05-07T14:44:53.531Z	14:44:53 ▶ src/pages/news/page/[page].astro
+2026-05-07T14:44:53.533Z	14:44:53   ├─ /news/page/2/index.html (+7ms)
+2026-05-07T14:44:53.545Z	14:44:53   ├─ /news/page/3/index.html (+10ms)
+2026-05-07T14:44:53.551Z	14:44:53   └─ /news/page/4/index.html (+8ms)
+2026-05-07T14:44:53.553Z	14:44:53 ▶ src/pages/news/tag/[tag]/page/[page].astro
+2026-05-07T14:44:53.560Z	14:44:53 ▶ src/pages/news/tag/[tag].astro
+2026-05-07T14:44:53.563Z	14:44:53   ├─ /news/tag/bozeman-udc/index.html (+3ms)
+2026-05-07T14:44:53.566Z	14:44:53   ├─ /news/tag/community/index.html (+2ms)
+2026-05-07T14:44:53.568Z	14:44:53   ├─ /news/tag/environment/index.html (+3ms)
+2026-05-07T14:44:53.571Z	14:44:53   ├─ /news/tag/meeting/index.html (+2ms)
+2026-05-07T14:44:53.574Z	14:44:53   ├─ /news/tag/newsletter/index.html (+3ms)
+2026-05-07T14:44:53.580Z	14:44:53   ├─ /news/tag/parade-of-sheds/index.html (+6ms)
+2026-05-07T14:44:53.583Z	14:44:53   ├─ /news/tag/safe-quiet-rail-crossings/index.html (+3ms)
+2026-05-07T14:44:53.591Z	14:44:53   ├─ /news/tag/traffic-calming/index.html (+5ms)
+2026-05-07T14:44:53.592Z	14:44:53   ├─ /news/tag/trails-pocket-parks/index.html (+4ms)
+2026-05-07T14:44:53.599Z	14:44:53   ├─ /news/tag/trees/index.html (+6ms)
+2026-05-07T14:44:53.603Z	14:44:53   ├─ /news/tag/visionne/index.html (+4ms)
+2026-05-07T14:44:53.607Z	14:44:53   └─ /news/tag/volunteer/index.html (+3ms)
+2026-05-07T14:44:53.610Z	14:44:53 ▶ src/pages/news/[slug].astro
+2026-05-07T14:44:53.619Z	14:44:53   ├─ /news/2018-07-03-more-details-on-ncod-review/index.html (+7ms)
+2026-05-07T14:44:53.621Z	14:44:53   ├─ /news/2018-07-14-ncod-review-schedule/index.html (+2ms)
+2026-05-07T14:44:53.622Z	14:44:53   ├─ /news/2018-09-07-ncod-review-october-public-events/index.html (+2ms)
+2026-05-07T14:44:53.624Z	14:44:53   ├─ /news/2018-07-25-bozeman-community-plan-update/index.html (+2ms)
+2026-05-07T14:44:53.627Z	14:44:53   ├─ /news/2018-09-18-round-2-of-ncod-review-oct-13/index.html (+3ms)
+2026-05-07T14:44:53.628Z	14:44:53   ├─ /news/2018-11-04-help-preserve-our-neighborhood-character/index.html (+2ms)
+2026-05-07T14:44:53.632Z	14:44:53   ├─ /news/2019-05-16-nena-news-spring-2019-newsletter/index.html (+4ms)
+2026-05-07T14:44:53.634Z	14:44:53   ├─ /news/2019-05-25-m/index.html (+1ms)
+2026-05-07T14:44:53.635Z	14:44:53   ├─ /news/2020-10-09-trails-projects/index.html (+1ms)
+2026-05-07T14:44:53.636Z	14:44:53   ├─ /news/2021-04-16-aspen-st-bridge-update/index.html (+1ms)
+2026-05-07T14:44:53.638Z	14:44:53   ├─ /news/2021-04-23-the-north-central-master-plan/index.html (+1ms)
+2026-05-07T14:44:53.640Z	14:44:53   ├─ /news/2021-04-25-community-solar-access/index.html (+2ms)
+2026-05-07T14:44:53.641Z	14:44:53   ├─ /news/2021-04-25-ne-bozeman-environmental-initiatives-part-2/index.html (+1ms)
+2026-05-07T14:44:53.642Z	14:44:53   ├─ /news/2021-04-25-ne-bozeman-environmental-initiatives-part-3/index.html (+1ms)
+2026-05-07T14:44:53.643Z	14:44:53   ├─ /news/2021-04-25-ne-bozeman-environmental-initiatives/index.html (+1ms)
+2026-05-07T14:44:53.645Z	14:44:53   ├─ /news/2021-04-25-the-front-street-pathway-update/index.html (+1ms)
+2026-05-07T14:44:53.646Z	14:44:53   ├─ /news/2021-04-25-visions-ne-committee/index.html (+1ms)
+2026-05-07T14:44:53.647Z	14:44:53   ├─ /news/2021-09-28-parking-resolution/index.html (+1ms)
+2026-05-07T14:44:53.648Z	14:44:53   ├─ /news/2021-11-30-aspen-street-bridge/index.html (+1ms)
+2026-05-07T14:44:53.650Z	14:44:53   ├─ /news/2021-11-30-idaho-pole-project-update/index.html (+1ms)
+2026-05-07T14:44:53.651Z	14:44:53   ├─ /news/2021-11-30-quiet-and-safe-rail-crossings/index.html (+1ms)
+2026-05-07T14:44:53.652Z	14:44:53   ├─ /news/2021-12-09-north-church-pocket-park/index.html (+1ms)
+2026-05-07T14:44:53.654Z	14:44:53   ├─ /news/2021-12-10-front-street-connector-trail/index.html (+1ms)
+2026-05-07T14:44:53.655Z	14:44:53   ├─ /news/2024-04-24-nena-news-spring-2024/index.html (+1ms)
+2026-05-07T14:44:53.657Z	14:44:53   ├─ /news/2024-10-09-2024-parade-of-sheds/index.html (+1ms)
+2026-05-07T14:44:53.658Z	14:44:53   ├─ /news/2024-12-05-fall-2024-nena-news/index.html (+1ms)
+2026-05-07T14:44:53.660Z	14:44:53   ├─ /news/2025-11-01-nena-news-fall-2025/index.html (+2ms)
+2026-05-07T14:44:53.661Z	14:44:53   ├─ /news/2026-01-10-tree-planting/index.html (+1ms)
+2026-05-07T14:44:53.662Z	14:44:53   ├─ /news/2026-02-20-community-meeting-recap/index.html (+1ms)
+2026-05-07T14:44:53.663Z	14:44:53   ├─ /news/2026-03-15-spring-newsletter/index.html (+1ms)
+2026-05-07T14:44:53.665Z	14:44:53   └─ /news/2026-04-10-nena-news-spring-2026/index.html (+1ms)
+2026-05-07T14:44:53.666Z	14:44:53 ▶ src/pages/news/index.astro
+2026-05-07T14:44:53.671Z	14:44:53   └─ /news/index.html (+5ms)
+2026-05-07T14:44:53.671Z	14:44:53 ▶ src/pages/newsletter.astro
+2026-05-07T14:44:53.673Z	14:44:53   └─ /newsletter/index.html (+1ms)
+2026-05-07T14:44:53.674Z	14:44:53 ▶ src/pages/objectives/nena-meetings/[slug].astro
+2026-05-07T14:44:53.677Z	14:44:53   ├─ /objectives/nena-meetings/2018-spring-april/index.html (+2ms)
+2026-05-07T14:44:53.681Z	14:44:53   ├─ /objectives/nena-meetings/2019-spring-may/index.html (+4ms)
+2026-05-07T14:44:53.683Z	14:44:53   ├─ /objectives/nena-meetings/2020-spring-august/index.html (+1ms)
+2026-05-07T14:44:53.685Z	14:44:53   ├─ /objectives/nena-meetings/2024-spring/index.html (+2ms)
+2026-05-07T14:44:53.686Z	14:44:53   ├─ /objectives/nena-meetings/2025-fall/index.html (+1ms)
+2026-05-07T14:44:53.688Z	14:44:53   ├─ /objectives/nena-meetings/2024-fall/index.html (+2ms)
+2026-05-07T14:44:53.689Z	14:44:53   └─ /objectives/nena-meetings/2021-spring-may/index.html (+2ms)
+2026-05-07T14:44:53.691Z	14:44:53 ▶ src/pages/objectives/nena-meetings/index.astro
+2026-05-07T14:44:53.694Z	14:44:53   └─ /objectives/nena-meetings/index.html (+3ms)
+2026-05-07T14:44:53.695Z	14:44:53 ▶ src/pages/objectives/[slug].astro
+2026-05-07T14:44:53.697Z	14:44:53   ├─ /objectives/affordable-housing/index.html (+2ms)
+2026-05-07T14:44:53.698Z	14:44:53   ├─ /objectives/bozeman-udc/index.html (+2ms)
+2026-05-07T14:44:53.705Z	14:44:53   ├─ /objectives/nena-newsletters/index.html (+7ms)
+2026-05-07T14:44:53.707Z	14:44:53   ├─ /objectives/nena-survey/index.html (+2ms)
+2026-05-07T14:44:53.708Z	14:44:53   ├─ /objectives/parade-of-sheds/index.html (+2ms)
+2026-05-07T14:44:53.710Z	14:44:53   ├─ /objectives/traffic-calming/index.html (+2ms)
+2026-05-07T14:44:53.712Z	14:44:53   ├─ /objectives/trees/index.html (+2ms)
+2026-05-07T14:44:53.714Z	14:44:53   ├─ /objectives/visionne/index.html (+2ms)
+2026-05-07T14:44:53.715Z	14:44:53   └─ /objectives/trails-pocket-parks/index.html (+2ms)
+2026-05-07T14:44:53.716Z	14:44:53 ▶ src/pages/objectives/index.astro
+2026-05-07T14:44:53.718Z	14:44:53   └─ /objectives/index.html (+2ms)
+2026-05-07T14:44:53.719Z	14:44:53 ▶ src/pages/search.astro
+2026-05-07T14:44:53.721Z	14:44:53   └─ /search/index.html (+1ms)
+2026-05-07T14:44:53.727Z	14:44:53 ▶ src/pages/index.astro
+2026-05-07T14:44:53.727Z	14:44:53   └─ /index.html (+4ms)
+2026-05-07T14:44:53.728Z	14:44:53 ✓ Completed in 470ms.
+2026-05-07T14:44:53.728Z
+2026-05-07T14:44:53.728Z	 generating optimized images
+2026-05-07T14:44:53.796Z	14:44:53   ▶ /_astro/nena-logo-lg.CuH2CsQt_2cTFBs.webp (before: 181kB, after: 1kB) (+66ms) (1/73)
+2026-05-07T14:44:53.954Z	14:44:53   ▶ /_astro/beringia-house.BIitToK5_1kbGA.webp (before: 253kB, after: 81kB) (+157ms) (2/73)
+2026-05-07T14:44:54.060Z	14:44:54   ▶ /_astro/beringia-house.BIitToK5_Z1SLef8.webp (before: 253kB, after: 36kB) (+105ms) (3/73)
+2026-05-07T14:44:54.101Z	14:44:54   ▶ /_astro/beringia-house.BIitToK5_Z1dwzk5.webp (before: 253kB, after: 12kB) (+41ms) (4/73)
+2026-05-07T14:44:54.107Z	14:44:54   ▶ /_astro/alter-cycles.BZlUtFgg_Z1q35T2.webp (before: 66kB, after: 91kB) (+377ms) (5/73)
+2026-05-07T14:44:54.403Z	14:44:54   ▶ /_astro/alter-cycles.BZlUtFgg_1uv4UR.webp (before: 66kB, after: 54kB) (+296ms) (6/73)
+2026-05-07T14:44:54.474Z	14:44:54   ▶ /_astro/alter-cycles.BZlUtFgg_IPre2.webp (before: 66kB, after: 21kB) (+70ms) (7/73)
+2026-05-07T14:44:54.998Z	14:44:54   ▶ /_astro/biome-slow-craft.C_78edP5_9aKBJ.webp (before: 882kB, after: 221kB) (+893ms) (8/73)
+2026-05-07T14:44:55.038Z	14:44:55   ▶ /_astro/bozeman-brewing.BwcZgHas_25pMy8.webp (before: 61kB, after: 106kB) (+563ms) (9/73)
+2026-05-07T14:44:55.229Z	14:44:55   ▶ /_astro/biome-slow-craft.C_78edP5_1HBOch.webp (before: 882kB, after: 119kB) (+230ms) (10/73)
+2026-05-07T14:44:55.236Z	14:44:55   ▶ /_astro/bozeman-brewing.BwcZgHas_8mzBn.webp (before: 61kB, after: 68kB) (+197ms) (11/73)
+2026-05-07T14:44:55.296Z	14:44:55   ▶ /_astro/bozeman-brewing.BwcZgHas_ZCi35s.webp (before: 61kB, after: 28kB) (+59ms) (12/73)
+2026-05-07T14:44:55.313Z	14:44:55   ▶ /_astro/biome-slow-craft.C_78edP5_Z259IC1.webp (before: 882kB, after: 44kB) (+84ms) (13/73)
+2026-05-07T14:44:55.383Z	14:44:55   ▶ /_astro/echo-arts.BP7XeMq1_5lJ0F.webp (before: 97kB, after: 7kB) (+69ms) (14/73)
+2026-05-07T14:44:55.431Z	14:44:55   ▶ /_astro/echo-arts.BP7XeMq1_Zfzo6h.webp (before: 97kB, after: 5kB) (+48ms) (15/73)
+2026-05-07T14:44:55.454Z	14:44:55   ▶ /_astro/echo-arts.BP7XeMq1_Z1cAkfo.webp (before: 97kB, after: 2kB) (+22ms) (16/73)
+2026-05-07T14:44:55.541Z	14:44:55   ▶ /_astro/bridger-pilates.NEA_q3xY_Z22nidr.webp (before: 28kB, after: 56kB) (+245ms) (17/73)
+2026-05-07T14:44:55.623Z	14:44:55   ▶ /_astro/bridger-pilates.NEA_q3xY_1Dj0RU.webp (before: 28kB, after: 30kB) (+83ms) (18/73)
+2026-05-07T14:44:55.659Z	14:44:55   ▶ /_astro/bridger-pilates.NEA_q3xY_RDnb5.webp (before: 28kB, after: 21kB) (+36ms) (19/73)
+2026-05-07T14:44:55.754Z	14:44:55   ▶ /_astro/finks-deli.DxK8Malb_2eDu5v.webp (before: 81kB, after: 28kB) (+94ms) (20/73)
+2026-05-07T14:44:55.773Z	14:44:55   ▶ /_astro/bozeman-classic-pickleball-club.Cvhyf3yS_X3gzn.webp (before: 217kB, after: 111kB) (+318ms) (21/73)
+2026-05-07T14:44:55.811Z	14:44:55   ▶ /_astro/finks-deli.DxK8Malb_Z2jq8AT.webp (before: 81kB, after: 17kB) (+57ms) (22/73)
+2026-05-07T14:44:55.838Z	14:44:55   ▶ /_astro/finks-deli.DxK8Malb_Z292kaC.webp (before: 81kB, after: 7kB) (+27ms) (23/73)
+2026-05-07T14:44:55.915Z	14:44:55   ▶ /_astro/bozeman-classic-pickleball-club.Cvhyf3yS_Z2lUOma.webp (before: 217kB, after: 65kB) (+139ms) (24/73)
+2026-05-07T14:44:55.986Z	14:44:55   ▶ /_astro/bozeman-classic-pickleball-club.Cvhyf3yS_QF1W2.webp (before: 217kB, after: 21kB) (+72ms) (25/73)
+2026-05-07T14:44:56.142Z	14:44:56   ▶ /_astro/green-seam-designs.B5GMmA8y_1M1uLd.webp (before: 9kB, after: 38kB) (+158ms) (26/73)
+2026-05-07T14:44:56.189Z	14:44:56   ▶ /_astro/green-seam-designs.B5GMmA8y_VNkHS.webp (before: 9kB, after: 18kB) (+47ms) (27/73)
+2026-05-07T14:44:56.208Z	14:44:56   ▶ /_astro/green-seam-designs.B5GMmA8y_2edUHw.webp (before: 9kB, after: 9kB) (+19ms) (28/73)
+2026-05-07T14:44:56.229Z	14:44:56   ▶ /_astro/gangbusters-pottery.Dz3vv4le_ZvlrnC.webp (before: 50kB, after: 60kB) (+391ms) (29/73)
+2026-05-07T14:44:56.404Z	14:44:56   ▶ /_astro/gangbusters-pottery.Dz3vv4le_2bkfda.webp (before: 50kB, after: 32kB) (+175ms) (30/73)
+2026-05-07T14:44:56.445Z	14:44:56   ▶ /_astro/grotto-meats.C0841GXX_1iGJwL.webp (before: 33kB, after: 41kB) (+236ms) (31/73)
+2026-05-07T14:44:56.466Z	14:44:56   ▶ /_astro/gangbusters-pottery.Dz3vv4le_Z1wA1os.webp (before: 50kB, after: 14kB) (+59ms) (32/73)
+2026-05-07T14:44:56.581Z	14:44:56   ▶ /_astro/grotto-meats.C0841GXX_Z3aHtd.webp (before: 33kB, after: 26kB) (+135ms) (33/73)
+2026-05-07T14:44:56.610Z	14:44:56   ▶ /_astro/mischas-fine-food.nM803eBK_ZVmn8c.webp (before: 37kB, after: 82kB) (+146ms) (34/73)
+2026-05-07T14:44:56.688Z	14:44:56   ▶ /_astro/grotto-meats.C0841GXX_C3VqP.webp (before: 33kB, after: 12kB) (+107ms) (35/73)
+2026-05-07T14:44:56.701Z	14:44:56   ▶ /_astro/mischas-fine-food.nM803eBK_2oWRI.webp (before: 37kB, after: 48kB) (+91ms) (36/73)
+2026-05-07T14:44:56.751Z	14:44:56   ▶ /_astro/mischas-fine-food.nM803eBK_1jOxRm.webp (before: 37kB, after: 20kB) (+49ms) (37/73)
+2026-05-07T14:44:56.878Z	14:44:56   ▶ /_astro/misco-goods.Dff5caNn_29SQ5R.webp (before: 38kB, after: 47kB) (+189ms) (38/73)
+2026-05-07T14:44:56.948Z	14:44:56   ▶ /_astro/misco-goods.Dff5caNn_1LziSx.webp (before: 38kB, after: 25kB) (+69ms) (39/73)
+2026-05-07T14:44:56.974Z	14:44:56   ▶ /_astro/misco-goods.Dff5caNn_1LbIKS.webp (before: 38kB, after: 13kB) (+27ms) (40/73)
+2026-05-07T14:44:57.083Z	14:44:57   ▶ /_astro/mountains-walking-brewery.BP9p0-Og_XJTUg.webp (before: 75kB, after: 28kB) (+104ms) (41/73)
+2026-05-07T14:44:57.156Z	14:44:57   ▶ /_astro/mountains-walking-brewery.BP9p0-Og_Z2lTrro.webp (before: 75kB, after: 19kB) (+78ms) (42/73)
+2026-05-07T14:44:57.203Z	14:44:57   ▶ /_astro/mountains-walking-brewery.BP9p0-Og_Z1au5ml.webp (before: 75kB, after: 9kB) (+47ms) (43/73)
+2026-05-07T14:44:57.217Z	14:44:57   ▶ /_astro/misco-mill.BKzMjwkl_UB6uM.webp (before: 25kB, after: 106kB) (+464ms) (44/73)
+2026-05-07T14:44:57.299Z	14:44:57   ▶ /_astro/portal-bozeman.DP3AMr5L_2bN1A5.webp (before: 83kB, after: 28kB) (+95ms) (45/73)
+2026-05-07T14:44:57.347Z	14:44:57   ▶ /_astro/portal-bozeman.DP3AMr5L_szUj1.webp (before: 83kB, after: 20kB) (+48ms) (46/73)
+2026-05-07T14:44:57.366Z	14:44:57   ▶ /_astro/portal-bozeman.DP3AMr5L_ZaTi5I.webp (before: 83kB, after: 9kB) (+19ms) (47/73)
+2026-05-07T14:44:57.390Z	14:44:57   ▶ /_astro/misco-mill.BKzMjwkl_ZnUV6U.webp (before: 25kB, after: 87kB) (+173ms) (48/73)
+2026-05-07T14:44:57.458Z	14:44:57   ▶ /_astro/misco-mill.BKzMjwkl_Z1C1boW.webp (before: 25kB, after: 29kB) (+67ms) (49/73)
+2026-05-07T14:44:57.703Z	14:44:57   ▶ /_astro/refillery-supply-co.BmKrcFZi_Z2ipGsf.webp (before: 142kB, after: 49kB) (+336ms) (50/73)
+2026-05-07T14:44:57.796Z	14:44:57   ▶ /_astro/roly-poly-coffee-co.GzR1pjI3_MBLmW.webp (before: 65kB, after: 63kB) (+338ms) (51/73)
+2026-05-07T14:44:57.835Z	14:44:57   ▶ /_astro/refillery-supply-co.BmKrcFZi_NKu9X.webp (before: 142kB, after: 30kB) (+131ms) (52/73)
+2026-05-07T14:44:57.907Z	14:44:57   ▶ /_astro/refillery-supply-co.BmKrcFZi_ZEkVup.webp (before: 142kB, after: 14kB) (+71ms) (53/73)
+2026-05-07T14:44:57.960Z	14:44:57   ▶ /_astro/roly-poly-coffee-co.GzR1pjI3_Z1ddBwV.webp (before: 65kB, after: 53kB) (+163ms) (54/73)
+2026-05-07T14:44:57.992Z	14:44:57   ▶ /_astro/sav-digital-environments.B5eFQq_s_ZmU8Pn.webp (before: 29kB, after: 23kB) (+84ms) (55/73)
+2026-05-07T14:44:58.040Z	14:44:58   ▶ /_astro/sav-digital-environments.B5eFQq_s_nwwm6.webp (before: 29kB, after: 13kB) (+47ms) (56/73)
+2026-05-07T14:44:58.054Z	14:44:58   ▶ /_astro/sav-digital-environments.B5eFQq_s_Z14jhCv.webp (before: 29kB, after: 4kB) (+14ms) (57/73)
+2026-05-07T14:44:58.075Z	14:44:58   ▶ /_astro/roly-poly-coffee-co.GzR1pjI3_93fEn.webp (before: 65kB, after: 24kB) (+115ms) (58/73)
+2026-05-07T14:44:58.158Z	14:44:58   ▶ /_astro/tinworks.DOTz99qw_2mVIDh.webp (before: 130kB, after: 115kB) (+104ms) (59/73)
+2026-05-07T14:44:58.220Z	14:44:58   ▶ /_astro/tinworks.DOTz99qw_Zv5uzN.webp (before: 130kB, after: 63kB) (+61ms) (60/73)
+2026-05-07T14:44:58.242Z	14:44:58   ▶ /_astro/tinworks.DOTz99qw_1i8ObV.webp (before: 130kB, after: 18kB) (+21ms) (61/73)
+2026-05-07T14:44:58.354Z	14:44:58   ▶ /_astro/treeline-coffee.DulzmazV_Z201tuw.webp (before: 104kB, after: 64kB) (+278ms) (62/73)
+2026-05-07T14:44:58.486Z	14:44:58   ▶ /_astro/treeline-coffee.DulzmazV_19mtb9.webp (before: 104kB, after: 56kB) (+130ms) (63/73)
+2026-05-07T14:44:58.557Z	14:44:58   ▶ /_astro/treeline-coffee.DulzmazV_nGPtj.webp (before: 104kB, after: 27kB) (+70ms) (64/73)
+2026-05-07T14:44:58.631Z	14:44:58   ▶ /_astro/vantage-designs.mt2OeCj8_Z1KNIYd.webp (before: 452kB, after: 257kB) (+389ms) (65/73)
+2026-05-07T14:44:58.771Z	14:44:58   ▶ /_astro/wild-crumb.-4knMHkY_Z2kzC6q.webp (before: 739kB, after: 58kB) (+214ms) (66/73)
+2026-05-07T14:44:58.862Z	14:44:58   ▶ /_astro/wild-crumb.-4knMHkY_Z28pNA2.webp (before: 739kB, after: 39kB) (+91ms) (67/73)
+2026-05-07T14:44:58.883Z	14:44:58   ▶ /_astro/vantage-designs.mt2OeCj8_YO2NT.webp (before: 452kB, after: 92kB) (+252ms) (68/73)
+2026-05-07T14:44:58.922Z	14:44:58   ▶ /_astro/wild-crumb.-4knMHkY_1YKo4M.webp (before: 739kB, after: 17kB) (+60ms) (69/73)
+2026-05-07T14:44:58.980Z	14:44:58   ▶ /_astro/vantage-designs.mt2OeCj8_Z1kUTGb.webp (before: 452kB, after: 17kB) (+96ms) (70/73)
+2026-05-07T14:44:59.037Z	14:44:59   ▶ /_astro/zuri-salon.B3GGRehr_1s74VP.webp (before: 23kB, after: 35kB) (+114ms) (71/73)
+2026-05-07T14:44:59.092Z	14:44:59   ▶ /_astro/zuri-salon.B3GGRehr_1Ucvql.webp (before: 23kB, after: 23kB) (+55ms) (72/73)
+2026-05-07T14:44:59.124Z	14:44:59   ▶ /_astro/zuri-salon.B3GGRehr_1TNViG.webp (before: 23kB, after: 11kB) (+31ms) (73/73)
+2026-05-07T14:44:59.124Z	14:44:59 ✓ Completed in 5.40s.
+2026-05-07T14:44:59.125Z
+2026-05-07T14:44:59.139Z	14:44:59 [build] 126 page(s) built in 11.77s
+2026-05-07T14:44:59.140Z	14:44:59 [build] Complete!
+2026-05-07T14:44:59.247Z
+2026-05-07T14:44:59.247Z	Running Pagefind v1.5.2 (Extended)
+2026-05-07T14:44:59.247Z	Running from: "/opt/buildhome/repo"
+2026-05-07T14:44:59.247Z	Source:       "dist"
+2026-05-07T14:44:59.247Z	Output:       "dist/pagefind"
+2026-05-07T14:44:59.247Z
+2026-05-07T14:44:59.247Z	[Walking source directory]
+2026-05-07T14:44:59.250Z	Found 126 files matching **/*.{html}
+2026-05-07T14:44:59.250Z
+2026-05-07T14:44:59.250Z	[Parsing files]
+2026-05-07T14:44:59.305Z	Did not find a data-pagefind-body element on the site.
+2026-05-07T14:44:59.306Z	↳ Indexing all <body> elements on the site.
+2026-05-07T14:44:59.306Z
+2026-05-07T14:44:59.306Z	[Reading languages]
+2026-05-07T14:44:59.306Z	1 page found without an <html> element.
+2026-05-07T14:44:59.306Z	Pages without an outer <html> element will not be processed by default.
+2026-05-07T14:44:59.307Z	If adding this element is not possible, use the root selector config to target a different root element.
+2026-05-07T14:44:59.307Z	  * "/elections/" has no <html> element
+2026-05-07T14:44:59.309Z	Discovered 1 language: en
+2026-05-07T14:44:59.314Z
+2026-05-07T14:44:59.315Z	[Building search indexes]
+2026-05-07T14:44:59.329Z	Total:
+2026-05-07T14:44:59.329Z	  Indexed 1 language
+2026-05-07T14:44:59.329Z	  Indexed 123 pages
+2026-05-07T14:44:59.329Z	  Indexed 3119 words
+2026-05-07T14:44:59.329Z	  Indexed 0 filters
+2026-05-07T14:44:59.329Z	  Indexed 0 sorts
+2026-05-07T14:44:59.395Z
+2026-05-07T14:44:59.395Z	Finished in 0.147 seconds
+2026-05-07T14:44:59.413Z	Success: Build command completed
+2026-05-07T14:44:59.783Z	Executing user deploy command: npx wrangler deploy
+2026-05-07T14:45:03.732Z	npm warn exec The following package was not found and will be installed: wrangler@4.89.0
+2026-05-07T14:45:12.943Z
+2026-05-07T14:45:12.943Z	 ⛅️ wrangler 4.89.0
+2026-05-07T14:45:12.943Z	───────────────────
+2026-05-07T14:45:13.190Z
+2026-05-07T14:45:13.191Z	Detected Project Settings:
+2026-05-07T14:45:13.192Z	 - Worker Name: nena-public-website
+2026-05-07T14:45:13.192Z	 - Framework: Astro
+2026-05-07T14:45:13.192Z	 - Build Command: pnpm run build
+2026-05-07T14:45:13.192Z	 - Output Directory: dist
+2026-05-07T14:45:13.192Z
+2026-05-07T14:45:13.192Z	? Do you want to modify these settings?
+2026-05-07T14:45:13.192Z	🤖 Using fallback value in non-interactive context: no
+2026-05-07T14:45:13.197Z
+2026-05-07T14:45:13.199Z	📦 Install packages:
+2026-05-07T14:45:13.199Z	 - wrangler (devDependency)
+2026-05-07T14:45:13.199Z
+2026-05-07T14:45:13.199Z	📝 Update package.json scripts:
+2026-05-07T14:45:13.199Z	 - "deploy": "pnpm run build && wrangler deploy"
+2026-05-07T14:45:13.199Z	 - "preview": "pnpm run build && wrangler dev"
+2026-05-07T14:45:13.199Z	 - "cf-typegen": "wrangler types"
+2026-05-07T14:45:13.199Z
+2026-05-07T14:45:13.199Z	📄 Create wrangler.jsonc:
+2026-05-07T14:45:13.199Z	  {
+2026-05-07T14:45:13.199Z	    "$schema": "node_modules/wrangler/config-schema.json",
+2026-05-07T14:45:13.199Z	    "name": "nena-public-website",
+2026-05-07T14:45:13.199Z	    "compatibility_date": "2026-05-07",
+2026-05-07T14:45:13.203Z	    "observability": {
+2026-05-07T14:45:13.203Z	      "enabled": true
+2026-05-07T14:45:13.203Z	    },
+2026-05-07T14:45:13.203Z	    "main": "dist/_worker.js/index.js",
+2026-05-07T14:45:13.203Z	    "compatibility_flags": [
+2026-05-07T14:45:13.203Z	      "global_fetch_strictly_public",
+2026-05-07T14:45:13.203Z	      "nodejs_compat"
+2026-05-07T14:45:13.203Z	    ],
+2026-05-07T14:45:13.203Z	    "assets": {
+2026-05-07T14:45:13.203Z	      "binding": "ASSETS",
+2026-05-07T14:45:13.203Z	      "directory": "dist"
+2026-05-07T14:45:13.203Z	    }
+2026-05-07T14:45:13.203Z	  }
+2026-05-07T14:45:13.204Z
+2026-05-07T14:45:13.204Z	🛠️  Configuring project for Astro with "astro add cloudflare"
+2026-05-07T14:45:13.204Z
+2026-05-07T14:45:13.204Z	? Proceed with setup?
+2026-05-07T14:45:13.204Z	🤖 Using fallback value in non-interactive context: yes
+2026-05-07T14:45:22.619Z	├ Updating configuration in /opt/buildhome/repo/astro.config.mjs
+2026-05-07T14:45:22.620Z	│
+2026-05-07T14:45:22.716Z	▲ [WARNING] Could not find an existing `include` field in tsconfig.json. You may need to manually add "./worker-configuration.d.ts" to your tsconfig.json `include` array.
+2026-05-07T14:45:22.716Z
+2026-05-07T14:45:22.716Z
+2026-05-07T14:45:22.720Z	├ Adding Wrangler files to the .gitignore file
+2026-05-07T14:45:22.720Z	│ updated .gitignore file
+2026-05-07T14:45:22.720Z	│
+2026-05-07T14:45:22.720Z	[build] Running: pnpm run build
+2026-05-07T14:45:23.024Z	[build]
+2026-05-07T14:45:23.024Z	[build] > nena-website@0.1.0 build /opt/buildhome/repo
+2026-05-07T14:45:23.024Z	[build] > astro build && pagefind --site dist
+2026-05-07T14:45:23.024Z	[build]
+2026-05-07T14:45:23.024Z	[build]
+2026-05-07T14:45:25.396Z	[build] 14:45:25 [@astrojs/cloudflare] Enabling sessions with Cloudflare KV with the "SESSION" KV binding.
+2026-05-07T14:45:25.397Z	[build]
+2026-05-07T14:45:25.398Z	[build] 14:45:25 [@astrojs/cloudflare] If you see the error "Invalid binding `SESSION`" in your build output, you need to add the binding to your wrangler config file.
+2026-05-07T14:45:25.398Z	[build]
+2026-05-07T14:45:25.447Z	[build] 14:45:25 [WARN] [adapter] Cloudflare does not support sharp at runtime. However, you can configure `imageService: "compile"` to optimize images with sharp on prerendered pages during build time.
+2026-05-07T14:45:25.447Z	[build]
+2026-05-07T14:45:25.503Z	[build] 14:45:25 [vite] Re-optimizing dependencies because lockfile has changed
+2026-05-07T14:45:25.503Z	[build]
+2026-05-07T14:45:26.103Z	[build] 14:45:26 [content] Syncing content
+2026-05-07T14:45:26.107Z	[build]
+2026-05-07T14:45:26.107Z	[build] 14:45:26 [content] Astro config changed
+2026-05-07T14:45:26.107Z	[build] 14:45:26 [content] Clearing content store
+2026-05-07T14:45:26.107Z	[build]
+2026-05-07T14:45:26.869Z	[build] [Shiki] 10 instances have been created. Shiki is supposed to be used as a singleton, consider refactoring your code to cache your highlighter instance; Or call `highlighter.dispose()` to release unused instances.
+2026-05-07T14:45:26.870Z	[build]
+2026-05-07T14:45:26.870Z	[build] [Shiki] 20 instances have been created. Shiki is supposed to be used as a singleton, consider refactoring your code to cache your highlighter instance; Or call `highlighter.dispose()` to release unused instances.
+2026-05-07T14:45:26.870Z	[build] [Shiki] 30 instances have been created. Shiki is supposed to be used as a singleton, consider refactoring your code to cache your highlighter instance; Or call `highlighter.dispose()` to release unused instances.
+2026-05-07T14:45:26.870Z	[build] [Shiki] 40 instances have been created. Shiki is supposed to be used as a singleton, consider refactoring your code to cache your highlighter instance; Or call `highlighter.dispose()` to release unused instances.
+2026-05-07T14:45:26.871Z	[build] [Shiki] 50 instances have been created. Shiki is supposed to be used as a singleton, consider refactoring your code to cache your highlighter instance; Or call `highlighter.dispose()` to release unused instances.
+2026-05-07T14:45:26.871Z	[build]
+2026-05-07T14:45:27.271Z	[build] 14:45:27 [content] Synced content
+2026-05-07T14:45:27.275Z	[build]
+2026-05-07T14:45:27.275Z	[build] 14:45:27 [types] Generated 1.81s
+2026-05-07T14:45:27.275Z	[build]
+2026-05-07T14:45:27.275Z	[build] 14:45:27 [build] output: "static"
+2026-05-07T14:45:27.276Z	[build] 14:45:27 [build] mode: "server"
+2026-05-07T14:45:27.276Z	[build]
+2026-05-07T14:45:27.276Z	[build] 14:45:27 [build] directory: /opt/buildhome/repo/dist/
+2026-05-07T14:45:27.276Z	[build] 14:45:27 [build] adapter: @astrojs/cloudflare
+2026-05-07T14:45:27.277Z	[build] 14:45:27 [build] Collecting build info...
+2026-05-07T14:45:27.277Z	[build]
+2026-05-07T14:45:27.278Z	[build] 14:45:27 [build] ✓ Completed in 1.88s.
+2026-05-07T14:45:27.279Z	[build]
+2026-05-07T14:45:27.330Z	[build] 14:45:27 [build] Building server entrypoints...
+2026-05-07T14:45:27.330Z	[build]
+2026-05-07T14:45:33.034Z	[build] 14:45:33 [vite] ✓ built in 5.65s
+2026-05-07T14:45:33.034Z	[build]
+2026-05-07T14:45:33.035Z	[build] 14:45:33 [build] ✓ Completed in 5.70s.
+2026-05-07T14:45:33.035Z	[build]
+2026-05-07T14:45:33.035Z	[build]  building client (vite)
+2026-05-07T14:45:33.035Z	[build]
+2026-05-07T14:45:33.057Z	[build] 14:45:33 [vite] transforming...
+2026-05-07T14:45:33.057Z	[build]
+2026-05-07T14:45:33.142Z	[build] 14:45:33 [vite] ✓ 8 modules transformed.
+2026-05-07T14:45:33.142Z	[build]
+2026-05-07T14:45:33.459Z	[build] 14:45:33 [vite] rendering chunks...
+2026-05-07T14:45:33.460Z	[build]
+2026-05-07T14:45:33.463Z	[build] 14:45:33 [vite] computing gzip size...
+2026-05-07T14:45:33.463Z	[build]
+2026-05-07T14:45:33.466Z	[build] 14:45:33 [vite] dist/nena-public-website/_astro/index.astro_astro_type_script_index_0_lang.ClYIQhV0.js  0.06 kB │ gzip: 0.07 kB
+2026-05-07T14:45:33.466Z	[build]
+2026-05-07T14:45:33.466Z	[build] 14:45:33 [vite] ✓ built in 429ms
+2026-05-07T14:45:33.466Z	[build]
+2026-05-07T14:45:33.487Z	[build]
+2026-05-07T14:45:33.488Z	[build]  prerendering static routes
+2026-05-07T14:45:33.488Z	[build]
+2026-05-07T14:45:33.497Z	[build] 14:45:33 ▶ src/pages/404.astro
+2026-05-07T14:45:33.497Z	[build]
+2026-05-07T14:45:33.498Z	[build] 14:45:33   └─ /404.html
+2026-05-07T14:45:33.523Z	[build]  (+26ms)
+2026-05-07T14:45:33.524Z	[build]
+2026-05-07T14:45:33.531Z	[build] 14:45:33 ▶ src/pages/about.astro
+2026-05-07T14:45:33.531Z	[build]
+2026-05-07T14:45:33.531Z	[build] 14:45:33   └─ /about/index.html
+2026-05-07T14:45:33.533Z	[build]  (+7ms)
+2026-05-07T14:45:33.533Z	[build]
+2026-05-07T14:45:33.536Z	[build] 14:45:33 ▶ src/pages/admin/index.astro
+2026-05-07T14:45:33.536Z	[build]
+2026-05-07T14:45:33.536Z	[build] 14:45:33   └─ /admin/index.html
+2026-05-07T14:45:33.539Z	[build]  (+4ms)
+2026-05-07T14:45:33.539Z	[build]
+2026-05-07T14:45:33.549Z	[build] 14:45:33 ▶ src/pages/businesses/archive.astro
+2026-05-07T14:45:33.549Z	[build]
+2026-05-07T14:45:33.550Z	[build] 14:45:33   └─ /businesses/archive/index.html
+2026-05-07T14:45:33.563Z	[build]  (+14ms)
+2026-05-07T14:45:33.564Z	[build]
+2026-05-07T14:45:33.565Z	[build] 14:45:33 ▶ src/pages/businesses/[slug].astro
+2026-05-07T14:45:33.565Z	[build]
+2026-05-07T14:45:33.566Z	[build] 14:45:33   ├─ /businesses/alter-cycles/index.html
+2026-05-07T14:45:33.570Z	[build]  (+3ms)
+2026-05-07T14:45:33.570Z	[build]
+2026-05-07T14:45:33.570Z	[build] 14:45:33   ├─ /businesses/beringia-house/index.html
+2026-05-07T14:45:33.573Z	[build]  (+3ms)
+2026-05-07T14:45:33.573Z	[build]
+2026-05-07T14:45:33.573Z	[build] 14:45:33   ├─ /businesses/biome-slow-craft/index.html
+2026-05-07T14:45:33.577Z	[build]  (+4ms)
+2026-05-07T14:45:33.577Z	[build]
+2026-05-07T14:45:33.577Z	[build] 14:45:33   ├─ /businesses/bozeman-brewing/index.html
+2026-05-07T14:45:33.579Z	[build]  (+3ms)
+2026-05-07T14:45:33.580Z	[build]
+2026-05-07T14:45:33.580Z	[build] 14:45:33   ├─ /businesses/bozeman-classic-pickleball-club/index.html
+2026-05-07T14:45:33.583Z	[build]  (+4ms)
+2026-05-07T14:45:33.583Z	[build]
+2026-05-07T14:45:33.583Z	[build] 14:45:33   ├─ /businesses/bridger-pilates/index.html
+2026-05-07T14:45:33.586Z	[build]  (+3ms)
+2026-05-07T14:45:33.586Z	[build]
+2026-05-07T14:45:33.586Z	[build] 14:45:33   ├─ /businesses/echo-arts/index.html
+2026-05-07T14:45:33.589Z	[build]  (+3ms)
+2026-05-07T14:45:33.589Z	[build]
+2026-05-07T14:45:33.589Z	[build] 14:45:33   ├─ /businesses/fat-toads-farm-pantry/index.html
+2026-05-07T14:45:33.591Z	[build]  (+3ms)
+2026-05-07T14:45:33.592Z	[build]
+2026-05-07T14:45:33.592Z	[build] 14:45:33   ├─ /businesses/finks-deli/index.html
+2026-05-07T14:45:33.594Z	[build]  (+2ms)
+2026-05-07T14:45:33.594Z	[build]
+2026-05-07T14:45:33.594Z	[build] 14:45:33   ├─ /businesses/gangbusters-pottery/index.html
+2026-05-07T14:45:33.596Z	[build]  (+2ms)
+2026-05-07T14:45:33.596Z	[build]
+2026-05-07T14:45:33.596Z	[build] 14:45:33   ├─ /businesses/grotto-meats/index.html
+2026-05-07T14:45:33.598Z	[build]  (+2ms)
+2026-05-07T14:45:33.598Z	[build]
+2026-05-07T14:45:33.598Z	[build] 14:45:33   ├─ /businesses/live-from-the-divide/index.html
+2026-05-07T14:45:33.600Z	[build]  (+2ms)
+2026-05-07T14:45:33.600Z	[build]
+2026-05-07T14:45:33.600Z	[build] 14:45:33   ├─ /businesses/green-seam-designs/index.html
+2026-05-07T14:45:33.602Z	[build]  (+2ms)
+2026-05-07T14:45:33.602Z	[build]
+2026-05-07T14:45:33.602Z	[build] 14:45:33   ├─ /businesses/medium-gallery/index.html
+2026-05-07T14:45:33.603Z	[build]  (+2ms)
+2026-05-07T14:45:33.603Z	[build]
+2026-05-07T14:45:33.604Z	[build] 14:45:33   ├─ /businesses/mischas-fine-food/index.html
+2026-05-07T14:45:33.606Z	[build]  (+2ms)
+2026-05-07T14:45:33.606Z	[build]
+2026-05-07T14:45:33.607Z	[build] 14:45:33   ├─ /businesses/misco-mill/index.html
+2026-05-07T14:45:33.609Z	[build]  (+3ms)
+2026-05-07T14:45:33.609Z	[build]
+2026-05-07T14:45:33.610Z	[build] 14:45:33   ├─ /businesses/mountains-walking-brewery/index.html
+2026-05-07T14:45:33.613Z	[build]  (+3ms)
+2026-05-07T14:45:33.613Z	[build] 14:45:33   ├─ /businesses/portal-bozeman/index.html
+2026-05-07T14:45:33.621Z	[build]  (+3ms)
+2026-05-07T14:45:33.621Z	[build] 14:45:33   ├─ /businesses/misco-goods/index.html
+2026-05-07T14:45:33.621Z	[build]  (+5ms)
+2026-05-07T14:45:33.621Z	[build] 14:45:33   ├─ /businesses/refillery-supply-co/index.html
+2026-05-07T14:45:33.622Z	[build]  (+2ms)
+2026-05-07T14:45:33.622Z	[build]
+2026-05-07T14:45:33.622Z	[build] 14:45:33   ├─ /businesses/roly-poly-coffee-co/index.html
+2026-05-07T14:45:33.625Z	[build]  (+3ms)
+2026-05-07T14:45:33.625Z	[build]
+2026-05-07T14:45:33.625Z	[build] 14:45:33   ├─ /businesses/royal-road-bookstore/index.html
+2026-05-07T14:45:33.628Z	[build]  (+2ms)
+2026-05-07T14:45:33.628Z	[build] 14:45:33   ├─ /businesses/sav-digital-environments/index.html
+2026-05-07T14:45:33.629Z	[build]  (+2ms)
+2026-05-07T14:45:33.629Z	[build]
+2026-05-07T14:45:33.629Z	[build] 14:45:33   ├─ /businesses/tinworks/index.html
+2026-05-07T14:45:33.631Z	[build]  (+2ms)
+2026-05-07T14:45:33.635Z	[build] 14:45:33   ├─ /businesses/treeline-coffee/index.html
+2026-05-07T14:45:33.635Z	[build]  (+2ms)
+2026-05-07T14:45:33.635Z	[build] 14:45:33   ├─ /businesses/vantage-designs/index.html (+2ms)
+2026-05-07T14:45:33.635Z	[build] 14:45:33   ├─ /businesses/wild-crumb/index.html
+2026-05-07T14:45:33.636Z	[build]  (+2ms)
+2026-05-07T14:45:33.636Z	[build]
+2026-05-07T14:45:33.636Z	[build] 14:45:33   └─ /businesses/zuri-salon/index.html
+2026-05-07T14:45:33.638Z	[build]  (+2ms)
+2026-05-07T14:45:33.638Z	[build]
+2026-05-07T14:45:33.640Z	[build] 14:45:33 ▶ src/pages/businesses/index.astro
+2026-05-07T14:45:33.640Z	[build]
+2026-05-07T14:45:33.643Z	[build] 14:45:33   └─ /businesses/index.html
+2026-05-07T14:45:33.663Z	[build]  (+21ms)
+2026-05-07T14:45:33.663Z	[build]
+2026-05-07T14:45:33.663Z	[build] 14:45:33 ▶ src/pages/community.astro
+2026-05-07T14:45:33.664Z	[build]
+2026-05-07T14:45:33.665Z	[build] 14:45:33   └─ /community/index.html
+2026-05-07T14:45:33.667Z	[build]  (+3ms)
+2026-05-07T14:45:33.667Z	[build]
+2026-05-07T14:45:33.668Z	[build] 14:45:33 ▶ src/pages/contact.astro
+2026-05-07T14:45:33.668Z	[build] 14:45:33   └─ /contact/index.html
+2026-05-07T14:45:33.669Z	[build]  (+1ms)
+2026-05-07T14:45:33.669Z	[build]
+2026-05-07T14:45:33.670Z	[build] 14:45:33 ▶ src/pages/development/[slug].astro
+2026-05-07T14:45:33.670Z	[build]
+2026-05-07T14:45:33.670Z	[build] 14:45:33   ├─ /development/cloverleaf/index.html
+2026-05-07T14:45:33.673Z	[build]  (+3ms)
+2026-05-07T14:45:33.674Z	[build]
+2026-05-07T14:45:33.674Z	[build] 14:45:33   ├─ /development/idaho-pole/index.html
+2026-05-07T14:45:33.676Z	[build]  (+3ms)
+2026-05-07T14:45:33.677Z	[build]
+2026-05-07T14:45:33.677Z	[build] 14:45:33   ├─ /development/north-central-development/index.html
+2026-05-07T14:45:33.679Z	[build]  (+3ms)
+2026-05-07T14:45:33.680Z	[build]
+2026-05-07T14:45:33.680Z	[build] 14:45:33   ├─ /development/wallaceworks/index.html
+2026-05-07T14:45:33.682Z	[build]  (+2ms)
+2026-05-07T14:45:33.682Z	[build]
+2026-05-07T14:45:33.682Z	[build] 14:45:33   └─ /development/wildlands-development/index.html
+2026-05-07T14:45:33.684Z	[build]  (+2ms)
+2026-05-07T14:45:33.684Z	[build]
+2026-05-07T14:45:33.685Z	[build] 14:45:33 ▶ src/pages/development/index.astro
+2026-05-07T14:45:33.685Z	[build]
+2026-05-07T14:45:33.685Z	[build] 14:45:33   └─ /development/index.html
+2026-05-07T14:45:33.689Z	[build]  (+4ms)
+2026-05-07T14:45:33.689Z	[build]
+2026-05-07T14:45:33.690Z	[build] 14:45:33 ▶ src/pages/donate.astro
+2026-05-07T14:45:33.690Z	[build]
+2026-05-07T14:45:33.690Z	[build] 14:45:33   └─ /donate/index.html
+2026-05-07T14:45:33.692Z	[build]  (+2ms)
+2026-05-07T14:45:33.692Z	[build]
+2026-05-07T14:45:33.696Z	[build] 14:45:33 ▶ src/pages/elections.astro
+2026-05-07T14:45:33.696Z	[build]
+2026-05-07T14:45:33.696Z	[build] 14:45:33   └─ /elections/index.html
+2026-05-07T14:45:33.699Z	[build]  (+1ms)
+2026-05-07T14:45:33.699Z	[build] 14:45:33 ▶ src/pages/events/page/[page].astro
+2026-05-07T14:45:33.699Z	[build]
+2026-05-07T14:45:33.700Z	[build] 14:45:33 ▶ src/pages/events/[slug].astro
+2026-05-07T14:45:33.700Z	[build]
+2026-05-07T14:45:33.703Z	[build] 14:45:33   ├─ /events/2025-08-03-parade-of-sheds/index.html
+2026-05-07T14:45:33.705Z	[build]  (+4ms)
+2026-05-07T14:45:33.705Z	[build]
+2026-05-07T14:45:33.705Z	[build] 14:45:33   ├─ /events/2025-09-15-walking-tour/index.html
+2026-05-07T14:45:33.709Z	[build]  (+3ms)
+2026-05-07T14:45:33.709Z	[build]
+2026-05-07T14:45:33.709Z	[build] 14:45:33   ├─ /events/2026-04-20-annual-meeting/index.html
+2026-05-07T14:45:33.714Z	[build]  (+5ms)
+2026-05-07T14:45:33.714Z	[build]
+2026-05-07T14:45:33.715Z	[build] 14:45:33   ├─ /events/2026-05-10-neighborhood-cleanup/index.html
+2026-05-07T14:45:33.718Z	[build]  (+4ms)
+2026-05-07T14:45:33.719Z	[build]
+2026-05-07T14:45:33.721Z	[build] 14:45:33   └─ /events/2026-07-29-northeast-business-stroll/index.html
+2026-05-07T14:45:33.722Z	[build]  (+3ms)
+2026-05-07T14:45:33.722Z	[build]
+2026-05-07T14:45:33.724Z	[build] 14:45:33 ▶ src/pages/events/index.astro
+2026-05-07T14:45:33.725Z	[build] 14:45:33   └─ /events/index.html
+2026-05-07T14:45:33.732Z	[build]  (+7ms)
+2026-05-07T14:45:33.732Z	[build]
+2026-05-07T14:45:33.733Z	[build] 14:45:33 ▶ src/pages/governance/bylaws.astro
+2026-05-07T14:45:33.733Z	[build]
+2026-05-07T14:45:33.734Z	[build] 14:45:33   └─ /governance/bylaws/index.html
+2026-05-07T14:45:33.737Z	[build]  (+4ms)
+2026-05-07T14:45:33.737Z	[build]
+2026-05-07T14:45:33.739Z	[build] 14:45:33 ▶ src/pages/governance.astro
+2026-05-07T14:45:33.739Z	[build]
+2026-05-07T14:45:33.739Z	[build] 14:45:33   └─ /governance/index.html
+2026-05-07T14:45:33.741Z	[build]  (+2ms)
+2026-05-07T14:45:33.741Z	[build]
+2026-05-07T14:45:33.742Z	[build] 14:45:33 ▶ src/pages/history/[slug].astro
+2026-05-07T14:45:33.742Z	[build]
+2026-05-07T14:45:33.743Z	[build] 14:45:33   ├─ /history/1883-founding/index.html
+2026-05-07T14:45:33.746Z	[build]  (+3ms)
+2026-05-07T14:45:33.746Z	[build]
+2026-05-07T14:45:33.750Z	[build] 14:45:33   ├─ /history/1940-post-war-growth/index.html
+2026-05-07T14:45:33.751Z	[build]  (+2ms)
+2026-05-07T14:45:33.751Z	[build] 14:45:33   ├─ /history/1902-beall-park/index.html (+2ms)
+2026-05-07T14:45:33.751Z	[build] 14:45:33   ├─ /history/1985-nena-founded/index.html
+2026-05-07T14:45:33.754Z	[build]  (+4ms)
+2026-05-07T14:45:33.754Z	[build]
+2026-05-07T14:45:33.755Z	[build] 14:45:33   ├─ /history/2010-renaissance/index.html
+2026-05-07T14:45:33.756Z	[build]  (+2ms)
+2026-05-07T14:45:33.756Z	[build]
+2026-05-07T14:45:33.756Z	[build] 14:45:33   └─ /history/bozeman-brewery-district-added-to-the-national-register-of-historic-places/index.html
+2026-05-07T14:45:33.757Z	[build]  (+2ms)
+2026-05-07T14:45:33.758Z	[build]
+2026-05-07T14:45:33.758Z	[build] 14:45:33 ▶ src/pages/history/index.astro
+2026-05-07T14:45:33.759Z	[build]
+2026-05-07T14:45:33.759Z	[build] 14:45:33   └─ /history/index.html
+2026-05-07T14:45:33.761Z	[build]  (+2ms)
+2026-05-07T14:45:33.761Z	[build]
+2026-05-07T14:45:33.764Z	[build] 14:45:33 ▶ src/pages/news/page/[page].astro
+2026-05-07T14:45:33.764Z	[build]
+2026-05-07T14:45:33.765Z	[build] 14:45:33   ├─ /news/page/2/index.html
+2026-05-07T14:45:33.771Z	[build]  (+6ms)
+2026-05-07T14:45:33.775Z	[build]
+2026-05-07T14:45:33.775Z	[build] 14:45:33   ├─ /news/page/3/index.html
+2026-05-07T14:45:33.777Z	[build]  (+5ms)
+2026-05-07T14:45:33.777Z	[build]
+2026-05-07T14:45:33.777Z	[build] 14:45:33   └─ /news/page/4/index.html
+2026-05-07T14:45:33.795Z	[build]  (+16ms)
+2026-05-07T14:45:33.795Z	[build]
+2026-05-07T14:45:33.795Z	[build] 14:45:33 ▶ src/pages/news/tag/[tag]/page/[page].astro
+2026-05-07T14:45:33.795Z	[build]
+2026-05-07T14:45:33.812Z	[build] 14:45:33 ▶ src/pages/news/tag/[tag].astro
+2026-05-07T14:45:33.812Z	[build] 14:45:33   ├─ /news/tag/bozeman-udc/index.html
+2026-05-07T14:45:33.814Z	[build]  (+9ms)
+2026-05-07T14:45:33.814Z	[build]
+2026-05-07T14:45:33.815Z	[build] 14:45:33   ├─ /news/tag/community/index.html
+2026-05-07T14:45:33.817Z	[build]  (+3ms)
+2026-05-07T14:45:33.818Z	[build]
+2026-05-07T14:45:33.818Z	[build] 14:45:33   ├─ /news/tag/environment/index.html
+2026-05-07T14:45:33.820Z	[build]  (+2ms)
+2026-05-07T14:45:33.821Z	[build]
+2026-05-07T14:45:33.821Z	[build] 14:45:33   ├─ /news/tag/meeting/index.html
+2026-05-07T14:45:33.823Z	[build]  (+3ms)
+2026-05-07T14:45:33.823Z	[build]
+2026-05-07T14:45:33.824Z	[build] 14:45:33   ├─ /news/tag/newsletter/index.html
+2026-05-07T14:45:33.827Z	[build]  (+3ms)
+2026-05-07T14:45:33.827Z	[build] 14:45:33   ├─ /news/tag/parade-of-sheds/index.html
+2026-05-07T14:45:33.830Z	[build]  (+4ms)
+2026-05-07T14:45:33.830Z	[build]
+2026-05-07T14:45:33.831Z	[build] 14:45:33   ├─ /news/tag/safe-quiet-rail-crossings/index.html
+2026-05-07T14:45:33.837Z	[build]  (+7ms)
+2026-05-07T14:45:33.837Z	[build]
+2026-05-07T14:45:33.837Z	[build] 14:45:33   ├─ /news/tag/traffic-calming/index.html
+2026-05-07T14:45:33.839Z	[build]  (+3ms)
+2026-05-07T14:45:33.840Z	[build]
+2026-05-07T14:45:33.840Z	[build] 14:45:33   ├─ /news/tag/trails-pocket-parks/index.html
+2026-05-07T14:45:33.843Z	[build]  (+2ms)
+2026-05-07T14:45:33.843Z	[build] 14:45:33   ├─ /news/tag/trees/index.html
+2026-05-07T14:45:33.844Z	[build]  (+2ms)
+2026-05-07T14:45:33.845Z	[build]
+2026-05-07T14:45:33.845Z	[build] 14:45:33   ├─ /news/tag/visionne/index.html
+2026-05-07T14:45:33.848Z	[build]  (+3ms)
+2026-05-07T14:45:33.848Z	[build]
+2026-05-07T14:45:33.849Z	[build] 14:45:33   └─ /news/tag/volunteer/index.html
+2026-05-07T14:45:33.854Z	[build]  (+7ms)
+2026-05-07T14:45:33.855Z	[build]
+2026-05-07T14:45:33.859Z	[build] 14:45:33 ▶ src/pages/news/[slug].astro
+2026-05-07T14:45:33.860Z	[build] 14:45:33   ├─ /news/2018-07-03-more-details-on-ncod-review/index.html
+2026-05-07T14:45:33.862Z	[build]  (+4ms)
+2026-05-07T14:45:33.862Z	[build]
+2026-05-07T14:45:33.862Z	[build] 14:45:33   ├─ /news/2018-07-14-ncod-review-schedule/index.html
+2026-05-07T14:45:33.865Z	[build]  (+3ms)
+2026-05-07T14:45:33.865Z	[build]
+2026-05-07T14:45:33.865Z	[build] 14:45:33   ├─ /news/2018-07-25-bozeman-community-plan-update/index.html
+2026-05-07T14:45:33.868Z	[build]  (+2ms)
+2026-05-07T14:45:33.868Z	[build]
+2026-05-07T14:45:33.869Z	[build] 14:45:33   ├─ /news/2018-09-07-ncod-review-october-public-events/index.html
+2026-05-07T14:45:33.870Z	[build]  (+2ms)
+2026-05-07T14:45:33.870Z	[build] 14:45:33   ├─ /news/2018-09-18-round-2-of-ncod-review-oct-13/index.html
+2026-05-07T14:45:33.872Z	[build]  (+2ms)
+2026-05-07T14:45:33.872Z	[build]
+2026-05-07T14:45:33.873Z	[build] 14:45:33   ├─ /news/2018-11-04-help-preserve-our-neighborhood-character/index.html
+2026-05-07T14:45:33.875Z	[build]  (+3ms)
+2026-05-07T14:45:33.875Z	[build] 14:45:33   ├─ /news/2019-05-16-nena-news-spring-2019-newsletter/index.html
+2026-05-07T14:45:33.879Z	[build]  (+4ms)
+2026-05-07T14:45:33.879Z	[build]
+2026-05-07T14:45:33.879Z	[build] 14:45:33   ├─ /news/2019-05-25-m/index.html
+2026-05-07T14:45:33.881Z	[build]  (+2ms)
+2026-05-07T14:45:33.881Z	[build]
+2026-05-07T14:45:33.881Z	[build] 14:45:33   ├─ /news/2020-10-09-trails-projects/index.html
+2026-05-07T14:45:33.883Z	[build]  (+2ms)
+2026-05-07T14:45:33.883Z	[build]
+2026-05-07T14:45:33.883Z	[build] 14:45:33   ├─ /news/2021-04-16-aspen-st-bridge-update/index.html
+2026-05-07T14:45:33.887Z	[build]  (+4ms)
+2026-05-07T14:45:33.887Z	[build]
+2026-05-07T14:45:33.887Z	[build] 14:45:33   ├─ /news/2021-04-25-community-solar-access/index.html
+2026-05-07T14:45:33.890Z	[build]  (+3ms)
+2026-05-07T14:45:33.891Z	[build]
+2026-05-07T14:45:33.891Z	[build] 14:45:33   ├─ /news/2021-04-25-ne-bozeman-environmental-initiatives-part-2/index.html
+2026-05-07T14:45:33.892Z	[build]  (+2ms)
+2026-05-07T14:45:33.892Z	[build]
+2026-05-07T14:45:33.892Z	[build] 14:45:33   ├─ /news/2021-04-25-ne-bozeman-environmental-initiatives-part-3/index.html
+2026-05-07T14:45:33.895Z	[build]  (+3ms)
+2026-05-07T14:45:33.895Z	[build]
+2026-05-07T14:45:33.895Z	[build] 14:45:33   ├─ /news/2021-04-25-ne-bozeman-environmental-initiatives/index.html
+2026-05-07T14:45:33.897Z	[build]  (+2ms)
+2026-05-07T14:45:33.897Z	[build] 14:45:33   ├─ /news/2021-04-25-the-front-street-pathway-update/index.html
+2026-05-07T14:45:33.898Z	[build]  (+2ms)
+2026-05-07T14:45:33.898Z	[build]
+2026-05-07T14:45:33.899Z	[build] 14:45:33   ├─ /news/2021-04-25-visions-ne-committee/index.html
+2026-05-07T14:45:33.900Z	[build]  (+1ms)
+2026-05-07T14:45:33.900Z	[build] 14:45:33   ├─ /news/2021-09-28-parking-resolution/index.html
+2026-05-07T14:45:33.901Z	[build]  (+1ms)
+2026-05-07T14:45:33.901Z	[build] 14:45:33   ├─ /news/2021-04-23-the-north-central-master-plan/index.html
+2026-05-07T14:45:33.907Z	[build]  (+4ms)
+2026-05-07T14:45:33.907Z	[build] 14:45:33   ├─ /news/2021-11-30-aspen-street-bridge/index.html
+2026-05-07T14:45:33.908Z	[build]  (+3ms)
+2026-05-07T14:45:33.908Z	[build]
+2026-05-07T14:45:33.912Z	[build] 14:45:33   ├─ /news/2021-11-30-idaho-pole-project-update/index.html
+2026-05-07T14:45:33.915Z	[build]  (+3ms)
+2026-05-07T14:45:33.915Z	[build] 14:45:33   ├─ /news/2021-11-30-quiet-and-safe-rail-crossings/index.html
+2026-05-07T14:45:33.917Z	[build]  (+3ms)
+2026-05-07T14:45:33.917Z	[build] 14:45:33   ├─ /news/2021-12-09-north-church-pocket-park/index.html
+2026-05-07T14:45:33.921Z	[build]  (+4ms)
+2026-05-07T14:45:33.922Z	[build] 14:45:33   ├─ /news/2021-12-10-front-street-connector-trail/index.html
+2026-05-07T14:45:33.923Z	[build]  (+2ms)
+2026-05-07T14:45:33.925Z	[build] 14:45:33   ├─ /news/2024-04-24-nena-news-spring-2024/index.html
+2026-05-07T14:45:33.927Z	[build]  (+4ms)
+2026-05-07T14:45:33.927Z	[build] 14:45:33   ├─ /news/2024-10-09-2024-parade-of-sheds/index.html
+2026-05-07T14:45:33.929Z	[build]  (+2ms)
+2026-05-07T14:45:33.929Z	[build] 14:45:33   ├─ /news/2024-12-05-fall-2024-nena-news/index.html
+2026-05-07T14:45:33.931Z	[build]  (+2ms)
+2026-05-07T14:45:33.931Z	[build]
+2026-05-07T14:45:33.932Z	[build] 14:45:33   ├─ /news/2025-11-01-nena-news-fall-2025/index.html
+2026-05-07T14:45:33.935Z	[build]  (+2ms)
+2026-05-07T14:45:33.937Z	[build] 14:45:33   ├─ /news/2026-01-10-tree-planting/index.html
+2026-05-07T14:45:33.939Z	[build]  (+5ms)
+2026-05-07T14:45:33.939Z	[build] 14:45:33   ├─ /news/2026-02-20-community-meeting-recap/index.html
+2026-05-07T14:45:33.943Z	[build]  (+3ms)
+2026-05-07T14:45:33.943Z	[build] 14:45:33   ├─ /news/2026-03-15-spring-newsletter/index.html
+2026-05-07T14:45:33.944Z	[build]  (+3ms)
+2026-05-07T14:45:33.945Z	[build]
+2026-05-07T14:45:33.945Z	[build] 14:45:33   └─ /news/2026-04-10-nena-news-spring-2026/index.html
+2026-05-07T14:45:33.947Z	[build]  (+2ms)
+2026-05-07T14:45:33.947Z	[build]
+2026-05-07T14:45:33.948Z	[build] 14:45:33 ▶ src/pages/news/index.astro
+2026-05-07T14:45:33.948Z	[build]
+2026-05-07T14:45:33.949Z	[build] 14:45:33   └─ /news/index.html
+2026-05-07T14:45:33.955Z	[build]  (+6ms)
+2026-05-07T14:45:33.955Z	[build]
+2026-05-07T14:45:33.957Z	[build] 14:45:33 ▶ src/pages/newsletter.astro
+2026-05-07T14:45:33.957Z	[build]
+2026-05-07T14:45:33.957Z	[build] 14:45:33   └─ /newsletter/index.html
+2026-05-07T14:45:33.958Z	[build]  (+2ms)
+2026-05-07T14:45:33.958Z	[build]
+2026-05-07T14:45:33.960Z	[build] 14:45:33 ▶ src/pages/objectives/nena-meetings/[slug].astro
+2026-05-07T14:45:33.960Z	[build]
+2026-05-07T14:45:33.961Z	[build] 14:45:33   ├─ /objectives/nena-meetings/2019-spring-may/index.html
+2026-05-07T14:45:33.964Z	[build]  (+3ms)
+2026-05-07T14:45:33.964Z	[build]
+2026-05-07T14:45:33.964Z	[build] 14:45:33   ├─ /objectives/nena-meetings/2018-spring-april/index.html
+2026-05-07T14:45:33.967Z	[build]  (+3ms)
+2026-05-07T14:45:33.967Z	[build]
+2026-05-07T14:45:33.968Z	[build] 14:45:33   ├─ /objectives/nena-meetings/2020-spring-august/index.html
+2026-05-07T14:45:33.971Z	[build]  (+4ms)
+2026-05-07T14:45:33.971Z	[build] 14:45:33   ├─ /objectives/nena-meetings/2021-spring-may/index.html
+2026-05-07T14:45:33.973Z	[build]  (+2ms)
+2026-05-07T14:45:33.973Z	[build] 14:45:33   ├─ /objectives/nena-meetings/2024-fall/index.html
+2026-05-07T14:45:33.975Z	[build]  (+2ms)
+2026-05-07T14:45:33.975Z	[build]
+2026-05-07T14:45:33.975Z	[build] 14:45:33   ├─ /objectives/nena-meetings/2025-fall/index.html
+2026-05-07T14:45:33.977Z	[build]  (+2ms)
+2026-05-07T14:45:33.978Z	[build]
+2026-05-07T14:45:33.978Z	[build] 14:45:33   └─ /objectives/nena-meetings/2024-spring/index.html
+2026-05-07T14:45:33.979Z	[build]  (+2ms)
+2026-05-07T14:45:33.979Z	[build]
+2026-05-07T14:45:33.981Z	[build] 14:45:33 ▶ src/pages/objectives/nena-meetings/index.astro
+2026-05-07T14:45:33.981Z	[build]
+2026-05-07T14:45:33.981Z	[build] 14:45:33   └─ /objectives/nena-meetings/index.html
+2026-05-07T14:45:33.984Z	[build]  (+3ms)
+2026-05-07T14:45:33.985Z	[build]
+2026-05-07T14:45:33.986Z	[build] 14:45:33 ▶ src/pages/objectives/[slug].astro
+2026-05-07T14:45:33.986Z	[build]
+2026-05-07T14:45:33.986Z	[build] 14:45:33   ├─ /objectives/affordable-housing/index.html
+2026-05-07T14:45:33.997Z	[build]  (+11ms)
+2026-05-07T14:45:33.997Z	[build] 14:45:33   ├─ /objectives/nena-newsletters/index.html
+2026-05-07T14:45:34.000Z	[build]  (+4ms)
+2026-05-07T14:45:34.001Z	[build]
+2026-05-07T14:45:34.001Z	[build] 14:45:34   ├─ /objectives/nena-survey/index.html
+2026-05-07T14:45:34.003Z	[build]  (+2ms)
+2026-05-07T14:45:34.004Z	[build] 14:45:34   ├─ /objectives/parade-of-sheds/index.html
+2026-05-07T14:45:34.005Z	[build]  (+3ms)
+2026-05-07T14:45:34.005Z	[build]
+2026-05-07T14:45:34.006Z	[build] 14:45:34   ├─ /objectives/traffic-calming/index.html
+2026-05-07T14:45:34.008Z	[build]  (+3ms)
+2026-05-07T14:45:34.008Z	[build] 14:45:34   ├─ /objectives/bozeman-udc/index.html
+2026-05-07T14:45:34.010Z	[build]  (+2ms)
+2026-05-07T14:45:34.010Z	[build]
+2026-05-07T14:45:34.011Z	[build] 14:45:34   ├─ /objectives/trails-pocket-parks/index.html
+2026-05-07T14:45:34.014Z	[build]  (+4ms)
+2026-05-07T14:45:34.014Z	[build]
+2026-05-07T14:45:34.014Z	[build] 14:45:34   ├─ /objectives/trees/index.html
+2026-05-07T14:45:34.016Z	[build]  (+2ms)
+2026-05-07T14:45:34.016Z	[build]
+2026-05-07T14:45:34.016Z	[build] 14:45:34   └─ /objectives/visionne/index.html
+2026-05-07T14:45:34.020Z	[build]  (+2ms)
+2026-05-07T14:45:34.020Z	[build]
+2026-05-07T14:45:34.025Z	[build] 14:45:34 ▶ src/pages/objectives/index.astro
+2026-05-07T14:45:34.025Z	[build] 14:45:34   └─ /objectives/index.html
+2026-05-07T14:45:34.026Z	[build]  (+4ms)
+2026-05-07T14:45:34.026Z	[build]
+2026-05-07T14:45:34.029Z	[build] 14:45:34 ▶ src/pages/search.astro
+2026-05-07T14:45:34.029Z	[build] 14:45:34   └─ /search/index.html
+2026-05-07T14:45:34.030Z	[build]  (+3ms)
+2026-05-07T14:45:34.031Z	[build]
+2026-05-07T14:45:34.033Z	[build] 14:45:34 ▶ src/pages/index.astro
+2026-05-07T14:45:34.033Z	[build]
+2026-05-07T14:45:34.035Z	[build] 14:45:34   └─ /index.html
+2026-05-07T14:45:34.038Z	[build]  (+5ms)
+2026-05-07T14:45:34.038Z	[build]
+2026-05-07T14:45:34.039Z	[build] 14:45:34 ✓ Completed in 567ms.
+2026-05-07T14:45:34.039Z	[build]
+2026-05-07T14:45:34.039Z	[build]
+2026-05-07T14:45:34.040Z	[build]  generating optimized images
+2026-05-07T14:45:34.040Z	[build]
+2026-05-07T14:45:34.043Z	[build] 14:45:34   ▶ /_astro/alter-cycles.BZlUtFgg_Z1q35T2.webp (reused cache entry) (+2ms) (1/73)
+2026-05-07T14:45:34.044Z	[build]
+2026-05-07T14:45:34.044Z	[build] 14:45:34   ▶ /_astro/nena-logo-lg.CuH2CsQt_2cTFBs.webp (reused cache entry) (+3ms) (2/73)
+2026-05-07T14:45:34.044Z	[build]
+2026-05-07T14:45:34.046Z	[build] 14:45:34   ▶ /_astro/alter-cycles.BZlUtFgg_1uv4UR.webp (reused cache entry) (+1ms) (3/73)
+2026-05-07T14:45:34.046Z	[build]
+2026-05-07T14:45:34.048Z	[build] 14:45:34   ▶ /_astro/beringia-house.BIitToK5_1kbGA.webp (reused cache entry) (+2ms) (4/73)
+2026-05-07T14:45:34.048Z	[build] 14:45:34   ▶ /_astro/alter-cycles.BZlUtFgg_IPre2.webp (reused cache entry) (+1ms) (5/73)
+2026-05-07T14:45:34.048Z	[build] 14:45:34   ▶ /_astro/beringia-house.BIitToK5_Z1SLef8.webp (reused cache entry) (+1ms) (6/73)
+2026-05-07T14:45:34.049Z	[build]
+2026-05-07T14:45:34.051Z	[build] 14:45:34   ▶ /_astro/beringia-house.BIitToK5_Z1dwzk5.webp (reused cache entry) (+2ms) (7/73)
+2026-05-07T14:45:34.051Z	[build] 14:45:34   ▶ /_astro/biome-slow-craft.C_78edP5_9aKBJ.webp (reused cache entry) (+2ms) (8/73)
+2026-05-07T14:45:34.051Z	[build]
+2026-05-07T14:45:34.051Z	[build] 14:45:34   ▶ /_astro/bozeman-brewing.BwcZgHas_25pMy8.webp (reused cache entry) (+2ms) (9/73)
+2026-05-07T14:45:34.052Z	[build]
+2026-05-07T14:45:34.052Z	[build] 14:45:34   ▶ /_astro/biome-slow-craft.C_78edP5_1HBOch.webp (reused cache entry) (+2ms) (10/73)
+2026-05-07T14:45:34.052Z	[build]
+2026-05-07T14:45:34.052Z	[build] 14:45:34   ▶ /_astro/bozeman-brewing.BwcZgHas_8mzBn.webp (reused cache entry) (+1ms) (11/73)
+2026-05-07T14:45:34.053Z	[build]
+2026-05-07T14:45:34.053Z	[build] 14:45:34   ▶ /_astro/biome-slow-craft.C_78edP5_Z259IC1.webp (reused cache entry) (+1ms) (12/73)
+2026-05-07T14:45:34.053Z	[build]
+2026-05-07T14:45:34.054Z	[build] 14:45:34   ▶ /_astro/bozeman-brewing.BwcZgHas_ZCi35s.webp (reused cache entry) (+1ms) (13/73)
+2026-05-07T14:45:34.054Z	[build]
+2026-05-07T14:45:34.054Z	[build] 14:45:34   ▶ /_astro/bozeman-classic-pickleball-club.Cvhyf3yS_X3gzn.webp (reused cache entry) (+1ms) (14/73)
+2026-05-07T14:45:34.055Z	[build]
+2026-05-07T14:45:34.055Z	[build] 14:45:34   ▶ /_astro/bridger-pilates.NEA_q3xY_Z22nidr.webp (reused cache entry) (+1ms) (15/73)
+2026-05-07T14:45:34.055Z	[build]
+2026-05-07T14:45:34.056Z	[build] 14:45:34   ▶ /_astro/bozeman-classic-pickleball-club.Cvhyf3yS_Z2lUOma.webp (reused cache entry) (+1ms) (16/73)
+2026-05-07T14:45:34.056Z	[build]
+2026-05-07T14:45:34.056Z	[build] 14:45:34   ▶ /_astro/bozeman-classic-pickleball-club.Cvhyf3yS_QF1W2.webp (reused cache entry) (+1ms) (17/73)
+2026-05-07T14:45:34.056Z	[build]
+2026-05-07T14:45:34.056Z	[build] 14:45:34   ▶ /_astro/bridger-pilates.NEA_q3xY_1Dj0RU.webp (reused cache entry) (+2ms) (18/73)
+2026-05-07T14:45:34.057Z	[build]
+2026-05-07T14:45:34.060Z	[build] 14:45:34   ▶ /_astro/echo-arts.BP7XeMq1_5lJ0F.webp (reused cache entry) (+4ms) (19/73)
+2026-05-07T14:45:34.060Z	[build]
+2026-05-07T14:45:34.061Z	[build] 14:45:34   ▶ /_astro/echo-arts.BP7XeMq1_Zfzo6h.webp (reused cache entry) (+1ms) (20/73)
+2026-05-07T14:45:34.062Z	[build] 14:45:34   ▶ /_astro/bridger-pilates.NEA_q3xY_RDnb5.webp (reused cache entry) (+5ms) (21/73)
+2026-05-07T14:45:34.062Z	[build]
+2026-05-07T14:45:34.064Z	[build] 14:45:34   ▶ /_astro/echo-arts.BP7XeMq1_Z1cAkfo.webp (reused cache entry) (+1ms) (22/73)
+2026-05-07T14:45:34.064Z	[build]
+2026-05-07T14:45:34.064Z	[build] 14:45:34   ▶ /_astro/finks-deli.DxK8Malb_2eDu5v.webp (reused cache entry) (+2ms) (23/73)
+2026-05-07T14:45:34.065Z	[build]
+2026-05-07T14:45:34.065Z	[build] 14:45:34   ▶ /_astro/finks-deli.DxK8Malb_Z2jq8AT.webp (reused cache entry) (+0ms) (24/73)
+2026-05-07T14:45:34.065Z	[build]
+2026-05-07T14:45:34.066Z	[build] 14:45:34   ▶ /_astro/gangbusters-pottery.Dz3vv4le_ZvlrnC.webp (reused cache entry) (+2ms) (25/73)
+2026-05-07T14:45:34.066Z	[build]
+2026-05-07T14:45:34.067Z	[build] 14:45:34   ▶ /_astro/finks-deli.DxK8Malb_Z292kaC.webp (reused cache entry) (+1ms) (26/73)
+2026-05-07T14:45:34.069Z	[build]
+2026-05-07T14:45:34.069Z	[build] 14:45:34   ▶ /_astro/gangbusters-pottery.Dz3vv4le_2bkfda.webp (reused cache entry) (+1ms) (27/73)
+2026-05-07T14:45:34.069Z	[build]
+2026-05-07T14:45:34.069Z	[build] 14:45:34   ▶ /_astro/grotto-meats.C0841GXX_1iGJwL.webp (reused cache entry) (+1ms) (28/73)
+2026-05-07T14:45:34.070Z	[build]
+2026-05-07T14:45:34.070Z	[build] 14:45:34   ▶ /_astro/gangbusters-pottery.Dz3vv4le_Z1wA1os.webp (reused cache entry) (+1ms) (29/73)
+2026-05-07T14:45:34.070Z	[build]
+2026-05-07T14:45:34.077Z	[build] 14:45:34   ▶ /_astro/green-seam-designs.B5GMmA8y_1M1uLd.webp (reused cache entry) (+2ms) (30/73)
+2026-05-07T14:45:34.077Z	[build] 14:45:34   ▶ /_astro/grotto-meats.C0841GXX_Z3aHtd.webp (reused cache entry) (+2ms) (31/73)
+2026-05-07T14:45:34.079Z	[build]
+2026-05-07T14:45:34.080Z	[build] 14:45:34   ▶ /_astro/green-seam-designs.B5GMmA8y_VNkHS.webp (reused cache entry) (+1ms) (32/73)
+2026-05-07T14:45:34.080Z	[build]
+2026-05-07T14:45:34.080Z	[build] 14:45:34   ▶ /_astro/grotto-meats.C0841GXX_C3VqP.webp (reused cache entry) (+1ms) (33/73)
+2026-05-07T14:45:34.080Z	[build]
+2026-05-07T14:45:34.080Z	[build] 14:45:34   ▶ /_astro/green-seam-designs.B5GMmA8y_2edUHw.webp (reused cache entry) (+1ms) (34/73)
+2026-05-07T14:45:34.080Z	[build]
+2026-05-07T14:45:34.080Z	[build] 14:45:34   ▶ /_astro/mischas-fine-food.nM803eBK_ZVmn8c.webp (reused cache entry) (+1ms) (35/73)
+2026-05-07T14:45:34.080Z	[build]
+2026-05-07T14:45:34.080Z	[build] 14:45:34   ▶ /_astro/misco-mill.BKzMjwkl_UB6uM.webp (reused cache entry) (+2ms) (36/73)
+2026-05-07T14:45:34.080Z	[build] 14:45:34   ▶ /_astro/mischas-fine-food.nM803eBK_2oWRI.webp (reused cache entry) (+2ms) (37/73)
+2026-05-07T14:45:34.080Z	[build]
+2026-05-07T14:45:34.080Z	[build] 14:45:34   ▶ /_astro/mischas-fine-food.nM803eBK_1jOxRm.webp (reused cache entry) (+1ms) (38/73)
+2026-05-07T14:45:34.080Z	[build]
+2026-05-07T14:45:34.080Z	[build] 14:45:34   ▶ /_astro/misco-mill.BKzMjwkl_ZnUV6U.webp (reused cache entry) (+2ms) (39/73)
+2026-05-07T14:45:34.080Z	[build]
+2026-05-07T14:45:34.080Z	[build] 14:45:34   ▶ /_astro/mountains-walking-brewery.BP9p0-Og_XJTUg.webp (reused cache entry) (+2ms) (40/73)
+2026-05-07T14:45:34.081Z	[build]
+2026-05-07T14:45:34.081Z	[build] 14:45:34   ▶ /_astro/misco-mill.BKzMjwkl_Z1C1boW.webp (reused cache entry) (+3ms) (41/73)
+2026-05-07T14:45:34.081Z	[build]
+2026-05-07T14:45:34.081Z	[build] 14:45:34   ▶ /_astro/mountains-walking-brewery.BP9p0-Og_Z2lTrro.webp (reused cache entry) (+2ms) (42/73)
+2026-05-07T14:45:34.081Z	[build]
+2026-05-07T14:45:34.081Z	[build] 14:45:34   ▶ /_astro/portal-bozeman.DP3AMr5L_2bN1A5.webp (reused cache entry) (+1ms) (43/73)
+2026-05-07T14:45:34.082Z	[build]
+2026-05-07T14:45:34.083Z	[build] 14:45:34   ▶ /_astro/mountains-walking-brewery.BP9p0-Og_Z1au5ml.webp (reused cache entry) (+4ms) (44/73)
+2026-05-07T14:45:34.085Z	[build]
+2026-05-07T14:45:34.085Z	[build] 14:45:34   ▶ /_astro/portal-bozeman.DP3AMr5L_szUj1.webp (reused cache entry) (+5ms) (45/73)
+2026-05-07T14:45:34.085Z	[build]
+2026-05-07T14:45:34.086Z	[build] 14:45:34   ▶ /_astro/misco-goods.Dff5caNn_29SQ5R.webp (reused cache entry) (+2ms) (46/73)
+2026-05-07T14:45:34.086Z	[build]
+2026-05-07T14:45:34.087Z	[build] 14:45:34   ▶ /_astro/portal-bozeman.DP3AMr5L_ZaTi5I.webp (reused cache entry) (+2ms) (47/73)
+2026-05-07T14:45:34.087Z	[build]
+2026-05-07T14:45:34.087Z	[build] 14:45:34   ▶ /_astro/misco-goods.Dff5caNn_1LziSx.webp (reused cache entry) (+2ms) (48/73)
+2026-05-07T14:45:34.088Z	[build]
+2026-05-07T14:45:34.088Z	[build] 14:45:34   ▶ /_astro/refillery-supply-co.BmKrcFZi_Z2ipGsf.webp (reused cache entry) (+1ms) (49/73)
+2026-05-07T14:45:34.088Z	[build]
+2026-05-07T14:45:34.089Z	[build] 14:45:34   ▶ /_astro/refillery-supply-co.BmKrcFZi_NKu9X.webp (reused cache entry) (+1ms) (50/73)
+2026-05-07T14:45:34.089Z	[build] 14:45:34   ▶ /_astro/misco-goods.Dff5caNn_1LbIKS.webp (reused cache entry) (+1ms) (51/73)
+2026-05-07T14:45:34.090Z	[build]
+2026-05-07T14:45:34.090Z	[build] 14:45:34   ▶ /_astro/refillery-supply-co.BmKrcFZi_ZEkVup.webp (reused cache entry) (+1ms) (52/73)
+2026-05-07T14:45:34.090Z	[build]
+2026-05-07T14:45:34.090Z	[build] 14:45:34   ▶ /_astro/roly-poly-coffee-co.GzR1pjI3_MBLmW.webp (reused cache entry) (+1ms) (53/73)
+2026-05-07T14:45:34.090Z	[build]
+2026-05-07T14:45:34.091Z	[build] 14:45:34   ▶ /_astro/sav-digital-environments.B5eFQq_s_ZmU8Pn.webp (reused cache entry) (+1ms) (54/73)
+2026-05-07T14:45:34.091Z	[build]
+2026-05-07T14:45:34.092Z	[build] 14:45:34   ▶ /_astro/roly-poly-coffee-co.GzR1pjI3_Z1ddBwV.webp (reused cache entry) (+2ms) (55/73)
+2026-05-07T14:45:34.092Z	[build]
+2026-05-07T14:45:34.093Z	[build] 14:45:34   ▶ /_astro/sav-digital-environments.B5eFQq_s_nwwm6.webp (reused cache entry) (+1ms) (56/73)
+2026-05-07T14:45:34.093Z	[build]
+2026-05-07T14:45:34.094Z	[build] 14:45:34   ▶ /_astro/roly-poly-coffee-co.GzR1pjI3_93fEn.webp (reused cache entry) (+2ms) (57/73)
+2026-05-07T14:45:34.095Z	[build] 14:45:34   ▶ /_astro/sav-digital-environments.B5eFQq_s_Z14jhCv.webp (reused cache entry) (+2ms) (58/73)
+2026-05-07T14:45:34.095Z	[build]
+2026-05-07T14:45:34.097Z	[build] 14:45:34   ▶ /_astro/tinworks.DOTz99qw_2mVIDh.webp (reused cache entry) (+2ms) (59/73)
+2026-05-07T14:45:34.097Z	[build] 14:45:34   ▶ /_astro/treeline-coffee.DulzmazV_Z201tuw.webp (reused cache entry) (+2ms) (60/73)
+2026-05-07T14:45:34.097Z	[build]
+2026-05-07T14:45:34.098Z	[build] 14:45:34   ▶ /_astro/tinworks.DOTz99qw_Zv5uzN.webp (reused cache entry) (+2ms) (61/73)
+2026-05-07T14:45:34.098Z	[build]
+2026-05-07T14:45:34.099Z	[build] 14:45:34   ▶ /_astro/treeline-coffee.DulzmazV_19mtb9.webp (reused cache entry) (+2ms) (62/73)
+2026-05-07T14:45:34.099Z	[build]
+2026-05-07T14:45:34.100Z	[build] 14:45:34   ▶ /_astro/tinworks.DOTz99qw_1i8ObV.webp (reused cache entry) (+2ms) (63/73)
+2026-05-07T14:45:34.101Z	[build]
+2026-05-07T14:45:34.101Z	[build] 14:45:34   ▶ /_astro/treeline-coffee.DulzmazV_nGPtj.webp (reused cache entry) (+1ms) (64/73)
+2026-05-07T14:45:34.101Z	[build]
+2026-05-07T14:45:34.102Z	[build] 14:45:34   ▶ /_astro/vantage-designs.mt2OeCj8_Z1KNIYd.webp (reused cache entry) (+2ms) (65/73)
+2026-05-07T14:45:34.102Z	[build]
+2026-05-07T14:45:34.102Z	[build] 14:45:34   ▶ /_astro/wild-crumb.-4knMHkY_Z2kzC6q.webp (reused cache entry) (+2ms) (66/73)
+2026-05-07T14:45:34.103Z	[build]
+2026-05-07T14:45:34.105Z	[build] 14:45:34   ▶ /_astro/vantage-designs.mt2OeCj8_YO2NT.webp (reused cache entry) (+2ms) (67/73)
+2026-05-07T14:45:34.105Z	[build] 14:45:34   ▶ /_astro/wild-crumb.-4knMHkY_Z28pNA2.webp (reused cache entry) (+2ms) (68/73)
+2026-05-07T14:45:34.105Z	[build] 14:45:34   ▶ /_astro/vantage-designs.mt2OeCj8_Z1kUTGb.webp (reused cache entry) (+1ms) (69/73)
+2026-05-07T14:45:34.105Z	[build]
+2026-05-07T14:45:34.106Z	[build] 14:45:34   ▶ /_astro/wild-crumb.-4knMHkY_1YKo4M.webp (reused cache entry) (+1ms) (70/73)
+2026-05-07T14:45:34.106Z	[build]
+2026-05-07T14:45:34.107Z	[build] 14:45:34   ▶ /_astro/zuri-salon.B3GGRehr_1s74VP.webp (reused cache entry) (+1ms) (71/73)
+2026-05-07T14:45:34.108Z	[build]
+2026-05-07T14:45:34.109Z	[build] 14:45:34   ▶ /_astro/zuri-salon.B3GGRehr_1Ucvql.webp (reused cache entry) (+3ms) (72/73)
+2026-05-07T14:45:34.109Z	[build]
+2026-05-07T14:45:34.110Z	[build] 14:45:34   ▶ /_astro/zuri-salon.B3GGRehr_1TNViG.webp (reused cache entry) (+1ms) (73/73)
+2026-05-07T14:45:34.110Z	[build]
+2026-05-07T14:45:34.111Z	[build] 14:45:34 ✓ Completed in 68ms.
+2026-05-07T14:45:34.111Z	[build]
+2026-05-07T14:45:34.111Z	[build]
+2026-05-07T14:45:34.121Z	[build] 14:45:34 [build] Rearranging server assets...
+2026-05-07T14:45:34.121Z	[build]
+2026-05-07T14:45:34.134Z	[build] 14:45:34 [build] Server built in 8.74s
+2026-05-07T14:45:34.135Z	[build] 14:45:34 [build] Complete!
+2026-05-07T14:45:34.135Z	[build]
+2026-05-07T14:45:34.259Z	[build]
+2026-05-07T14:45:34.259Z	[build] Running Pagefind v1.5.2 (Extended)
+2026-05-07T14:45:34.260Z	[build]
+2026-05-07T14:45:34.260Z	[build] Running from: "/opt/buildhome/repo"
+2026-05-07T14:45:34.260Z	[build] Source:       "dist"
+2026-05-07T14:45:34.260Z	[build] Output:       "dist/pagefind"
+2026-05-07T14:45:34.261Z	[build]
+2026-05-07T14:45:34.261Z	[build] [Walking source directory]
+2026-05-07T14:45:34.261Z	[build]
+2026-05-07T14:45:34.264Z	[build] Found 126 files matching **/*.{html}
+2026-05-07T14:45:34.265Z	[build]
+2026-05-07T14:45:34.265Z	[build] [Parsing files]
+2026-05-07T14:45:34.265Z	[build]
+2026-05-07T14:45:34.336Z	[build] Did not find a data-pagefind-body element on the site.
+2026-05-07T14:45:34.337Z	[build] ↳ Indexing all <body> elements on the site.
+2026-05-07T14:45:34.337Z	[build]
+2026-05-07T14:45:34.338Z	[build] [Reading languages]
+2026-05-07T14:45:34.338Z	[build]
+2026-05-07T14:45:34.338Z	[build] 1 page found without an <html> element.
+2026-05-07T14:45:34.339Z	[build] Pages without an outer <html> element will not be processed by default.
+2026-05-07T14:45:34.339Z	[build] If adding this element is not possible, use the root selector config to target a different root element.
+2026-05-07T14:45:34.339Z	[build]   * "/nena-public-website/elections/" has no <html> element
+2026-05-07T14:45:34.339Z	[build]
+2026-05-07T14:45:34.342Z	[build] Discovered 1 language: en
+2026-05-07T14:45:34.342Z	[build]
+2026-05-07T14:45:34.343Z	[build] [Building search indexes]
+2026-05-07T14:45:34.343Z	[build]
+2026-05-07T14:45:34.371Z	[build] Total:
+2026-05-07T14:45:34.371Z	[build]   Indexed 1 language
+2026-05-07T14:45:34.371Z	[build]   Indexed 123 pages
+2026-05-07T14:45:34.371Z	[build]   Indexed 3119 words
+2026-05-07T14:45:34.371Z	[build]   Indexed 0 filters
+2026-05-07T14:45:34.371Z	[build]   Indexed 0 sorts
+2026-05-07T14:45:34.371Z	[build]
+2026-05-07T14:45:34.468Z	[build]
+2026-05-07T14:45:34.469Z	[build] Finished in 0.211 seconds
+2026-05-07T14:45:34.469Z	[build]
+2026-05-07T14:45:35.507Z	🌀 Building list of assets...
+2026-05-07T14:45:35.527Z	✨ Read 660 files from the assets directory /opt/buildhome/repo/dist
+2026-05-07T14:45:36.045Z
+2026-05-07T14:45:36.046Z	Cloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md
+2026-05-07T14:45:36.051Z
+2026-05-07T14:45:36.054Z	✘ [ERROR] Uploading a Pages _worker.js directory as an asset.
+2026-05-07T14:45:36.054Z
+2026-05-07T14:45:36.054Z	  This could expose your private server-side code to the public Internet. Is this intended?
+2026-05-07T14:45:36.054Z	  If you do not want to upload this directory, either remove it or add an ".assetsignore" file, to the root of your asset directory, containing "_worker.js" to avoid uploading.
+2026-05-07T14:45:36.055Z	  If you do want to upload this directory, you can add an empty ".assetsignore" file, to the root of your asset directory, to hide this error.
+2026-05-07T14:45:36.055Z
+2026-05-07T14:45:36.055Z
+2026-05-07T14:45:36.085Z	🪵  Logs were written to "/opt/buildhome/.config/.wrangler/logs/wrangler-2026-05-07_14-45-12_593.log"
+2026-05-07T14:45:36.246Z	Failed: error occurred while running deploy command
