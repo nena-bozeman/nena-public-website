@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+
+const title = 'Search';
+const description = 'Search the NENA website for news, events, programs, and neighborhood information.';
+---
+
+<Base title={title} description={description}>
+  <div class="max-w-3xl mx-auto px-4 py-12" data-pagefind-ignore>
+    <h1 class="text-4xl font-serif font-bold text-primary mb-2">Search</h1>
+    <p class="text-gray-600 mb-8">Find pages across this site.</p>
+
+    <form
+      id="search-page-form"
+      class="mb-6"
+      role="search"
+    >
+      <label for="search-page-q" class="sr-only">Search terms</label>
+      <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+        <input
+          id="search-page-q"
+          name="q"
+          type="search"
+          inputmode="search"
+          enterkeyhint="search"
+          autocomplete="off"
+          class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-gray-900 shadow-sm focus:border-primary focus:outline focus:outline-2 focus:outline-primary/30"
+          placeholder="Type a topic or keyword…"
+        />
+        <button
+          type="submit"
+          class="shrink-0 rounded-lg bg-primary px-5 py-2.5 font-medium text-white shadow-sm transition hover:bg-primary/90"
+        >
+          Search
+        </button>
+      </div>
+    </form>
+
+    <p id="search-page-status" class="text-sm text-gray-600 mb-4" role="status" aria-live="polite"></p>
+    <ul
+      id="search-page-results"
+      class="list-none m-0 p-0 space-y-4"
+    >
+    </ul>
+  </div>
+</Base>
+
+<script>
+  import '../client/search-page';
+</script>

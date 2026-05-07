@@ -1,0 +1,75 @@
+---
+const base = import.meta.env.BASE_URL;
+const searchAction = `${base}search`;
+---
+
+<div
+  id="header-search"
+  class="flex max-w-full flex-row-reverse items-center gap-1 md:gap-2"
+>
+  <button
+    type="button"
+    id="header-search-toggle"
+    class="p-2 rounded text-green-100 transition-colors hover:bg-green-800 hover:text-white shrink-0"
+    aria-expanded="false"
+    aria-controls="header-search-field"
+  >
+    <span class="sr-only">Open site search</span>
+    <svg
+      class="h-5 w-5"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+    </svg>
+  </button>
+  <form
+    id="header-search-form"
+    role="search"
+    method="get"
+    action={searchAction}
+    class="header-search__form flex min-w-0 items-center overflow-hidden transition-[max-width,opacity] duration-200 ease-out"
+  >
+    <div id="header-search-field" class="min-w-0 w-44 sm:w-52 max-w-[70vw]">
+      <label for="header-search-q" class="sr-only">Search NENA</label>
+      <input
+        name="q"
+        id="header-search-q"
+        type="search"
+        autocomplete="off"
+        inputmode="search"
+        enterkeyhint="search"
+        placeholder="Search…"
+        class="w-full rounded border border-white/25 bg-white/10 px-2.5 py-1.5 text-sm text-white placeholder:text-green-100/60 focus:border-white/50 focus:outline focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80"
+      />
+    </div>
+  </form>
+</div>
+
+<script>
+  import '../../client/header-search';
+</script>
+
+<style>
+  #header-search .header-search__form {
+    max-width: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  #header-search.header-search--open .header-search__form {
+    max-width: min(20rem, 70vw);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #header-search .header-search__form {
+      transition: none;
+    }
+  }
+</style>
