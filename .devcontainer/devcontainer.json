@@ -12,7 +12,7 @@
       "onAutoForward": "silent"
     }
   },
-  "postCreateCommand": "npm install",
+  "postCreateCommand": "npm install && npm run cms:use-dev-config",
   "postStartCommand": "bash .devcontainer/start.sh",
   "customizations": {
     "vscode": {
