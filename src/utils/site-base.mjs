@@ -27,3 +27,39 @@ export function applySiteBaseToPathname(pathname, baseWithSlash) {
   if (p === basePath || p.startsWith(`${basePath}/`)) return p;
   return `${basePath}${p}`;
 }
+
+const CRAFT_SITE_PLACEHOLDER_RE = /\{\{\s*url:site\s*\}\}/g;
+
+/**
+ * Absolute URL for the deployed site root with trailing slash.
+ * Replaces Craft CMS `{{ url:site }}` in migrated markdown at build time.
+ *
+ * @param {string} siteStr - `site` from astro.config (origin only is used)
+ * @param {string} baseWithSlash - Astro `base`
+ */
+export function computeSiteRootPrefix(siteStr, baseWithSlash) {
+  const u = new URL(siteStr);
+  const base = normalizeAstroBase(baseWithSlash);
+  const basePath = base === '/' ? '' : base.replace(/\/$/, '');
+  return `${u.origin}${basePath}/`;
+}
+
+/**
+ * Expand Craft `{{ url:site }}` in a string (href, src, etc.).
+ *
+ * @param {string} value
+ * @param {string} siteRootPrefix - from {@link computeSiteRootPrefix}
+ */
+export function expandCraftSitePlaceholder(value, siteRootPrefix) {
+  if (typeof value !== 'string') return value;
+  let s = value;
+  if (value.includes('%7B%7B')) {
+    try {
+      s = decodeURIComponent(value);
+    } catch {
+      s = value;
+    }
+  }
+  if (!s.includes('{{')) return value;
+  return s.replace(CRAFT_SITE_PLACEHOLDER_RE, siteRootPrefix);
+}

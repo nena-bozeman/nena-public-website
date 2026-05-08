@@ -8,6 +8,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
+    "test": "node --test",
     "inventory:legacy": "node scripts/build-legacy-inventory.mjs",
     "inventory:legacy:quick": "node scripts/build-legacy-inventory.mjs --no-crawl-assets",
     "redirects:legacy": "node scripts/build-cloudflare-redirects.mjs",
@@ -24,7 +25,9 @@
     "check:internal-links:cf": "ASTRO_BASE_PATH=/ npm run build && ASTRO_BASE_PATH=/ npm run check:internal-links",
     "dev:cf": "pnpm run build:cf && wrangler dev",
     "deploy:cf": "pnpm run build:cf && wrangler deploy",
-    "cf:typegen": "wrangler types"
+    "cf:typegen": "wrangler types",
+    "cms:use-dev-config": "cp public/admin/config.dev.yml public/admin/config.yml",
+    "cms:restore-prod-config": "git checkout HEAD -- public/admin/config.yml"
   },
   "dependencies": {
     "@astrojs/tailwind": "^5.1.0",

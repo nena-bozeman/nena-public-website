@@ -8,6 +8,13 @@ Changes not yet released.
 
 ---
 
+## 2026-05-07
+
+- **Cloudflare preview deploys (GitHub Actions):** Non-`main` pushes and all pull requests run `.github/workflows/preview.yml`: `pnpm install --frozen-lockfile`, `pnpm run build:cf`, then `wrangler versions upload` through `cloudflare/wrangler-action@v3` with `packageManager: pnpm`. Static assets are served from `dist` per `wrangler.jsonc`. Required secrets are `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`, and `PUBLIC_GOOGLE_MAPS_API_KEY`; the workflow passes `gitHubToken` for Wrangler’s GitHub integration.
+- **Hosting split:** Production traffic on `main` is still published to **GitHub Pages** by `.github/workflows/deploy-pages.yml` using `pnpm run build`. A **full** Cloudflare Worker deploy (not the preview upload) is `pnpm run deploy:cf` (`build:cf` then `wrangler deploy`).
+
+---
+
 ## 2026-04-22
 
 - **News drafts:** Boolean `draft` on news entries so unfinished posts are omitted from production builds but still appear in development; `NewsDraftBadge.astro` on listings and post pages; filtering consolidated in `news.ts` and applied across news index, pagination, tag, home, and objective-related views; Decap CMS field in `public/admin/config.yml`.

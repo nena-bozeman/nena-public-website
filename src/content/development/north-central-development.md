@@ -97,7 +97,7 @@ One 11 Street View
 
 # Watch a promotional video here.
 
-[https://northcentralbozeman.com/]("https://northcentralbozeman.com/?fbclid=IwAR2CqsH9FqpG8XhqFoOjNNP-70iwqLMRjnyPIHoLA0fPuIV-B0lDlLwqAGg")  
+[northcentralbozeman.com](https://northcentralbozeman.com/)  
  
 
 # Start and Completion Estimated Dates
@@ -176,5 +176,5 @@ Community Questions/ Discussion Topics:
 Learn More:
 
 *   Upcoming NENA Town Hall: Mountain View Care Center Tour \- June 17th, 6-7pm (Info posted on the NENA site under ‘Events’)
-*   [https://www.nenabozeman.org/blog/2021/04/the-north-central-master-plan]("https://nenabozeman.us18.list-manage.com/track/click?u=f1ec16560a226111c086eeb58&id=415aa5badb&e=e3e81a0332")
-*   [https://northcentralbozeman.com/]("https://northcentralbozeman.com/")
+*   [The North Central Master Plan](/news/2021-04-23-the-north-central-master-plan/)
+*   [northcentralbozeman.com](https://northcentralbozeman.com/)
