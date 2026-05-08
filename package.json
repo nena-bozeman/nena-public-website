@@ -8,6 +8,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
+    "test": "node --test",
     "inventory:legacy": "node scripts/build-legacy-inventory.mjs",
     "inventory:legacy:quick": "node scripts/build-legacy-inventory.mjs --no-crawl-assets",
     "redirects:legacy": "node scripts/build-cloudflare-redirects.mjs",

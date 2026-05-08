@@ -21,8 +21,8 @@
  */
 
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
-import { join, dirname, relative, sep } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join, dirname, relative, resolve, sep } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { normalizeAstroBase } from '../src/utils/site-base.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -60,7 +60,7 @@ function readAstroRouting() {
 }
 
 /** @param {string} relPosix path relative to dist, forward slashes */
-function fileRelToDirUrlPath(relPosix, basePath) {
+export function fileRelToDirUrlPath(relPosix, basePath) {
   const prefix = basePath === '/' ? '' : basePath;
   if (relPosix === 'index.html') return prefix + '/';
   if (relPosix.endsWith('/index.html')) {
@@ -78,7 +78,7 @@ function fileRelToDirUrlPath(relPosix, basePath) {
  * @param {string} urlPath pathname only, e.g. /nena-public-website/news
  * @param {string} basePath e.g. /nena-public-website
  */
-function stripBase(urlPath, basePath) {
+export function stripBase(urlPath, basePath) {
   if (!basePath) return urlPath;
   if (urlPath === basePath || urlPath === basePath + '/') return '/';
   const prefix = basePath.endsWith('/') ? basePath : basePath + '/';
@@ -87,16 +87,12 @@ function stripBase(urlPath, basePath) {
 }
 
 /**
- * @param {string} distRoot
- * @param {string} pathAfterBase posix, leading slash, no query/hash
- */
-/**
  * Craft CMS asset URLs (`/files/download|thumb|large/…`) are not copied into static `dist`;
  * migrated PDFs/images live under other paths. Skip existence checks for these legacy routes.
  *
  * @param {string} posixPath pathname beginning with `/`, may include deploy base
  */
-function isLegacyCraftAssetPath(posixPath) {
+export function isLegacyCraftAssetPath(posixPath) {
   return /\/files\/(download|thumb|large)\//.test(posixPath);
 }
 
@@ -143,7 +139,7 @@ function extractHrefs(html) {
 }
 
 /** @returns {string | null} skip reason, or null if not skipped by these rules */
-function skipHrefReason(raw) {
+export function skipHrefReason(raw) {
   const h = raw.trim();
   if (!h) return 'empty';
   if (h === '#') return 'hash-only';
@@ -161,7 +157,7 @@ function skipHrefReason(raw) {
  * @param {{ basePath: string, siteOrigin: string | null }} routing
  * @returns {string | null} pathname starting with basePath, or null if not an internal navigational target
  */
-function resolveInternalPathname(rawHref, fromDirUrlPath, routing) {
+export function resolveInternalPathname(rawHref, fromDirUrlPath, routing) {
   const { basePath, siteOrigin } = routing;
   const dummy = 'https://link-check.internal';
 
@@ -213,6 +209,70 @@ function resolveInternalPathname(rawHref, fromDirUrlPath, routing) {
   }
 
   if (!basePath && pathOnly.startsWith('/')) return pathOnly;
+  return null;
+}
+
+/**
+ * Validate one anchor href the same way the full dist scan does (for unit tests).
+ *
+ * @param {string} href
+ * @param {string} relHtmlPath posix path under dist, e.g. development/idaho-pole/index.html
+ * @param {{ basePath: string, siteOrigin: string | null }} routing
+ * @param {string} distRoot absolute path to static output root
+ * @returns {null | { href: string, resolved: string }}
+ */
+export function navigationalHrefIssue(href, relHtmlPath, routing, distRoot) {
+  const skipReason = skipHrefReason(href);
+  if (skipReason) return null;
+  if (href.startsWith('#')) return null;
+
+  const fromDirUrlPath = fileRelToDirUrlPath(relHtmlPath, routing.basePath);
+  const pathname = resolveInternalPathname(href, fromDirUrlPath, routing);
+  const trimmed = href.trim();
+  const isSchemeRelative = trimmed.startsWith('//');
+  const isRootAbsolute = trimmed.startsWith('/') && !isSchemeRelative;
+  if (
+    !pathname &&
+    isRootAbsolute &&
+    routing.basePath &&
+    !(trimmed === routing.basePath || trimmed.startsWith(`${routing.basePath}/`))
+  ) {
+    return {
+      href,
+      resolved: '(root-absolute path omits configured base; breaks with base in astro.config)',
+    };
+  }
+  if (!pathname) return null;
+
+  const fromNoTrailing = fromDirUrlPath.replace(/\/$/, '');
+  const isRelativeHref =
+    !/^https?:\/\//i.test(href) && !trimmed.startsWith('/') && !trimmed.startsWith('#');
+  if (isRelativeHref && fromNoTrailing !== fromDirUrlPath) {
+    const pathnameNoTrailing = resolveInternalPathname(href, fromNoTrailing, routing);
+    if (pathnameNoTrailing !== pathname) {
+      return {
+        href,
+        resolved: `ambiguous: ${pathname} vs ${pathnameNoTrailing ?? '(outside site base)'}`,
+      };
+    }
+  }
+
+  const afterBase = routing.basePath ? stripBase(pathname, routing.basePath) : pathname;
+  if (afterBase === null) return null;
+
+  const posix = afterBase.startsWith('/') ? afterBase : '/' + afterBase;
+  let decodedPosix = posix;
+  try {
+    decodedPosix = decodeURI(posix);
+  } catch {
+    return { href, resolved: pathname };
+  }
+
+  const skipLegacyAsset = isLegacyCraftAssetPath(decodedPosix);
+  const exists = skipLegacyAsset ? true : targetExistsOnDisk(distRoot, decodedPosix);
+  if (!exists) {
+    return { href, resolved: pathname };
+  }
   return null;
 }
 
@@ -281,69 +341,30 @@ function main() {
       }
 
       const pathname = resolveInternalPathname(href, fromDirUrlPath, routing);
-      const trimmed = href.trim();
-      const isSchemeRelative = trimmed.startsWith('//');
-      const isRootAbsolute = trimmed.startsWith('/') && !isSchemeRelative;
-      if (
-        !pathname &&
-        isRootAbsolute &&
-        routing.basePath &&
-        !(trimmed === routing.basePath || trimmed.startsWith(`${routing.basePath}/`))
-      ) {
-        broken.push({
-          from: rel,
-          href,
-          resolved: '(root-absolute path omits configured base; breaks with base in astro.config)',
-        });
-        continue;
-      }
-      if (!pathname) {
-        if (verbose) console.log(`SKIP\t${href}\tnot-internal`);
+      const issue = navigationalHrefIssue(href, rel, routing, distRoot);
+      if (issue) {
+        if (verbose) console.log(`BROKEN\t${href}\t${issue.resolved}`);
+        broken.push({ from: rel, href: issue.href, resolved: issue.resolved });
         continue;
       }
 
-      const fromNoTrailing = fromDirUrlPath.replace(/\/$/, '');
-      const isRelativeHref =
-        !/^https?:\/\//i.test(href) && !trimmed.startsWith('/') && !trimmed.startsWith('#');
-      if (isRelativeHref && fromNoTrailing !== fromDirUrlPath) {
-        const pathnameNoTrailing = resolveInternalPathname(href, fromNoTrailing, routing);
-        if (pathnameNoTrailing !== pathname) {
-          broken.push({
-            from: rel,
-            href,
-            resolved: `ambiguous: ${pathname} vs ${pathnameNoTrailing ?? '(outside site base)'}`,
-          });
-          continue;
-        }
-      }
-
-      const afterBase = routing.basePath
-        ? stripBase(pathname, routing.basePath)
-        : pathname;
-      if (afterBase === null) {
-        if (verbose) console.log(`SKIP\t${href}\tstrip-base-failed`);
-        continue;
-      }
-
-      const posix = afterBase.startsWith('/') ? afterBase : '/' + afterBase;
-      let decodedPosix = posix;
-      try {
-        decodedPosix = decodeURI(posix);
-      } catch {
-        if (verbose) console.log(`BROKEN\t${href}\tinvalid-percent-encoding`);
-        broken.push({ from: rel, href, resolved: pathname });
-        continue;
-      }
-
-      const skipLegacyAsset = isLegacyCraftAssetPath(decodedPosix);
-      const exists = skipLegacyAsset ? true : targetExistsOnDisk(distRoot, decodedPosix);
       if (verbose) {
-        console.log(
-          `${exists ? 'OK' : 'BROKEN'}\t${href}\t${pathname}${skipLegacyAsset ? '\t(skip legacy /files/*)' : ''}`,
-        );
-      }
-      if (!exists) {
-        broken.push({ from: rel, href, resolved: pathname });
+        if (!pathname) {
+          console.log(`SKIP\t${href}\tnot-internal`);
+        } else {
+          const afterBase = routing.basePath ? stripBase(pathname, routing.basePath) : pathname;
+          const posix = afterBase.startsWith('/') ? afterBase : '/' + afterBase;
+          let decodedPosix = posix;
+          try {
+            decodedPosix = decodeURI(posix);
+          } catch {
+            decodedPosix = '';
+          }
+          const skipLegacyAsset = isLegacyCraftAssetPath(decodedPosix);
+          console.log(
+            `OK\t${href}\t${pathname}${skipLegacyAsset ? '\t(skip legacy /files/*)' : ''}`,
+          );
+        }
       }
     }
   }
@@ -359,4 +380,17 @@ function main() {
   console.log(`OK — checked internal links in ${htmlFiles.length} HTML file(s) under ${relative(ROOT, distRoot) || '.'}`);
 }
 
-main();
+const __scriptFile = fileURLToPath(import.meta.url);
+function isRunDirectly() {
+  const entry = process.argv[1];
+  if (!entry) return false;
+  try {
+    return pathToFileURL(resolve(entry)).href === pathToFileURL(__scriptFile).href;
+  } catch {
+    return false;
+  }
+}
+
+if (isRunDirectly()) {
+  main();
+}
