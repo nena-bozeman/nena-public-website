@@ -17,8 +17,11 @@ export default defineConfig({
     plugins: [viteExpandCraftSitePlaceholder({ siteRoot: siteRootPrefix })],
   },
   markdown: {
-    // Use a file path (not a function reference) so the plugin survives Astro content sync
-    // serialization; see node_modules/.astro digest: rehypePlugins must not be `null`.
-    rehypePlugins: [['./src/plugins/rehype-site-base-links.mjs', { base: siteBase }]],
+    // Use file paths (not function references) so plugins survive Astro content sync serialization.
+    remarkPlugins: [['./src/plugins/remark-expand-craft-site-placeholder.mjs', { siteRoot: siteRootPrefix }]],
+    rehypePlugins: [
+      ['./src/plugins/rehype-expand-url-site-placeholder.mjs', { siteRoot: siteRootPrefix }],
+      ['./src/plugins/rehype-site-base-links.mjs', { base: siteBase }],
+    ],
   },
 });
