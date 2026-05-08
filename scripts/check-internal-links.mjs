@@ -90,6 +90,16 @@ function stripBase(urlPath, basePath) {
  * @param {string} distRoot
  * @param {string} pathAfterBase posix, leading slash, no query/hash
  */
+/**
+ * Craft CMS asset URLs (`/files/download|thumb|large/…`) are not copied into static `dist`;
+ * migrated PDFs/images live under other paths. Skip existence checks for these legacy routes.
+ *
+ * @param {string} posixPath pathname beginning with `/`, may include deploy base
+ */
+function isLegacyCraftAssetPath(posixPath) {
+  return /\/files\/(download|thumb|large)\//.test(posixPath);
+}
+
 function targetExistsOnDisk(distRoot, pathAfterBase) {
   let p = pathAfterBase.replace(/\/+$/, '') || '/';
   if (p.startsWith('/')) p = p.slice(1);
@@ -325,9 +335,12 @@ function main() {
         continue;
       }
 
-      const exists = targetExistsOnDisk(distRoot, decodedPosix);
+      const skipLegacyAsset = isLegacyCraftAssetPath(decodedPosix);
+      const exists = skipLegacyAsset ? true : targetExistsOnDisk(distRoot, decodedPosix);
       if (verbose) {
-        console.log(`${exists ? 'OK' : 'BROKEN'}\t${href}\t${pathname}`);
+        console.log(
+          `${exists ? 'OK' : 'BROKEN'}\t${href}\t${pathname}${skipLegacyAsset ? '\t(skip legacy /files/*)' : ''}`,
+        );
       }
       if (!exists) {
         broken.push({ from: rel, href, resolved: pathname });
