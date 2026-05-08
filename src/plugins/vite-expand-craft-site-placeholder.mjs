@@ -15,7 +15,7 @@ export function viteExpandCraftSitePlaceholder(opts = {}) {
     name: 'expand-craft-site-placeholder',
     enforce: 'pre',
     transform(code, id) {
-      if (!id.includes('/src/') || !id.endsWith('.md')) return null;
+      if (!id.includes('/src/') || !id.includes('.md')) return null;
       if (!code.includes('{{')) return null;
       const next = code.replace(CRAFT_SITE_PLACEHOLDER_RE, prefix);
       if (next === code) return null;
