@@ -17,12 +17,16 @@ jobs:
           node-version: '22'
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run build
-      - name: Deploy to Cloudflare Pages (Preview)
-        uses: cloudflare/pages-action@v1
+      # Root-hosted Worker build (must match deploy:cf / wrangler — default `pnpm run build` uses GitHub Pages base path).
+      - run: pnpm run build:cf
+      # Worker + assets project: use Wrangler, not Pages API (no Pages project exists for this app).
+      # `versions upload` publishes a preview URL without replacing production traffic.
+      - name: Upload Worker preview version
+        id: wrangler
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: nena-public-website
-          directory: dist
+          command: versions upload
+          packageManager: pnpm
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
