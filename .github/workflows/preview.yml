@@ -4,9 +4,20 @@ on:
     branches-ignore:
       - main
   pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+  deployments: write
+
 jobs:
   deploy-preview:
     runs-on: ubuntu-latest
+    # Surfaces the preview URL in the PR sidebar / Deployments UI in addition to the sticky comment.
+    # Named to mirror `github-pages` used by the production Pages deploy workflow.
+    environment:
+      name: cloudflare-preview
+      url: ${{ steps.wrangler.outputs.deployment-url }}
     env:
       PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.PUBLIC_GOOGLE_MAPS_API_KEY }}
     steps:
@@ -21,6 +32,8 @@ jobs:
       - run: pnpm run build:cf
       # Worker + assets project: use Wrangler, not Pages API (no Pages project exists for this app).
       # `versions upload` publishes a preview URL without replacing production traffic.
+      # Note: intentionally no `gitHubToken` here — wrangler-action would otherwise post a fresh
+      # PR comment on every push. We post/update a single sticky comment ourselves below.
       - name: Upload Worker preview version
         id: wrangler
         uses: cloudflare/wrangler-action@v3
@@ -29,4 +42,16 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: versions upload
           packageManager: pnpm
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment preview URL on PR
+        if: github.event_name == 'pull_request' && steps.wrangler.outputs.deployment-url != ''
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          # `header` keys the comment so subsequent runs update it instead of adding a new one.
+          header: preview-deployment
+          message: |
+            ### Preview deployment
+
+            **URL:** ${{ steps.wrangler.outputs.deployment-url }}
+
+            Updated for commit `${{ github.event.pull_request.head.sha }}`.
