@@ -38,9 +38,12 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
 
+  # Default astro.config base (`/nena-public-website/`) — matches GitHub Pages deploy.
   build-and-check-internal-links:
     needs: [astro-check, unit-tests]
     runs-on: ubuntu-latest
+    env:
+      PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.PUBLIC_GOOGLE_MAPS_API_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -51,3 +54,19 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
       - run: pnpm run check:internal-links
+
+  # Root base (`ASTRO_BASE_PATH=/`) — matches Cloudflare Worker deploy / preview.
+  build-and-check-internal-links-cf:
+    needs: [astro-check, unit-tests]
+    runs-on: ubuntu-latest
+    env:
+      PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.PUBLIC_GOOGLE_MAPS_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run check:internal-links:cf
