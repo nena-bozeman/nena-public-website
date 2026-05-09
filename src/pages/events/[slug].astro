@@ -22,7 +22,7 @@ const categoryColors: Record<string, string> = {
   other: 'bg-gray-100 text-gray-800',
 };
 
-const { category } = event.data;
+const { category, cancelled } = event.data;
 ---
 
 <Base
@@ -34,10 +34,20 @@ const { category } = event.data;
     <a href={`${base}events`} class="text-accent hover:text-amber-700 text-sm font-medium mb-8 inline-block transition-colors">← Back to Events</a>
 
     <div class="mb-6">
+      {cancelled && (
+        <p class="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-900" role="status">
+          This event was cancelled.
+        </p>
+      )}
       <div class="flex flex-wrap items-center gap-2 mb-3">
         <span class={`text-xs font-medium px-2 py-0.5 rounded-full ${categoryColors[category] ?? categoryColors.other}`}>
           {category.charAt(0).toUpperCase() + category.slice(1)}
         </span>
+        {cancelled && (
+          <span class="text-xs font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full bg-red-100 text-red-800 border border-red-200">
+            Cancelled
+          </span>
+        )}
       </div>
       <h1 class="font-serif text-4xl font-bold text-primary">{event.data.title}</h1>
       <p class="text-sm text-gray-500 mt-3">
@@ -55,7 +65,7 @@ const { category } = event.data;
         {event.data.address && ` · ${event.data.address}`}
       </p>
       <p class="text-xl text-gray-600 mt-4">{event.data.summary}</p>
-      {event.data.externalUrl && (
+      {event.data.externalUrl && !cancelled && (
         <a
           href={event.data.externalUrl}
           target="_blank"

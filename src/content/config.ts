@@ -33,6 +33,8 @@ const events = defineCollection({
     summary: z.string(),
     category: z.enum(['social', 'civic', 'committee', 'tour', 'other']),
     featured: z.boolean().default(false),
+    /** When true, listings and the event page show a cancelled label (event kept for the record). */
+    cancelled: z.boolean().default(false),
     externalUrl: z.string().url().optional(),
     dateCreated: z.coerce.date().optional(),
     dateUpdated: z.coerce.date().optional(),
