@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@astrojs/tailwind':
-        specifier: ^5.1.5
-        version: 5.1.5(astro@5.18.1(@types/node@25.6.0)(jiti@1.21.7)(rollup@4.60.3)(typescript@5.9.3)(yaml@2.8.4))(tailwindcss@3.4.19(yaml@2.8.4))
+        specifier: ^6.0.2
+        version: 6.0.2(astro@5.18.1(@types/node@25.6.0)(jiti@1.21.7)(rollup@4.60.3)(typescript@5.9.3)(yaml@2.8.4))(tailwindcss@3.4.19(yaml@2.8.4))
       astro:
         specifier: ^5.18.1
         version: 5.18.1(@types/node@25.6.0)(jiti@1.21.7)(rollup@4.60.3)(typescript@5.9.3)(yaml@2.8.4)
@@ -86,8 +86,8 @@ packages:
     resolution: {integrity: sha512-q8VwfU/fDZNoDOf+r7jUnMC2//H2l0TuQ6FkGJL8vD8nw/q5KiL3DS1KKBI3QhI9UQhpJ5dc7AtqfbXWuOgLCQ==}
     engines: {node: 18.20.8 || ^20.3.0 || >=22.0.0}
 
-  '@astrojs/tailwind@5.1.5':
-    resolution: {integrity: sha512-1diguZEau7FZ9vIjzE4BwavGdhD3+JkdS8zmibl1ene+EHgIU5hI0NMgRYG3yea+Niaf7cyMwjeWeLvzq/maxg==}
+  '@astrojs/tailwind@6.0.2':
+    resolution: {integrity: sha512-j3mhLNeugZq6A8dMNXVarUa8K6X9AW+QHU9u3lKNrPLMHhOQ0S7VeWhHwEeJFpEK1BTKEUY1U78VQv2gN6hNGg==}
     peerDependencies:
       astro: ^3.0.0 || ^4.0.0 || ^5.0.0
       tailwindcss: ^3.0.24
@@ -2739,7 +2739,7 @@ snapshots:
     dependencies:
       prismjs: 1.30.0
 
-  '@astrojs/tailwind@5.1.5(astro@5.18.1(@types/node@25.6.0)(jiti@1.21.7)(rollup@4.60.3)(typescript@5.9.3)(yaml@2.8.4))(tailwindcss@3.4.19(yaml@2.8.4))':
+  '@astrojs/tailwind@6.0.2(astro@5.18.1(@types/node@25.6.0)(jiti@1.21.7)(rollup@4.60.3)(typescript@5.9.3)(yaml@2.8.4))(tailwindcss@3.4.19(yaml@2.8.4))':
     dependencies:
       astro: 5.18.1(@types/node@25.6.0)(jiti@1.21.7)(rollup@4.60.3)(typescript@5.9.3)(yaml@2.8.4)
       autoprefixer: 10.5.0(postcss@8.5.14)
