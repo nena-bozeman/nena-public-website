@@ -3,6 +3,8 @@ title: "Northern Pacific / Story Mill Historic District added to the National Re
 year: 1996
 decade: 1990
 category: landmark
+image: images/history/bozeman-depot-south-faces.jpg
+imageAlt: "Northern Pacific Railway depot, Bozeman, circa 1885. Montana Memory Project."
 ---
 
 **Northern Pacific / Story Mill Historic District**

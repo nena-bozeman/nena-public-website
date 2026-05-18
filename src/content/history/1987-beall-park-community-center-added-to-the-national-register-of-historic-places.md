@@ -3,6 +3,8 @@ title: "Beall Park Community Center added to the National Register of Historic P
 year: 1987
 decade: 1980
 category: landmark
+image: images/history/beall-park-community-center.jpg
+imageAlt: "Beall Park Community Center, 409 North Bozeman Avenue, photographed in 1987. Montana State Historic Preservation Office."
 ---
 
 **Beall Park Community Center**

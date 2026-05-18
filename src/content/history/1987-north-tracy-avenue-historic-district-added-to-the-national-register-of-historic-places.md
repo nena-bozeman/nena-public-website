@@ -3,6 +3,8 @@ title: "North Tracy Avenue Historic District added to the National Register of H
 year: 1987
 decade: 1980
 category: landmark
+image: images/history/north-tracy-avenue.jpg
+imageAlt: "400 block of North Tracy Avenue Historic District, facing southwest, photographed in 1987. Montana State Historic Preservation Office."
 ---
 
 **North Tracy Avenue Historic District**

@@ -1,8 +1,10 @@
 ---
-title: "Bozeman Brewery District added to the National Register of Historic Places "
+title: "Bozeman Brewery District added to the National Register of Historic Places"
 year: 1987
 decade: 1980
 category: landmark
+image: images/history/bozeman-brewery-district.jpg
+imageAlt: "Bozeman Brewery Historic District on North Wallace Avenue. Wikimedia Commons."
 ---
 **Bozeman Brewery Historic District**
 
