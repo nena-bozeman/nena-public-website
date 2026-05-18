@@ -1,5 +1,6 @@
 ---
 title: "A River Runs Through It Filmed in Bozeman"
+summary: "Robert Redford filmed A River Runs Through It across southwest Montana in 1991, using the NP depot, North Wallace grain elevator, and other northeast locations."
 year: 1991
 decade: 1990
 category: "community"

@@ -2,7 +2,9 @@
 
 Reference only—read when drafting or reviewing. Canonical patterns live in `src/content/history/`.
 
-Every example below includes **full required frontmatter**: `title`, `year`, `decade`, `category`. Optional fields: `image`, `imageAlt` (set both when using a hero image).
+Every example below includes **full required frontmatter**: `title`, `summary`, `year`, `decade`, `category`. Optional fields: `image`, `imageAlt` (set both when using a hero image).
+
+Filenames must use the **`{year}-` prefix** (e.g. `1985-nena-founded.md`).
 
 ---
 
@@ -13,6 +15,7 @@ Every example below includes **full required frontmatter**: `title`, `year`, `de
 ```markdown
 ---
 title: "NENA Founded"
+summary: "Residents formally organized NENA in 1985 to speak up in city planning and build community around Beall Park."
 year: 1985
 decade: 1980
 category: community
@@ -28,6 +31,7 @@ The Northeast Neighborhood Association (NENA) was formally organized in 1985 to 
 ```markdown
 ---
 title: "Post-War Neighborhood Growth"
+summary: "After World War II, veterans and growing families filled the northeast with modest bungalows and ranch homes that still shape the streetscape."
 year: 1945
 decade: 1940
 category: development
@@ -45,6 +49,7 @@ Following World War II, the Northeast Neighborhood experienced a wave of new con
 ```markdown
 ---
 title: "North Tracy Avenue Historic District added to the National Register of Historic Places"
+summary: "The 300–500 blocks of North Tracy hold the densest collection of historic homes north of Main, listed as a National Register district in 1987."
 year: 1987
 decade: 1980
 category: landmark
@@ -70,6 +75,7 @@ Read the [National Park Service nomination](https://npgallery.nps.gov/NRHP/GetAs
 ```markdown
 ---
 title: "Misco grain elevator built on North Wallace Avenue"
+summary: "MISCO built a wooden-crib grain elevator at 700 North Wallace Avenue beside the railroad—one of few elevators raised in the West during the Depression and later listed on the National Register."
 year: 1933
 decade: 1930
 category: landmark
@@ -184,7 +190,8 @@ Use the slug from the filename, not the title.
 | Field | Required | Notes |
 |-------|----------|--------|
 | `title` | yes | Timeline headline; no trailing spaces |
-| `year` | yes | Event year (timeline badge) |
+| `summary` | yes | List blurb and article subtitle (1–2 sentences) |
+| `year` | yes | Event year (timeline badge); must match filename prefix |
 | `decade` | yes | Floored decade: `1985` → `1980`, `2007` → `2000` |
 | `category` | yes | `founding` \| `development` \| `community` \| `landmark` \| `other` |
 | `image` | no | `images/history/…` or `https://…` |

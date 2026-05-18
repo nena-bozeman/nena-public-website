@@ -1,5 +1,6 @@
 ---
 title: "Bozeman Brewery District added to the National Register of Historic Places"
+summary: "Five Lehrkind family brewery buildings on North Wallace Avenue were listed together, preserving Bozeman's turn-of-the-century brewing legacy."
 year: 1987
 decade: 1980
 category: landmark

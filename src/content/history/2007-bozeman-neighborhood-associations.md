@@ -1,5 +1,6 @@
 ---
 title: "Bozeman wide neighborhoods program"
+summary: "Bozeman launched its citywide Neighborhoods Program in 2007, giving formal voice to resident associations including NENA."
 year: 2007
 decade: 2000
 category: "community"

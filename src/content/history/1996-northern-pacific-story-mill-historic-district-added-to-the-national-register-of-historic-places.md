@@ -1,5 +1,6 @@
 ---
 title: "Northern Pacific / Story Mill Historic District added to the National Register of Historic Places"
+summary: "Mills, depots, and railroad structures along the NP corridor and Story Mill spur were listed as a district tracing Bozeman's industrial growth from 1882 to 1945."
 year: 1996
 decade: 1990
 category: landmark

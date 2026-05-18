@@ -78,6 +78,8 @@ const history = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    /** One- or two-sentence summary shown on the timeline list view. */
+    summary: z.string(),
     year: z.number(),
     decade: z.number(),
     category: z.enum(['founding', 'development', 'community', 'landmark', 'other']),

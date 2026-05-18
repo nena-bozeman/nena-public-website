@@ -1,0 +1,71 @@
+---
+export interface Props {
+  activeCategory: string | null;
+}
+
+const { activeCategory } = Astro.props;
+
+const categories = [
+  { value: null, label: 'All' },
+  { value: 'founding', label: 'Founding' },
+  { value: 'development', label: 'Development' },
+  { value: 'community', label: 'Community' },
+  { value: 'landmark', label: 'Landmark' },
+  { value: 'other', label: 'Other' },
+] as const;
+
+const pill =
+  'history-category-filter inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium transition-colors cursor-pointer';
+const idle = 'border-amber-200 bg-white text-primary hover:bg-cream hover:border-accent';
+const selected = 'border-accent bg-accent text-white shadow-sm';
+---
+
+<nav aria-label="Filter history by category" class="mb-8 flex flex-wrap items-center gap-2">
+  <span class="text-sm text-gray-600 w-full sm:w-auto sm:mr-1">Topics</span>
+  {
+    categories.map((cat) => (
+      <button
+        type="button"
+        data-category={cat.value ?? ''}
+        class:list={[pill, activeCategory === cat.value ? selected : idle]}
+        aria-pressed={activeCategory === cat.value ? 'true' : 'false'}
+      >
+        {cat.label}
+      </button>
+    ))
+  }
+</nav>
+
+<script>
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.history-category-filter');
+
+  function applyHistoryCategoryFilter(category: string) {
+    const entryCards = document.querySelectorAll<HTMLElement>('[data-history-category]');
+    entryCards.forEach((card) => {
+      const match = !category || card.dataset.historyCategory === category;
+      card.style.display = match ? '' : 'none';
+    });
+
+    document.querySelectorAll<HTMLElement>('[data-history-decade]').forEach((decadeBlock) => {
+      const cards = decadeBlock.querySelectorAll<HTMLElement>('[data-history-category]');
+      const anyVisible = Array.from(cards).some((card) => card.style.display !== 'none');
+      decadeBlock.style.display = anyVisible ? '' : 'none';
+    });
+  }
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach((b) => {
+        b.classList.remove('border-accent', 'bg-accent', 'text-white', 'shadow-sm');
+        b.classList.add('border-amber-200', 'bg-white', 'text-primary', 'hover:bg-cream', 'hover:border-accent');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.remove('border-amber-200', 'bg-white', 'text-primary', 'hover:bg-cream', 'hover:border-accent');
+      btn.classList.add('border-accent', 'bg-accent', 'text-white', 'shadow-sm');
+      btn.setAttribute('aria-pressed', 'true');
+
+      const category = btn.dataset.category ?? '';
+      applyHistoryCategoryFilter(category);
+    });
+  });
+</script>

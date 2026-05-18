@@ -1,5 +1,6 @@
 ---
 title: "North Church Avenue houses added to the National Register of Historic Places"
+summary: "Four working-class homes on North Church Avenue were listed individually, documenting railroad-era housing north of Main Street."
 year: 1987
 decade: 1980
 category: landmark

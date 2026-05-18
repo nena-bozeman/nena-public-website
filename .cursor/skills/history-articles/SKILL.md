@@ -32,10 +32,11 @@ History articles live on the **Neighborhood History** timeline (`/history`). The
 | Item | Convention |
 |------|------------|
 | Path | `src/content/history/{slug}.md` |
-| Slug | `{year}-{short-kebab-description}` — e.g. `1933-misco-grain-elevator-built-on-wallace-avenue.md` |
+| Filename | **Must start with the event year** — `{year}-{short-kebab-description}.md` (e.g. `1933-misco-grain-elevator-built-on-wallace-avenue.md`) |
+| Slug | Same as filename without `.md`; becomes the URL `/history/{slug}` |
 | Sort key | `year` in frontmatter (timeline orders by year, grouped by `decade`) |
 
-Slug becomes the URL: `/history/{slug}`. Keep slugs stable once published; prefer editing the file over renaming.
+Keep slugs stable once published; prefer editing the file over renaming.
 
 ---
 
@@ -46,13 +47,18 @@ Schema: `src/content/config.ts` (`history` collection).
 ```yaml
 ---
 title: "Human-readable headline"
+summary: "One- or two-sentence summary for the timeline list and page subtitle."
 year: 1991          # calendar year of the event (timeline badge)
 decade: 1990        # floor decade for grouping (1985 → 1980, 2007 → 2000)
-category: community # see categories below
+category: community # see categories below; also used as the timeline topic filter
 image: images/history/example.jpg   # optional
 imageAlt: "Describe the image for screen readers."  # required when image is set
 ---
 ```
+
+### Summary
+
+`summary` is required. Write 1–2 sentences that stand alone on the timeline list (what happened, where in the northeast, why it matters). Do not repeat the title verbatim. The same text appears under the headline on the article page and in the meta description.
 
 ### Categories
 
@@ -150,6 +156,8 @@ Before finishing a new or updated article:
 
 - [ ] `year` matches the event; `decade` is the floored decade (`Math.floor(year/10)*10`).
 - [ ] `title` is concise and specific (no trailing spaces).
+- [ ] `summary` works as a list blurb without reading the full article.
+- [ ] Filename starts with `{year}-` and matches the slug.
 - [ ] `category` matches the primary angle.
 - [ ] Northeast relevance is explicit in the opening or a dedicated section.
 - [ ] Addresses and NRHP dates match authoritative sources.
@@ -165,7 +173,7 @@ Before finishing a new or updated article:
 ## Workflow
 
 1. **Pick tier** (A/B/C) from available sources and neighborhood importance.
-2. **Draft frontmatter** — title, year, decade, category; add hero image when you have a rights-clear asset.
+2. **Draft frontmatter** — title, summary, year, decade, category; add hero image when you have a rights-clear asset.
 3. **Write opening paragraph** — hook + fact + why it belongs on *this* neighborhood’s timeline.
 4. **Add sections** only when they improve scanability (avoid one-sentence headings).
 5. **Add links** — NRHP/Historic Montana for landmarks; city/NENA for governance.
@@ -189,6 +197,7 @@ Before finishing a new or updated article:
 ```yaml
 ---
 title: "Short descriptive title"
+summary: "Brief list-view summary of the entry."
 year: 0000
 decade: 0000
 category: landmark

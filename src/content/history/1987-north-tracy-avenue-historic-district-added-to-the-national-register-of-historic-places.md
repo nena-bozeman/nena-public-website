@@ -1,5 +1,6 @@
 ---
 title: "North Tracy Avenue Historic District added to the National Register of Historic Places"
+summary: "The 300–500 blocks of North Tracy hold the densest collection of historic homes north of Main, listed as a National Register district in 1987."
 year: 1987
 decade: 1980
 category: landmark

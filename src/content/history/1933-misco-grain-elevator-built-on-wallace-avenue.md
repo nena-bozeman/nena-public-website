@@ -1,5 +1,6 @@
 ---
 title: "Misco grain elevator built on North Wallace Avenue"
+summary: "MISCO built a wooden-crib grain elevator at 700 North Wallace Avenue beside the railroad—one of few elevators raised in the West during the Depression and later listed on the National Register."
 year: 1933
 decade: 1930
 category: landmark

@@ -1,5 +1,6 @@
 ---
 title: "Beall Park Community Center added to the National Register of Historic Places"
+summary: "The 1927 Craftsman fieldstone community center at Beall Park was listed on the National Register as a landmark of recreation and arts in the northeast."
 year: 1987
 decade: 1980
 category: landmark
