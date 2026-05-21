@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 import { computeSiteRootPrefix, normalizeAstroBase } from './src/utils/site-base.mjs';
 import { viteExpandCraftSitePlaceholder } from './src/plugins/vite-expand-craft-site-placeholder.mjs';
 
@@ -12,9 +12,11 @@ export default defineConfig({
   site,
   base: siteBase,
   output: 'static',
-  integrations: [tailwind()],
   vite: {
-    plugins: [viteExpandCraftSitePlaceholder({ siteRoot: siteRootPrefix })],
+    plugins: [
+      tailwindcss(),
+      viteExpandCraftSitePlaceholder({ siteRoot: siteRootPrefix }),
+    ],
   },
   markdown: {
     // Use file paths (not function references) so plugins survive Astro content sync serialization.

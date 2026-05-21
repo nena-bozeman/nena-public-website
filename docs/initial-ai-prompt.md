@@ -7,10 +7,10 @@ Build a static neighborhood association website for NENA (Northeast Neighborhood
 ## Tech Stack
 
 - **Framework:** Astro (latest) with static output by default
-- **Styling:** Tailwind CSS
+- **Styling:** Tailwind CSS v4 via `@tailwindcss/vite` (theme and plugins in `src/styles/global.css`, not a JS config file)
 - **CMS:** Decap CMS (git-based, no database) with `local_backend: true` for development
 - **Deployment target:** Cloudflare Pages
-- **Package manager:** npm
+- **Package manager:** pnpm
 - **TypeScript:** enabled
 - **Content:** Astro Content Collections for all content types
 
@@ -87,12 +87,43 @@ nena-website/
 │   │   │   └── [slug].astro    # Individual objective page
 │   │   └── 404.astro
 │   └── styles/
-│       └── global.css
-├── astro.config.mjs
-├── tailwind.config.mjs
+│       └── global.css          # @import tailwindcss, @theme tokens, typography plugin
+├── astro.config.mjs            # @tailwindcss/vite in vite.plugins
 ├── tsconfig.json
 └── package.json
 ```
+
+## Tailwind CSS setup
+
+Tailwind v4 uses the Vite plugin (not `@astrojs/tailwind`). Register it in `astro.config.mjs`:
+
+```javascript
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineConfig({
+  vite: {
+    plugins: [tailwindcss()],
+  },
+});
+```
+
+Define design tokens and load the typography plugin in `src/styles/global.css` (imported from `Base.astro`):
+
+```css
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/typography';
+
+@theme {
+  --color-primary: #2d5016;
+  --color-cream: #f5f0e8;
+  --color-accent: #d4840a;
+  --font-serif: Georgia, Playfair Display, serif;
+  --font-sans: system-ui, sans-serif;
+}
+```
+
+Use utilities like `bg-primary`, `bg-cream`, `text-accent`, `font-serif`, and `prose prose-green` in components. There is no `tailwind.config.mjs`.
 
 ## Devcontainer Configuration
 
@@ -474,8 +505,8 @@ Mobile: hamburger menu with full-screen overlay or slide-in drawer.
 
 ## Design Guidelines
 
-- Color palette: warm and civic — suggest deep green (`#2D5016`) as primary, warm cream (`#F5F0E8`) as background, amber (`#D4840A`) as accent
-- Typography: a serif for headings (e.g., Georgia or a Google Font like Playfair Display), sans-serif for body
+- Color palette (defined in `global.css` `@theme`): primary `#2D5016`, cream `#F5F0E8`, accent `#D4840A` — use `bg-primary`, `bg-cream`, `text-accent`, etc.
+- Typography: `font-serif` / `font-sans` from `@theme`; markdown bodies use `prose prose-green`
 - The neighborhood's tagline "Last Best Neighborhood" should appear prominently on the homepage
 - All pages should have proper Open Graph meta tags for social sharing
 - Favicon: placeholder SVG using the initials "NE"
@@ -502,7 +533,7 @@ Generate a thorough `README.md` covering:
 - Getting started locally and via Codespaces (one-click badge)
 - How to run the Decap local backend
 - How to add content via the CMS
-- Deployment to Cloudflare Pages (build command `npm run build`, output directory `dist`)
+- Deployment to Cloudflare Pages (build command `pnpm run build`, output directory `dist`)
 - Environment variables reference
 - How to contribute
 - License (MIT)
