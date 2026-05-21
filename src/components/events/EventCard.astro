@@ -8,11 +8,12 @@ export interface Props {
   address?: string;
   summary: string;
   category: string;
+  cancelled?: boolean;
   externalUrl?: string;
 }
 
 const base = import.meta.env.BASE_URL;
-const { slug, title, startDate, endDate: _endDate, location, address, summary, category, externalUrl } = Astro.props;
+const { slug, title, startDate, endDate: _endDate, location, address, summary, category, cancelled = false, externalUrl } = Astro.props;
 const eventHref = `${base}events/${slug}`;
 
 const categoryColors: Record<string, string> = {
@@ -24,17 +25,22 @@ const categoryColors: Record<string, string> = {
 };
 ---
 
-<article class="bg-white rounded-lg shadow-xs hover:shadow-md transition-shadow border border-gray-100 p-6">
+<article class:list={['bg-white rounded-lg shadow-xs hover:shadow-md transition-shadow border p-6', cancelled ? 'border-red-200 opacity-90' : 'border-gray-100']}>
   <div class="flex items-start gap-4">
-    <div class="shrink-0 text-center bg-primary text-white rounded-lg p-3 min-w-[64px]">
+    <div class:list={['shrink-0 text-center rounded-lg p-3 min-w-[64px]', cancelled ? 'bg-gray-400 text-white' : 'bg-primary text-white']}>
       <div class="text-xs font-medium uppercase">{startDate.toLocaleDateString('en-US', { month: 'short' })}</div>
       <div class="text-2xl font-serif font-bold leading-none">{startDate.getDate()}</div>
     </div>
     <div class="flex-1 min-w-0">
-      <div class="flex items-center gap-2 mb-1">
+      <div class="flex flex-wrap items-center gap-2 mb-1">
         <span class={`text-xs font-medium px-2 py-0.5 rounded-full ${categoryColors[category] ?? categoryColors.other}`}>
           {category.charAt(0).toUpperCase() + category.slice(1)}
         </span>
+        {cancelled && (
+          <span class="text-xs font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full bg-red-100 text-red-800 border border-red-200">
+            Cancelled
+          </span>
+        )}
       </div>
       <h3 class="font-serif font-bold text-primary text-lg">
         <a href={eventHref} class="hover:text-accent transition-colors">{title}</a>
@@ -48,7 +54,7 @@ const categoryColors: Record<string, string> = {
       <a href={eventHref} class="inline-block mt-3 text-accent hover:text-amber-700 text-sm font-medium transition-colors">
         Event details →
       </a>
-      {externalUrl && (
+      {externalUrl && !cancelled && (
         <a href={externalUrl} target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-accent hover:text-amber-700 text-sm font-medium transition-colors">
           View Details / Register →
         </a>

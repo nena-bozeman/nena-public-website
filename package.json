@@ -13,6 +13,7 @@
     "inventory:legacy:quick": "node scripts/build-legacy-inventory.mjs --no-crawl-assets",
     "redirects:legacy": "node scripts/build-cloudflare-redirects.mjs",
     "check:internal-links": "node scripts/check-internal-links.mjs",
+    "rss-to-notes": "node scripts/rss-to-notes.mjs",
     "legacy-mysql:up": "cd data/docker/legacy-mysql && docker compose up -d",
     "legacy-mysql:stop": "cd data/docker/legacy-mysql && docker compose stop",
     "legacy-mysql:down": "cd data/docker/legacy-mysql && docker compose down",

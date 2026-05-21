@@ -1,5 +1,6 @@
 ---
 title: "Northeast Bozeman Platted"
+summary: "The Northeast was platted after the Northern Pacific Railroad arrived, shaping the gridded streets and industrial corridor that define the neighborhood today."
 year: 1883
 decade: 1880
 category: "founding"

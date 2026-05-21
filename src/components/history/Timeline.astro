@@ -32,7 +32,7 @@ function historyImageSrc(image: string | undefined): string | undefined {
 
 <div class="space-y-12">
   {Object.entries(byDecade).map(([decade, decadeEntries]) => (
-    <div>
+    <div data-history-decade={decade}>
       <h2 class="font-serif text-3xl font-bold text-primary mb-6 pb-2 border-b-2 border-accent">{decade}s</h2>
       <div class="relative">
         <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-amber-200"></div>
@@ -40,7 +40,7 @@ function historyImageSrc(image: string | undefined): string | undefined {
           {decadeEntries.map((entry) => {
             const thumbSrc = historyImageSrc(entry.data.image);
             return (
-            <div class="relative pl-16">
+            <div class="relative pl-16" data-history-category={entry.data.category}>
               <div class="absolute left-0 top-1 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold font-serif">
                 {entry.data.year}
               </div>
@@ -66,6 +66,7 @@ function historyImageSrc(image: string | undefined): string | undefined {
                     <h3 class="font-serif font-bold text-primary text-lg">
                       <a href={`${base}history/${entry.slug}`} class="hover:text-accent transition-colors">{entry.data.title}</a>
                     </h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mt-2">{entry.data.summary}</p>
                     <a href={`${base}history/${entry.slug}`} class="inline-block mt-2 text-accent hover:text-amber-700 text-sm font-medium transition-colors">
                       Read more →
                     </a>

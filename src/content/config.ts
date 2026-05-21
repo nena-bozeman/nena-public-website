@@ -33,6 +33,8 @@ const events = defineCollection({
     summary: z.string(),
     category: z.enum(['social', 'civic', 'committee', 'tour', 'other']),
     featured: z.boolean().default(false),
+    /** When true, listings and the event page show a cancelled label (event kept for the record). */
+    cancelled: z.boolean().default(false),
     externalUrl: z.string().url().optional(),
     dateCreated: z.coerce.date().optional(),
     dateUpdated: z.coerce.date().optional(),
@@ -78,6 +80,8 @@ const history = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    /** One- or two-sentence summary shown on the timeline list view. */
+    summary: z.string(),
     year: z.number(),
     decade: z.number(),
     category: z.enum(['founding', 'development', 'community', 'landmark', 'other']),
