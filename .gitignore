@@ -49,3 +49,4 @@ data/docker/legacy-mysql/.env
 *.sw?
 .pnpm-store
 
+**/*.tmp

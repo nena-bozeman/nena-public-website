@@ -1,5 +1,6 @@
 ---
 title: "Northeast Renaissance: Craft Beverage and Food Scene Emerges"
+summary: "Craft breweries, bakeries, and coffee roasters revitalized northeast commercial streets in the 2010s while much historic fabric remained."
 year: 2010
 decade: 2010
 category: "community"

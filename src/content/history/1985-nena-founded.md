@@ -1,5 +1,6 @@
 ---
 title: "NENA Founded"
+summary: "Residents formally organized NENA in 1985 to speak up in city planning and build community around Beall Park."
 year: 1985
 decade: 1980
 category: "community"
