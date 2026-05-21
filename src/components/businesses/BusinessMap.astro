@@ -407,13 +407,25 @@ const businessMapConfig = JSON.stringify({ allPoints: rawMapPoints, key: apiKey,
         }
       });
 
-      var mapTab = document.getElementById('map-view-btn');
-      mapTab &&
-        mapTab.addEventListener('click', function () {
-          requestAnimationFrame(function () {
-            requestAnimationFrame(initOrRefreshMap);
-          });
+      function scheduleMapInit() {
+        requestAnimationFrame(function () {
+          requestAnimationFrame(initOrRefreshMap);
         });
+      }
+
+      var mapTab = document.getElementById('map-view-btn');
+      mapTab && mapTab.addEventListener('click', scheduleMapInit);
+
+      window.addEventListener('nena-businesses-view', function (e) {
+        if (e.detail && e.detail.view === 'map') scheduleMapInit();
+      });
+
+      if (
+        document.getElementById('map-view') &&
+        !document.getElementById('map-view').classList.contains('hidden')
+      ) {
+        scheduleMapInit();
+      }
     })();
     </script>
   </>

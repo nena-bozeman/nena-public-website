@@ -59,10 +59,35 @@ const categories = [
     <div id="map-view" class="hidden">
       <BusinessMap businesses={openBusinesses} />
     </div>
+
+    <script is:inline>
+      (function () {
+        if (new URLSearchParams(location.search).get('view') === 'map') {
+          document.getElementById('list-view')?.classList.add('hidden');
+          document.getElementById('map-view')?.classList.remove('hidden');
+          var listBtn = document.getElementById('list-view-btn');
+          var mapBtn = document.getElementById('map-view-btn');
+          if (listBtn && mapBtn) {
+            listBtn.classList.remove('bg-primary', 'text-white');
+            listBtn.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+            mapBtn.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+            mapBtn.classList.add('bg-primary', 'text-white');
+          }
+        }
+      })();
+    </script>
   </div>
 </Base>
 
 <script>
+  const VIEW_PARAM = 'view';
+  type DirectoryView = 'list' | 'map';
+
+  function parseViewFromSearch(search: string): DirectoryView {
+    const v = new URLSearchParams(search).get(VIEW_PARAM);
+    return v === 'map' ? 'map' : 'list';
+  }
+
   const filterBtns = document.querySelectorAll('.category-filter');
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -88,22 +113,67 @@ const categories = [
   const mapViewBtn = document.getElementById('map-view-btn');
   const listView = document.getElementById('list-view');
   const mapView = document.getElementById('map-view');
-  
+
+  const activeBtn =
+    'px-4 py-2 rounded-sm text-sm font-medium bg-primary text-white transition-colors';
+  const inactiveBtn =
+    'px-4 py-2 rounded-sm text-sm font-medium bg-white text-gray-600 border border-gray-200 hover:border-primary transition-colors';
+
+  function setViewButtons(view: DirectoryView) {
+    if (!listViewBtn || !mapViewBtn) return;
+    if (view === 'list') {
+      listViewBtn.className = activeBtn;
+      mapViewBtn.className = inactiveBtn;
+    } else {
+      mapViewBtn.className = activeBtn;
+      listViewBtn.className = inactiveBtn;
+    }
+  }
+
+  function setViewPanels(view: DirectoryView) {
+    if (view === 'list') {
+      listView?.classList.remove('hidden');
+      mapView?.classList.add('hidden');
+    } else {
+      mapView?.classList.remove('hidden');
+      listView?.classList.add('hidden');
+    }
+  }
+
+  function syncViewToUrl(view: DirectoryView, replace: boolean) {
+    const url = new URL(location.href);
+    if (view === 'list') {
+      url.searchParams.delete(VIEW_PARAM);
+    } else {
+      url.searchParams.set(VIEW_PARAM, view);
+    }
+    const next = url.pathname + url.search + url.hash;
+    if (replace) {
+      history.replaceState({ view }, '', next);
+    } else {
+      history.pushState({ view }, '', next);
+    }
+  }
+
+  function applyView(view: DirectoryView, options: { updateUrl?: boolean; replaceUrl?: boolean } = {}) {
+    const { updateUrl = false, replaceUrl = false } = options;
+    setViewPanels(view);
+    setViewButtons(view);
+    if (updateUrl) syncViewToUrl(view, replaceUrl);
+    window.dispatchEvent(new CustomEvent('nena-businesses-view', { detail: { view } }));
+  }
+
+  applyView(parseViewFromSearch(location.search), { updateUrl: true, replaceUrl: true });
+
   listViewBtn?.addEventListener('click', () => {
-    listView?.classList.remove('hidden');
-    mapView?.classList.add('hidden');
-    listViewBtn.classList.add('bg-primary', 'text-white');
-    listViewBtn.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
-    mapViewBtn?.classList.remove('bg-primary', 'text-white');
-    mapViewBtn?.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+    applyView('list', { updateUrl: true });
   });
-  
+
   mapViewBtn?.addEventListener('click', () => {
-    mapView?.classList.remove('hidden');
-    listView?.classList.add('hidden');
-    mapViewBtn.classList.add('bg-primary', 'text-white');
-    mapViewBtn.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
-    listViewBtn?.classList.remove('bg-primary', 'text-white');
-    listViewBtn?.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+    applyView('map', { updateUrl: true });
+  });
+
+  window.addEventListener('popstate', () => {
+    applyView(parseViewFromSearch(location.search));
   });
 </script>
