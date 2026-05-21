@@ -42,7 +42,6 @@
     "js-yaml": "^4.1.1",
     "mysql2": "^3.22.3",
     "pagefind": "^1.5.2",
-    "pdf-parse": "2.4.5",
     "turndown": "^7.2.4",
     "typescript": "^5.9.3",
     "wrangler": "^4.90.0"
