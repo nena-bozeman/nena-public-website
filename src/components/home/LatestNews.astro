@@ -18,7 +18,7 @@ const latestNews = allNews
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {latestNews.map((post) => (
-        <article class="bg-cream rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-amber-100">
+        <article class="bg-cream rounded-lg overflow-hidden shadow-xs hover:shadow-md transition-shadow border border-amber-100">
           <div class="p-6">
             <time class="text-xs font-medium text-accent uppercase tracking-wide">
               {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}

@@ -73,7 +73,7 @@ const businessMapConfig = JSON.stringify({ allPoints: rawMapPoints, key: apiKey,
           {categoryLegend.map((row) => (
             <span class="inline-flex items-center gap-1.5" data-legend-cat={row.id}>
               <span
-                class="h-2.5 w-2.5 shrink-0 rounded-full border-2 border-white shadow-sm"
+                class="h-2.5 w-2.5 shrink-0 rounded-full border-2 border-white shadow-xs"
                 style={{ backgroundColor: row.fill }}
                 aria-hidden="true"
               />
@@ -187,7 +187,7 @@ const businessMapConfig = JSON.stringify({ allPoints: rawMapPoints, key: apiKey,
             return (
               '<span class="inline-flex items-center gap-1.5" data-legend-cat="' +
               esc(r.id) +
-              '"><span class="h-2.5 w-2.5 shrink-0 rounded-full border-2 border-white shadow-sm" style="background-color:' +
+              '"><span class="h-2.5 w-2.5 shrink-0 rounded-full border-2 border-white shadow-xs" style="background-color:' +
               r.fill +
               '" aria-hidden="true"></span><span>' +
               esc(r.label) +
@@ -316,8 +316,8 @@ const businessMapConfig = JSON.stringify({ allPoints: rawMapPoints, key: apiKey,
           '<li><strong>Maps JavaScript API</strong> is enabled (APIs &amp; Services &rarr; Library).</li>' +
           '<li><strong>Billing</strong> is enabled for the project.</li>' +
           '<li>If the key has <strong>Application restrictions &rarr; HTTP referrers</strong>, add your dev origin, e.g. ' +
-          '<code class="text-xs bg-white px-1 rounded">http://localhost:4321/*</code> and (if you use it) ' +
-          '<code class="text-xs bg-white px-1 rounded">http://127.0.0.1:4321/*</code> — and your production site URL. Current page origin: <code class="text-xs break-all bg-white px-1 rounded">' +
+          '<code class="text-xs bg-white px-1 rounded-sm">http://localhost:4321/*</code> and (if you use it) ' +
+          '<code class="text-xs bg-white px-1 rounded-sm">http://127.0.0.1:4321/*</code> — and your production site URL. Current page origin: <code class="text-xs break-all bg-white px-1 rounded-sm">' +
           (origin || 'unknown') +
           '</code></li>' +
           '<li>Under <strong>API restrictions</strong>, either don&rsquo;t restrict, or allow at least the Maps JavaScript API.</li>' +

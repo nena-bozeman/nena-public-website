@@ -24,9 +24,9 @@ const categoryColors: Record<string, string> = {
 };
 ---
 
-<article class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 p-6">
+<article class="bg-white rounded-lg shadow-xs hover:shadow-md transition-shadow border border-gray-100 p-6">
   <div class="flex items-start gap-4">
-    <div class="flex-shrink-0 text-center bg-primary text-white rounded-lg p-3 min-w-[64px]">
+    <div class="shrink-0 text-center bg-primary text-white rounded-lg p-3 min-w-[64px]">
       <div class="text-xs font-medium uppercase">{startDate.toLocaleDateString('en-US', { month: 'short' })}</div>
       <div class="text-2xl font-serif font-bold leading-none">{startDate.getDate()}</div>
     </div>

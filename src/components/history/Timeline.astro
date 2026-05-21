@@ -44,7 +44,7 @@ function historyImageSrc(image: string | undefined): string | undefined {
               <div class="absolute left-0 top-1 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold font-serif">
                 {entry.data.year}
               </div>
-              <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-5">
+              <div class="bg-white rounded-lg shadow-xs border border-gray-100 p-5">
                 <div class:list={[{ 'flex flex-col sm:flex-row gap-4': Boolean(thumbSrc) }]}>
                   {thumbSrc && (
                     <div class="shrink-0 w-full sm:w-32 aspect-video sm:aspect-auto sm:h-24 rounded-md overflow-hidden border border-gray-100 bg-gray-50">

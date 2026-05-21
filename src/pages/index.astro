@@ -32,9 +32,9 @@ const base = import.meta.env.BASE_URL;
       {upcomingEvents.length > 0 ? (
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           {upcomingEvents.map((event) => (
-            <article class="bg-white rounded-lg shadow-sm border border-amber-100 p-5">
+            <article class="bg-white rounded-lg shadow-xs border border-amber-100 p-5">
               <div class="flex items-start gap-3">
-                <div class="flex-shrink-0 text-center bg-primary text-white rounded-lg p-2 min-w-[52px]">
+                <div class="shrink-0 text-center bg-primary text-white rounded-lg p-2 min-w-[52px]">
                   <div class="text-xs font-medium uppercase">{event.data.startDate.toLocaleDateString('en-US', { month: 'short' })}</div>
                   <div class="text-xl font-serif font-bold leading-none">{event.data.startDate.getDate()}</div>
                 </div>

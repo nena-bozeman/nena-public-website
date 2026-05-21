@@ -27,7 +27,7 @@ const wideLayout = newsTags.length > 0;
     <ul class="space-y-4 list-none p-0 m-0">
       {
         meetings.map((m) => (
-          <li class="border border-gray-100 rounded-lg p-5 bg-white shadow-sm">
+          <li class="border border-gray-100 rounded-lg p-5 bg-white shadow-xs">
             <a href={`${base}objectives/nena-meetings/${m.slug}`} class="font-serif text-lg font-semibold text-primary hover:text-accent transition-colors">
               {m.data.title}
             </a>
@@ -40,7 +40,7 @@ const wideLayout = newsTags.length > 0;
       }
     </ul>
     <p class="text-gray-600 text-sm mt-10">
-      Additional agendas, recordings, or newer minutes can be added as new entries under <code class="text-xs bg-gray-100 px-1 rounded">src/content/meetings/</code>.
+      Additional agendas, recordings, or newer minutes can be added as new entries under <code class="text-xs bg-gray-100 px-1 rounded-sm">src/content/meetings/</code>.
     </p>
     <ObjectiveRelatedNews tags={newsTags} posts={relatedNews} />
   </div>

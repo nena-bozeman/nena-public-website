@@ -17,7 +17,7 @@ const { title, date, summary, author, tags = [], slug, showTags = true, draft = 
 const postHref = `${base}news/${slug}`;
 ---
 
-<article class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 p-6">
+<article class="bg-white rounded-lg shadow-xs hover:shadow-md transition-shadow border border-gray-100 p-6">
   <div class="flex items-center gap-3 mb-3">
     <time class="text-xs font-medium text-accent uppercase tracking-wide">
       {date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}

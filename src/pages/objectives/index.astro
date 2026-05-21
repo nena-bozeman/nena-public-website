@@ -10,7 +10,7 @@ const activeObjectives = allObjectives.filter(o => o.data.active).sort((a, b) =>
     <h1 class="font-serif text-4xl font-bold text-primary mb-4">Objectives & Committees</h1>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       {activeObjectives.map((objective) => (
-        <article class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+        <article class="bg-white rounded-lg shadow-xs border border-gray-100 p-6">
           <h2 class="font-serif font-bold text-primary text-xl mb-2"><a href={`${base}objectives/${objective.slug}`} class="hover:text-accent transition-colors">{objective.data.title}</a></h2>
           <p class="text-gray-600 text-sm mb-4">{objective.data.summary}</p>
           <a href={`${base}objectives/${objective.slug}`} class="mt-4 inline-block text-accent text-sm font-medium">Learn more →</a>
