@@ -25,9 +25,9 @@ const categoryColors: Record<string, string> = {
 };
 ---
 
-<article class:list={['bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border p-6', cancelled ? 'border-red-200 opacity-90' : 'border-gray-100']}>
+<article class:list={['bg-white rounded-lg shadow-xs hover:shadow-md transition-shadow border p-6', cancelled ? 'border-red-200 opacity-90' : 'border-gray-100']}>
   <div class="flex items-start gap-4">
-    <div class:list={['flex-shrink-0 text-center rounded-lg p-3 min-w-[64px]', cancelled ? 'bg-gray-400 text-white' : 'bg-primary text-white']}>
+    <div class:list={['shrink-0 text-center rounded-lg p-3 min-w-[64px]', cancelled ? 'bg-gray-400 text-white' : 'bg-primary text-white']}>
       <div class="text-xs font-medium uppercase">{startDate.toLocaleDateString('en-US', { month: 'short' })}</div>
       <div class="text-2xl font-serif font-bold leading-none">{startDate.getDate()}</div>
     </div>

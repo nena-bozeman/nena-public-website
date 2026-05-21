@@ -96,28 +96,6 @@ export function isLegacyCraftAssetPath(posixPath) {
   return /\/files\/(download|thumb|large)\//.test(posixPath);
 }
 
-/**
- * Literal unreplaced `{{ url:site }}` in href text (not URL-encoded).
- *
- * @param {string} href
- */
-function hasLiteralCraftSitePlaceholder(href) {
-  return typeof href === 'string' && !!href && href.includes('{{') && /url:site/i.test(href);
-}
-
-/**
- * Detect raw or URL-encoded Craft `{{ url:site }}` placeholder in href.
- *
- * @param {string} href
- */
-export function hasCraftSitePlaceholder(href) {
-  if (typeof href !== 'string' || !href) return false;
-  if (hasLiteralCraftSitePlaceholder(href)) return true;
-  const lower = href.toLowerCase();
-  if (!lower.includes('%7b')) return false;
-  return lower.includes('%7b%7b%20url:site%20%7d%7d') || lower.includes('%7b%7burl:site%7d%7d');
-}
-
 function targetExistsOnDisk(distRoot, pathAfterBase) {
   let p = pathAfterBase.replace(/\/+$/, '') || '/';
   if (p.startsWith('/')) p = p.slice(1);
@@ -247,8 +225,6 @@ export function navigationalHrefIssue(href, relHtmlPath, routing, distRoot) {
   const skipReason = skipHrefReason(href);
   if (skipReason) return null;
   if (href.startsWith('#')) return null;
-  // Literal placeholders cannot resolve; encoded placeholders still resolve ambiguously.
-  if (hasLiteralCraftSitePlaceholder(href)) return null;
 
   const fromDirUrlPath = fileRelToDirUrlPath(relHtmlPath, routing.basePath);
   const pathname = resolveInternalPathname(href, fromDirUrlPath, routing);

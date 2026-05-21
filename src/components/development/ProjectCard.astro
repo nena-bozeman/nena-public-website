@@ -27,7 +27,7 @@ const statusConfig: Record<string, { color: string; label: string }> = {
 const config = statusConfig[status] ?? { color: 'bg-gray-100 text-gray-800', label: status };
 ---
 
-<article class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 p-6">
+<article class="bg-white rounded-lg shadow-xs hover:shadow-md transition-shadow border border-gray-100 p-6">
   <div class="flex items-center gap-2 mb-2">
     <span class={`text-xs font-semibold px-2.5 py-1 rounded-full ${config.color}`}>
       {config.label}

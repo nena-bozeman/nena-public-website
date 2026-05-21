@@ -27,13 +27,13 @@ const show = totalPages > 1;
       {currentPage > 1 ? (
         <a
           href={newsListingHref(currentPage - 1, base, activeTag)}
-          class="inline-flex items-center justify-center min-w-[7rem] px-4 py-2 rounded-lg border border-amber-200 bg-white text-sm font-medium text-primary hover:bg-cream hover:border-accent transition-colors"
+          class="inline-flex items-center justify-center min-w-28 px-4 py-2 rounded-lg border border-amber-200 bg-white text-sm font-medium text-primary hover:bg-cream hover:border-accent transition-colors"
         >
           ← Previous
         </a>
       ) : (
         <span
-          class="inline-flex items-center justify-center min-w-[7rem] px-4 py-2 rounded-lg border border-gray-100 bg-gray-50 text-sm text-gray-400 cursor-not-allowed"
+          class="inline-flex items-center justify-center min-w-28 px-4 py-2 rounded-lg border border-gray-100 bg-gray-50 text-sm text-gray-400 cursor-not-allowed"
           aria-disabled="true"
         >
           ← Previous
@@ -42,13 +42,13 @@ const show = totalPages > 1;
       {currentPage < totalPages ? (
         <a
           href={newsListingHref(currentPage + 1, base, activeTag)}
-          class="inline-flex items-center justify-center min-w-[7rem] px-4 py-2 rounded-lg bg-accent hover:bg-amber-600 text-white text-sm font-medium transition-colors"
+          class="inline-flex items-center justify-center min-w-28 px-4 py-2 rounded-lg bg-accent hover:bg-amber-600 text-white text-sm font-medium transition-colors"
         >
           Next →
         </a>
       ) : (
         <span
-          class="inline-flex items-center justify-center min-w-[7rem] px-4 py-2 rounded-lg border border-gray-100 bg-gray-50 text-sm text-gray-400 cursor-not-allowed"
+          class="inline-flex items-center justify-center min-w-28 px-4 py-2 rounded-lg border border-gray-100 bg-gray-50 text-sm text-gray-400 cursor-not-allowed"
           aria-disabled="true"
         >
           Next →

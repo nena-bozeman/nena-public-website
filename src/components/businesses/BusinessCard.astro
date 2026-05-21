@@ -26,13 +26,13 @@ const listingHref = `${base}businesses/${slug}`;
 ---
 
 <article
-  class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 overflow-hidden flex flex-col h-full"
+  class="bg-white rounded-lg shadow-xs hover:shadow-md transition-shadow border border-gray-100 overflow-hidden flex flex-col h-full"
   data-business-category={category}
 >
   {cover && (
     <a
       href={listingHref}
-      class="block aspect-[4/3] w-full overflow-hidden bg-gray-100 shrink-0 group"
+      class="block aspect-4/3 w-full overflow-hidden bg-gray-100 shrink-0 group"
       aria-label={`${name} — business listing`}
     >
       <Image
