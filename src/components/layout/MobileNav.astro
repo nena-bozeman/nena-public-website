@@ -1,0 +1,97 @@
+---
+import type { NavGroup, NavItem, NavSection } from '../../data/navigation';
+import { isNavGroupActive, isNavItemActive, resolveNavHref } from '../../data/navigation';
+
+interface Props {
+  navGroups: NavGroup[];
+  base: string;
+  pathname: string;
+}
+
+const { navGroups, base, pathname } = Astro.props;
+
+const linkClass =
+  'block rounded-sm px-4 py-2 text-lg text-green-100 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
+const triggerClass =
+  'flex w-full items-center justify-between rounded-sm px-4 py-3 text-left text-xl font-medium text-green-100 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
+---
+
+<nav class="flex w-full max-w-md flex-col gap-1" aria-label="Mobile navigation">
+  {
+    navGroups.map((group: NavGroup) => {
+      const panelId = `mobile-nav-panel-${group.id}`;
+      const groupActive = isNavGroupActive(pathname, base, group);
+
+      return (
+        <div class="mobile-nav-section" data-mobile-nav-section>
+          <button
+            type="button"
+            data-mobile-nav-trigger
+            class:list={[triggerClass, groupActive ? 'text-white bg-green-800/70' : '']}
+            aria-expanded="false"
+            aria-controls={panelId}
+          >
+            {group.label}
+            <svg
+              class="mobile-nav-section__chevron h-5 w-5 shrink-0 opacity-80"
+              aria-hidden="true"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div id={panelId} data-mobile-nav-panel class="pb-2 pl-2" hidden>
+            {
+              group.description && (
+                <p class="px-4 pb-2 text-sm leading-snug text-green-200/90">{group.description}</p>
+              )
+            }
+            {
+              group.sections.map((section: NavSection, sectionIndex: number) => (
+                <div class:list={[sectionIndex > 0 ? 'mt-2 border-t border-green-700/60 pt-2' : '']}>
+                  {
+                    section.label && (
+                      <p class="px-4 pb-1 text-sm font-semibold uppercase tracking-wide text-green-300/90">
+                        {section.label}
+                      </p>
+                    )
+                  }
+                  {
+                    section.links.map((item: NavItem) => {
+                      const active = isNavItemActive(pathname, base, item.href);
+                      return (
+                        <a
+                          href={resolveNavHref(base, item.href)}
+                          class:list={[linkClass, active ? 'bg-green-800/80 text-white font-medium' : '']}
+                          aria-current={active ? 'page' : undefined}
+                        >
+                          {item.label}
+                        </a>
+                      );
+                    })
+                  }
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      );
+    })
+  }
+</nav>
+
+<style>
+  .mobile-nav-section__chevron {
+    transition: transform 150ms ease;
+  }
+  .mobile-nav-section--open .mobile-nav-section__chevron {
+    transform: rotate(180deg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-nav-section__chevron {
+      transition: none;
+    }
+  }
+</style>

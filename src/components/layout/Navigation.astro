@@ -1,57 +1,60 @@
 ---
+import { getCollection } from 'astro:content';
+import { buildNavGroups, getFeaturedObjectives } from '../../data/navigation';
 import HeaderSearch from './HeaderSearch.astro';
+import MobileNav from './MobileNav.astro';
+import NavDropdown from './NavDropdown.astro';
 
 const base = import.meta.env.BASE_URL;
+const pathname = Astro.url.pathname;
+const objectives = await getCollection('objectives');
+const featuredObjectives = getFeaturedObjectives(objectives);
+const navGroups = buildNavGroups(featuredObjectives);
 ---
 
 <div class="flex min-w-0 flex-1 items-center justify-end gap-1 sm:gap-2">
-<nav class="hidden md:flex items-center gap-1" aria-label="Main navigation">
-  <a href={base} class="px-3 py-2 rounded-sm text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Home</a>
-  <a href={`${base}news`} class="px-3 py-2 rounded-sm text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">News</a>
-  <a href={`${base}events`} class="px-3 py-2 rounded-sm text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Events</a>
-  <a href={`${base}objectives`} class="px-3 py-2 rounded-sm text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Objectives</a>
-  <a href={`${base}history`} class="px-3 py-2 rounded-sm text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">History</a>
-  <a href={`${base}businesses`} class="px-3 py-2 rounded-sm text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Businesses</a>
-  <a href={`${base}development`} class="px-3 py-2 rounded-sm text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Development</a>
-  <a href={`${base}community`} class="px-3 py-2 rounded-sm text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">Community</a>
-  <a href={`${base}about`} class="px-3 py-2 rounded-sm text-sm font-medium text-green-100 hover:text-white hover:bg-green-800 transition-colors">About</a>
-</nav>
+  <nav class="hidden items-center gap-0.5 md:flex" aria-label="Main navigation">
+    {navGroups.map((group) => <NavDropdown group={group} base={base} pathname={pathname} />)}
+  </nav>
 
-<HeaderSearch />
+  <HeaderSearch />
 
-<!-- Mobile menu button -->
-<button id="mobile-menu-btn" class="md:hidden p-2 rounded-sm text-green-100 hover:text-white hover:bg-green-800 transition-colors" aria-label="Open menu">
-  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-  </svg>
-</button>
-</div>
-
-<!-- Mobile menu overlay -->
-<div id="mobile-menu" class="hidden fixed inset-0 z-50 bg-primary flex flex-col items-center justify-center md:hidden">
-  <button id="close-menu-btn" class="absolute top-4 right-4 p-2 text-green-100 hover:text-white" aria-label="Close menu">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+  <button
+    id="mobile-menu-btn"
+    type="button"
+    class="rounded-sm p-2 text-green-100 transition-colors hover:bg-green-800 hover:text-white md:hidden"
+    aria-expanded="false"
+    aria-controls="mobile-menu"
+    aria-label="Open menu"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
     </svg>
   </button>
-  <nav class="flex flex-col items-center gap-4 text-xl" aria-label="Mobile navigation">
-    <a href={base} class="text-green-100 hover:text-white font-medium transition-colors">Home</a>
-    <a href={`${base}news`} class="text-green-100 hover:text-white font-medium transition-colors">News</a>
-    <a href={`${base}events`} class="text-green-100 hover:text-white font-medium transition-colors">Events</a>
-    <a href={`${base}objectives`} class="text-green-100 hover:text-white font-medium transition-colors">Objectives</a>
-    <a href={`${base}history`} class="text-green-100 hover:text-white font-medium transition-colors">History</a>
-    <a href={`${base}businesses`} class="text-green-100 hover:text-white font-medium transition-colors">Businesses</a>
-    <a href={`${base}development`} class="text-green-100 hover:text-white font-medium transition-colors">Development</a>
-    <a href={`${base}community`} class="text-green-100 hover:text-white font-medium transition-colors">Community</a>
-    <a href={`${base}about`} class="text-green-100 hover:text-white font-medium transition-colors">About</a>
-  </nav>
+</div>
+
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-y-auto bg-primary px-4 py-16 md:hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Site menu"
+  hidden
+>
+  <button
+    id="close-menu-btn"
+    type="button"
+    class="absolute right-4 top-4 rounded-sm p-2 text-green-100 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80"
+    aria-label="Close menu"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+  </button>
+  <MobileNav navGroups={navGroups} base={base} pathname={pathname} />
 </div>
 
 <script>
-  const btn = document.getElementById('mobile-menu-btn');
-  const closeBtn = document.getElementById('close-menu-btn');
-  const menu = document.getElementById('mobile-menu');
-  
-  btn?.addEventListener('click', () => menu?.classList.remove('hidden'));
-  closeBtn?.addEventListener('click', () => menu?.classList.add('hidden'));
+  import '../../client/nav-dropdown';
+  import '../../client/mobile-nav';
 </script>

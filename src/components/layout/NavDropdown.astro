@@ -1,0 +1,98 @@
+---
+import type { NavGroup, NavItem, NavSection } from '../../data/navigation';
+import { isNavGroupActive, isNavItemActive, resolveNavHref } from '../../data/navigation';
+
+interface Props {
+  group: NavGroup;
+  base: string;
+  pathname: string;
+}
+
+const { group, base, pathname } = Astro.props;
+const panelId = `nav-panel-${group.id}`;
+const groupActive = isNavGroupActive(pathname, base, group);
+
+const linkClass =
+  'block rounded-sm px-3 py-2 text-sm text-green-100 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
+const triggerClass =
+  'flex items-center gap-1 rounded-sm px-3 py-2 text-sm font-medium transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
+---
+
+<div class="nav-dropdown relative" data-nav-dropdown>
+  <button
+    type="button"
+    id={`nav-trigger-${group.id}`}
+    data-nav-dropdown-trigger
+    class:list={[triggerClass, groupActive ? 'text-white bg-green-800/70' : 'text-green-100']}
+    aria-expanded="false"
+    aria-controls={panelId}
+    aria-haspopup="true"
+  >
+    {group.label}
+    <svg
+      class="nav-dropdown__chevron h-4 w-4 shrink-0 opacity-80"
+      aria-hidden="true"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </button>
+  <div
+    id={panelId}
+    data-nav-dropdown-panel
+    class="nav-dropdown__panel absolute left-0 top-full z-50 mt-1 min-w-56 rounded-md border border-green-700/60 bg-primary py-2 shadow-lg"
+    role="menu"
+    aria-labelledby={`nav-trigger-${group.id}`}
+    hidden
+  >
+    {
+      group.description && (
+        <p class="px-3 pb-2 text-xs leading-snug text-green-200/90">{group.description}</p>
+      )
+    }
+    {
+      group.sections.map((section: NavSection, sectionIndex: number) => (
+        <div class:list={[sectionIndex > 0 ? 'mt-1 border-t border-green-700/60 pt-1' : '']}>
+          {
+            section.label && (
+              <p class="px-3 pb-1 pt-1 text-xs font-semibold uppercase tracking-wide text-green-300/90">
+                {section.label}
+              </p>
+            )
+          }
+          {
+            section.links.map((item: NavItem) => {
+              const active = isNavItemActive(pathname, base, item.href);
+              return (
+                <a
+                  href={resolveNavHref(base, item.href)}
+                  class:list={[linkClass, active ? 'bg-green-800/80 text-white font-medium' : '']}
+                  role="menuitem"
+                  aria-current={active ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              );
+            })
+          }
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .nav-dropdown__chevron {
+    transition: transform 150ms ease;
+  }
+  .nav-dropdown--open .nav-dropdown__chevron {
+    transform: rotate(180deg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-dropdown__chevron {
+      transition: none;
+    }
+  }
+</style>
