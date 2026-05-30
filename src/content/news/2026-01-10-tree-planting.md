@@ -9,6 +9,8 @@ topics:
   - trees
   - environment
   - volunteer
+places:
+  - beall-park
 ---
 
 The NENA Trees Committee is excited to announce a community tree planting day! In partnership with the City of Bozeman's Urban Forestry program, we will be planting native trees throughout the neighborhood.

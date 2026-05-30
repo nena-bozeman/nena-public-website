@@ -19,4 +19,4 @@ The Trails & Parks Committee focuses on expanding recreational opportunities wit
 
 ## How to Help
 
-Join a trail maintenance workday or attend our committee meetings (first Tuesday of each month at Beall Park).
+Join a trail maintenance workday or attend a regular meeting to learn more.

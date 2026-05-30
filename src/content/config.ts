@@ -193,9 +193,6 @@ const meetings = defineCollection({
       newsSlugs: z.array(z.string()).default([]),
       dateCreated: z.coerce.date().optional(),
       dateUpdated: z.coerce.date().optional(),
-    })
-    .refine((d) => Boolean(d.minutesPdf || d.minutesDocx), {
-      message: 'Each meeting needs minutesPdf and/or minutesDocx',
     }),
 });
 

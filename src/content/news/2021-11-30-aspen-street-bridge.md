@@ -13,6 +13,8 @@ legacySlug: aspen-street-bridge
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/11/aspen-street-bridge
 topics:
   - trails-pocket-parks
+places:
+  - aspen-street-bridge
 ---
 
 Aspen Street Bridge 

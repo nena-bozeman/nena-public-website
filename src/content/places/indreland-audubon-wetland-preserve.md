@@ -9,7 +9,6 @@ lng: -111.01971
 website: https://bozemanwetlands.org/WP/
 topics:
   - trails-pocket-parks
-  - environment
 status: current
 ---
 

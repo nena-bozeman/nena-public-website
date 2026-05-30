@@ -2,6 +2,20 @@
 /news/tag/newsletter /topics/newsletter 301
 /news/tag/meeting /topics/meeting 301
 /news/tag/meetings /topics/meeting 301
+/news/tag/trees /topics/trees 301
+/news/tag/bozeman-udc /topics/bozeman-udc 301
+/news/tag/affordable-housing /topics/affordable-housing 301
+/news/tag/parade-of-sheds /topics/parade-of-sheds 301
+/news/tag/visionne /topics/visionne 301
+/news/tag/trails-pocket-parks /topics/trails-pocket-parks 301
+/news/tag/traffic-calming /topics/traffic-calming 301
+/news/tag/nena-survey /topics/nena-survey 301
+/news/tag/safe-quiet-rail-crossings /topics/safe-quiet-rail-crossings 301
+/news/tag/environment /topics/environment 301
+/news/tag/volunteer /topics/volunteer 301
+/news/tag/community /topics/community 301
+/news/tag/historic-preservation /topics/historic-preservation 301
+/news/tag/parking /topics/parking 301
 # Regenerate: npm run inventory:legacy && npm run redirects:legacy
 # Cloudflare Pages: https://developers.cloudflare.com/pages/configuration/redirects/
 
@@ -20,4 +34,5 @@
 /objectives/udc /objectives/bozeman-udc 301
 /photovoicesne /objectives/visionne#photovoicesne 301
 /email-signup /newsletter 301
+/objectives/nena-newsletters /newsletter 301
 /elections /governance 301

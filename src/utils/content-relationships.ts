@@ -61,6 +61,7 @@ export function objectivesForTopic(
   return allObjectives.filter(
     (o) =>
       o.slug !== 'nena-meetings' &&
+      o.slug !== 'nena-newsletters' &&
       hasTopics(o) &&
       o.data.topics.includes(topic),
   );

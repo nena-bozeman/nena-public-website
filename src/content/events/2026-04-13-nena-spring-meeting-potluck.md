@@ -10,6 +10,7 @@ featured: false
 externalUrl: https://mailchi.mp/2fde5800b871/nena-cloverleaf-zma-vote-12853364
 topics:
   - meeting
+meetingSlug: 2026-spring-april
 newsSlugs:
   - 2026-04-09-nena-spring-meeting-potluck-april-13
   - 2026-04-13-nena-spring-meeting-notes

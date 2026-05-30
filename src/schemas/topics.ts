@@ -68,9 +68,12 @@ export function topicListingHref(topic: Topic, baseUrl: string): string {
 }
 
 export function objectiveHrefForTopic(topic: Topic, baseUrl: string): string | null {
+  const base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+  if (topic === 'newsletter') {
+    return `${base}newsletter`;
+  }
   const slug = TOPIC_OBJECTIVE_SLUG[topic];
   if (!slug) return null;
-  const base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
   return `${base}objectives/${slug}`;
 }
 

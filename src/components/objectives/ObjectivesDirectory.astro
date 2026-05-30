@@ -11,9 +11,13 @@ export interface Props {
 }
 
 const { filterStatus } = Astro.props;
+const OBJECTIVE_SLUGS_TO_SKIP = new Set(['nena-newsletters']);
+
 const allObjectives = await getCollection('objectives');
 const sorted = [...allObjectives].sort((a, b) => a.data.order - b.data.order);
-const objectives = sorted.filter((o) => matchesListStatus(o.data.status, filterStatus));
+const objectives = sorted.filter(
+  (o) => matchesListStatus(o.data.status, filterStatus) && !OBJECTIVE_SLUGS_TO_SKIP.has(o.slug),
+);
 
 const pageTitle =
   filterStatus === 'past' ? 'Past Objectives & Committees' : 'Objectives & Committees';

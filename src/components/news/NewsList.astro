@@ -6,26 +6,61 @@ export interface Props {
   posts: CollectionEntry<'news'>[];
   showTags?: boolean;
   emptyMessage?: string;
+  /** When set, only this many posts show initially; the rest expand on demand. */
+  initialVisibleCount?: number;
 }
 
-const { posts, showTags = true, emptyMessage } = Astro.props;
+const { posts, showTags = true, emptyMessage, initialVisibleCount } = Astro.props;
+const visibleLimit =
+  initialVisibleCount != null && initialVisibleCount > 0 ? initialVisibleCount : posts.length;
+const expandable = posts.length > visibleLimit;
+const hiddenCount = posts.length - visibleLimit;
 ---
 
-<div class="space-y-6">
+<div class="space-y-6" data-news-list={expandable ? '' : undefined}>
   {posts.length === 0 ? (
     <p class="text-gray-500 text-center py-8">{emptyMessage ?? 'No news posts found.'}</p>
   ) : (
-    posts.map((post) => (
-      <NewsCard
-        title={post.data.title}
-        date={post.data.date}
-        summary={post.data.summary}
-        author={post.data.author}
-        tags={post.data.tags}
-        slug={post.slug}
-        showTags={showTags}
-        draft={post.data.draft}
-      />
+    posts.map((post, index) => (
+      <div class:list={[expandable && index >= visibleLimit && 'hidden']} data-news-list-item={expandable && index >= visibleLimit ? 'hidden' : undefined}>
+        <NewsCard
+          title={post.data.title}
+          date={post.data.date}
+          summary={post.data.summary}
+          author={post.data.author}
+          tags={post.data.tags}
+          slug={post.slug}
+          showTags={showTags}
+          draft={post.data.draft}
+        />
+      </div>
     ))
   )}
+  {
+    expandable && (
+      <button
+        type="button"
+        class="inline-flex items-center justify-center rounded-lg border border-amber-200 bg-white px-5 py-2.5 text-sm font-medium text-primary shadow-xs transition-colors hover:border-accent hover:bg-cream focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        data-news-list-expand
+        aria-expanded="false"
+      >
+        Show {hiddenCount} more
+      </button>
+    )
+  }
 </div>
+
+<script>
+  document.querySelectorAll('[data-news-list]').forEach((list) => {
+    const expandButton = list.querySelector<HTMLButtonElement>('[data-news-list-expand]');
+    if (!expandButton) return;
+
+    expandButton.addEventListener('click', () => {
+      list.querySelectorAll('[data-news-list-item="hidden"]').forEach((item) => {
+        item.classList.remove('hidden');
+        item.removeAttribute('data-news-list-item');
+      });
+      expandButton.remove();
+    });
+  });
+</script>

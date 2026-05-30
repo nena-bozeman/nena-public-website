@@ -1,14 +1,15 @@
 ---
 import NewsTagFilters from './NewsTagFilters.astro';
+import type { Topic } from '../../schemas/topics';
 
 export interface Props {
-  allTags: string[];
-  activeTag: string | null;
+  filterTopics: Topic[];
+  activeTopic?: Topic | null;
   title?: string;
 }
 
 const base = import.meta.env.BASE_URL;
-const { allTags, activeTag, title = 'Neighborhood News' } = Astro.props;
+const { filterTopics, activeTopic = null, title = 'Neighborhood News' } = Astro.props;
 ---
 
 <div class="max-w-4xl mx-auto px-4 py-12">
@@ -26,6 +27,6 @@ const { allTags, activeTag, title = 'Neighborhood News' } = Astro.props;
       Newsletter signup
     </a>
   </aside>
-  <NewsTagFilters tags={allTags} activeTag={activeTag} />
+  <NewsTagFilters topics={filterTopics} activeTopic={activeTopic} />
   <slot />
 </div>

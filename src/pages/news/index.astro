@@ -8,12 +8,12 @@ import {
   NEWS_PER_PAGE,
   sortNewsByDateDesc,
   totalNewsPages,
-  collectUniqueNewsTags,
+  collectUniqueNewsTopics,
   newsEntriesForSite,
 } from '../../utils/news';
 
 const allNews = newsEntriesForSite(await getCollection('news'));
-const allTags = collectUniqueNewsTags(allNews);
+const filterTopics = collectUniqueNewsTopics(allNews);
 const sortedNews = sortNewsByDateDesc(allNews);
 
 const page = 1;
@@ -22,7 +22,7 @@ const paginatedNews = sortedNews.slice(0, NEWS_PER_PAGE);
 ---
 
 <Base title="News" description="Latest news from the Northeast Neighborhood Association">
-  <NewsPageShell allTags={allTags} activeTag={null}>
+  <NewsPageShell filterTopics={filterTopics}>
     <NewsList posts={paginatedNews} />
     <NewsPagination currentPage={page} totalPages={totalPages} />
   </NewsPageShell>

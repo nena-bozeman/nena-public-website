@@ -5,6 +5,7 @@ import {
   eventsMatchingTopics,
   newsMatchingTopics,
   objectivesForTopic,
+  sortNewsByDateDesc,
 } from './content-relationships';
 import {
   entityPageHref,
@@ -222,4 +223,14 @@ export function newsBySlugs(
   return slugs
     .map((slug) => news.find((p) => p.slug === slug))
     .filter((p): p is CollectionEntry<'news'> => Boolean(p));
+}
+
+/** News posts with this place in frontmatter `places`. */
+export function newsReferencingPlace(
+  news: CollectionEntry<'news'>[],
+  placeSlug: string,
+): CollectionEntry<'news'>[] {
+  return sortNewsByDateDesc(
+    news.filter((post) => (post.data.places ?? []).includes(placeSlug)),
+  );
 }

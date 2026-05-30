@@ -7,7 +7,11 @@ import { backlinkCollectionLabel, backlinkHref } from '../../utils/backlinks';
 import type { RelatedPageLink } from '../../utils/related-content';
 
 export interface Props {
+  /** News explicitly linked via frontmatter `places` (place pages). */
+  placeNews?: CollectionEntry<'news'>[];
   relatedNews?: CollectionEntry<'news'>[];
+  /** Defaults to "Related news"; place pages pass "News on related topics". */
+  relatedNewsHeading?: string;
   relatedEvents?: CollectionEntry<'events'>[];
   relatedObjectives?: CollectionEntry<'objectives'>[];
   backlinks?: BacklinkRef[];
@@ -18,7 +22,9 @@ export interface Props {
 
 const base = import.meta.env.BASE_URL;
 const {
+  placeNews = [],
   relatedNews = [],
+  relatedNewsHeading = 'Related news',
   relatedEvents = [],
   relatedObjectives = [],
   backlinks = [],
@@ -35,6 +41,7 @@ const events = excludeEventSlug
   : relatedEvents;
 
 const hasContent =
+  placeNews.length > 0 ||
   news.length > 0 ||
   events.length > 0 ||
   relatedObjectives.length > 0 ||
@@ -46,12 +53,23 @@ const hasContent =
   hasContent && (
     <div class="mt-12 not-prose space-y-12">
       {
+        placeNews.length > 0 && (
+          <section aria-labelledby="place-news-heading">
+            <h2 id="place-news-heading" class="font-serif text-2xl font-bold text-primary mb-6">
+              News about this place
+            </h2>
+            <NewsList posts={placeNews} showTags={false} initialVisibleCount={3} />
+          </section>
+        )
+      }
+
+      {
         news.length > 0 && (
           <section aria-labelledby="related-news-heading">
             <h2 id="related-news-heading" class="font-serif text-2xl font-bold text-primary mb-6">
-              Related news
+              {relatedNewsHeading}
             </h2>
-            <NewsList posts={news} showTags={false} />
+            <NewsList posts={news} showTags={false} initialVisibleCount={3} />
           </section>
         )
       }

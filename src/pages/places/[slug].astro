@@ -15,6 +15,7 @@ import { LIST_STATUS_PAST_SEGMENT } from '../../schemas/list-status';
 import {
   backlinksFor,
   loadSiteContent,
+  newsReferencingPlace,
   placeHistoryLinks,
   relatedEventsByTopics,
   relatedNewsByTopics,
@@ -45,6 +46,15 @@ const logoSrc =
 const hero = getBusinessCoverImage(place.slug, place.data.image);
 const historyLinks = placeHistoryLinks(place, content.history, base);
 const relatedPages = historyLinks;
+const placeNews = newsReferencingPlace(content.news, place.slug);
+const placeNewsSlugs = new Set(placeNews.map((post) => post.slug));
+const topicNews = relatedNewsByTopics(content.news, topics).filter(
+  (post) => !placeNewsSlugs.has(post.slug),
+);
+const allBacklinks = backlinksFor(content.backlinkIndex, 'places', place.slug);
+const backlinks = allBacklinks.filter(
+  (ref) => !(ref.sourceCollection === 'news' && placeNewsSlugs.has(ref.sourceSlug)),
+);
 ---
 
 <Base title={name} description={`${name} — Northeast Neighborhood places directory`} canonicalURL={`/places/${place.slug}`}>
@@ -120,9 +130,11 @@ const relatedPages = historyLinks;
     </div>
 
     <RelatedContent
-      relatedNews={relatedNewsByTopics(content.news, topics)}
+      placeNews={placeNews}
+      relatedNews={topicNews}
+      relatedNewsHeading="News on related topics"
       relatedEvents={relatedEventsByTopics(content.events, topics)}
-      backlinks={backlinksFor(content.backlinkIndex, 'places', place.slug)}
+      backlinks={backlinks}
       relatedPages={relatedPages}
     />
   </article>

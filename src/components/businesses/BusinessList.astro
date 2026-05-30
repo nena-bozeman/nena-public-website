@@ -25,6 +25,7 @@ const filtered = selectedCategory
       <div
         class="business-list-item min-h-0"
         data-categories={(business.data.categories ?? []).join(',')}
+        data-place-type={business.data.placeType}
       >
         <BusinessCard
           slug={business.slug}

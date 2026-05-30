@@ -12,6 +12,7 @@ topics:
 events:
   - 2026-04-13-nena-spring-meeting-potluck
 places:
+  - black-petal-farm
   - centennial-park
 ---
 
