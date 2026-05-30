@@ -47,8 +47,12 @@ collections:
     label: "News"
     folder: "src/content/news"
     create: true
-    summary: "{{title}}  ·  {{date | date('YYYY-MM-DD')}}"
+    summary: "{{title}}  ·  {{date | date('MMM D, YYYY')}}"
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    sortable_fields:
+      - title
+      - { field: date, default_sort: desc }
+      - draft
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
@@ -101,11 +105,14 @@ collections:
     label: "Events"
     folder: "src/content/events"
     create: true
-    summary: "{{title}}  ·  {{startDate | date('YYYY-MM-DD')}}"
+    summary: "{{title}}  ·  {{startDate | date('MMM D, YYYY h:mm A')}}"
+    sortable_fields:
+      - title
+      - { field: startDate, default_sort: desc }
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Start Date", name: "startDate", widget: "datetime" }
-      - { label: "End Date", name: "endDate", widget: "datetime", required: false }
+      - { label: "Start Date", name: "startDate", widget: "datetime", date_format: "YYYY-MM-DD", time_format: "h:mm A" }
+      - { label: "End Date", name: "endDate", widget: "datetime", date_format: "YYYY-MM-DD", time_format: "h:mm A", required: false }
       - { label: "Location", name: "location", widget: "string" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Category", name: "category", widget: "select", options: ["social","civic","committee","tour","other"] }
