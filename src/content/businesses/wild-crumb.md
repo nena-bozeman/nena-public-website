@@ -1,6 +1,7 @@
 ---
 name: "Wild Crumb"
-category: "food-drink"
+categories:
+  - "food-drink"
 address: "600 N Wallace Ave, Bozeman, MT 59715"
 website: "https://www.wildcrumb.com"
 founded: 2010

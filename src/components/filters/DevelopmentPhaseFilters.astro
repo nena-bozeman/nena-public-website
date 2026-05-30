@@ -1,0 +1,48 @@
+---
+import {
+  DEVELOPMENT_PHASE_LABELS,
+  DEVELOPMENT_PHASE_VALUES,
+  type DevelopmentPhase,
+} from '../../schemas/development-phase';
+
+export interface Props {
+  /** Phases that have at least one project on this page (others stay hidden). */
+  availablePhases: readonly DevelopmentPhase[];
+  activePhase: DevelopmentPhase | null;
+}
+
+const { availablePhases, activePhase } = Astro.props;
+
+const pill =
+  'inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium transition-colors development-phase-filter';
+const idle = 'border-amber-200 bg-white text-primary hover:bg-cream hover:border-accent';
+const selected = 'border-accent bg-accent text-white shadow-xs';
+
+const available = new Set(availablePhases);
+---
+
+<nav aria-label="Filter by project phase" class="mb-8 flex flex-wrap items-center gap-2">
+  <span class="text-sm text-gray-600 w-full sm:w-auto sm:mr-1">Phase</span>
+  <button
+    type="button"
+    data-phase=""
+    class:list={[pill, activePhase === null ? selected : idle]}
+    aria-pressed={activePhase === null}
+  >
+    All
+  </button>
+  {
+    DEVELOPMENT_PHASE_VALUES.map((phase) =>
+      available.has(phase) ? (
+        <button
+          type="button"
+          data-phase={phase}
+          class:list={[pill, activePhase === phase ? selected : idle]}
+          aria-pressed={activePhase === phase}
+        >
+          {DEVELOPMENT_PHASE_LABELS[phase]}
+        </button>
+      ) : null,
+    )
+  }
+</nav>

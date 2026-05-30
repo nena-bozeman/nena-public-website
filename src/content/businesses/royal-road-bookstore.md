@@ -1,6 +1,7 @@
 ---
 name: "Royal Road Bookstore"
-category: "retail"
+categories:
+  - "retail"
 address: "521 E Peach St, Suite A, Bozeman, MT 59715"
 website: "https://royalroadbookstore.com/password"
 phone: "(406) 451-8904"

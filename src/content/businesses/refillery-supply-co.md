@@ -1,6 +1,7 @@
 ---
 name: "The Refillery Supply Co."
-category: "retail"
+categories:
+  - "retail"
 address: "601 E Cottonwood St, Bozeman, MT 59715"
 website: "https://therefillerysupply.co/"
 legacy: false

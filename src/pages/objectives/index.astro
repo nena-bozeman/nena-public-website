@@ -1,26 +1,5 @@
 ---
-import Base from '../../layouts/Base.astro';
-import CurrentPastFilters from '../../components/filters/CurrentPastFilters.astro';
-import ObjectiveList from '../../components/objectives/ObjectiveList.astro';
-import { getCollection } from 'astro:content';
-import { matchesListStatus, parseListStatus } from '../../utils/list-status';
-
-const filterStatus = parseListStatus(Astro.url.search);
-const allObjectives = await getCollection('objectives');
-const sorted = [...allObjectives].sort((a, b) => a.data.order - b.data.order);
-const objectives = sorted.filter((o) => matchesListStatus(o.data.status, filterStatus));
-
-const pageTitle =
-  filterStatus === 'past' ? 'Past Objectives & Committees' : 'Objectives & Committees';
-const pageDescription =
-  filterStatus === 'past'
-    ? 'Former NENA committees and neighborhood objectives'
-    : "NENA's active committees and neighborhood objectives";
+import ObjectivesDirectory from '../../components/objectives/ObjectivesDirectory.astro';
 ---
-<Base title={pageTitle} description={pageDescription}>
-  <div class="max-w-5xl mx-auto px-4 py-12">
-    <h1 class="font-serif text-4xl font-bold text-primary mb-4">{pageTitle}</h1>
-    <CurrentPastFilters pagePath="objectives" activeStatus={filterStatus} />
-    <ObjectiveList objectives={objectives} filterStatus={filterStatus} />
-  </div>
-</Base>
+
+<ObjectivesDirectory filterStatus="current" />

@@ -1,6 +1,7 @@
 ---
 name: "Roly-Poly Coffee Co."
-category: "food-drink"
+categories:
+  - "food-drink"
 address: "528 N Broadway Ave, Bozeman, MT 59715"
 website: "https://rolypoly.coffee/"
 legacy: false

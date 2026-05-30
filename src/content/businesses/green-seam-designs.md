@@ -1,6 +1,7 @@
 ---
 name: "Green Seam Designs"
-category: "services"
+categories:
+  - "services"
 address: "724 N Wallace Ave, Bozeman, MT 59715"
 website: "https://www.greenseamdesigns.com/"
 legacy: false

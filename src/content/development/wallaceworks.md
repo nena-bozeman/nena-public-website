@@ -1,6 +1,6 @@
 ---
 title: Wallace Works
-phase: under-review
+phase: under-construction
 status: current
 address: Northeast Bozeman, MT
 submittedDate: 2020-11-22

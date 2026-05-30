@@ -1,6 +1,7 @@
 ---
 name: "Mountains Walking Brewery"
-category: "food-drink"
+categories:
+  - "food-drink"
 address: "422 N Plum Ave, Bozeman, MT 59715"
 website: "https://www.mountainswalkingbrewery.com"
 founded: 2018

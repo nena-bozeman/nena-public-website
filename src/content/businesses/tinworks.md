@@ -1,6 +1,8 @@
 ---
 name: "Tinworks Art"
-category: "arts-culture"
+categories:
+  - "arts-culture"
+  - "nonprofit"
 address: "719 N Ida Ave, Bozeman, MT 59715"
 website: "https://www.tinworksart.org"
 legacy: false

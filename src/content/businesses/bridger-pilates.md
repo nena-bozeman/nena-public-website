@@ -1,6 +1,7 @@
 ---
 name: "Bridger Pilates"
-category: "fitness-wellness"
+categories:
+  - "fitness-wellness"
 address: "810 N Wallace St Suite A, Bozeman, MT 59715"
 website: "https://www.bridgerpilates.com"
 founded: 2012

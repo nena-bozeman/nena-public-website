@@ -5,7 +5,10 @@ import { getCollection } from 'astro:content';
 
 const allBusinesses = await getCollection('businesses');
 const openArtsBusinesses = allBusinesses
-  .filter((b) => b.data.status === 'current' && b.data.category === 'arts-culture')
+  .filter(
+    (b) =>
+      b.data.status === 'current' && b.data.categories.includes('arts-culture'),
+  )
   .sort((a, b) => a.data.name.localeCompare(b.data.name, undefined, { sensitivity: 'base' }));
 
 const base = import.meta.env.BASE_URL;

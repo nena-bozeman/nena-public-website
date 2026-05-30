@@ -1,6 +1,7 @@
 ---
 name: "Zuri Salon"
-category: "services"
+categories:
+  - "services"
 address: "620 E Cottonwood St Unit 101, Bozeman, MT 59715"
 website: "https://www.zurisalonbozeman.com/"
 legacy: false

@@ -1,6 +1,7 @@
 ---
 name: "Echo Arts"
-category: "arts-culture"
+categories:
+  - "arts-culture"
 address: "615 E Peach St Suite C, Bozeman, MT 59715"
 website: "https://www.echoarts.net/"
 legacy: false

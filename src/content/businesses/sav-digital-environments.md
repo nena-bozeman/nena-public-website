@@ -1,6 +1,7 @@
 ---
 name: "SAV Digital Environments"
-category: "services"
+categories:
+  - "services"
 address: "618 N Wallace Ave, Bozeman, MT 59715"
 website: "https://www.savinc.net/"
 legacy: false

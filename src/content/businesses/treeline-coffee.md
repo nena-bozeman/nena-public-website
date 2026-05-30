@@ -1,6 +1,7 @@
 ---
 name: "Treeline Coffee"
-category: "food-drink"
+categories:
+  - "food-drink"
 address: "624 N Wallace Ave, Bozeman, MT 59715"
 website: "https://www.treelinecoffee.com"
 founded: 2014

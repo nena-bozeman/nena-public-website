@@ -3,11 +3,15 @@ import Base from '../../layouts/Base.astro';
 import ObjectiveRelatedNews from '../../components/objectives/ObjectiveRelatedNews.astro';
 import { getCollection } from 'astro:content';
 import { newsEntriesForSite, newsPostsMatchingAnyTag } from '../../utils/news';
+import { LIST_STATUS_PAST_SEGMENT } from '../../schemas/list-status';
 
 export async function getStaticPaths() {
   const objectives = await getCollection('objectives');
   return objectives
-    .filter((objective) => objective.slug !== 'nena-meetings')
+    .filter(
+      (objective) =>
+        objective.slug !== 'nena-meetings' && objective.slug !== LIST_STATUS_PAST_SEGMENT,
+    )
     .map((objective) => ({ params: { slug: objective.slug }, props: { objective } }));
 }
 const { objective } = Astro.props;

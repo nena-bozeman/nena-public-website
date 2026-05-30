@@ -1,6 +1,7 @@
 ---
 name: "Vantage Designs"
-category: "retail"
+categories:
+  - "retail"
 address: "820 N Wallace Ave Suite B, Bozeman, MT 59715"
 website: "https://vantagedesignco.com/"
 legacy: false

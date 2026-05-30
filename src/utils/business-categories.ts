@@ -1,4 +1,17 @@
-/** Shared labels and UI colors for the business `category` field (content schema + map). */
+/** Values match `businesses` collection `categories` in `src/content/config.ts`. */
+export const BUSINESS_CATEGORY_VALUES = [
+  'food-drink',
+  'retail',
+  'services',
+  'arts-culture',
+  'fitness-wellness',
+  'nonprofit',
+  'other',
+] as const;
+
+export type BusinessCategory = (typeof BUSINESS_CATEGORY_VALUES)[number];
+
+/** Shared labels and UI colors for business categories (content schema + map). */
 export const businessCategoryLabels: Record<string, string> = {
   'food-drink': 'Food & Drink',
   retail: 'Retail',
@@ -34,6 +47,41 @@ export const businessCategoryMarker: Record<string, { fill: string; stroke: stri
   other: { fill: '#6b7280', stroke: '#f9fafb' },
 };
 
+/** First listed category drives map pin color. */
+export function businessPrimaryCategory(categories: readonly BusinessCategory[]): BusinessCategory {
+  return categories[0] ?? 'other';
+}
+
+export function businessHasCategory(
+  categories: readonly BusinessCategory[],
+  category: BusinessCategory,
+): boolean {
+  return categories.includes(category);
+}
+
+export function formatBusinessCategoryLabels(categories: readonly BusinessCategory[]): string {
+  return categories.map((c) => businessCategoryLabels[c] ?? c).join(' · ');
+}
+
 export function getBusinessCategoryMarker(category: string) {
   return businessCategoryMarker[category] ?? businessCategoryMarker.other;
+}
+
+/** Filter pills for the directory: All plus categories present in the given listings. */
+export function businessCategoryFilterOptions(
+  businesses: readonly { data: { categories: readonly BusinessCategory[] } }[],
+): { value: '' | BusinessCategory; label: string }[] {
+  const present = new Set<BusinessCategory>();
+  for (const b of businesses) {
+    for (const c of b.data.categories) present.add(c);
+  }
+  const options: { value: '' | BusinessCategory; label: string }[] = [
+    { value: '', label: 'All' },
+  ];
+  for (const value of BUSINESS_CATEGORY_VALUES) {
+    if (present.has(value)) {
+      options.push({ value, label: businessCategoryLabels[value] });
+    }
+  }
+  return options;
 }

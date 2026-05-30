@@ -1,6 +1,7 @@
 ---
 name: "Fat Toads Farm Pantry"
-category: "food-drink"
+categories:
+  - "food-drink"
 address: "521 E Peach St Ste. C, Bozeman, MT 59715"
 website: "https://fattoadsfarmpantry.com/"
 founded: 2026

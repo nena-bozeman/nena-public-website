@@ -50,15 +50,19 @@ const businesses = defineCollection({
   type: 'content',
   schema: z.object({
     name: z.string(),
-    category: z.enum([
-      'food-drink',
-      'retail',
-      'services',
-      'arts-culture',
-      'fitness-wellness',
-      'nonprofit',
-      'other'
-    ]),
+    categories: z
+      .array(
+        z.enum([
+          'food-drink',
+          'retail',
+          'services',
+          'arts-culture',
+          'fitness-wellness',
+          'nonprofit',
+          'other',
+        ]),
+      )
+      .min(1),
     address: z.string(),
     website: z.string().url().optional(),
     phone: z.string().optional(),

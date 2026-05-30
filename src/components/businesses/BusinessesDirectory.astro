@@ -1,0 +1,241 @@
+---
+import Base from '../../layouts/Base.astro';
+import CurrentPastFilters from '../filters/CurrentPastFilters.astro';
+import ListStatusLegacyRedirect from '../filters/ListStatusLegacyRedirect.astro';
+import BusinessList from './BusinessList.astro';
+import BusinessMap from './BusinessMap.astro';
+import { getCollection } from 'astro:content';
+import { businessCategoryFilterOptions } from '../../utils/business-categories';
+import { matchesListStatus, type ListStatus } from '../../utils/list-status';
+
+export interface Props {
+  filterStatus: ListStatus;
+}
+
+const { filterStatus } = Astro.props;
+const allBusinesses = await getCollection('businesses');
+const filtered = allBusinesses.filter((b) => matchesListStatus(b.data.status, filterStatus));
+const businesses =
+  filterStatus === 'past'
+    ? [...filtered].sort((a, b) => {
+        const ya = a.data.closedYear ?? 0;
+        const yb = b.data.closedYear ?? 0;
+        if (yb !== ya) return yb - ya;
+        return a.data.name.localeCompare(b.data.name);
+      })
+    : filtered;
+
+const pageTitle = filterStatus === 'past' ? 'Past Businesses' : 'Business Directory';
+const pageDescription =
+  filterStatus === 'past'
+    ? 'Former Northeast Neighborhood businesses kept on record for neighborhood history.'
+    : 'Discover local businesses in the Northeast Neighborhood of Bozeman, Montana';
+
+const categories = businessCategoryFilterOptions(businesses);
+const showCategoryFilters = categories.length > 1;
+---
+
+<Base title={pageTitle} description={pageDescription}>
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <h1 class="font-serif text-4xl font-bold text-primary mb-4">{pageTitle}</h1>
+    <CurrentPastFilters pagePath="businesses" activeStatus={filterStatus} />
+    {
+      filterStatus === 'past' ? (
+        <p class="text-gray-600 mb-8 max-w-2xl">
+          Listings for businesses that have closed remain here for reference. Year shown is when they
+          closed, when known.
+        </p>
+      ) : (
+        <p class="text-gray-600 mb-8">Supporting local businesses in the Northeast Neighborhood.</p>
+      )
+    }
+
+    <div class="flex flex-wrap items-center gap-4 mb-8">
+      {
+        showCategoryFilters && (
+          <div class="flex flex-wrap gap-2" id="category-filters">
+            {categories.map((cat) => (
+              <button
+                type="button"
+                data-category={cat.value === '' ? 'all' : cat.value}
+                class={`px-4 py-2 rounded-full text-sm font-medium transition-colors category-filter ${cat.value === '' ? 'bg-primary text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-primary'}`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+        )
+      }
+      {
+        filterStatus === 'current' && (
+          <div class="ml-auto flex gap-2">
+            <button id="list-view-btn" class="px-4 py-2 rounded-sm text-sm font-medium bg-primary text-white transition-colors">List</button>
+            <button id="map-view-btn" class="px-4 py-2 rounded-sm text-sm font-medium bg-white text-gray-600 border border-gray-200 hover:border-primary transition-colors">Map</button>
+          </div>
+        )
+      }
+    </div>
+
+    <div id="list-view">
+      <BusinessList businesses={businesses} />
+    </div>
+
+    {
+      filterStatus === 'current' && (
+        <div id="map-view" class="hidden">
+          <BusinessMap businesses={businesses} />
+        </div>
+      )
+    }
+
+    {
+      filterStatus === 'current' && (
+        <script is:inline>
+          (function () {
+            if (new URLSearchParams(location.search).get('view') === 'map') {
+              document.getElementById('list-view')?.classList.add('hidden');
+              document.getElementById('map-view')?.classList.remove('hidden');
+              var listBtn = document.getElementById('list-view-btn');
+              var mapBtn = document.getElementById('map-view-btn');
+              if (listBtn && mapBtn) {
+                listBtn.classList.remove('bg-primary', 'text-white');
+                listBtn.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+                mapBtn.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+                mapBtn.classList.add('bg-primary', 'text-white');
+              }
+            }
+          })();
+        </script>
+      )
+    }
+    {filterStatus === 'current' && <ListStatusLegacyRedirect pagePath="businesses" />}
+  </div>
+</Base>
+
+<script>
+  function parseBusinessCategories(el: HTMLElement): string[] {
+    return (el.getAttribute('data-categories') ?? '')
+      .split(',')
+      .map((c) => c.trim())
+      .filter(Boolean);
+  }
+
+  function applyBusinessCategoryFilter(category: string) {
+    const items = document.querySelectorAll<HTMLElement>('.business-list-item[data-categories]');
+    const grid = document.getElementById('business-list-grid');
+    const emptyMsg = document.getElementById('business-category-empty');
+    let visible = 0;
+
+    items.forEach((el) => {
+      const cats = parseBusinessCategories(el);
+      const show = category === 'all' || !category || cats.includes(category);
+      el.classList.toggle('hidden', !show);
+      if (show) visible += 1;
+    });
+
+    if (grid) grid.classList.toggle('hidden', visible === 0 && items.length > 0);
+    emptyMsg?.classList.toggle('hidden', visible > 0 || items.length === 0);
+  }
+
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.category-filter');
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach((b) => {
+        b.classList.remove('bg-primary', 'text-white');
+        b.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+      });
+      btn.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+      btn.classList.add('bg-primary', 'text-white');
+
+      const category = btn.getAttribute('data-category') ?? 'all';
+      applyBusinessCategoryFilter(category);
+      window.dispatchEvent(
+        new CustomEvent('nena-businesses-filter', {
+          detail: { category: category === 'all' ? '' : category },
+        }),
+      );
+    });
+  });
+</script>
+
+{
+  filterStatus === 'current' && (
+    <script>
+      const VIEW_PARAM = 'view';
+      type DirectoryView = 'list' | 'map';
+
+      function parseViewFromSearch(search: string): DirectoryView {
+        const v = new URLSearchParams(search).get(VIEW_PARAM);
+        return v === 'map' ? 'map' : 'list';
+      }
+
+      const listViewBtn = document.getElementById('list-view-btn');
+      const mapViewBtn = document.getElementById('map-view-btn');
+      const listView = document.getElementById('list-view');
+      const mapView = document.getElementById('map-view');
+
+      const activeBtn =
+        'px-4 py-2 rounded-sm text-sm font-medium bg-primary text-white transition-colors';
+      const inactiveBtn =
+        'px-4 py-2 rounded-sm text-sm font-medium bg-white text-gray-600 border border-gray-200 hover:border-primary transition-colors';
+
+      function setViewButtons(view: DirectoryView) {
+        if (!listViewBtn || !mapViewBtn) return;
+        if (view === 'list') {
+          listViewBtn.className = activeBtn;
+          mapViewBtn.className = inactiveBtn;
+        } else {
+          mapViewBtn.className = activeBtn;
+          listViewBtn.className = inactiveBtn;
+        }
+      }
+
+      function setViewPanels(view: DirectoryView) {
+        if (view === 'list') {
+          listView?.classList.remove('hidden');
+          mapView?.classList.add('hidden');
+        } else {
+          mapView?.classList.remove('hidden');
+          listView?.classList.add('hidden');
+        }
+      }
+
+      function syncViewToUrl(view: DirectoryView, replace: boolean) {
+        const url = new URL(location.href);
+        if (view === 'list') {
+          url.searchParams.delete(VIEW_PARAM);
+        } else {
+          url.searchParams.set(VIEW_PARAM, view);
+        }
+        const next = url.pathname + url.search + url.hash;
+        if (replace) {
+          history.replaceState({ view }, '', next);
+        } else {
+          history.pushState({ view }, '', next);
+        }
+      }
+
+      function applyView(view: DirectoryView, options: { updateUrl?: boolean; replaceUrl?: boolean } = {}) {
+        const { updateUrl = false, replaceUrl = false } = options;
+        setViewPanels(view);
+        setViewButtons(view);
+        if (updateUrl) syncViewToUrl(view, replaceUrl);
+        window.dispatchEvent(new CustomEvent('nena-businesses-view', { detail: { view } }));
+      }
+
+      applyView(parseViewFromSearch(location.search), { updateUrl: true, replaceUrl: true });
+
+      listViewBtn?.addEventListener('click', () => {
+        applyView('list', { updateUrl: true });
+      });
+
+      mapViewBtn?.addEventListener('click', () => {
+        applyView('map', { updateUrl: true });
+      });
+
+      window.addEventListener('popstate', () => {
+        applyView(parseViewFromSearch(location.search));
+      });
+    </script>
+  )
+}

@@ -1,0 +1,153 @@
+---
+import Base from '../../layouts/Base.astro';
+import DevelopmentPhaseFilters from '../filters/DevelopmentPhaseFilters.astro';
+import ProjectCard from './ProjectCard.astro';
+import ProjectMap from './ProjectMap.astro';
+import { getCollection } from 'astro:content';
+import { getMailchimpSignupUrl } from '../../utils/mailchimp';
+import {
+  parseDevelopmentPhaseFromSearch,
+  type DevelopmentPhase,
+} from '../../schemas/development-phase';
+
+const allProjects = await getCollection('development');
+const projects = [...allProjects].sort(
+  (a, b) => b.data.dateUpdated.valueOf() - a.data.dateUpdated.valueOf(),
+);
+
+const phasesPresent = [
+  ...new Set(projects.map((p) => p.data.phase)),
+] as DevelopmentPhase[];
+
+const activePhase = parseDevelopmentPhaseFromSearch(Astro.url.search);
+
+const pageTitle = 'Development Watch';
+const pageDescription =
+  'Tracking development projects in the Northeast Neighborhood of Bozeman, MT';
+
+const mailchimpUrl = getMailchimpSignupUrl();
+---
+
+<Base title={pageTitle} description={pageDescription}>
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <h1 class="font-serif text-4xl font-bold text-primary mb-3">{pageTitle}</h1>
+    <DevelopmentPhaseFilters availablePhases={phasesPresent} activePhase={activePhase} />
+    <p class="text-gray-600 text-lg mb-8">
+      Tracking development proposals and projects in the Northeast Neighborhood.
+    </p>
+    <ProjectMap projects={projects} />
+    {
+      projects.length === 0 ? (
+        <p class="text-gray-500 text-center py-12">No development projects to show.</p>
+      ) : (
+        <div id="development-project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+          {projects.map((project) => (
+            <div data-development-phase={project.data.phase}>
+              <ProjectCard
+                slug={project.slug}
+                title={project.data.title}
+                phase={project.data.phase}
+                address={project.data.address}
+                developer={project.data.developer}
+                summary={project.data.summary}
+                dateUpdated={project.data.dateUpdated}
+                cityPlanningUrl={project.data.cityPlanningUrl}
+                tags={project.data.tags}
+              />
+            </div>
+          ))}
+        </div>
+      )
+    }
+    <p id="development-phase-empty" class="hidden text-gray-500 text-center py-12">
+      No projects match this phase.
+    </p>
+    <div class="mt-10 bg-primary text-white rounded-lg p-6 text-center">
+      <h2 class="font-serif text-xl font-bold mb-2">Stay Informed</h2>
+      <a
+        href={mailchimpUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="bg-accent hover:bg-amber-600 text-white font-semibold px-6 py-2 rounded-lg transition-colors inline-block"
+      >
+        Subscribe to Development Alerts
+      </a>
+    </div>
+  </div>
+</Base>
+
+<script>
+  import {
+    DEVELOPMENT_PHASE_QUERY,
+    DEVELOPMENT_PHASE_VALUES,
+    type DevelopmentPhase,
+  } from '../../schemas/development-phase';
+
+  const filterBtns = document.querySelectorAll('.development-phase-filter');
+  const grid = document.getElementById('development-project-grid');
+  const emptyMsg = document.getElementById('development-phase-empty');
+
+  const pillIdle =
+    'inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium transition-colors development-phase-filter border-amber-200 bg-white text-primary hover:bg-cream hover:border-accent';
+  const pillSelected =
+    'inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium transition-colors development-phase-filter border-accent bg-accent text-white shadow-xs';
+
+  function isValidPhase(value: string): value is DevelopmentPhase {
+    return (DEVELOPMENT_PHASE_VALUES as readonly string[]).includes(value);
+  }
+
+  function setFilterButtonStyles(active: string) {
+    filterBtns.forEach((btn) => {
+      const phase = (btn as HTMLButtonElement).dataset.phase ?? '';
+      btn.className = phase === active ? pillSelected : pillIdle;
+      btn.setAttribute('aria-pressed', phase === active ? 'true' : 'false');
+    });
+  }
+
+  function applyDevelopmentPhaseFilter(phase: string) {
+    const cards = document.querySelectorAll('[data-development-phase]');
+    let visible = 0;
+    cards.forEach((card) => {
+      const el = card as HTMLElement;
+      const show = !phase || el.dataset.developmentPhase === phase;
+      el.style.display = show ? '' : 'none';
+      if (show) visible += 1;
+    });
+    if (grid) grid.classList.toggle('hidden', visible === 0 && cards.length > 0);
+    emptyMsg?.classList.toggle('hidden', visible > 0 || cards.length === 0);
+    setFilterButtonStyles(phase);
+  }
+
+  function syncPhaseToUrl(phase: string, replace: boolean) {
+    const url = new URL(location.href);
+    if (!phase) {
+      url.searchParams.delete(DEVELOPMENT_PHASE_QUERY);
+    } else {
+      url.searchParams.set(DEVELOPMENT_PHASE_QUERY, phase);
+    }
+    const next = url.pathname + url.search + url.hash;
+    if (replace) {
+      history.replaceState({ phase }, '', next);
+    } else {
+      history.pushState({ phase }, '', next);
+    }
+  }
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const phase = (btn as HTMLButtonElement).dataset.phase ?? '';
+      if (phase && !isValidPhase(phase)) return;
+      applyDevelopmentPhaseFilter(phase);
+      syncPhaseToUrl(phase, false);
+    });
+  });
+
+  window.addEventListener('popstate', () => {
+    const phase = new URLSearchParams(location.search).get(DEVELOPMENT_PHASE_QUERY) ?? '';
+    applyDevelopmentPhaseFilter(phase);
+  });
+
+  const initialPhase =
+    new URLSearchParams(location.search).get(DEVELOPMENT_PHASE_QUERY) ?? '';
+  applyDevelopmentPhaseFilter(initialPhase);
+</script>

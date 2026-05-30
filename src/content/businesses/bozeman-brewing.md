@@ -1,6 +1,7 @@
 ---
 name: "Bozeman Brewing Company"
-category: "food-drink"
+categories:
+  - "food-drink"
 address: "504 N Broadway Ave, Bozeman, MT 59715"
 website: "https://www.bozemanbrewing.com"
 phone: "(406) 585-9142"

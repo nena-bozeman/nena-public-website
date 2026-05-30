@@ -1,6 +1,7 @@
 ---
 name: "Misco Goods"
-category: "retail"
+categories:
+  - "retail"
 address: "700 N Wallace Ave Ste. B, Bozeman, MT 59715"
 website: "https://www.miscogoods.com/"
 legacy: false

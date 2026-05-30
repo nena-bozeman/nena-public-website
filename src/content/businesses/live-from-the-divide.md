@@ -1,6 +1,7 @@
 ---
 name: "Live from the Divide"
-category: "arts-culture"
+categories:
+  - "arts-culture"
 address: "627 E Peach St, Bozeman, MT 59715 (former location)"
 website: "https://www.livefromthedivide.com"
 legacy: false

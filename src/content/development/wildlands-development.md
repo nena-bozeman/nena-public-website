@@ -1,6 +1,6 @@
 ---
 title: Wildlands Development
-phase: under-review
+phase: complete
 status: current
 address: Northeast Bozeman, MT
 submittedDate: 2021-06-08
@@ -12,8 +12,8 @@ tags:
   - "wildlands-development"
 ---
 
-[www.Wildlandsbozeman.com](https://www.wildlandsbozeman.com/)   
-  
+[www.Wildlandsbozeman.com](https://www.wildlandsbozeman.com/) 
+
 **5/25/22 Update**
 
 Construction:
@@ -42,9 +42,9 @@ Wildlands Includes the following green initiatives throughout the building: 
 *   Low irrigation landscaping 
 *   Low-VOC paints used in units
 
-  
-  
-![]({{ url:site }}files/large/402136c2dfef70c)   
+
+
+![]({{ url:site }}files/large/402136c2dfef70c) 
  
 
 The Wild Crumb Building will be redeveloped. The project addition is a 4 story mixed use development with public commercial spaces, office lease space, and 15 high end residential units.  (See below for more information from 45 Architecture) Included in the project is an upper level public access elevated park and plaza space surrounded by existing and new building program.  This project aims to maintain and enhance the social community presence of the site, while providing public out door space for the neighborhood. The developer will spend one-hour with NENA Members to talk about the project. 
@@ -55,7 +55,7 @@ Project Narrative 
 
 WILDLANDS DEVELOPMENT
 
-The Wildlands is a placemaking development that focuses on how to create expansion and diversity, while taking cues  from the renowned northside neighborhood. The development is a  
+The Wildlands is a placemaking development that focuses on how to create expansion and diversity, while taking cues  from the renowned northside neighborhood. The development is a
 planned renovation and expansion of the existing  Brown Building, located on the northeast corner of Peach Street and Wallace Avenue. The renovation will add  community and social retail spaces and single-family residences.  
 
 The proposed project pulls precedent from the past and present of the unique historic brewery district. With the  historic mills, manufacturing, distributing, and railroad, paired with single family neighborhoods; this is an area of an  industrial nature coupled with high creativity and adaptation engrained in its culture.  
@@ -66,5 +66,5 @@ Pulling from distinctive characters of the neighborhood, art and a sense of stor
 
 Special care is being taken not to impact the vibrant public spaces around the existing site. The intent is to only  improve on them and enhance current establishments’ opportunities and provide the community with more engaging spaces.
 
-  
+
 ![]({{ url:site }}files/thumb/cb7d37256497a6b/750)

@@ -1,6 +1,7 @@
 ---
 name: "Biome Slow Craft"
-category: "retail"
+categories:
+  - "retail"
 address: "609 E Peach St, Bozeman, MT 59715"
 website: "https://www.biomeslowcraft.com/"
 legacy: false

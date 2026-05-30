@@ -1,7 +1,12 @@
 ---
 import { getImage } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import { businessCategoryLabels, getBusinessCategoryMarker } from '../../utils/business-categories';
+import {
+  businessCategoryLabels,
+  businessPrimaryCategory,
+  formatBusinessCategoryLabels,
+  getBusinessCategoryMarker,
+} from '../../utils/business-categories';
 import { getBusinessCoverImage } from '../../utils/business-image';
 import { getWebsiteLabel } from '../../utils/website-label';
 
@@ -16,7 +21,8 @@ const mappable = businesses.filter(b => b.data.lat && b.data.lng);
 const siteBase = import.meta.env.BASE_URL;
 const rawMapPoints = await Promise.all(
   mappable.map(async (b) => {
-    const m = getBusinessCategoryMarker(b.data.category);
+    const primary = businessPrimaryCategory(b.data.categories);
+    const m = getBusinessCategoryMarker(primary);
     const cover = getBusinessCoverImage(b.slug, b.data.image);
     let coverSrc: string | undefined;
     if (cover) {
@@ -29,18 +35,20 @@ const rawMapPoints = await Promise.all(
       lat: b.data.lat!,
       lng: b.data.lng!,
       slug: b.slug,
-      category: b.data.category,
+      categories: [...b.data.categories],
       address: b.data.address,
       fill: m.fill,
       stroke: m.stroke,
-      categoryLabel: businessCategoryLabels[b.data.category] ?? b.data.category,
+      categoryLabel: formatBusinessCategoryLabels(b.data.categories),
       coverSrc,
       website: website ?? undefined,
       websiteLabel: website ? getWebsiteLabel(website) : undefined,
     };
   }),
 );
-const categoryLegend = [...new Set(mappable.map((b) => b.data.category))]
+const categoryLegend = [
+  ...new Set(mappable.flatMap((b) => b.data.categories)),
+]
   .sort()
   .map((cat) => ({
     id: cat,
@@ -161,7 +169,8 @@ const businessMapConfig = JSON.stringify({ allPoints: rawMapPoints, key: apiKey,
       function getActiveCategory() {
         var el = document.querySelector('#category-filters button.category-filter.bg-primary');
         if (!el) return '';
-        return el.getAttribute('data-category') || '';
+        var cat = el.getAttribute('data-category') || '';
+        return cat === 'all' ? '' : cat;
       }
 
       function isMapViewVisible() {
@@ -202,7 +211,9 @@ const businessMapConfig = JSON.stringify({ allPoints: rawMapPoints, key: apiKey,
         var cat = getActiveCategory();
         var list = !cat
           ? allPoints.slice()
-          : allPoints.filter(function (p) { return p.category === cat; });
+          : allPoints.filter(function (p) {
+              return p.categories && p.categories.indexOf(cat) !== -1;
+            });
         return spreadOverlapping(list);
       }
 

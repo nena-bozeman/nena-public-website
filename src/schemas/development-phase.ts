@@ -20,6 +20,28 @@ export const DEVELOPMENT_PHASE_LABELS: Record<DevelopmentPhase, string> = {
   denied: 'Denied',
 };
 
+export const DEVELOPMENT_PHASE_QUERY = 'phase';
+
+export function parseDevelopmentPhaseFromSearch(
+  search: string,
+): DevelopmentPhase | null {
+  const raw = new URLSearchParams(search).get(DEVELOPMENT_PHASE_QUERY);
+  if (!raw) return null;
+  return DEVELOPMENT_PHASE_VALUES.includes(raw as DevelopmentPhase)
+    ? (raw as DevelopmentPhase)
+    : null;
+}
+
+export function developmentPhaseHref(
+  phase: DevelopmentPhase | null,
+  baseUrl: string,
+): string {
+  const base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+  const hub = `${base}development`;
+  if (!phase) return hub;
+  return `${hub}?${DEVELOPMENT_PHASE_QUERY}=${phase}`;
+}
+
 export const DEVELOPMENT_PHASE_BADGE: Record<DevelopmentPhase, { color: string; label: string }> =
   Object.fromEntries(
     DEVELOPMENT_PHASE_VALUES.map((phase) => [

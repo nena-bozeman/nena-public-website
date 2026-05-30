@@ -53,7 +53,7 @@ collections:
     summary: "{{name}}  ·  {{commit_date | date('YYYY-MM-DD')}}"
     fields:
       - { label: "Name", name: "name", widget: "string" }
-      - { label: "Category", name: "category", widget: "select", options: ["food-drink","retail","services","arts-culture","fitness-wellness","nonprofit","other"] }
+      - { label: "Categories", name: "categories", widget: "select", multiple: true, options: ["food-drink","retail","services","arts-culture","fitness-wellness","nonprofit","other"], hint: "Select all that apply (e.g. Tinworks: Arts & Culture and Nonprofit)." }
       - { label: "Address", name: "address", widget: "string" }
       - { label: "Website", name: "website", widget: "string", required: false }
       - label: "Cover image (filename in src/assets/businesses/)"
@@ -73,7 +73,7 @@ collections:
     summary: "{{title}}  ·  {{dateUpdated | date('YYYY-MM-DD')}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Status", name: "status", widget: "select", options: ["current", "past"], default: "current", hint: "Current projects appear on the main Development Watch list; past projects appear under Past on /development." }
+      - { label: "Status", name: "status", widget: "select", options: ["current", "past"], default: "current", hint: "Listing visibility; filter on the site uses Phase, not this field." }
       - { label: "Phase", name: "phase", widget: "select", options: ["proposed","under-review","approved","under-construction","complete","denied"] }
       - { label: "Address", name: "address", widget: "string" }
       - { label: "Developer (optional)", name: "developer", widget: "string", required: false }

@@ -1,6 +1,7 @@
 ---
 name: "Beringia House"
-category: "retail"
+categories:
+  - "retail"
 address: "610 N Wallace Ave, Bozeman, MT 59715"
 website: "https://beringia.world"
 legacy: false

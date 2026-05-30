@@ -1,6 +1,7 @@
 ---
 name: "Alter Cycles"
-category: "retail"
+categories:
+  - "retail"
 address: "605 N Wallace Ave #2, Bozeman, MT 59715"
 website: "https://www.alter-cycles.com/"
 image: "alter-cycles.webp"
