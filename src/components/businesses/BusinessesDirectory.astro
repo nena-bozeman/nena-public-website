@@ -5,7 +5,7 @@ import ListStatusLegacyRedirect from '../filters/ListStatusLegacyRedirect.astro'
 import BusinessList from './BusinessList.astro';
 import BusinessMap from './BusinessMap.astro';
 import { getCollection } from 'astro:content';
-import { businessCategoryFilterOptions } from '../../utils/business-categories';
+import { placeCategoryFilterOptions } from '../../utils/place-categories';
 import { matchesListStatus, type ListStatus } from '../../utils/list-status';
 
 export interface Props {
@@ -13,7 +13,7 @@ export interface Props {
 }
 
 const { filterStatus } = Astro.props;
-const allBusinesses = await getCollection('businesses');
+const allBusinesses = await getCollection('places');
 const filtered = allBusinesses.filter((b) => matchesListStatus(b.data.status, filterStatus));
 const businesses =
   filterStatus === 'past'
@@ -25,20 +25,20 @@ const businesses =
       })
     : filtered;
 
-const pageTitle = filterStatus === 'past' ? 'Past Businesses' : 'Business Directory';
+const pageTitle = filterStatus === 'past' ? 'Past Places' : 'Places';
 const pageDescription =
   filterStatus === 'past'
-    ? 'Former Northeast Neighborhood businesses kept on record for neighborhood history.'
-    : 'Discover local businesses in the Northeast Neighborhood of Bozeman, Montana';
+    ? 'Former Northeast Neighborhood businesses and other places kept on record for neighborhood history.'
+    : 'Businesses, parks, and landmarks in the Northeast Neighborhood of Bozeman, Montana';
 
-const categories = businessCategoryFilterOptions(businesses);
+const categories = placeCategoryFilterOptions(businesses);
 const showCategoryFilters = categories.length > 1;
 ---
 
 <Base title={pageTitle} description={pageDescription}>
   <div class="max-w-7xl mx-auto px-4 py-12">
     <h1 class="font-serif text-4xl font-bold text-primary mb-4">{pageTitle}</h1>
-    <CurrentPastFilters pagePath="businesses" activeStatus={filterStatus} />
+    <CurrentPastFilters pagePath="places" activeStatus={filterStatus} />
     {
       filterStatus === 'past' ? (
         <p class="text-gray-600 mb-8 max-w-2xl">
@@ -46,7 +46,7 @@ const showCategoryFilters = categories.length > 1;
           closed, when known.
         </p>
       ) : (
-        <p class="text-gray-600 mb-8">Supporting local businesses in the Northeast Neighborhood.</p>
+        <p class="text-gray-600 mb-8">Supporting local businesses, parks, and landmarks in the Northeast Neighborhood.</p>
       )
     }
 
@@ -108,7 +108,7 @@ const showCategoryFilters = categories.length > 1;
         </script>
       )
     }
-    {filterStatus === 'current' && <ListStatusLegacyRedirect pagePath="businesses" />}
+    {filterStatus === 'current' && <ListStatusLegacyRedirect pagePath="places" />}
   </div>
 </Base>
 

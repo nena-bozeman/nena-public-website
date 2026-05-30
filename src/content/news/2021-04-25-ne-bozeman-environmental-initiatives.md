@@ -1,13 +1,18 @@
 ---
 title: “NE Bozeman Environmental Initiatives”
-date: "2021-04-25"
-summary: Natural Lawn Care Tips NENA Residents are encouraged to take a more natural approach, ditching chemicals and fast-release fertilizers in favor of organic food sources and life-first lawn care management. If you want to cultivate healthy soils in your yard, adopt these three key…
+date: '2021-04-25'
+summary: >-
+  Natural Lawn Care Tips NENA Residents are encouraged to take a more natural approach, ditching chemicals and
+  fast-release fertilizers in favor of organic food sources and life-first lawn care management. If you want to
+  cultivate healthy soils in your yard, adopt these three key…
 featured: false
 tags: []
 legacySource: pyro-cms
-legacyId: "57"
+legacyId: '57'
 legacySlug: ne-bozeman-environmental-initiatives
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/04/ne-bozeman-environmental-initiatives
+topics:
+  - environment
 ---
 
 Natural lawn care

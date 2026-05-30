@@ -1,14 +1,16 @@
 ---
 title: Aspen St Bridge Update
-date: "2021-04-16"
+date: '2021-04-16'
 summary: April 15, 2021 NURB meeting to approve budget for 2021-2022
 featured: false
 tags: []
 legacySource: pyro-cms
-legacyId: "48"
+legacyId: '48'
 legacySlug: aspen-st-bridge-update
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/04/aspen-st-bridge-update
-dateUpdated: "1970-01-01"
+dateUpdated: '1970-01-01'
+topics:
+  - trails-pocket-parks
 ---
 
 April 15, 2021 NURB meeting to approve budget for 2021-2022

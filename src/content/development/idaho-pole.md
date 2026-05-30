@@ -3,13 +3,17 @@ title: Idaho Pole - A Superfund Site and an Urban Renewal District
 phase: under-review
 status: current
 address: Northeast Bozeman, MT
-submittedDate: 2020-11-21
-dateCreated: 2020-11-21
-dateUpdated: 2025-02-18
-summary: "07/26/22 Update The EPA signed the Administrative Settlement Agreement and Order on Consent with Idaho Pole Company for groundwater work. EPA anticipates groundwater amendments will begin on August 8 as a pilot in sup…"
-tags:
-  - "legacy-cms"
-  - "idaho-pole"
+submittedDate: 2020-11-21T00:00:00.000Z
+dateCreated: 2020-11-21T00:00:00.000Z
+dateUpdated: 2025-02-18T00:00:00.000Z
+summary: >-
+  07/26/22 Update The EPA signed the Administrative Settlement Agreement and Order on Consent with Idaho Pole Company
+  for groundwater work. EPA anticipates groundwater amendments will begin on August 8 as a pilot in sup…
+topics:
+  - environment
+newsSlugs:
+  - 2021-11-30-idaho-pole-project-update
+  - 2025-10-10-idaho-pole-superfund-five-year-review
 ---
 
 # 07/26/22 Update

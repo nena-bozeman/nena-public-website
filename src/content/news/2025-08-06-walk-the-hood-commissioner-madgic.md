@@ -1,11 +1,14 @@
 ---
-title: "Walk the Hood with Commissioner Madgic — August 2025"
-date: 2025-08-06
-summary: "Morning walks through NEHMU and North Central districts to discuss growth and the UDC update—August 14 at Fink’s patio, August 15 at Beall Park."
+title: Walk the Hood with Commissioner Madgic — August 2025
+date: 2025-08-06T00:00:00.000Z
+summary: >-
+  Morning walks through NEHMU and North Central districts to discuss growth and the UDC update—August 14 at Fink’s
+  patio, August 15 at Beall Park.
 featured: false
 tags:
   - city
   - planning
+topics:
   - bozeman-udc
 ---
 

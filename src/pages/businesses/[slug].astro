@@ -1,105 +1,20 @@
 ---
-import { Image } from 'astro:assets';
-import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
-import { getBusinessCoverImage } from '../../utils/business-image';
-import {
-  businessCategoryBadgeClass,
-  businessCategoryLabels,
-} from '../../utils/business-categories';
-import { getWebsiteLabel } from '../../utils/website-label';
 import { LIST_STATUS_PAST_SEGMENT } from '../../schemas/list-status';
+import { withSiteBase } from '../../utils/site-link';
 
 export async function getStaticPaths() {
-  const businesses = await getCollection('businesses');
-  return businesses
-    .filter((business) => business.slug !== LIST_STATUS_PAST_SEGMENT)
-    .map((business) => ({
-    params: { slug: business.slug },
-    props: { business },
-  }));
+  const places = await getCollection('places');
+  return places
+    .filter((place) => place.slug !== LIST_STATUS_PAST_SEGMENT)
+    .map((place) => ({
+      params: { slug: place.slug },
+    }));
 }
 
-const base = import.meta.env.BASE_URL;
-const { business } = Astro.props;
-const { Content } = await business.render();
-
-const { categories, name } = business.data;
-const logoSrc =
-  business.data.logo &&
-  (business.data.logo.startsWith('http')
-    ? business.data.logo
-    : `${base}${business.data.logo.replace(/^\//, '')}`);
-
-const hero = getBusinessCoverImage(business.slug, business.data.image);
+const { slug } = Astro.params;
+if (!slug) {
+  return Astro.redirect(withSiteBase('/places'));
+}
+return Astro.redirect(withSiteBase(`/places/${slug}`));
 ---
-
-<Base title={name} description={`${name} — Northeast Neighborhood business directory`} canonicalURL={`/businesses/${business.slug}`}>
-  <article class="max-w-3xl mx-auto px-4 py-12">
-    <a href={`${base}businesses`} class="text-accent hover:text-amber-700 text-sm font-medium mb-6 inline-block transition-colors">
-      ← Back to Business Directory
-    </a>
-
-    {hero && (
-      <div class="mb-8 w-full overflow-hidden rounded-xl border border-gray-200 bg-gray-100 shadow-xs aspect-2/1 max-h-88">
-        <Image
-          src={hero}
-          alt={`${name} — photo`}
-          class="h-full w-full object-cover"
-          width={1200}
-          height={600}
-          sizes="(max-width: 768px) 100vw, 48rem"
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-        />
-      </div>
-    )}
-
-    <div class="flex flex-wrap items-start gap-4 mb-6">
-      {!hero && logoSrc && (
-        <img src={logoSrc} alt={`${name} logo`} class="h-16 w-16 object-contain rounded-sm border border-gray-100 bg-white p-1" loading="lazy" />
-      )}
-      <div class="flex-1 min-w-0">
-        <div class="flex flex-wrap gap-2">
-          {
-            categories.map((cat) => (
-              <span
-                class={`text-xs font-medium px-2 py-0.5 rounded-full ${businessCategoryBadgeClass[cat] ?? 'bg-gray-100 text-gray-800'}`}
-              >
-                {businessCategoryLabels[cat] ?? cat}
-              </span>
-            ))
-          }
-        </div>
-        <h1 class="font-serif text-4xl font-bold text-primary mt-2">{name}</h1>
-        {business.data.website && (
-          <a
-            href={business.data.website}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-accent hover:text-amber-700 text-sm font-semibold transition-colors break-all block mt-1.5"
-          >
-            {getWebsiteLabel(business.data.website)} →
-          </a>
-        )}
-        <p class="text-sm text-gray-600 mt-2">📍 {business.data.address}</p>
-        {business.data.founded && <p class="text-sm text-gray-400 mt-1">Est. {business.data.founded}</p>}
-        {business.data.status === 'past' && (
-          <p class="text-sm font-medium text-red-700 mt-2">
-            This business has closed
-            {business.data.closedYear != null ? ` (${business.data.closedYear})` : ''}.{' '}
-            <a href={`${base}businesses/past`} class="underline hover:text-red-900">
-              View past businesses
-            </a>
-          </p>
-        )}
-        {business.data.phone && <p class="text-sm text-gray-600 mt-2">{business.data.phone}</p>}
-      </div>
-    </div>
-
-    <div class="prose prose-green max-w-none">
-      <Content />
-    </div>
-  </article>
-</Base>

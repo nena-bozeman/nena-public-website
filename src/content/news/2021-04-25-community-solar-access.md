@@ -1,13 +1,18 @@
 ---
 title: Community Solar Access
-date: "2021-04-25"
-summary: Community Solar Access Community Solar Access allows individual subscribers to harness the benefits of solar panels without needing to install them at their homes, benefitting renters, homes without solar exposure, businesses and public institutions. As a form of “shared renewab…
+date: '2021-04-25'
+summary: >-
+  Community Solar Access Community Solar Access allows individual subscribers to harness the benefits of solar panels
+  without needing to install them at their homes, benefitting renters, homes without solar exposure, businesses and
+  public institutions. As a form of “shared renewab…
 featured: false
 tags: []
 legacySource: pyro-cms
-legacyId: "56"
+legacyId: '56'
 legacySlug: community-solar-access
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/04/community-solar-access
+topics:
+  - environment
 ---
 
 Time to Shine.  

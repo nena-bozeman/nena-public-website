@@ -1,9 +1,12 @@
 ---
-title: "Volunteers needed: hand-deliver NENA News before the fall meeting"
-date: 2025-10-14
-summary: "Rather than mailing the fall newsletter, NENA asked neighbors to help distribute printed copies door-to-door by late October ahead of the November 5 meeting."
+title: 'Volunteers needed: hand-deliver NENA News before the fall meeting'
+date: 2025-10-14T00:00:00.000Z
+summary: >-
+  Rather than mailing the fall newsletter, NENA asked neighbors to help distribute printed copies door-to-door by late
+  October ahead of the November 5 meeting.
 featured: false
-tags:
+tags: []
+topics:
   - community
   - volunteer
   - newsletter

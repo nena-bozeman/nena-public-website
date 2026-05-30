@@ -1,13 +1,19 @@
 ---
 title: “NE Bozeman Environmental Initiatives” part 2
-date: "2021-04-25"
-summary: Greetings from the Forestry Division! Our arborists work throughout the City to maintain our public trees. We work in boulevard spaces (area between the sidewalk and street curb), public parks, and other city-maintained spots. Residents are responsible for trees on their private…
+date: '2021-04-25'
+summary: >-
+  Greetings from the Forestry Division! Our arborists work throughout the City to maintain our public trees. We work in
+  boulevard spaces (area between the sidewalk and street curb), public parks, and other city-maintained spots. Residents
+  are responsible for trees on their private…
 featured: false
 tags: []
 legacySource: pyro-cms
-legacyId: "58"
+legacyId: '58'
 legacySlug: ne-bozeman-environmental-initiatives-part-2
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/04/ne-bozeman-environmental-initiatives-part-2
+topics:
+  - environment
+  - trees
 ---
 
 Tree care

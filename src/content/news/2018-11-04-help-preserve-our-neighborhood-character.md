@@ -1,13 +1,20 @@
 ---
 title: Help preserve our neighborhood character
-date: "2018-11-04"
-summary: From November 7 through 9 there will be three opportunities to give your feedback on draft proposals to update the Neighborhood Conservation Overlay Disrtrict (NCOD), created in 1991 to protect neighborhood character, historic districts, and historic landmarks. Your input can he…
+date: '2018-11-04'
+summary: >-
+  From November 7 through 9 there will be three opportunities to give your feedback on draft proposals to update the
+  Neighborhood Conservation Overlay Disrtrict (NCOD), created in 1991 to protect neighborhood character, historic
+  districts, and historic landmarks. Your input can he…
 featured: false
 tags: []
 legacySource: pyro-cms
-legacyId: "23"
+legacyId: '23'
 legacySlug: help-preserve-our-neighborhood-character
 legacyBlogUrl: https://www.nenabozeman.org/blog/2018/11/help-preserve-our-neighborhood-character
+topics:
+  - bozeman-udc
+  - historic-preservation
+  - visionne
 ---
 
 From November 7 through 9 there will be three opportunities to give your feedback on draft proposals to update the Neighborhood Conservation Overlay Disrtrict (NCOD), created in 1991 to protect neighborhood character, historic districts, and historic landmarks. **Your input can help preserve our neighborhood!**

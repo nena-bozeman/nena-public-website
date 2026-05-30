@@ -1,13 +1,17 @@
 ---
 title: The North Central Master Plan
-date: "2021-04-23"
+date: '2021-04-23'
 summary: View the North Central Master Plan and get more information about this upcoming project in the neighborhood.
 featured: false
 tags: []
 legacySource: pyro-cms
-legacyId: "50"
+legacyId: '50'
 legacySlug: the-north-central-master-plan
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/04/the-north-central-master-plan
+topics:
+  - affordable-housing
+developments:
+  - north-central-development
 ---
 
 View the North Central Master Plan and get more information about this upcoming project in the neighborhood. 

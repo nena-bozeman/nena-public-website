@@ -1,12 +1,17 @@
 ---
-title: "Fall meeting minutes — and UDC comment deadline reminders"
-date: 2025-11-18
-summary: "Fall potluck meeting recap with links to minutes; detailed pointers for specific public comment on the draft Unified Development Code."
+title: Fall meeting minutes — and UDC comment deadline reminders
+date: 2025-11-18T00:00:00.000Z
+summary: >-
+  Fall potluck meeting recap with links to minutes; detailed pointers for specific public comment on the draft Unified
+  Development Code.
 featured: false
 tags:
-  - meetings
-  - bozeman-udc
   - planning
+topics:
+  - meeting
+  - bozeman-udc
+meetings:
+  - 2025-fall
 ---
 
 About **55 neighbors** attended the bi-annual **fall meeting** (great potluck). Minutes were published on the legacy meetings hub (see **[Fall 2025 neighborhood meeting](/objectives/nena-meetings/2025-fall)** on this site for the migrated Word file).

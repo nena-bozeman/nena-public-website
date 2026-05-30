@@ -1,9 +1,12 @@
 ---
-title: "Parade of Sheds"
-summary: "NENA’s annual community event celebrating backyard sheds, studios, and creative outbuildings in the Northeast Neighborhood."
+title: Parade of Sheds
+summary: >-
+  NENA’s annual community event celebrating backyard sheds, studios, and creative outbuildings in the Northeast
+  Neighborhood.
 status: current
 order: 5
-newsTags: ["parade-of-sheds"]
+topics:
+  - parade-of-sheds
 ---
 
 The Parade of Sheds is a signature Northeast Neighborhood gathering. Details, routes, participant guidelines, and photo galleries from past years will be consolidated here alongside the [Events](/events) calendar.

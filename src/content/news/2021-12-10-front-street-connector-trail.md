@@ -1,13 +1,15 @@
 ---
 title: Front Street Connector Trail
-date: "2021-12-10"
+date: '2021-12-10'
 summary: New connector "Front Street Trail" in Northeast Neighborhood.
 featured: false
-tags: ["trails-pocket-parks"]
+tags: []
 legacySource: pyro-cms
-legacyId: "77"
+legacyId: '77'
 legacySlug: front-street-connector-trail
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/12/front-street-connector-trail
+topics:
+  - trails-pocket-parks
 ---
 
 New connector "Front Street Trail" in Northeast Neighborhood.  

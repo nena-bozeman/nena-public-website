@@ -1,9 +1,10 @@
 ---
-title: "Affordable Housing"
-summary: "Working to preserve and expand affordable housing options in the Northeast Neighborhood as Bozeman grows."
+title: Affordable Housing
+summary: Working to preserve and expand affordable housing options in the Northeast Neighborhood as Bozeman grows.
 status: current
 order: 4
-newsTags: ["affordable-housing"]
+topics:
+  - affordable-housing
 ---
 
 As Bozeman's housing costs continue to rise, the Affordable Housing Committee works to ensure the Northeast Neighborhood remains accessible to residents of all incomes. We engage with developers, city planners, and policymakers to advocate for affordable housing solutions.

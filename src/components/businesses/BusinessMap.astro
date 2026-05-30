@@ -2,16 +2,16 @@
 import { getImage } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import {
-  businessCategoryLabels,
-  businessPrimaryCategory,
-  formatBusinessCategoryLabels,
-  getBusinessCategoryMarker,
-} from '../../utils/business-categories';
+  formatPlaceCategoryLabels,
+  getPlaceCategoryMarker,
+  placeCategoryLabels,
+  placePrimaryCategory,
+} from '../../utils/place-categories';
 import { getBusinessCoverImage } from '../../utils/business-image';
 import { getWebsiteLabel } from '../../utils/website-label';
 
 export interface Props {
-  businesses: CollectionEntry<'businesses'>[];
+  businesses: CollectionEntry<'places'>[];
 }
 
 const { businesses } = Astro.props;
@@ -21,8 +21,8 @@ const mappable = businesses.filter(b => b.data.lat && b.data.lng);
 const siteBase = import.meta.env.BASE_URL;
 const rawMapPoints = await Promise.all(
   mappable.map(async (b) => {
-    const primary = businessPrimaryCategory(b.data.categories);
-    const m = getBusinessCategoryMarker(primary);
+    const primary = placePrimaryCategory(b.data.categories ?? ['other']);
+    const m = getPlaceCategoryMarker(primary);
     const cover = getBusinessCoverImage(b.slug, b.data.image);
     let coverSrc: string | undefined;
     if (cover) {
@@ -35,11 +35,11 @@ const rawMapPoints = await Promise.all(
       lat: b.data.lat!,
       lng: b.data.lng!,
       slug: b.slug,
-      categories: [...b.data.categories],
+      categories: [...(b.data.categories ?? [])],
       address: b.data.address,
       fill: m.fill,
       stroke: m.stroke,
-      categoryLabel: formatBusinessCategoryLabels(b.data.categories),
+      categoryLabel: formatPlaceCategoryLabels(b.data.categories ?? []),
       coverSrc,
       website: website ?? undefined,
       websiteLabel: website ? getWebsiteLabel(website) : undefined,
@@ -47,13 +47,13 @@ const rawMapPoints = await Promise.all(
   }),
 );
 const categoryLegend = [
-  ...new Set(mappable.flatMap((b) => b.data.categories)),
+  ...new Set(mappable.flatMap((b) => b.data.categories ?? [])),
 ]
   .sort()
   .map((cat) => ({
     id: cat,
-    label: businessCategoryLabels[cat] ?? cat,
-    fill: getBusinessCategoryMarker(cat).fill,
+    label: placeCategoryLabels[cat as keyof typeof placeCategoryLabels] ?? cat,
+    fill: getPlaceCategoryMarker(cat).fill,
   }));
 const businessMapConfig = JSON.stringify({ allPoints: rawMapPoints, key: apiKey, siteBase, categoryLegend });
 ---
@@ -260,7 +260,7 @@ const businessMapConfig = JSON.stringify({ allPoints: rawMapPoints, key: apiKey,
             },
           });
           markerList.push(marker);
-          var url = pathPrefix + 'businesses/' + encodeURIComponent(p.slug) + '/';
+          var url = pathPrefix + 'places/' + encodeURIComponent(p.slug) + '/';
           marker.addListener('click', function () {
             var chtml = p.categoryLabel
               ? '<div style="font-size:11px;text-transform:uppercase;letter-spacing:0.04em;color:#6b7280;margin-bottom:6px;">' + esc(p.categoryLabel) + '</div>'

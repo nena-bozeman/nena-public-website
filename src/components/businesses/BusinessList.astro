@@ -1,10 +1,10 @@
 ---
 import BusinessCard from './BusinessCard.astro';
 import type { CollectionEntry } from 'astro:content';
-import { businessHasCategory, type BusinessCategory } from '../../utils/business-categories';
+import { placeHasCategory, type PlaceCategory } from '../../utils/place-categories';
 
 export interface Props {
-  businesses: CollectionEntry<'businesses'>[];
+  businesses: CollectionEntry<'places'>[];
   selectedCategory?: string;
 }
 
@@ -12,7 +12,7 @@ const { businesses, selectedCategory } = Astro.props;
 
 const filtered = selectedCategory
   ? businesses.filter((b) =>
-      businessHasCategory(b.data.categories, selectedCategory as BusinessCategory),
+      placeHasCategory(b.data.categories ?? [], selectedCategory as PlaceCategory),
     )
   : businesses;
 ---
@@ -24,12 +24,12 @@ const filtered = selectedCategory
     filtered.map((business) => (
       <div
         class="business-list-item min-h-0"
-        data-categories={business.data.categories.join(',')}
+        data-categories={(business.data.categories ?? []).join(',')}
       >
         <BusinessCard
           slug={business.slug}
           name={business.data.name}
-          categories={business.data.categories}
+          categories={business.data.categories ?? []}
           address={business.data.address}
           website={business.data.website}
           phone={business.data.phone}

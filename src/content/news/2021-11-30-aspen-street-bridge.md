@@ -1,13 +1,18 @@
 ---
 title: Aspen Street Bridge
-date: "2021-11-30"
-summary: The Northeast Urban Renewal Board selected the construction of a bridge from the trail along Bozeman Creek to Aspen Street as their next project. KLJ is providing engineering on the project and Ken VanDeWalle, an architect and resident of the area, is providing architectural des…
+date: '2021-11-30'
+summary: >-
+  The Northeast Urban Renewal Board selected the construction of a bridge from the trail along Bozeman Creek to Aspen
+  Street as their next project. KLJ is providing engineering on the project and Ken VanDeWalle, an architect and
+  resident of the area, is providing architectural des…
 featured: false
 tags: []
 legacySource: pyro-cms
-legacyId: "71"
+legacyId: '71'
 legacySlug: aspen-street-bridge
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/11/aspen-street-bridge
+topics:
+  - trails-pocket-parks
 ---
 
 Aspen Street Bridge 

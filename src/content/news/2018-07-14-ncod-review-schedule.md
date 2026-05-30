@@ -1,13 +1,18 @@
 ---
 title: NCOD review schedule
-date: "2018-07-14"
-summary: Several public engagement opportunities are set for the week of July 16. Find out about the Neighborhood Conservation Overlay District (NCOD) review and how you can participate in its revision.
+date: '2018-07-14'
+summary: >-
+  Several public engagement opportunities are set for the week of July 16. Find out about the Neighborhood Conservation
+  Overlay District (NCOD) review and how you can participate in its revision.
 featured: false
 tags: []
 legacySource: pyro-cms
-legacyId: "8"
+legacyId: '8'
 legacySlug: ncod-review-schedule
 legacyBlogUrl: https://www.nenabozeman.org/blog/2018/07/ncod-review-schedule
+topics:
+  - bozeman-udc
+  - historic-preservation
 ---
 
 Several public engagement opportunities are set for the week of July 16. Find out about the Neighborhood Conservation Overlay District (NCOD) review and how you can participate in its revision.

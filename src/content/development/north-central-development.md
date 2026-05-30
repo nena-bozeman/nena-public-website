@@ -3,13 +3,16 @@ title: North Central Development
 phase: under-review
 status: current
 address: Northeast Bozeman, MT
-submittedDate: 2021-06-08
-dateCreated: 2021-06-08
-dateUpdated: 2025-02-18
-summary: "The North Central Master Plan: Where Passion Meets Purpose By The HomeBase Partners Team Downtown Bozeman possesses that rare combination of rich history, architectural style, authentic character, and community warmth…"
-tags:
-  - "legacy-cms"
-  - "north-central-development"
+submittedDate: 2021-06-08T00:00:00.000Z
+dateCreated: 2021-06-08T00:00:00.000Z
+dateUpdated: 2025-02-18T00:00:00.000Z
+summary: >-
+  The North Central Master Plan: Where Passion Meets Purpose By The HomeBase Partners Team Downtown Bozeman possesses
+  that rare combination of rich history, architectural style, authentic character, and community warmth…
+topics:
+  - affordable-housing
+newsSlugs:
+  - 2021-04-23-the-north-central-master-plan
 ---
 
 # The North Central Master Plan: Where Passion Meets Purpose  

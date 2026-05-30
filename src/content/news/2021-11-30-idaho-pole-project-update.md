@@ -1,13 +1,17 @@
 ---
 title: Idaho Pole Project Update
-date: "2021-11-30"
+date: '2021-11-30'
 summary: Read on for important information regarding the Idaho Pole site...
 featured: false
 tags: []
 legacySource: pyro-cms
-legacyId: "67"
+legacyId: '67'
 legacySlug: idaho-pole-project-update
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/11/idaho-pole-project-update
+topics:
+  - environment
+developments:
+  - idaho-pole
 ---
 
 Read on for important information regarding the Idaho Pole site...

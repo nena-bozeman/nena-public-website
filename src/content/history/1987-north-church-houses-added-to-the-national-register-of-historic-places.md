@@ -4,6 +4,8 @@ summary: "Four working-class homes on North Church Avenue were listed individual
 year: 1987
 decade: 1980
 category: landmark
+topics:
+  - historic-preservation
 image: images/history/north-church-houses.jpg
 imageAlt: "Apollo J. Busch House, 224 North Church Avenue, photographed in 1987. Montana State Historic Preservation Office."
 ---

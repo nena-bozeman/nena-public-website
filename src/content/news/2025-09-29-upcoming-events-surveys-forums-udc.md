@@ -1,11 +1,14 @@
 ---
-title: "Surveys, forums, and UDC draft — late September 2025 roundup"
-date: 2025-09-29
-summary: "INC and Study Commission surveys; candidate and WARD forums; updated UDC draft and zoning maps; Historic Preservation Awards deadline; Parade of Sheds cancelled for 2025."
+title: Surveys, forums, and UDC draft — late September 2025 roundup
+date: 2025-09-29T00:00:00.000Z
+summary: >-
+  INC and Study Commission surveys; candidate and WARD forums; updated UDC draft and zoning maps; Historic Preservation
+  Awards deadline; Parade of Sheds cancelled for 2025.
 featured: false
 tags:
   - planning
   - city
+topics:
   - bozeman-udc
   - community
 ---

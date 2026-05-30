@@ -1,0 +1,153 @@
+---
+import NewsList from '../news/NewsList.astro';
+import EventList from '../events/EventList.astro';
+import type { CollectionEntry } from 'astro:content';
+import type { BacklinkRef } from '../../utils/backlinks';
+import { backlinkCollectionLabel, backlinkHref } from '../../utils/backlinks';
+import type { RelatedPageLink } from '../../utils/related-content';
+
+export interface Props {
+  relatedNews?: CollectionEntry<'news'>[];
+  relatedEvents?: CollectionEntry<'events'>[];
+  relatedObjectives?: CollectionEntry<'objectives'>[];
+  backlinks?: BacklinkRef[];
+  relatedPages?: RelatedPageLink[];
+  excludeNewsSlug?: string;
+  excludeEventSlug?: string;
+}
+
+const base = import.meta.env.BASE_URL;
+const {
+  relatedNews = [],
+  relatedEvents = [],
+  relatedObjectives = [],
+  backlinks = [],
+  relatedPages = [],
+  excludeNewsSlug,
+  excludeEventSlug,
+} = Astro.props;
+
+const news = excludeNewsSlug
+  ? relatedNews.filter((p) => p.slug !== excludeNewsSlug)
+  : relatedNews;
+const events = excludeEventSlug
+  ? relatedEvents.filter((e) => e.slug !== excludeEventSlug)
+  : relatedEvents;
+
+const hasContent =
+  news.length > 0 ||
+  events.length > 0 ||
+  relatedObjectives.length > 0 ||
+  backlinks.length > 0 ||
+  relatedPages.length > 0;
+---
+
+{
+  hasContent && (
+    <div class="mt-12 not-prose space-y-12">
+      {
+        news.length > 0 && (
+          <section aria-labelledby="related-news-heading">
+            <h2 id="related-news-heading" class="font-serif text-2xl font-bold text-primary mb-6">
+              Related news
+            </h2>
+            <NewsList posts={news} showTags={false} />
+          </section>
+        )
+      }
+
+      {
+        events.length > 0 && (
+          <section aria-labelledby="related-events-heading">
+            <h2 id="related-events-heading" class="font-serif text-2xl font-bold text-primary mb-6">
+              Related events
+            </h2>
+            <EventList events={events} />
+          </section>
+        )
+      }
+
+      {
+        relatedObjectives.length > 0 && (
+          <section aria-labelledby="related-objectives-heading">
+            <h2 id="related-objectives-heading" class="font-serif text-2xl font-bold text-primary mb-6">
+              Related objectives
+            </h2>
+            <ul class="space-y-3">
+              {relatedObjectives.map((objective) => (
+                <li>
+                  <a
+                    href={`${base}objectives/${objective.slug}`}
+                    class="block rounded-lg border border-gray-100 bg-white p-4 shadow-xs hover:shadow-md transition-shadow"
+                  >
+                    <span class="font-serif font-bold text-primary">{objective.data.title}</span>
+                    <p class="text-sm text-gray-600 mt-1">{objective.data.summary}</p>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        relatedPages.length > 0 && (
+          <section aria-labelledby="related-pages-heading">
+            <h2 id="related-pages-heading" class="font-serif text-2xl font-bold text-primary mb-6">
+              Related pages
+            </h2>
+            <ul class="space-y-3">
+              {relatedPages.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    class="block rounded-lg border border-gray-100 bg-white p-4 shadow-xs hover:shadow-md transition-shadow"
+                  >
+                    <span class="font-serif font-bold text-primary">{link.title}</span>
+                    {link.subtitle && <p class="text-sm text-gray-600 mt-1">{link.subtitle}</p>}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        backlinks.length > 0 && (
+          <section aria-labelledby="mentioned-in-heading">
+            <h2 id="mentioned-in-heading" class="font-serif text-2xl font-bold text-primary mb-6">
+              Mentioned in
+            </h2>
+            <ul class="space-y-3">
+              {backlinks.map((ref) => (
+                <li>
+                  <a
+                    href={backlinkHref(ref, base)}
+                    class="block rounded-lg border border-gray-100 bg-white p-4 shadow-xs hover:shadow-md transition-shadow"
+                  >
+                    <span class="text-xs font-medium uppercase tracking-wide text-accent">
+                      {backlinkCollectionLabel(ref.sourceCollection)}
+                    </span>
+                    <span class="block font-serif font-bold text-primary mt-1">{ref.title}</span>
+                    {
+                      ref.date && (
+                        <time class="text-sm text-gray-500 mt-1 block">
+                          {ref.date.toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          })}
+                        </time>
+                      )
+                    }
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+    </div>
+  )
+}

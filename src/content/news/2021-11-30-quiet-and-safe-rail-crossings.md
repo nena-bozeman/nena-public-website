@@ -1,13 +1,17 @@
 ---
-title: "Safe & Quiet Rail Crossings"
-date: "2021-11-30"
-summary: "Transportation and safety around Northeast Bozeman rail corridors—Tame the Train, quiet crossing design, and funding to reduce horn noise at at-grade crossings."
+title: Safe & Quiet Rail Crossings
+date: '2021-11-30'
+summary: >-
+  Transportation and safety around Northeast Bozeman rail corridors—Tame the Train, quiet crossing design, and funding
+  to reduce horn noise at at-grade crossings.
 featured: false
-tags: ["safe-quiet-rail-crossings"]
+tags: []
 legacySource: pyro-cms
-legacyId: "68"
+legacyId: '68'
 legacySlug: quiet-and-safe-rail-crossings
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/11/quiet-and-safe-rail-crossings
+topics:
+  - safe-quiet-rail-crossings
 ---
 
 NENA’s interest in this topic is **at-grade crossings, train horn noise, and safe routes** along rail corridors that affect the neighborhood. The article below (originally published as “quiet and safe” crossings) is the home for updates; related posts are [tagged *safe-quiet-rail-crossings*](/news/tag/safe-quiet-rail-crossings).

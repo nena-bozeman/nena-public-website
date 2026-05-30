@@ -1,11 +1,18 @@
 ---
-title: "REMINDER: NENA Spring Meeting and Potluck — tonight"
-date: 2026-04-13
-summary: "Same evening as the spring potluck and business meeting: potluck 5:30 p.m., meeting 6 p.m. at the Public Safety Center; NCOD consultants neighborhood walk the next afternoon."
+title: 'REMINDER: NENA Spring Meeting and Potluck — tonight'
+date: 2026-04-13T00:00:00.000Z
+summary: >-
+  Same evening as the spring potluck and business meeting: potluck 5:30 p.m., meeting 6 p.m. at the Public Safety
+  Center; NCOD consultants neighborhood walk the next afternoon.
 featured: false
-tags:
-  - meetings
+tags: []
+topics:
+  - meeting
   - newsletter
+events:
+  - 2026-04-13-nena-spring-meeting-potluck
+places:
+  - centennial-park
 ---
 
 Same-day reminder before the **NENA Spring Meeting and Potluck** (**Monday, April 13, 2026**): potluck **5:30 p.m.**, meeting **6:00 p.m.** at the **Public Safety Center Community Room** (**901 N. Rouse**). Bring a dish to share and plate/utensils if you can.

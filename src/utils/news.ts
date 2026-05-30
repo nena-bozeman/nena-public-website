@@ -34,7 +34,7 @@ export function totalNewsPages(count: number): number {
   return Math.max(1, Math.ceil(count / NEWS_PER_PAGE));
 }
 
-/** Title-style label for a tag slug (e.g. `trails-pocket-parks` → "Trails Pocket Parks"). */
+/** Title-style label for a tag slug (e.g. `trails-pocket-parks` → "Trails Parks"). */
 export function formatNewsTagLabel(tag: string): string {
   return tag
     .split('-')

@@ -1,13 +1,15 @@
 ---
 title: NENA News Spring 2024
-date: "2024-04-24"
+date: '2024-04-24'
 summary: NENA News Spring 2024
 featured: false
-tags: ["newsletter"]
+tags: []
 legacySource: pyro-cms
-legacyId: "86"
+legacyId: '86'
 legacySlug: nena-news-spring-2024
 legacyBlogUrl: https://www.nenabozeman.org/blog/2024/04/nena-news-spring-2024
+topics:
+  - newsletter
 ---
 
 # NENA biannial Newsletter

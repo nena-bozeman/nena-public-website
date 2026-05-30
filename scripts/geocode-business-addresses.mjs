@@ -55,7 +55,7 @@ function loadEnvFiles() {
 }
 loadEnvFiles();
 
-const contentDir = path.join(__dirname, '../src/content/businesses');
+const contentDir = path.join(__dirname, '../src/content/places');
 const SLEEP_MS = 220;
 const key =
   (process.env.GOOGLE_MAPS_GEOCODE_KEY && process.env.GOOGLE_MAPS_GEOCODE_KEY.trim()) ||

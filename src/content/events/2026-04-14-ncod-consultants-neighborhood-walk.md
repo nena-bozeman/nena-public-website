@@ -7,6 +7,11 @@ address: "N Tracy Ave & E Cottonwood St, Bozeman, MT"
 summary: "Walk with NCOD design-guidelines consultants to discuss historic structures, infill, zoning, and mixed-use context."
 category: "civic"
 featured: false
+topics:
+  - bozeman-udc
+  - historic-preservation
+newsSlugs:
+  - 2026-04-13-spring-meeting-potluck-tonight-reminder
 externalUrl: "https://mailchi.mp/aba45730ab89/nena-cloverleaf-zma-vote-12853417"
 ---
 

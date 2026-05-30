@@ -40,6 +40,7 @@ const SECTION_HUBS = new Set([
   'news',
   'events',
   'history',
+  'places',
   'businesses',
   'development',
   'objectives',
@@ -114,7 +115,7 @@ export function buildNavGroups(featuredObjectives: FeaturedObjective[]): NavGrou
         {
           links: [
             { label: 'History', href: 'history' },
-            { label: 'Businesses', href: 'businesses' },
+            { label: 'Places', href: 'places' },
             { label: 'Community', href: 'community' },
           ],
         },
@@ -176,7 +177,7 @@ export function buildFooterColumns(): FooterColumn[] {
       label: 'Our Neighborhood',
       links: [
         { label: 'History', href: 'history' },
-        { label: 'Businesses', href: 'businesses' },
+        { label: 'Places', href: 'places' },
         { label: 'Community', href: 'community' },
       ],
     },

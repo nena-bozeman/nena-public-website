@@ -1,13 +1,18 @@
 ---
 title: The Front Street Pathway Update
-date: "2021-04-25"
-summary: photo GVLT Gallatin Valley Land Trust and the City of Bozeman are excited to let Northeast Neighborhood residents know that the Front Street Pathway Project is moving ahead, and a construction contract will be in place before summer! This means that the project will happen this…
+date: '2021-04-25'
+summary: >-
+  photo GVLT Gallatin Valley Land Trust and the City of Bozeman are excited to let Northeast Neighborhood residents know
+  that the Front Street Pathway Project is moving ahead, and a construction contract will be in place before summer!
+  This means that the project will happen this…
 featured: false
 tags: []
 legacySource: pyro-cms
-legacyId: "52"
+legacyId: '52'
 legacySlug: the-front-street-pathway-update
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/04/the-front-street-pathway-update
+topics:
+  - trails-pocket-parks
 ---
 
 Update on the Front Street Pathway

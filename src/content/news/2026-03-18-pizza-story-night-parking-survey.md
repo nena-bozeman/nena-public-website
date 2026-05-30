@@ -1,11 +1,19 @@
 ---
-title: "Pizza + Story Night and downtown parking survey"
-date: 2026-03-18
-summary: "Community Pizza + Story Night at Beall Park Center on March 31, plus how to weigh in on downtown Bozeman parking and the Parking Vision process."
+title: Pizza + Story Night and downtown parking survey
+date: 2026-03-18T00:00:00.000Z
+summary: >-
+  Community Pizza + Story Night at Beall Park Center on March 31, plus how to weigh in on downtown Bozeman parking and
+  the Parking Vision process.
 featured: false
 tags:
-  - community
   - survey
+topics:
+  - community
+  - parking
+events:
+  - 2026-03-31-pizza-story-night
+places:
+  - beall-park
 ---
 
 **Pizza + Story Night** was scheduled for **Tuesday, March 31, 2026**, **6–8 p.m.** at **Beall Park Center**.

@@ -1,13 +1,17 @@
 ---
 title: Visions NE Committee
-date: "2021-04-25"
-summary: "Visions NE Committee: Defining Community Character"
+date: '2021-04-25'
+summary: 'Visions NE Committee: Defining Community Character'
 featured: false
-tags: ["visionne"]
+tags: []
 legacySource: pyro-cms
-legacyId: "55"
+legacyId: '55'
 legacySlug: visions-ne-committee
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/04/visions-ne-committee
+topics:
+  - visionne
+places:
+  - tinworks
 ---
 
 Visions NE Committee: Defining Community Character

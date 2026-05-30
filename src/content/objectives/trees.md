@@ -1,9 +1,10 @@
 ---
-title: "NENA Trees"
-summary: "Community tree planting, urban forestry, and preservation projects in the Northeast Neighborhood."
+title: NENA Trees
+summary: Community tree planting, urban forestry, and preservation projects in the Northeast Neighborhood.
 status: current
 order: 8
-newsTags: ["trees"]
+topics:
+  - trees
 ---
 
 The NENA Trees Committee works to expand and maintain the urban tree canopy in our neighborhood. Our work includes coordinating plantings with the City of Bozeman Urban Forestry program, advocating for tree preservation in development projects, and educating residents about tree care.
