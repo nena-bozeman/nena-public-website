@@ -1,0 +1,106 @@
+---
+const base = import.meta.env.BASE_URL;
+const imageRoot = `${base}images/migrated/nenabozeman-org/addons/shared_addons/themes/bootstrap_slim/img/home-slider`;
+
+const slides = [
+  { src: `${imageRoot}/Beall_Park.jpg`, alt: 'Beall Park in the Northeast Neighborhood' },
+  { src: `${imageRoot}/Beall_Park_Center.jpg`, alt: 'Beall Park Community Center' },
+  { src: `${imageRoot}/Mtn_Man.jpg`, alt: 'The Mountain Man statue in downtown Bozeman' },
+  { src: `${imageRoot}/Parade_Rock.jpg`, alt: 'Parade of Sheds neighborhood event' },
+  {
+    src: `${imageRoot}/n-wallace-mill-1680.jpg`,
+    alt: 'The MISCO grain elevator at 700 North Wallace Avenue',
+  },
+  { src: `${imageRoot}/peach_st_studio.jpg`, alt: 'Peach Street studio in the Northeast Neighborhood' },
+];
+---
+
+<div
+  class="hero-carousel absolute inset-0"
+  data-hero-carousel
+  tabindex="0"
+  aria-roledescription="carousel"
+  aria-label="Neighborhood photos"
+>
+  <div class="absolute inset-0">
+    {
+      slides.map((slide, index) => (
+        <div
+          class="hero-carousel__slide absolute inset-0 transition-opacity duration-700 ease-in-out"
+          class:list={[index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0']}
+          data-hero-slide
+          role="group"
+          aria-roledescription="slide"
+          aria-label={`${index + 1} of ${slides.length}`}
+          aria-hidden={index !== 0}
+        >
+          <img
+            src={slide.src}
+            alt={slide.alt}
+            class="h-full w-full object-cover"
+            loading={index === 0 ? 'eager' : 'lazy'}
+            fetchpriority={index === 0 ? 'high' : 'auto'}
+            decoding="async"
+          />
+        </div>
+      ))
+    }
+  </div>
+
+  <div
+    class="pointer-events-none absolute inset-0 z-20 bg-linear-to-br from-primary/50 via-green-900/35 to-green-900/50"
+  >
+  </div>
+
+  <div class="absolute inset-x-0 bottom-6 z-30 flex items-center justify-center gap-3 px-4">
+    <button
+      type="button"
+      class="hero-carousel__prev rounded-full border border-white/40 bg-black/30 p-2 text-white backdrop-blur-xs transition-colors hover:bg-black/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+      aria-label="Previous photo"
+      data-hero-prev
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    </button>
+
+    <div class="flex items-center gap-2" role="tablist" aria-label="Choose photo">
+      {
+        slides.map((slide, index) => (
+          <button
+            type="button"
+            class="hero-carousel__dot h-2.5 w-2.5 rounded-full border border-white/60 bg-white/30 transition-colors hover:bg-white/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            class:list={[index === 0 ? 'bg-white' : '']}
+            role="tab"
+            aria-selected={index === 0}
+            aria-label={`Show photo ${index + 1}: ${slide.alt}`}
+            data-hero-dot={index}
+          />
+        ))
+      }
+    </div>
+
+    <button
+      type="button"
+      class="hero-carousel__next rounded-full border border-white/40 bg-black/30 p-2 text-white backdrop-blur-xs transition-colors hover:bg-black/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+      aria-label="Next photo"
+      data-hero-next
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    .hero-carousel__slide {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import '../../client/hero-carousel';
+</script>
