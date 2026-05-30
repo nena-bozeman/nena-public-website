@@ -3,6 +3,8 @@ import { getCollection } from 'astro:content';
 import { LIST_STATUS_PAST_SEGMENT } from '../../schemas/list-status';
 import { withSiteBase } from '../../utils/site-link';
 
+void withSiteBase;
+
 export async function getStaticPaths() {
   const places = await getCollection('places');
   return places

@@ -23,7 +23,7 @@ NENA’s VisionNE committee focuses on **neighborhood character** and on **plann
 
 **To get involved** with VisionNE, contact [Karen Filipovich](mailto:karen_filipovich@hotmail.com) or [NENABozeman@gmail.com](mailto:NENABozeman@gmail.com).
 
-**More on the site:** [Visions NE Committee: Defining Community Character](/news/2021-04-25-visions-ne-committee) (2021) expands on the committee’s role and the neighborhood charter; [all news tagged *visionne*](/news/tag/visionne) lists related updates. [Development Watch](/development) tracks specific projects; those updates complement this objectives page.
+**More on the site:** [Visions NE Committee: Defining Community Character](/news/2021-04-25-visions-ne-committee) (2021) expands on the committee’s role and the neighborhood charter; [all news tagged *visionne*](/topics/visionne) lists related updates. [Development Watch](/development) tracks specific projects; those updates complement this objectives page.
 
 <h2 id="photovoicesne">PhotoVoicesNE</h2>
 

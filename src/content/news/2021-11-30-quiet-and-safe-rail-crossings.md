@@ -14,7 +14,7 @@ topics:
   - safe-quiet-rail-crossings
 ---
 
-NENA’s interest in this topic is **at-grade crossings, train horn noise, and safe routes** along rail corridors that affect the neighborhood. The article below (originally published as “quiet and safe” crossings) is the home for updates; related posts are [tagged *safe-quiet-rail-crossings*](/news/tag/safe-quiet-rail-crossings).
+NENA’s interest in this topic is **at-grade crossings, train horn noise, and safe routes** along rail corridors that affect the neighborhood. The article below (originally published as “quiet and safe” crossings) is the home for updates; related posts are [tagged *safe-quiet-rail-crossings*](/topics/safe-quiet-rail-crossings).
 
 Tame the Train
 
