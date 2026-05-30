@@ -1,7 +1,7 @@
 ---
 title: "Traffic Calming"
 summary: "Working to make neighborhood streets safer for pedestrians, cyclists, and drivers through traffic calming measures."
-active: true
+status: past
 order: 10
 newsTags: ["traffic-calming"]
 ---

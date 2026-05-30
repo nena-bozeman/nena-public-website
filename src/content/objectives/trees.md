@@ -1,7 +1,7 @@
 ---
 title: "NENA Trees"
 summary: "Community tree planting, urban forestry, and preservation projects in the Northeast Neighborhood."
-active: true
+status: current
 order: 8
 newsTags: ["trees"]
 ---

@@ -1,12 +1,12 @@
 ---
-title: "Bozeman UDC"
-summary: "Urban Design Committee advocacy—documentation and positions related to design review and the built environment affecting Northeast Bozeman."
-active: true
+title: "Bozeman Unified Development Code (UDC)"
+summary: "Unified Development Code advocacy—documentation and positions related to design review and the built environment affecting Northeast Bozeman."
+status: current
 order: 3
 newsTags: ["bozeman-udc"]
 ---
 
-The Urban Design Committee (UDC) plays a key role in how new development looks and functions at the sidewalk and block scale. This committee tracks UDC agendas, NENA comments, and reference materials from the City of Bozeman.
+The Unified Development Code (UDC) plays a key role in how new development looks and functions at the sidewalk and block scale. This committee tracks UDC agendas, NENA comments, and reference materials from the City of Bozeman.
 
 ## Resources
 

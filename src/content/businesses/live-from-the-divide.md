@@ -4,7 +4,7 @@ category: "arts-culture"
 address: "627 E Peach St, Bozeman, MT 59715 (former location)"
 website: "https://www.livefromthedivide.com"
 legacy: false
-status: closed
+status: past
 lat: 45.6834
 lng: -111.0302
 ---

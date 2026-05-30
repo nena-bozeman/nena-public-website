@@ -1,7 +1,7 @@
 ---
 title: "NENA Meetings"
 summary: "Agendas, minutes, and recordings for the Northeast Neighborhood Association."
-active: true
+status: current
 order: 2
 newsTags: ["meeting"]
 ---

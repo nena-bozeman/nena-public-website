@@ -1,0 +1,37 @@
+---
+import {
+  allListStatuses,
+  listStatusHref,
+  listStatusLabel,
+  type ListStatus,
+} from '../../utils/list-status';
+
+export interface Props {
+  /** Path segment under the site base, e.g. `objectives`. */
+  pagePath: string;
+  activeStatus: ListStatus;
+}
+
+const base = import.meta.env.BASE_URL;
+const { pagePath, activeStatus } = Astro.props;
+
+const pill =
+  'inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium transition-colors';
+const idle = 'border-amber-200 bg-white text-primary hover:bg-cream hover:border-accent';
+const selected = 'border-accent bg-accent text-white shadow-xs';
+---
+
+<nav aria-label="Show current or past items" class="mb-8 flex flex-wrap items-center gap-2">
+  <span class="text-sm text-gray-600 w-full sm:w-auto sm:mr-1">Show</span>
+  {
+    allListStatuses().map((status) => (
+      <a
+        href={listStatusHref(pagePath, status, base)}
+        class:list={[pill, activeStatus === status ? selected : idle]}
+        aria-current={activeStatus === status ? 'page' : undefined}
+      >
+        {listStatusLabel(status)}
+      </a>
+    ))
+  }
+</nav>

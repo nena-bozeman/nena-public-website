@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { listStatusLabel, type ListStatus } from '../../utils/list-status';
+
+export interface Props {
+  objectives: CollectionEntry<'objectives'>[];
+  filterStatus: ListStatus;
+}
+
+const base = import.meta.env.BASE_URL;
+const { objectives, filterStatus } = Astro.props;
+const statusLabel = listStatusLabel(filterStatus).toLowerCase();
+---
+
+{
+  objectives.length === 0 ? (
+    <p class="text-gray-500 text-center py-12">
+      No {statusLabel} objectives or committees to show.
+    </p>
+  ) : (
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {objectives.map((objective) => (
+        <article class="bg-white rounded-lg shadow-xs border border-gray-100 p-6">
+          <h2 class="font-serif font-bold text-primary text-xl mb-2">
+            <a
+              href={`${base}objectives/${objective.slug}`}
+              class="hover:text-accent transition-colors"
+            >
+              {objective.data.title}
+            </a>
+          </h2>
+          <p class="text-gray-600 text-sm mb-4">{objective.data.summary}</p>
+          <a
+            href={`${base}objectives/${objective.slug}`}
+            class="mt-4 inline-block text-accent text-sm font-medium"
+          >
+            Learn more →
+          </a>
+        </article>
+      ))}
+    </div>
+  )
+}

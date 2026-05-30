@@ -1,7 +1,7 @@
 ---
 title: "NENA Survey"
 summary: "Community surveys, how to participate, and published results that inform NENA priorities."
-active: true
+status: current
 order: 11
 newsTags: ["nena-survey"]
 ---

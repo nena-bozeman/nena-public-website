@@ -1,21 +1,26 @@
 ---
 import Base from '../../layouts/Base.astro';
+import CurrentPastFilters from '../../components/filters/CurrentPastFilters.astro';
+import ObjectiveList from '../../components/objectives/ObjectiveList.astro';
 import { getCollection } from 'astro:content';
-const base = import.meta.env.BASE_URL;
+import { matchesListStatus, parseListStatus } from '../../utils/list-status';
+
+const filterStatus = parseListStatus(Astro.url.search);
 const allObjectives = await getCollection('objectives');
-const activeObjectives = allObjectives.filter(o => o.data.active).sort((a, b) => a.data.order - b.data.order);
+const sorted = [...allObjectives].sort((a, b) => a.data.order - b.data.order);
+const objectives = sorted.filter((o) => matchesListStatus(o.data.status, filterStatus));
+
+const pageTitle =
+  filterStatus === 'past' ? 'Past Objectives & Committees' : 'Objectives & Committees';
+const pageDescription =
+  filterStatus === 'past'
+    ? 'Former NENA committees and neighborhood objectives'
+    : "NENA's active committees and neighborhood objectives";
 ---
-<Base title="Objectives & Committees" description="NENA's active committees and neighborhood objectives">
+<Base title={pageTitle} description={pageDescription}>
   <div class="max-w-5xl mx-auto px-4 py-12">
-    <h1 class="font-serif text-4xl font-bold text-primary mb-4">Objectives & Committees</h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {activeObjectives.map((objective) => (
-        <article class="bg-white rounded-lg shadow-xs border border-gray-100 p-6">
-          <h2 class="font-serif font-bold text-primary text-xl mb-2"><a href={`${base}objectives/${objective.slug}`} class="hover:text-accent transition-colors">{objective.data.title}</a></h2>
-          <p class="text-gray-600 text-sm mb-4">{objective.data.summary}</p>
-          <a href={`${base}objectives/${objective.slug}`} class="mt-4 inline-block text-accent text-sm font-medium">Learn more →</a>
-        </article>
-      ))}
-    </div>
+    <h1 class="font-serif text-4xl font-bold text-primary mb-4">{pageTitle}</h1>
+    <CurrentPastFilters pagePath="objectives" activeStatus={filterStatus} />
+    <ObjectiveList objectives={objectives} filterStatus={filterStatus} />
   </div>
 </Base>

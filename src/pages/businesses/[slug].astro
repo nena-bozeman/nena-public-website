@@ -90,12 +90,12 @@ const hero = getBusinessCoverImage(business.slug, business.data.image);
         )}
         <p class="text-sm text-gray-600 mt-2">📍 {business.data.address}</p>
         {business.data.founded && <p class="text-sm text-gray-400 mt-1">Est. {business.data.founded}</p>}
-        {business.data.status === 'closed' && (
+        {business.data.status === 'past' && (
           <p class="text-sm font-medium text-red-700 mt-2">
             This business has closed
             {business.data.closedYear != null ? ` (${business.data.closedYear})` : ''}.{' '}
-            <a href={`${base}businesses/archive`} class="underline hover:text-red-900">
-              View archive
+            <a href={`${base}businesses?status=past`} class="underline hover:text-red-900">
+              View past businesses
             </a>
           </p>
         )}

@@ -54,7 +54,7 @@ function htmlToSummary(html) {
   return `${t.slice(0, 217).trimEnd()}…`;
 }
 
-function pageStatusToEnum(status) {
+function pagePhaseFromLegacy(status) {
   const s = (status || '').toLowerCase();
   if (s === 'live') return 'proposed';
   if (s === 'draft') return 'under-review';
@@ -125,12 +125,13 @@ async function main() {
     const created = row.created_on != null ? new Date(Number(row.created_on) * 1000) : undefined;
     const updated = new Date(Number(row.updated_on) * 1000);
     const bodyMd = turndown.turndown(bodyHtml) || '_No body text was stored for this page._';
-    const status = pageStatusToEnum(row.status);
+    const phase = pagePhaseFromLegacy(row.status);
     const file = `src/content/development/${slug}.md`;
     const abs = join(root, file);
     const fm = {
       title,
-      status,
+      status: 'current',
+      phase,
       address: 'Northeast Bozeman, MT',
       summary: htmlToSummary(bodyHtml) || 'Migrated from the legacy NENA website development pages.',
       dateUpdated: updated,
@@ -150,6 +151,7 @@ function toYamlishFrontmatter(fm) {
   const lines = [];
   lines.push(`title: ${yamlQuote(fm.title)}`);
   lines.push(`status: ${fm.status}`);
+  lines.push(`phase: ${fm.phase}`);
   lines.push(`address: ${yamlQuote(fm.address)}`);
   if (fm.developer) lines.push(`developer: ${yamlQuote(fm.developer)}`);
   if (fm.submittedDate) lines.push(`submittedDate: ${isoDate(fm.submittedDate)}`);

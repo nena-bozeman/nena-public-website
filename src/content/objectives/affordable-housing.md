@@ -1,7 +1,7 @@
 ---
 title: "Affordable Housing"
 summary: "Working to preserve and expand affordable housing options in the Northeast Neighborhood as Bozeman grows."
-active: true
+status: current
 order: 4
 newsTags: ["affordable-housing"]
 ---

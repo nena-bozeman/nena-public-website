@@ -1,4 +1,9 @@
 import { defineCollection, z } from 'astro:content';
+import { DEVELOPMENT_PHASE_VALUES } from '../schemas/development-phase';
+import { LIST_STATUS_VALUES } from '../schemas/list-status';
+
+const listStatusSchema = z.enum(LIST_STATUS_VALUES).default('current');
+const developmentPhaseSchema = z.enum(DEVELOPMENT_PHASE_VALUES);
 
 const news = defineCollection({
   type: 'content',
@@ -60,8 +65,8 @@ const businesses = defineCollection({
     founded: z.number().optional(),
     logo: z.string().optional(),
     legacy: z.boolean().default(false),
-    /** Open listings appear in the main directory; closed listings are hidden there but kept for the archive. */
-    status: z.enum(['open', 'closed']).default('open'),
+    /** Current listings appear in the main directory; past listings are kept for the archive. */
+    status: listStatusSchema,
     /** Year the business closed (optional; shown in archive when set). */
     closedYear: z.number().int().min(1900).max(2100).optional(),
     lat: z.number().optional(),
@@ -96,7 +101,9 @@ const development = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    status: z.enum(['proposed', 'under-review', 'approved', 'under-construction', 'complete', 'denied']),
+    /** Whether the project appears in the current Development Watch list or past archive. */
+    status: listStatusSchema,
+    phase: developmentPhaseSchema,
     address: z.string(),
     developer: z.string().optional(),
     submittedDate: z.coerce.date().optional(),
@@ -115,7 +122,7 @@ const objectives = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(),
-    active: z.boolean().default(true),
+    status: listStatusSchema,
     order: z.number().default(99),
     contactEmail: z.string().email().optional(),
     /** If non-empty, the objective page lists news posts tagged with any of these strings. */

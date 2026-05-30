@@ -1,6 +1,7 @@
 ---
 title: Cloverleaf Development
-status: under-review
+phase: under-review
+status: current
 address: Northeast Bozeman, MT
 submittedDate: 2018-05-23
 dateCreated: 2018-05-23

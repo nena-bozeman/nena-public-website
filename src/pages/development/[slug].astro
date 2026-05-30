@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import { DEVELOPMENT_PHASE_BADGE } from '../../schemas/development-phase';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -14,17 +15,7 @@ const base = import.meta.env.BASE_URL;
 const { project } = Astro.props;
 const { Content } = await project.render();
 
-const statusConfig: Record<string, { color: string; label: string }> = {
-  proposed: { color: 'bg-yellow-100 text-yellow-800', label: 'Proposed' },
-  'under-review': { color: 'bg-orange-100 text-orange-800', label: 'Under Review' },
-  approved: { color: 'bg-green-100 text-green-800', label: 'Approved' },
-  'under-construction': { color: 'bg-blue-100 text-blue-800', label: 'Under Construction' },
-  complete: { color: 'bg-gray-100 text-gray-800', label: 'Complete' },
-  denied: { color: 'bg-red-100 text-red-800', label: 'Denied' },
-};
-
-const { status } = project.data;
-const statusStyle = statusConfig[status] ?? { color: 'bg-gray-100 text-gray-800', label: status };
+const phaseBadge = DEVELOPMENT_PHASE_BADGE[project.data.phase];
 ---
 
 <Base
@@ -36,8 +27,8 @@ const statusStyle = statusConfig[status] ?? { color: 'bg-gray-100 text-gray-800'
     <a href={`${base}development`} class="text-accent hover:text-amber-700 text-sm font-medium mb-8 inline-block transition-colors">← Back to Development Watch</a>
 
     <div class="mb-6">
-      <span class={`text-xs font-semibold px-2.5 py-1 rounded-full ${statusStyle.color}`}>
-        {statusStyle.label}
+      <span class={`text-xs font-semibold px-2.5 py-1 rounded-full ${phaseBadge.color}`}>
+        {phaseBadge.label}
       </span>
       <h1 class="font-serif text-4xl font-bold text-primary mt-4">{project.data.title}</h1>
       <p class="text-sm text-gray-500 mt-3">📍 {project.data.address}</p>

@@ -1,6 +1,7 @@
 ---
 title: Wildlands Development
-status: under-review
+phase: under-review
+status: current
 address: Northeast Bozeman, MT
 submittedDate: 2021-06-08
 dateCreated: 2021-06-08

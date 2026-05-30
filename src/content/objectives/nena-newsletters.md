@@ -1,7 +1,7 @@
 ---
 title: "NENA Newsletters"
 summary: "Archive of neighborhood newsletters—spring and fall editions—with downloads as they are migrated from the legacy site."
-active: true
+status: current
 order: 1
 newsTags: ["newsletter"]
 ---

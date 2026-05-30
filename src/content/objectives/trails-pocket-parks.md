@@ -1,7 +1,7 @@
 ---
 title: "Trails & Pocket Parks"
 summary: "Advocating for expanded trail access, maintenance of existing trails, and development of pocket parks throughout the neighborhood."
-active: true
+status: current
 order: 9
 newsTags: ["trails-pocket-parks"]
 ---

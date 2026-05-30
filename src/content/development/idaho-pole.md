@@ -1,6 +1,7 @@
 ---
 title: Idaho Pole - A Superfund Site and an Urban Renewal District
-status: under-review
+phase: under-review
+status: current
 address: Northeast Bozeman, MT
 submittedDate: 2020-11-21
 dateCreated: 2020-11-21

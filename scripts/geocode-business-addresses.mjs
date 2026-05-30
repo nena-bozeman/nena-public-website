@@ -179,7 +179,7 @@ for (const f of files.sort()) {
     continue;
   }
   const { data } = parsed;
-  if (data.status === 'closed') {
+  if (data.status === 'past') {
     continue;
   }
   if (!data.address) {

@@ -1,7 +1,7 @@
 ---
 title: "VisionNE"
 summary: "Neighborhood vision, character, and long-range planning for Northeast Bozeman—including the PhotoVoicesNE community photo project."
-active: true
+status: past
 order: 6
 newsTags: ["visionne"]
 ---

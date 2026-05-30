@@ -1,7 +1,7 @@
 ---
 title: "Parade of Sheds"
 summary: "NENA’s annual community event celebrating backyard sheds, studios, and creative outbuildings in the Northeast Neighborhood."
-active: true
+status: current
 order: 5
 newsTags: ["parade-of-sheds"]
 ---

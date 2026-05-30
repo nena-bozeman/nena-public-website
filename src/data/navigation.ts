@@ -1,5 +1,7 @@
 /** Shared site navigation — Option B (task-based grouping). */
 
+import type { ListStatus } from '../schemas/list-status';
+
 export type NavItem = {
   label: string;
   href: string;
@@ -76,10 +78,10 @@ export function isNavGroupActive(pathname: string, base: string, group: NavGroup
 }
 
 export function getFeaturedObjectives(
-  objectives: { slug: string; data: { title: string; active: boolean; order: number } }[],
+  objectives: { slug: string; data: { title: string; status: ListStatus; order: number } }[],
 ): FeaturedObjective[] {
   return objectives
-    .filter((objective) => objective.data.active && !FEATURED_OBJECTIVE_SLUGS_TO_SKIP.has(objective.slug))
+    .filter((objective) => objective.data.status === 'current' && !FEATURED_OBJECTIVE_SLUGS_TO_SKIP.has(objective.slug))
     .sort((a, b) => a.data.order - b.data.order)
     .slice(0, FEATURED_OBJECTIVE_COUNT)
     .map((objective) => ({
