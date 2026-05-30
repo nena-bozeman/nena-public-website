@@ -1,14 +1,19 @@
 ---
 title: NENA Spring Meeting Notes
-date: 2026-04-13
-dateCreated: 2026-05-09
-dateUpdated: 2026-05-09
+date: 2026-04-13T00:00:00.000Z
+dateCreated: 2026-05-09T00:00:00.000Z
+dateUpdated: 2026-05-09T00:00:00.000Z
 summary: Notes from the April 13 spring meeting at the Public Safety Center — potluck, elections, and guest presentations.
 author: Courtney Scott
 featured: false
 draft: false
-tags:
-  - meeting-notes
+tags: []
+topics:
+  - meeting
+events:
+  - 2026-04-13-nena-spring-meeting-potluck
+places:
+  - black-petal-farm
 ---
 
 The **NENA Spring Meeting** was held **Monday, April 13, 2026**, at the **Public Safety Center**, **Community Room** (**901 N. Rouse**), following the **5:30 p.m.** potluck and **6:00 p.m.** meeting start.

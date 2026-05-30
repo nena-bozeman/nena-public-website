@@ -1,8 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import { getMailchimpSignupUrl } from '../utils/mailchimp';
 
-const mailchimpUrl = getMailchimpSignupUrl();
+const base = import.meta.env.BASE_URL;
 ---
 
 <Base
@@ -29,15 +28,13 @@ const mailchimpUrl = getMailchimpSignupUrl();
       <section class="bg-white rounded-lg shadow-xs border border-gray-100 p-8">
         <h2 class="font-serif text-xl font-bold text-primary mb-4">Newsletter</h2>
         <p class="text-gray-700 mb-4">
-          For email updates (replacement for the legacy newsletter signup flow), use the link configured for this deployment.
+          For email updates and past newsletter issues, visit the newsletter page.
         </p>
         <a
-          href={mailchimpUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={`${base}newsletter`}
           class="inline-block bg-accent hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
         >
-          Subscribe to newsletter
+          View newsletter page
         </a>
       </section>
     </div>

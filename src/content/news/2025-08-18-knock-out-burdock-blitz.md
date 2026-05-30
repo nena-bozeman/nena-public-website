@@ -1,9 +1,11 @@
 ---
-title: "Knock out burdock — neighborhood Burdock Blitz (August 2025)"
-date: 2025-08-18
-summary: "Volunteer mornings with Sacajawea Audubon and neighbors to cut burdock before it seeds; meet at Fink’s or City Hall."
+title: Knock out burdock — neighborhood Burdock Blitz (August 2025)
+date: 2025-08-18T00:00:00.000Z
+summary: Volunteer mornings with Sacajawea Audubon and neighbors to cut burdock before it seeds; meet at Fink’s or City Hall.
 featured: false
 tags:
+  - burdock-blitz
+topics:
   - community
   - volunteer
   - environment

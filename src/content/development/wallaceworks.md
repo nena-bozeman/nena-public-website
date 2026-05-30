@@ -3,13 +3,14 @@ title: Wallace Works
 phase: under-construction
 status: current
 address: Northeast Bozeman, MT
-submittedDate: 2020-11-22
-dateCreated: 2020-11-22
-dateUpdated: 2025-02-18
-summary: "Wallace Works is located on the corner of Tamarack and Wallace, and is a new mixed-use development that received site plan approval in March of 2023. This project seeks to address an urgent and growing need for attain…"
-tags:
-  - "legacy-cms"
-  - "wallaceworks"
+submittedDate: 2020-11-22T00:00:00.000Z
+dateCreated: 2020-11-22T00:00:00.000Z
+dateUpdated: 2025-02-18T00:00:00.000Z
+summary: >-
+  Wallace Works is located on the corner of Tamarack and Wallace, and is a new mixed-use development that received site
+  plan approval in March of 2023. This project seeks to address an urgent and growing need for attain…
+topics: []
+newsSlugs: []
 ---
 
 ![]({{ url:site }}files/large/52fb2a97dcf1f08)  

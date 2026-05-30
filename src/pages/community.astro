@@ -3,11 +3,13 @@ import Base from '../layouts/Base.astro';
 import BusinessList from '../components/businesses/BusinessList.astro';
 import { getCollection } from 'astro:content';
 
-const allBusinesses = await getCollection('businesses');
-const openArtsBusinesses = allBusinesses
+const allPlaces = await getCollection('places');
+const openArtsBusinesses = allPlaces
   .filter(
     (b) =>
-      b.data.status === 'current' && b.data.categories.includes('arts-culture'),
+      b.data.placeType === 'business' &&
+      b.data.status === 'current' &&
+      (b.data.categories ?? []).includes('arts-culture'),
   )
   .sort((a, b) => a.data.name.localeCompare(b.data.name, undefined, { sensitivity: 'base' }));
 
@@ -149,8 +151,8 @@ const bozemanArtMuseum = 'https://bozemanartmuseum.org/';
     <section class="bg-white rounded-lg shadow-xs border border-gray-100 p-8 mt-8">
       <h2 class="font-serif text-xl font-bold text-primary mb-4">Neighborhood arts</h2>
       <p class="text-gray-700 mb-6 max-w-3xl">
-        Open Arts &amp; Culture listings in the NENA business directory. For every category, see the full{' '}
-        <a href={`${base}businesses`} class="text-accent hover:text-amber-700 font-medium">business directory</a>.
+        Open Arts &amp; Culture listings in the NENA places directory. For every category, see the full{' '}
+        <a href={`${base}places`} class="text-accent hover:text-amber-700 font-medium">places directory</a>.
       </p>
       <BusinessList businesses={openArtsBusinesses} />
     </section>

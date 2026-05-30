@@ -1,12 +1,15 @@
 ---
-title: "City meetings and public involvement — mid-February 2026"
-date: 2026-02-16
-summary: "Roundup of Bozeman Creek Vision Plan kickoff, City Study Commission, Historic Preservation / NCOD, TIF board, and traffic calming—all from the neighborhood alert."
+title: City meetings and public involvement — mid-February 2026
+date: 2026-02-16T00:00:00.000Z
+summary: >-
+  Roundup of Bozeman Creek Vision Plan kickoff, City Study Commission, Historic Preservation / NCOD, TIF board, and
+  traffic calming—all from the neighborhood alert.
 featured: false
 tags:
   - city
   - planning
-  - meetings
+topics:
+  - meeting
 ---
 
 The **February 16** neighborhood email highlighted several City advisory meetings and projects that week, including:

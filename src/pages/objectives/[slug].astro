@@ -1,8 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
-import ObjectiveRelatedNews from '../../components/objectives/ObjectiveRelatedNews.astro';
+import RelatedContent from '../../components/related/RelatedContent.astro';
 import { getCollection } from 'astro:content';
-import { newsEntriesForSite, newsPostsMatchingAnyTag } from '../../utils/news';
+import { loadSiteContent, relatedEventsByTopics, relatedNewsByTopics } from '../../utils/related-content';
 import { LIST_STATUS_PAST_SEGMENT } from '../../schemas/list-status';
 
 export async function getStaticPaths() {
@@ -10,24 +10,30 @@ export async function getStaticPaths() {
   return objectives
     .filter(
       (objective) =>
-        objective.slug !== 'nena-meetings' && objective.slug !== LIST_STATUS_PAST_SEGMENT,
+        objective.slug !== 'nena-meetings' &&
+        objective.slug !== 'nena-newsletters' &&
+        objective.slug !== LIST_STATUS_PAST_SEGMENT,
     )
     .map((objective) => ({ params: { slug: objective.slug }, props: { objective } }));
 }
 const { objective } = Astro.props;
 const { Content } = await objective.render();
 
-const newsTags = objective.data.newsTags;
-const allNews = newsEntriesForSite(await getCollection('news'));
-const relatedNews = newsPostsMatchingAnyTag(allNews, newsTags);
-const wideLayout = newsTags.length > 0;
+const topics = objective.data.topics;
+const content = await loadSiteContent();
+const relatedNews = relatedNewsByTopics(content.news, topics);
+const relatedEvents = relatedEventsByTopics(content.events, topics);
+const wideLayout = topics.length > 0;
 ---
 <Base title={objective.data.title} description={objective.data.summary}>
   <div class:list={['mx-auto px-4 py-12', wideLayout ? 'max-w-4xl' : 'max-w-3xl']}>
-    <a href={`${import.meta.env.BASE_URL}objectives`} class="text-accent text-sm font-medium mb-8 inline-block">← Back to Objectives</a>
+    <a href={`${import.meta.env.BASE_URL}objectives`} class="text-accent text-sm font-medium mb-8 inline-block">← Back to Objectives & Committees </a>
     <h1 class="font-serif text-4xl font-bold text-primary mb-3">{objective.data.title}</h1>
     <p class="text-xl text-gray-600 mb-6">{objective.data.summary}</p>
     <div class="prose prose-green max-w-none"><Content /></div>
-    <ObjectiveRelatedNews tags={newsTags} posts={relatedNews} />
+    <RelatedContent
+      relatedNews={relatedNews}
+      relatedEvents={relatedEvents}
+    />
   </div>
 </Base>

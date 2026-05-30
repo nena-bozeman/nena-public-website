@@ -1,13 +1,19 @@
 ---
-title: "NCOD Review: October Public Events"
-date: "2018-09-07"
-summary: The City of Bozeman s Community Development Division has announced several upcoming Neighborhood Conservation Overlay District Review project community engagement events taking place October 1-3, 2018. These upcoming events will focus on presenting initial recommendations and so…
+title: 'NCOD Review: October Public Events'
+date: '2018-09-07'
+summary: >-
+  The City of Bozeman s Community Development Division has announced several upcoming Neighborhood Conservation Overlay
+  District Review project community engagement events taking place October 1-3, 2018. These upcoming events will focus
+  on presenting initial recommendations and so…
 featured: false
 tags: []
 legacySource: pyro-cms
-legacyId: "17"
+legacyId: '17'
 legacySlug: ncod-review-october-public-events
 legacyBlogUrl: https://www.nenabozeman.org/blog/2018/09/ncod-review-october-public-events
+topics:
+  - bozeman-udc
+  - historic-preservation
 ---
 
 The City of Bozeman’s Community Development Division has announced several upcoming Neighborhood Conservation Overlay District Review project community engagement events taking place October 1-3, 2018. These upcoming events will focus on presenting initial recommendations and soliciting community feedback, a result of the initial public outreach that took place this past July.

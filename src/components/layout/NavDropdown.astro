@@ -68,7 +68,11 @@ const triggerClass =
               return (
                 <a
                   href={resolveNavHref(base, item.href)}
-                  class:list={[linkClass, active ? 'bg-green-800/80 text-white font-medium' : '']}
+                  class:list={[
+                    linkClass,
+                    item.nested ? 'pl-7 text-green-200/95' : '',
+                    active ? 'bg-green-800/80 text-white font-medium' : '',
+                  ]}
                   role="menuitem"
                   aria-current={active ? 'page' : undefined}
                 >

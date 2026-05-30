@@ -1,10 +1,13 @@
 ---
-title: "Spring 2026 Newsletter"
-date: 2026-03-15
-summary: "Welcome to spring! Read about the latest happenings in the Northeast Neighborhood."
-author: "NENA Board"
+title: Spring 2026 Newsletter
+date: 2026-03-15T00:00:00.000Z
+summary: Welcome to spring! Read about the latest happenings in the Northeast Neighborhood.
+author: NENA Board
 featured: true
-tags: ["newsletter", "community"]
+tags: []
+topics:
+  - newsletter
+  - community
 ---
 
 Spring has arrived in the Northeast Neighborhood! We have exciting updates to share from the NENA board and our active committees.

@@ -1,9 +1,10 @@
 ---
-title: "NENA Meetings"
-summary: "Agendas, minutes, and recordings for the Northeast Neighborhood Association."
+title: NENA Meetings
+summary: Agendas, minutes, and recordings for the Northeast Neighborhood Association.
 status: current
 order: 2
-newsTags: ["meeting"]
+topics:
+  - meeting
 ---
 
 Use **NENA Meetings** in the objectives list for archived minutes—one page per meeting.

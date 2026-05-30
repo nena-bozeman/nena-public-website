@@ -69,11 +69,11 @@ export function getBusinessCategoryMarker(category: string) {
 
 /** Filter pills for the directory: All plus categories present in the given listings. */
 export function businessCategoryFilterOptions(
-  businesses: readonly { data: { categories: readonly BusinessCategory[] } }[],
+  businesses: readonly { data: { categories?: readonly BusinessCategory[] } }[],
 ): { value: '' | BusinessCategory; label: string }[] {
   const present = new Set<BusinessCategory>();
   for (const b of businesses) {
-    for (const c of b.data.categories) present.add(c);
+    for (const c of b.data.categories ?? []) present.add(c);
   }
   const options: { value: '' | BusinessCategory; label: string }[] = [
     { value: '', label: 'All' },

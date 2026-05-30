@@ -1,0 +1,76 @@
+---
+import Base from '../../layouts/Base.astro';
+import NewsList from '../../components/news/NewsList.astro';
+import EventList from '../../components/events/EventList.astro';
+import { getCollection } from 'astro:content';
+import { TOPIC_VALUES, TOPIC_LABELS, type Topic } from '../../schemas/topics';
+import { eventsMatchingTopics, newsMatchingTopics } from '../../utils/content-relationships';
+import { newsEntriesForSite } from '../../utils/news';
+import { objectiveHrefForTopic } from '../../schemas/topics';
+
+export async function getStaticPaths() {
+  return TOPIC_VALUES.map((topic) => ({ params: { topic } }));
+}
+
+const { topic } = Astro.params;
+if (!TOPIC_VALUES.includes(topic as Topic)) {
+  return Astro.redirect(`${import.meta.env.BASE_URL}news`);
+}
+
+const topicValue = topic as Topic;
+const base = import.meta.env.BASE_URL;
+
+const allNews = newsEntriesForSite(await getCollection('news'));
+const allEvents = await getCollection('events');
+const relatedNews = newsMatchingTopics(allNews, [topicValue]);
+const relatedEvents = eventsMatchingTopics(allEvents, [topicValue]);
+const objectiveHref = objectiveHrefForTopic(topicValue, base);
+---
+
+<Base
+  title={`${TOPIC_LABELS[topicValue]} — Topics`}
+  description={`News and events tagged with ${TOPIC_LABELS[topicValue]}.`}
+>
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <a href={`${base}news`} class="text-accent text-sm font-medium mb-8 inline-block">← Back to News</a>
+    <h1 class="font-serif text-4xl font-bold text-primary mb-3">{TOPIC_LABELS[topicValue]}</h1>
+    {
+      objectiveHref && (
+        <p class="text-gray-600 mb-8">
+          Related objective:{' '}
+          <a href={objectiveHref} class="text-accent hover:text-amber-700 font-medium">
+            View committee page →
+          </a>
+        </p>
+      )
+    }
+
+    {
+      relatedNews.length > 0 && (
+        <section class="mb-12" aria-labelledby="topic-news-heading">
+          <h2 id="topic-news-heading" class="font-serif text-2xl font-bold text-primary mb-6">
+            News
+          </h2>
+          <NewsList posts={relatedNews} showTags={false} />
+        </section>
+      )
+    }
+
+    {
+      relatedEvents.length > 0 && (
+        <section aria-labelledby="topic-events-heading">
+          <h2 id="topic-events-heading" class="font-serif text-2xl font-bold text-primary mb-6">
+            Events
+          </h2>
+          <EventList events={relatedEvents} />
+        </section>
+      )
+    }
+
+    {
+      relatedNews.length === 0 && relatedEvents.length === 0 && (
+        <p class="text-gray-500 text-center py-12">No news or events for this topic yet.</p>
+      )
+    }
+  </div>
+</Base>

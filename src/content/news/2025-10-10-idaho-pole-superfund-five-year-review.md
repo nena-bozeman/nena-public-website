@@ -1,10 +1,15 @@
 ---
-title: "Idaho Pole Superfund site — EPA five-year review summary"
-date: 2025-10-10
-summary: "EPA completed the sixth five-year review; issues included TSA inspection, floodplain mapping, and groundwater vapor risk. Scout DAC timelines for reports and soil work were noted."
+title: Idaho Pole Superfund site — EPA five-year review summary
+date: 2025-10-10T00:00:00.000Z
+summary: >-
+  EPA completed the sixth five-year review; issues included TSA inspection, floodplain mapping, and groundwater vapor
+  risk. Scout DAC timelines for reports and soil work were noted.
 featured: false
-tags:
+tags: []
+topics:
   - environment
+developments:
+  - idaho-pole
 ---
 
 The **Environmental Protection Agency** completed the **sixth five-year review** of the **Idaho Pole** Superfund remedy. The message summarized site history, pending **Treatability Study Report** and **Master Site Plan** timelines from **Scout DAC**, issues flagged by EPA (treated soil area inspection, floodplain, **1-methylnaphthalene** and vapor intrusion), and EPA recommendations.

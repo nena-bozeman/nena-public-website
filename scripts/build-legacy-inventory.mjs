@@ -50,7 +50,7 @@ const STATIC_PAGE_MAP = {
   '/donate': '/donate',
   '/elections': '/elections',
   '/email-signup': '/newsletter',
-  '/ne-business-directory': '/businesses',
+  '/ne-business-directory': '/places',
   '/upcoming-events': '/events',
   '/events-calendar': '/events',
   '/thank-you': '',

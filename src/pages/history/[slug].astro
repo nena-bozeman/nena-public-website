@@ -1,6 +1,15 @@
 ---
 import Base from '../../layouts/Base.astro';
+import RelatedContent from '../../components/related/RelatedContent.astro';
+import TopicPills from '../../components/related/TopicPills.astro';
 import { getCollection } from 'astro:content';
+import {
+  backlinksFor,
+  historyPlaceLink,
+  loadSiteContent,
+  relatedEventsByTopics,
+  relatedNewsByTopics,
+} from '../../utils/related-content';
 
 export async function getStaticPaths() {
   const entries = await getCollection('history');
@@ -13,6 +22,8 @@ export async function getStaticPaths() {
 const base = import.meta.env.BASE_URL;
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+const content = await loadSiteContent();
+const topics = entry.data.topics;
 
 const categoryColors: Record<string, string> = {
   founding: 'bg-amber-100 text-amber-800',
@@ -28,6 +39,9 @@ const imageSrc =
   (entry.data.image.startsWith('http')
     ? entry.data.image
     : `${base}${entry.data.image.replace(/^\//, '')}`);
+
+const placeLink = historyPlaceLink(entry, content.places, base);
+const relatedPages = placeLink ? [placeLink] : [];
 ---
 
 <Base
@@ -47,6 +61,7 @@ const imageSrc =
       </div>
       <h1 class="font-serif text-4xl font-bold text-primary">{entry.data.title}</h1>
       <p class="text-gray-600 text-lg mt-3 leading-relaxed">{entry.data.summary}</p>
+      <TopicPills topics={topics} />
     </div>
 
     {imageSrc && (
@@ -58,5 +73,12 @@ const imageSrc =
     <div class="prose prose-green max-w-none">
       <Content />
     </div>
+
+    <RelatedContent
+      relatedNews={relatedNewsByTopics(content.news, topics)}
+      relatedEvents={relatedEventsByTopics(content.events, topics)}
+      backlinks={backlinksFor(content.backlinkIndex, 'history', entry.slug)}
+      relatedPages={relatedPages}
+    />
   </article>
 </Base>

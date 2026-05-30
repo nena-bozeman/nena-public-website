@@ -1,10 +1,16 @@
 ---
-title: "Community Tree Planting Day Announced"
-date: 2026-01-10
-summary: "Join us for a community tree planting event in partnership with the City of Bozeman Urban Forestry program."
-author: "Trees Committee"
+title: Community Tree Planting Day Announced
+date: 2026-01-10T00:00:00.000Z
+summary: Join us for a community tree planting event in partnership with the City of Bozeman Urban Forestry program.
+author: Trees Committee
 featured: false
-tags: ["trees", "environment", "volunteer"]
+tags: []
+topics:
+  - trees
+  - environment
+  - volunteer
+places:
+  - beall-park
 ---
 
 The NENA Trees Committee is excited to announce a community tree planting day! In partnership with the City of Bozeman's Urban Forestry program, we will be planting native trees throughout the neighborhood.

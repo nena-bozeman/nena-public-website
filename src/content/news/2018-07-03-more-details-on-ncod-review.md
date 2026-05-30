@@ -1,15 +1,19 @@
 ---
 title: More Details on NCOD Review
-date: "2018-07-03"
-summary: The Neighborhood Conservartion Overlay District (NCOD) is a zoning overlay district that was created by the City in 1991 to conserve neighborhood character and protect historic properties. The City has engaged a consultant team to conduct a comprehensive review of the NCOD. This…
+date: '2018-07-03'
+summary: >-
+  The Neighborhood Conservartion Overlay District (NCOD) is a zoning overlay district that was created by the City in
+  1991 to conserve neighborhood character and protect historic properties. The City has engaged a consultant team to
+  conduct a comprehensive review of the NCOD. This…
 featured: false
-tags:
-  - bozeman-udc
+tags: []
 legacySource: pyro-cms
-legacyId: "5"
+legacyId: '5'
 legacySlug: more-details-on-ncod-review
 legacyBlogUrl: https://www.nenabozeman.org/blog/2018/07/more-details-on-ncod-review
 author: Tanya Andreasen
+topics:
+  - bozeman-udc
 ---
 
 The Neighborhood Conservartion Overlay District (NCOD) is a zoning overlay district that was created by the City in 1991 to conserve neighborhood character and protect historic properties. The City has engaged a consultant team to conduct a comprehensive review of the NCOD. _**This exploration will begin with two weeks of outreach July 13th through the 24th.**_

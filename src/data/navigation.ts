@@ -7,6 +7,8 @@ export type NavItem = {
   href: string;
   description?: string;
   external?: boolean;
+  /** Indented sub-link (e.g. objectives under the objectives hub). */
+  nested?: boolean;
 };
 
 export type NavSection = {
@@ -26,20 +28,19 @@ export type FooterColumn = {
   links: NavItem[];
 };
 
-export type FeaturedObjective = {
+export type ActiveObjective = {
   title: string;
   slug: string;
 };
 
-const FEATURED_OBJECTIVE_COUNT = 4;
-
-/** Meta listings — not surfaced as featured committee links. */
-const FEATURED_OBJECTIVE_SLUGS_TO_SKIP = new Set(['nena-newsletters']);
+/** Meta listings — not surfaced in the objectives submenu. */
+const NAV_OBJECTIVE_SLUGS_TO_SKIP = new Set(['nena-newsletters']);
 
 const SECTION_HUBS = new Set([
   'news',
   'events',
   'history',
+  'places',
   'businesses',
   'development',
   'objectives',
@@ -77,20 +78,22 @@ export function isNavGroupActive(pathname: string, base: string, group: NavGroup
   return getNavGroupLinks(group).some((item) => isNavItemActive(pathname, base, item.href));
 }
 
-export function getFeaturedObjectives(
+export function getActiveObjectives(
   objectives: { slug: string; data: { title: string; status: ListStatus; order: number } }[],
-): FeaturedObjective[] {
+): ActiveObjective[] {
   return objectives
-    .filter((objective) => objective.data.status === 'current' && !FEATURED_OBJECTIVE_SLUGS_TO_SKIP.has(objective.slug))
+    .filter(
+      (objective) =>
+        objective.data.status === 'current' && !NAV_OBJECTIVE_SLUGS_TO_SKIP.has(objective.slug),
+    )
     .sort((a, b) => a.data.order - b.data.order)
-    .slice(0, FEATURED_OBJECTIVE_COUNT)
     .map((objective) => ({
       title: objective.data.title,
       slug: objective.slug,
     }));
 }
 
-export function buildNavGroups(featuredObjectives: FeaturedObjective[]): NavGroup[] {
+export function buildNavGroups(activeObjectives: ActiveObjective[]): NavGroup[] {
   return [
     {
       id: 'news-events',
@@ -114,7 +117,7 @@ export function buildNavGroups(featuredObjectives: FeaturedObjective[]): NavGrou
         {
           links: [
             { label: 'History', href: 'history' },
-            { label: 'Businesses', href: 'businesses' },
+            { label: 'Places', href: 'places' },
             { label: 'Community', href: 'community' },
           ],
         },
@@ -128,9 +131,10 @@ export function buildNavGroups(featuredObjectives: FeaturedObjective[]): NavGrou
         {
           links: [
             { label: 'All objectives & committees', href: 'objectives' },
-            ...featuredObjectives.map((objective) => ({
+            ...activeObjectives.map((objective) => ({
               label: objective.title,
               href: `objectives/${objective.slug}`,
+              nested: true,
             })),
             { label: 'Development Watch', href: 'development' },
           ],
@@ -176,7 +180,7 @@ export function buildFooterColumns(): FooterColumn[] {
       label: 'Our Neighborhood',
       links: [
         { label: 'History', href: 'history' },
-        { label: 'Businesses', href: 'businesses' },
+        { label: 'Places', href: 'places' },
         { label: 'Community', href: 'community' },
       ],
     },

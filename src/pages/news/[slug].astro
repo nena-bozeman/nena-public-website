@@ -1,8 +1,16 @@
 ---
 import Base from '../../layouts/Base.astro';
 import NewsDraftBadge from '../../components/news/NewsDraftBadge.astro';
+import RelatedContent from '../../components/related/RelatedContent.astro';
+import TopicPills from '../../components/related/TopicPills.astro';
 import { getCollection } from 'astro:content';
 import { newsEntriesForSite } from '../../utils/news';
+import {
+  backlinksFor,
+  loadSiteContent,
+  relatedEventsByTopics,
+  relatedObjectivesByTopics,
+} from '../../utils/related-content';
 
 export async function getStaticPaths() {
   const news = await getCollection('news');
@@ -14,6 +22,8 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
+const content = await loadSiteContent();
+const topics = post.data.topics;
 ---
 
 <Base 
@@ -36,17 +46,18 @@ const { Content } = await post.render();
         <NewsDraftBadge show={post.data.draft} />
       </h1>
       <p class="text-xl text-gray-600 mt-3">{post.data.summary}</p>
-      {post.data.tags && post.data.tags.length > 0 && (
-        <div class="flex flex-wrap gap-2 mt-4">
-          {post.data.tags.map((tag) => (
-            <span class="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded-full">{tag}</span>
-          ))}
-        </div>
-      )}
+      <TopicPills topics={topics} tags={post.data.tags} />
     </div>
     
     <div class="prose prose-green max-w-none">
       <Content />
     </div>
+
+    <RelatedContent
+      relatedObjectives={relatedObjectivesByTopics(content.objectives, topics)}
+      relatedEvents={relatedEventsByTopics(content.events, topics, post.slug)}
+      backlinks={backlinksFor(content.backlinkIndex, 'news', post.slug)}
+      excludeNewsSlug={post.slug}
+    />
   </article>
 </Base>

@@ -1,13 +1,15 @@
 ---
 title: “NE Bozeman Environmental Initiatives” part 3
-date: "2021-04-25"
+date: '2021-04-25'
 summary: GARDENING FOR POLLINATORS Go Native- Spring garden tips and resources
 featured: false
 tags: []
 legacySource: pyro-cms
-legacyId: "54"
+legacyId: '54'
 legacySlug: ne-bozeman-environmental-initiatives-part-3
 legacyBlogUrl: https://www.nenabozeman.org/blog/2021/04/ne-bozeman-environmental-initiatives-part-3
+topics:
+  - environment
 ---
 
 GARDENING FOR POLLINATORS  

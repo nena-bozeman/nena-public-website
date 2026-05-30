@@ -2,10 +2,11 @@
 import Base from '../../layouts/Base.astro';
 import CurrentPastFilters from '../filters/CurrentPastFilters.astro';
 import ListStatusLegacyRedirect from '../filters/ListStatusLegacyRedirect.astro';
+import PlaceTypeFilters from '../filters/PlaceTypeFilters.astro';
 import BusinessList from './BusinessList.astro';
 import BusinessMap from './BusinessMap.astro';
 import { getCollection } from 'astro:content';
-import { businessCategoryFilterOptions } from '../../utils/business-categories';
+import { placeCategoryFilterOptions, type PlaceType } from '../../utils/place-categories';
 import { matchesListStatus, type ListStatus } from '../../utils/list-status';
 
 export interface Props {
@@ -13,7 +14,7 @@ export interface Props {
 }
 
 const { filterStatus } = Astro.props;
-const allBusinesses = await getCollection('businesses');
+const allBusinesses = await getCollection('places');
 const filtered = allBusinesses.filter((b) => matchesListStatus(b.data.status, filterStatus));
 const businesses =
   filterStatus === 'past'
@@ -25,20 +26,23 @@ const businesses =
       })
     : filtered;
 
-const pageTitle = filterStatus === 'past' ? 'Past Businesses' : 'Business Directory';
+const pageTitle = filterStatus === 'past' ? 'Past Places' : 'Places';
 const pageDescription =
   filterStatus === 'past'
-    ? 'Former Northeast Neighborhood businesses kept on record for neighborhood history.'
-    : 'Discover local businesses in the Northeast Neighborhood of Bozeman, Montana';
+    ? 'Former Northeast Neighborhood businesses and other places kept on record for neighborhood history.'
+    : 'Businesses, parks, and landmarks in the Northeast Neighborhood of Bozeman, Montana';
 
-const categories = businessCategoryFilterOptions(businesses);
+const categories = placeCategoryFilterOptions(businesses);
 const showCategoryFilters = categories.length > 1;
+const placeTypesPresent = [
+  ...new Set(businesses.map((b) => b.data.placeType)),
+] as PlaceType[];
 ---
 
 <Base title={pageTitle} description={pageDescription}>
   <div class="max-w-7xl mx-auto px-4 py-12">
     <h1 class="font-serif text-4xl font-bold text-primary mb-4">{pageTitle}</h1>
-    <CurrentPastFilters pagePath="businesses" activeStatus={filterStatus} />
+    <CurrentPastFilters pagePath="places" activeStatus={filterStatus} />
     {
       filterStatus === 'past' ? (
         <p class="text-gray-600 mb-8 max-w-2xl">
@@ -46,11 +50,12 @@ const showCategoryFilters = categories.length > 1;
           closed, when known.
         </p>
       ) : (
-        <p class="text-gray-600 mb-8">Supporting local businesses in the Northeast Neighborhood.</p>
+        <p class="text-gray-600 mb-8">Supporting local businesses, parks, and landmarks in the Northeast Neighborhood.</p>
       )
     }
 
     <div class="flex flex-wrap items-center gap-4 mb-8">
+      <PlaceTypeFilters availableTypes={placeTypesPresent} />
       {
         showCategoryFilters && (
           <div class="flex flex-wrap gap-2" id="category-filters">
@@ -108,7 +113,7 @@ const showCategoryFilters = categories.length > 1;
         </script>
       )
     }
-    {filterStatus === 'current' && <ListStatusLegacyRedirect pagePath="businesses" />}
+    {filterStatus === 'current' && <ListStatusLegacyRedirect pagePath="places" />}
   </div>
 </Base>
 
@@ -120,15 +125,36 @@ const showCategoryFilters = categories.length > 1;
       .filter(Boolean);
   }
 
-  function applyBusinessCategoryFilter(category: string) {
-    const items = document.querySelectorAll<HTMLElement>('.business-list-item[data-categories]');
+  function getActivePlaceType(): string {
+    const el = document.querySelector<HTMLButtonElement>(
+      '.place-type-filter.place-type-filter-active',
+    );
+    const placeType = el?.getAttribute('data-place-type') ?? 'all';
+    return placeType === 'all' ? '' : placeType;
+  }
+
+  function getActiveCategory(): string {
+    const el = document.querySelector<HTMLButtonElement>(
+      '#category-filters button.category-filter.bg-primary',
+    );
+    const cat = el?.getAttribute('data-category') ?? 'all';
+    return cat === 'all' ? '' : cat;
+  }
+
+  function applyPlaceFilters() {
+    const placeType = getActivePlaceType();
+    const category = getActiveCategory();
+    const items = document.querySelectorAll<HTMLElement>('.business-list-item[data-place-type]');
     const grid = document.getElementById('business-list-grid');
     const emptyMsg = document.getElementById('business-category-empty');
     let visible = 0;
 
     items.forEach((el) => {
       const cats = parseBusinessCategories(el);
-      const show = category === 'all' || !category || cats.includes(category);
+      const type = el.getAttribute('data-place-type') ?? '';
+      const showType = !placeType || type === placeType;
+      const showCategory = !category || cats.includes(category);
+      const show = showType && showCategory;
       el.classList.toggle('hidden', !show);
       if (show) visible += 1;
     });
@@ -136,6 +162,40 @@ const showCategoryFilters = categories.length > 1;
     if (grid) grid.classList.toggle('hidden', visible === 0 && items.length > 0);
     emptyMsg?.classList.toggle('hidden', visible > 0 || items.length === 0);
   }
+
+  function applyBusinessCategoryFilter(_category: string) {
+    applyPlaceFilters();
+    window.dispatchEvent(
+      new CustomEvent('nena-businesses-filter', {
+        detail: { category: getActiveCategory(), placeType: getActivePlaceType() },
+      }),
+    );
+  }
+
+  const typeFilterBtns = document.querySelectorAll<HTMLButtonElement>('.place-type-filter');
+  const typePillIdle =
+    'inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium transition-colors place-type-filter border-gray-200 bg-white text-gray-600 hover:border-primary hover:text-primary';
+  const typePillSelected =
+    'inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium transition-colors place-type-filter place-type-filter-active border-primary bg-primary text-white';
+
+  typeFilterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      typeFilterBtns.forEach((b) => {
+        b.className = typePillIdle;
+        b.classList.remove('place-type-filter-active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.className = typePillSelected;
+      btn.classList.add('place-type-filter-active');
+      btn.setAttribute('aria-pressed', 'true');
+      applyPlaceFilters();
+      window.dispatchEvent(
+        new CustomEvent('nena-businesses-filter', {
+          detail: { category: getActiveCategory(), placeType: getActivePlaceType() },
+        }),
+      );
+    });
+  });
 
   const filterBtns = document.querySelectorAll<HTMLButtonElement>('.category-filter');
   filterBtns.forEach((btn) => {
@@ -147,13 +207,7 @@ const showCategoryFilters = categories.length > 1;
       btn.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
       btn.classList.add('bg-primary', 'text-white');
 
-      const category = btn.getAttribute('data-category') ?? 'all';
-      applyBusinessCategoryFilter(category);
-      window.dispatchEvent(
-        new CustomEvent('nena-businesses-filter', {
-          detail: { category: category === 'all' ? '' : category },
-        }),
-      );
+      applyBusinessCategoryFilter(btn.getAttribute('data-category') ?? 'all');
     });
   });
 </script>

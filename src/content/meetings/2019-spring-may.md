@@ -4,7 +4,10 @@ meetingDate: 2019-05-01
 season: spring
 summary: "Spring 2019 minutes (Word document)."
 minutesDocx: documents/migrated/nenabozeman-org/minutes-nena-spring-meeting-may-2019.docx
-legacyUrl: https://www.nenabozeman.org/objectives/nena-meetings
+topics:
+  - meeting
+newsSlugs:
+  - 2019-05-25-m
 ---
 
 The legacy site published **spring 2019** minutes only as a Word document (“NENA MINUTES SPRING 2019”). No PDF was in the migrated bundle for this meeting.

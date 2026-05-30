@@ -7,6 +7,7 @@ import { getCollection } from 'astro:content';
 import {
   NEWS_PER_PAGE,
   collectUniqueNewsTags,
+  collectUniqueNewsTopics,
   filterNewsByTag,
   formatNewsTagLabel,
   totalNewsPages,
@@ -24,6 +25,7 @@ export async function getStaticPaths() {
 
 const allNews = newsEntriesForSite(await getCollection('news'));
 const allTags = collectUniqueNewsTags(allNews);
+const filterTopics = collectUniqueNewsTopics(allNews);
 const rawTag = Astro.params.tag;
 const tag = typeof rawTag === 'string' ? rawTag : '';
 
@@ -46,7 +48,7 @@ const description = `Neighborhood news posts tagged ${label} from the Northeast 
   description={description}
   canonicalURL={`/news/tag/${encodeURIComponent(tag)}`}
 >
-  <NewsPageShell allTags={allTags} activeTag={tag}>
+  <NewsPageShell filterTopics={filterTopics}>
     <NewsList posts={paginatedNews} />
     <NewsPagination currentPage={page} totalPages={totalPages} activeTag={tag} />
   </NewsPageShell>

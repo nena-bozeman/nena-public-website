@@ -1,14 +1,19 @@
 ---
 title: Trails Projects
-date: "2020-10-09"
-summary: After long delays due to Rouse St, the City of Bozeman is considering the approval for a trail that connects Wallace to Oak St and the Cannery District, as well as other planned trails. The City Commission will vote on, Tuesday, October 13.
+date: '2020-10-09'
+summary: >-
+  After long delays due to Rouse St, the City of Bozeman is considering the approval for a trail that connects Wallace
+  to Oak St and the Cannery District, as well as other planned trails. The City Commission will vote on, Tuesday,
+  October 13.
 featured: false
-tags: ["trails-pocket-parks"]
+tags: []
 legacySource: pyro-cms
-legacyId: "40"
+legacyId: '40'
 legacySlug: trails-projects
 legacyBlogUrl: https://www.nenabozeman.org/blog/2020/10/trails-projects
-dateUpdated: "1970-01-01"
+dateUpdated: '1970-01-01'
+topics:
+  - trails-pocket-parks
 ---
 
 After long delays due to Rouse St, the City of Bozeman is considering the approval for a trail that connects Wallace to Oak St and the Cannery District, as well as other planned trails. **The City Commission will vote on, Tuesday, October 13.**

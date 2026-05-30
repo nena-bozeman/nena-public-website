@@ -1,13 +1,19 @@
 ---
 title: 2024 Parade of Sheds!
-date: "2024-10-09"
-summary: The annual Northeast Neighborhood Parade of Sheds is a must-do event! The Parade is followed by a self-guided tour of the neighborhood and a neighborhood potluck at Tinworks Art.
+date: '2024-10-09'
+summary: >-
+  The annual Northeast Neighborhood Parade of Sheds is a must-do event! The Parade is followed by a self-guided tour of
+  the neighborhood and a neighborhood potluck at Tinworks Art.
 featured: false
-tags: ["parade-of-sheds"]
+tags: []
 legacySource: pyro-cms
-legacyId: "88"
+legacyId: '88'
 legacySlug: 2024-parade-of-sheds
 legacyBlogUrl: https://www.nenabozeman.org/blog/2024/10/2024-parade-of-sheds
+topics:
+  - parade-of-sheds
+places:
+  - tinworks
 ---
 
 The annual Northeast Neighborhood Parade of Sheds is a must-do event! The Parade is followed by a self-guided tour of the neighborhood and a neighborhood potluck at Tinworks Art.

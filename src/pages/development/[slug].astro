@@ -1,7 +1,17 @@
 ---
 import Base from '../../layouts/Base.astro';
+import RelatedContent from '../../components/related/RelatedContent.astro';
+import TopicPills from '../../components/related/TopicPills.astro';
 import { DEVELOPMENT_PHASE_BADGE } from '../../schemas/development-phase';
 import { getCollection } from 'astro:content';
+import {
+  backlinksFor,
+  loadSiteContent,
+  newsBySlugs,
+  relatedEventsByTopics,
+  relatedNewsByTopics,
+  relatedObjectivesByTopics,
+} from '../../utils/related-content';
 
 export async function getStaticPaths() {
   const projects = await getCollection('development');
@@ -14,8 +24,13 @@ export async function getStaticPaths() {
 const base = import.meta.env.BASE_URL;
 const { project } = Astro.props;
 const { Content } = await project.render();
+const content = await loadSiteContent();
+const topics = project.data.topics;
 
 const phaseBadge = DEVELOPMENT_PHASE_BADGE[project.data.phase];
+const explicitNews = newsBySlugs(content.news, project.data.newsSlugs ?? []);
+const topicNews = relatedNewsByTopics(content.news, topics);
+const relatedNews = [...explicitNews, ...topicNews.filter((p) => !explicitNews.some((e) => e.slug === p.slug))];
 ---
 
 <Base
@@ -44,13 +59,7 @@ const phaseBadge = DEVELOPMENT_PHASE_BADGE[project.data.phase];
         </p>
       )}
       <p class="text-xl text-gray-600 mt-4">{project.data.summary}</p>
-      {project.data.tags.length > 0 && (
-        <div class="flex flex-wrap gap-2 mt-4">
-          {project.data.tags.map((tag) => (
-            <span class="text-xs bg-gray-50 text-gray-600 px-2 py-1 rounded-full border">{tag}</span>
-          ))}
-        </div>
-      )}
+      <TopicPills topics={topics} />
       {project.data.cityPlanningUrl && (
         <a
           href={project.data.cityPlanningUrl}
@@ -66,5 +75,12 @@ const phaseBadge = DEVELOPMENT_PHASE_BADGE[project.data.phase];
     <div class="prose prose-green max-w-none">
       <Content />
     </div>
+
+    <RelatedContent
+      relatedNews={relatedNews}
+      relatedEvents={relatedEventsByTopics(content.events, topics)}
+      relatedObjectives={relatedObjectivesByTopics(content.objectives, topics)}
+      backlinks={backlinksFor(content.backlinkIndex, 'development', project.slug)}
+    />
   </article>
 </Base>

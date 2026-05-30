@@ -1,12 +1,17 @@
 ---
-title: "INC interim zoning survey — last day; notice on N. Willson parking"
-date: 2026-03-05
-summary: "Final reminder for the Inter-Neighborhood Council interim zoning survey, plus City plans to adjust street parking on the east side of N. Willson between Villard and Short."
+title: INC interim zoning survey — last day; notice on N. Willson parking
+date: 2026-03-05T00:00:00.000Z
+summary: >-
+  Final reminder for the Inter-Neighborhood Council interim zoning survey, plus City plans to adjust street parking on
+  the east side of N. Willson between Villard and Short.
 featured: false
 tags:
   - planning
   - survey
   - city
+topics:
+  - nena-survey
+  - parking
 ---
 
 **Inter-Neighborhood Council survey**

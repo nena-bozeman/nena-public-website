@@ -8,7 +8,7 @@ import {
   NEWS_PER_PAGE,
   sortNewsByDateDesc,
   totalNewsPages,
-  collectUniqueNewsTags,
+  collectUniqueNewsTopics,
   newsEntriesForSite,
 } from '../../../utils/news';
 import { withSiteBase } from '../../../utils/site-link';
@@ -26,7 +26,7 @@ export async function getStaticPaths() {
 }
 
 const allNews = newsEntriesForSite(await getCollection('news'));
-const allTags = collectUniqueNewsTags(allNews);
+const filterTopics = collectUniqueNewsTopics(allNews);
 const sortedNews = sortNewsByDateDesc(allNews);
 const totalPages = totalNewsPages(sortedNews.length);
 
@@ -55,7 +55,7 @@ const title = `News — Page ${pageNum}`;
   description="Latest news from the Northeast Neighborhood Association"
   canonicalURL={`/news/page/${pageNum}`}
 >
-  <NewsPageShell allTags={allTags} activeTag={null}>
+  <NewsPageShell filterTopics={filterTopics}>
     <NewsList posts={paginatedNews} />
     <NewsPagination currentPage={pageNum} totalPages={totalPages} />
   </NewsPageShell>

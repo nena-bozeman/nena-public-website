@@ -1,13 +1,13 @@
 ---
-import { formatNewsTagLabel } from '../../utils/news';
+import { formatTopicLabel, topicListingHref, type Topic } from '../../schemas/topics';
 
 export interface Props {
-  tags: string[];
-  activeTag: string | null;
+  topics: Topic[];
+  activeTopic?: Topic | null;
 }
 
 const base = import.meta.env.BASE_URL;
-const { tags, activeTag } = Astro.props;
+const { topics, activeTopic = null } = Astro.props;
 
 const pill =
   'inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium transition-colors';
@@ -19,19 +19,19 @@ const selected = 'border-accent bg-accent text-white shadow-xs';
   <span class="text-sm text-gray-600 w-full sm:w-auto sm:mr-1">Topics</span>
   <a
     href={`${base}news`}
-    class:list={[pill, activeTag === null ? selected : idle]}
-    aria-current={activeTag === null ? 'page' : undefined}
+    class:list={[pill, activeTopic === null ? selected : idle]}
+    aria-current={activeTopic === null ? 'page' : undefined}
   >
     All
   </a>
   {
-    tags.map((tag) => (
+    topics.map((topic) => (
       <a
-        href={`${base}news/tag/${encodeURIComponent(tag)}`}
-        class:list={[pill, activeTag === tag ? selected : idle]}
-        aria-current={activeTag === tag ? 'page' : undefined}
+        href={topicListingHref(topic, base)}
+        class:list={[pill, activeTopic === topic ? selected : idle]}
+        aria-current={activeTopic === topic ? 'page' : undefined}
       >
-        {formatNewsTagLabel(tag)}
+        {formatTopicLabel(topic)}
       </a>
     ))
   }

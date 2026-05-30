@@ -16,7 +16,7 @@ import yaml from 'js-yaml';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.join(__dirname, '..');
-const contentDir = path.join(repoRoot, 'src/content/businesses');
+const contentDir = path.join(repoRoot, 'src/content/places');
 const outDir = path.join(repoRoot, 'src/assets/businesses');
 
 const UA =

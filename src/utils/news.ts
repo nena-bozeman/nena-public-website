@@ -1,4 +1,5 @@
 import type { CollectionEntry } from 'astro:content';
+import { TOPIC_VALUES, type Topic } from '../schemas/topics';
 
 export const NEWS_PER_PAGE = 10;
 
@@ -34,7 +35,7 @@ export function totalNewsPages(count: number): number {
   return Math.max(1, Math.ceil(count / NEWS_PER_PAGE));
 }
 
-/** Title-style label for a tag slug (e.g. `trails-pocket-parks` → "Trails Pocket Parks"). */
+/** Title-style label for a tag slug (e.g. `trails-pocket-parks` → "Trails Parks"). */
 export function formatNewsTagLabel(tag: string): string {
   return tag
     .split('-')
@@ -51,6 +52,19 @@ export function collectUniqueNewsTags(entries: CollectionEntry<'news'>[]): strin
     }
   }
   return [...set].sort((a, b) => a.localeCompare(b, 'en'));
+}
+
+/** Curated topics present on at least one news post, in schema order. */
+export function collectUniqueNewsTopics(entries: CollectionEntry<'news'>[]): Topic[] {
+  const used = new Set<Topic>();
+  for (const e of entries) {
+    for (const topic of e.data.topics) {
+      if ((TOPIC_VALUES as readonly string[]).includes(topic)) {
+        used.add(topic as Topic);
+      }
+    }
+  }
+  return TOPIC_VALUES.filter((topic) => used.has(topic));
 }
 
 export function filterNewsByTag(

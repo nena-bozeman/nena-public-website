@@ -1,14 +1,18 @@
 ---
 title: Bozeman Community Plan Update
-date: "2018-07-25"
-summary: The Bozeman Community Plan, which outlines priorities and policies for the city's growth and development, is being updated. Find out how you can participate.
+date: '2018-07-25'
+summary: >-
+  The Bozeman Community Plan, which outlines priorities and policies for the city's growth and development, is being
+  updated. Find out how you can participate.
 featured: false
 tags: []
 legacySource: pyro-cms
-legacyId: "9"
+legacyId: '9'
 legacySlug: bozeman-community-plan-update
 legacyBlogUrl: https://www.nenabozeman.org/blog/2018/07/bozeman-community-plan-update
-dateUpdated: "1970-01-01"
+dateUpdated: '1970-01-01'
+topics:
+  - bozeman-udc
 ---
 
 **The Bozeman Community Plan, which outlines priorities and policies for the city's growth and development, is being updated. Find out how you can participate.**

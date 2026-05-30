@@ -1,0 +1,52 @@
+---
+import {
+  PLACE_TYPE_LABELS,
+  PLACE_TYPE_VALUES,
+  type PlaceType,
+} from '../../utils/place-categories';
+
+export interface Props {
+  /** Place types that have at least one listing on this page (others stay hidden). */
+  availableTypes: readonly PlaceType[];
+}
+
+const { availableTypes } = Astro.props;
+
+const pill =
+  'inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium transition-colors place-type-filter';
+const idle = 'border-gray-200 bg-white text-gray-600 hover:border-primary hover:text-primary';
+const selected = 'border-primary bg-primary text-white';
+
+const available = new Set(availableTypes);
+const showFilters = availableTypes.length > 1;
+---
+
+{
+  showFilters && (
+    <nav aria-label="Filter by place type" class="flex flex-wrap items-center gap-2 mb-4">
+      <span class="text-sm text-gray-600 w-full sm:w-auto sm:mr-1">Type</span>
+      <button
+        type="button"
+        data-place-type="all"
+        class:list={[pill, selected, 'place-type-filter-active']}
+        aria-pressed="true"
+      >
+        All
+      </button>
+      {
+        PLACE_TYPE_VALUES.map((placeType) =>
+          available.has(placeType) ? (
+            <button
+              type="button"
+              data-place-type={placeType}
+              class:list={[pill, idle]}
+              aria-pressed="false"
+            >
+              {PLACE_TYPE_LABELS[placeType]}
+            </button>
+          ) : null,
+        )
+      }
+    </nav>
+  )
+}

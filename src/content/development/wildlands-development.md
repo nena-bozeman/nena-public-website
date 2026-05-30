@@ -3,13 +3,14 @@ title: Wildlands Development
 phase: complete
 status: current
 address: Northeast Bozeman, MT
-submittedDate: 2021-06-08
-dateCreated: 2021-06-08
-dateUpdated: 2025-02-18
-summary: "www.Wildlandsbozeman.com 5/25/22 Update Construction: Peach is open again after some required upgrades were made to the existing fire and water service Currently Langlas is pouring footings Fire, water and line testin…"
-tags:
-  - "legacy-cms"
-  - "wildlands-development"
+submittedDate: 2021-06-08T00:00:00.000Z
+dateCreated: 2021-06-08T00:00:00.000Z
+dateUpdated: 2025-02-18T00:00:00.000Z
+summary: >-
+  www.Wildlandsbozeman.com 5/25/22 Update Construction: Peach is open again after some required upgrades were made to
+  the existing fire and water service Currently Langlas is pouring footings Fire, water and line testin…
+topics: []
+newsSlugs: []
 ---
 
 [www.Wildlandsbozeman.com](https://www.wildlandsbozeman.com/) 
