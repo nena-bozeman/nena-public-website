@@ -1,6 +1,6 @@
 ---
 title: "Spring 2021 update (May 13)"
-meetingDate: 2021-05-13
+meetingDate: '2021-05-13'
 season: spring
 summary: "Spring update meeting minutes from May 13, 2021."
 minutesPdf: documents/migrated/nenabozeman-org/NENA Spring Update Meeting Minutes _5.13.21.pdf

@@ -1,7 +1,7 @@
 ---
 title: "Northside Stroll"
-startDate: 2026-07-29T16:00:00
-endDate: 2026-07-29T20:00:00
+startDate: '2026-07-29T16:00:00'
+endDate: '2026-07-29T20:00:00'
 location: "Northeast Neighborhood Business District"
 summary: "Stroll the neighborhood, meet local business owners, and support Northside businesses."
 category: "social"

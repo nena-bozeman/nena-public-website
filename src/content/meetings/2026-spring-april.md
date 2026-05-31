@@ -1,6 +1,6 @@
 ---
 title: Spring 2026 neighborhood meeting
-meetingDate: 2026-04-13T00:00:00.000Z
+meetingDate: '2026-04-13'
 season: spring
 summary: Spring 2026 meeting — formal minutes pending; see the news recap for discussion notes.
 topics:

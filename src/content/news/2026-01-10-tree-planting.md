@@ -1,6 +1,6 @@
 ---
 title: Community Tree Planting Day Announced
-date: 2026-01-10T00:00:00.000Z
+date: '2026-01-10'
 summary: Join us for a community tree planting event in partnership with the City of Bozeman Urban Forestry program.
 author: Trees Committee
 featured: false

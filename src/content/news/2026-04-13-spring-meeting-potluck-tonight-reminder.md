@@ -1,6 +1,6 @@
 ---
 title: 'REMINDER: NENA Spring Meeting and Potluck — tonight'
-date: 2026-04-13T00:00:00.000Z
+date: '2026-04-13'
 summary: >-
   Same evening as the spring potluck and business meeting: potluck 5:30 p.m., meeting 6 p.m. at the Public Safety
   Center; NCOD consultants neighborhood walk the next afternoon.

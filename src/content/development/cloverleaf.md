@@ -3,9 +3,9 @@ title: Cloverleaf Development
 phase: under-review
 status: current
 address: Northeast Bozeman, MT
-submittedDate: 2018-05-23T00:00:00.000Z
-dateCreated: 2018-05-23T00:00:00.000Z
-dateUpdated: 2025-02-18T00:00:00.000Z
+submittedDate: '2018-05-23'
+dateCreated: '2018-05-23'
+dateUpdated: '2025-02-18'
 summary: >-
   NENA Town Hall: Cloverleaf Development Update Thursday, February 23, from 6:00 to 7:00 PM Outlaw Partners presented
   information related to their new concept plans for the 2-acre lot owned by Bronken's Distributing on…

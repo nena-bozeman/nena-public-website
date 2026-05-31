@@ -1,7 +1,7 @@
 ---
 title: "Pizza + Story Night"
-startDate: 2026-03-31T18:00:00
-endDate: 2026-03-31T20:00:00
+startDate: '2026-03-31T18:00:00'
+endDate: '2026-03-31T20:00:00'
 location: "Beall Park Center"
 address: "211 N Black Ave, Bozeman, MT 59715"
 summary: "Evening gathering for pizza and storytelling with neighbors."

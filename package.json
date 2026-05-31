@@ -29,8 +29,8 @@
     "dev:cf": "pnpm run build:cf && wrangler dev",
     "deploy:cf": "pnpm run build:cf && wrangler deploy",
     "cf:typegen": "wrangler types",
-    "cms:use-dev-config": "cp public/admin/config.dev.yml public/admin/config.yml",
-    "cms:restore-prod-config": "git checkout HEAD -- public/admin/config.yml"
+    "cms:build-config": "node scripts/merge-cms-config.mjs main",
+    "cms:use-dev-config": "node scripts/merge-cms-config.mjs dev"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.0",

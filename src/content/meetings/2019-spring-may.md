@@ -1,6 +1,6 @@
 ---
 title: "Spring 2019 neighborhood meeting"
-meetingDate: 2019-05-01
+meetingDate: '2019-05-01'
 season: spring
 summary: "Spring 2019 minutes (Word document)."
 minutesDocx: documents/migrated/nenabozeman-org/minutes-nena-spring-meeting-may-2019.docx

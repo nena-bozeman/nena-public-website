@@ -1,6 +1,6 @@
 ---
 title: "Spring 2018 neighborhood meeting"
-meetingDate: 2018-04-01
+meetingDate: '2018-04-01'
 season: spring
 summary: "Approved minutes from the April 2018 spring meeting."
 minutesPdf: documents/migrated/nenabozeman-org/NENA Spring Meeting April 2018.pdf

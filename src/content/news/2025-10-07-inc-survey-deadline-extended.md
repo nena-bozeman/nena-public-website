@@ -1,6 +1,6 @@
 ---
 title: INC survey reopened — deadline extended (October 2025)
-date: 2025-10-07T00:00:00.000Z
+date: '2025-10-07'
 summary: >-
   Short Inter-Neighborhood Council survey reopened so NENA could reach a 45-response quorum before the October 9 INC
   meeting.

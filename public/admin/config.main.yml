@@ -1,0 +1,9 @@
+# Production CMS backend — merged with config.base.yml via pnpm cms:build-config.
+# Reads/writes the GitHub main branch through the Cloudflare auth proxy.
+
+backend:
+  name: github
+  repo: nena-bozeman/nena-public-website
+  branch: main
+  base_url: https://nena-website-edit.nenabozeman.workers.dev
+  auth_endpoint: /auth

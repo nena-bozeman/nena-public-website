@@ -1,7 +1,7 @@
 ---
 title: NENA Spring Meeting and Potluck
-startDate: 2026-04-13T17:30:00.000Z
-endDate: 2026-04-13T20:30:00.000Z
+startDate: '2026-04-13T17:30:00.000Z'
+endDate: '2026-04-13T20:30:00.000Z'
 location: Public Safety Center — Community Room
 address: 901 N Rouse Ave, Bozeman, MT 59715
 summary: Potluck at 5:30 p.m., neighborhood meeting at 6 p.m. Board elections and committee updates.

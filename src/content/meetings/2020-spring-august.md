@@ -1,6 +1,6 @@
 ---
 title: "Spring 2020 neighborhood meeting"
-meetingDate: 2020-08-01
+meetingDate: '2020-08-01'
 season: spring
 summary: "Minutes from the August 2020 spring meeting."
 minutesPdf: documents/migrated/nenabozeman-org/NENA Spring Meeting August 2020.pdf
