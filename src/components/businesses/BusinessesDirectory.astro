@@ -37,6 +37,9 @@ const showCategoryFilters = categories.length > 1;
 const placeTypesPresent = [
   ...new Set(businesses.map((b) => b.data.placeType)),
 ] as PlaceType[];
+const defaultView = filterStatus === 'past' ? 'list' : 'map';
+const listInitiallyHidden = defaultView !== 'list';
+const mapInitiallyHidden = defaultView !== 'map';
 ---
 
 <Base title={pageTitle} description={pageDescription}>
@@ -71,48 +74,59 @@ const placeTypesPresent = [
           </div>
         )
       }
-      {
-        filterStatus === 'current' && (
-          <div class="ml-auto flex gap-2">
-            <button id="list-view-btn" class="px-4 py-2 rounded-sm text-sm font-medium bg-primary text-white transition-colors">List</button>
-            <button id="map-view-btn" class="px-4 py-2 rounded-sm text-sm font-medium bg-white text-gray-600 border border-gray-200 hover:border-primary transition-colors">Map</button>
-          </div>
-        )
-      }
+      <div class="ml-auto flex gap-2">
+        <button
+          id="list-view-btn"
+          class={`px-4 py-2 rounded-sm text-sm font-medium transition-colors ${defaultView === 'list' ? 'bg-primary text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-primary'}`}
+        >
+          List
+        </button>
+        <button
+          id="map-view-btn"
+          class={`px-4 py-2 rounded-sm text-sm font-medium transition-colors ${defaultView === 'map' ? 'bg-primary text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-primary'}`}
+        >
+          Map
+        </button>
+      </div>
     </div>
 
-    <div id="list-view">
+    <div id="list-view" class:list={[listInitiallyHidden && 'hidden']}>
       <BusinessList businesses={businesses} />
     </div>
 
-    {
-      filterStatus === 'current' && (
-        <div id="map-view" class="hidden">
-          <BusinessMap businesses={businesses} />
-        </div>
-      )
-    }
+    <div id="map-view" class:list={[mapInitiallyHidden && 'hidden']}>
+      <BusinessMap businesses={businesses} />
+    </div>
 
-    {
-      filterStatus === 'current' && (
-        <script is:inline>
-          (function () {
-            if (new URLSearchParams(location.search).get('view') === 'map') {
-              document.getElementById('list-view')?.classList.add('hidden');
-              document.getElementById('map-view')?.classList.remove('hidden');
-              var listBtn = document.getElementById('list-view-btn');
-              var mapBtn = document.getElementById('map-view-btn');
-              if (listBtn && mapBtn) {
-                listBtn.classList.remove('bg-primary', 'text-white');
-                listBtn.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
-                mapBtn.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
-                mapBtn.classList.add('bg-primary', 'text-white');
-              }
-            }
-          })();
-        </script>
-      )
-    }
+    <script is:inline define:vars={{ defaultView }}>
+      (function () {
+        var view = new URLSearchParams(location.search).get('view');
+        var activeView = view === 'list' || view === 'map' ? view : defaultView;
+        if (activeView === 'list') {
+          document.getElementById('list-view')?.classList.remove('hidden');
+          document.getElementById('map-view')?.classList.add('hidden');
+          var listBtn = document.getElementById('list-view-btn');
+          var mapBtn = document.getElementById('map-view-btn');
+          if (listBtn && mapBtn) {
+            listBtn.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+            listBtn.classList.add('bg-primary', 'text-white');
+            mapBtn.classList.remove('bg-primary', 'text-white');
+            mapBtn.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+          }
+        } else {
+          document.getElementById('list-view')?.classList.add('hidden');
+          document.getElementById('map-view')?.classList.remove('hidden');
+          var listBtnMap = document.getElementById('list-view-btn');
+          var mapBtnMap = document.getElementById('map-view-btn');
+          if (listBtnMap && mapBtnMap) {
+            listBtnMap.classList.remove('bg-primary', 'text-white');
+            listBtnMap.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+            mapBtnMap.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+            mapBtnMap.classList.add('bg-primary', 'text-white');
+          }
+        }
+      })();
+    </script>
     {filterStatus === 'current' && <ListStatusLegacyRedirect pagePath="places" />}
   </div>
 </Base>
@@ -212,84 +226,85 @@ const placeTypesPresent = [
   });
 </script>
 
-{
-  filterStatus === 'current' && (
-    <script>
-      const VIEW_PARAM = 'view';
-      type DirectoryView = 'list' | 'map';
+<script define:vars={{ defaultView }}>
+  const VIEW_PARAM = 'view';
+  type DirectoryView = 'list' | 'map';
 
-      function parseViewFromSearch(search: string): DirectoryView {
-        const v = new URLSearchParams(search).get(VIEW_PARAM);
-        return v === 'map' ? 'map' : 'list';
-      }
+  function parseViewFromSearch(search: string): DirectoryView {
+    const v = new URLSearchParams(search).get(VIEW_PARAM);
+    if (v === 'list' || v === 'map') return v;
+    return defaultView;
+  }
 
-      const listViewBtn = document.getElementById('list-view-btn');
-      const mapViewBtn = document.getElementById('map-view-btn');
-      const listView = document.getElementById('list-view');
-      const mapView = document.getElementById('map-view');
+  function defaultViewForPage(): DirectoryView {
+    return defaultView;
+  }
 
-      const activeBtn =
-        'px-4 py-2 rounded-sm text-sm font-medium bg-primary text-white transition-colors';
-      const inactiveBtn =
-        'px-4 py-2 rounded-sm text-sm font-medium bg-white text-gray-600 border border-gray-200 hover:border-primary transition-colors';
+  function syncViewToUrl(view: DirectoryView, replace: boolean) {
+    const url = new URL(location.href);
+    if (view === defaultViewForPage()) {
+      url.searchParams.delete(VIEW_PARAM);
+    } else {
+      url.searchParams.set(VIEW_PARAM, view);
+    }
+    const next = url.pathname + url.search + url.hash;
+    if (replace) {
+      history.replaceState({ view }, '', next);
+    } else {
+      history.pushState({ view }, '', next);
+    }
+  }
 
-      function setViewButtons(view: DirectoryView) {
-        if (!listViewBtn || !mapViewBtn) return;
-        if (view === 'list') {
-          listViewBtn.className = activeBtn;
-          mapViewBtn.className = inactiveBtn;
-        } else {
-          mapViewBtn.className = activeBtn;
-          listViewBtn.className = inactiveBtn;
-        }
-      }
+  const listViewBtn = document.getElementById('list-view-btn');
+  const mapViewBtn = document.getElementById('map-view-btn');
+  const listView = document.getElementById('list-view');
+  const mapView = document.getElementById('map-view');
 
-      function setViewPanels(view: DirectoryView) {
-        if (view === 'list') {
-          listView?.classList.remove('hidden');
-          mapView?.classList.add('hidden');
-        } else {
-          mapView?.classList.remove('hidden');
-          listView?.classList.add('hidden');
-        }
-      }
+  const activeBtn =
+    'px-4 py-2 rounded-sm text-sm font-medium bg-primary text-white transition-colors';
+  const inactiveBtn =
+    'px-4 py-2 rounded-sm text-sm font-medium bg-white text-gray-600 border border-gray-200 hover:border-primary transition-colors';
 
-      function syncViewToUrl(view: DirectoryView, replace: boolean) {
-        const url = new URL(location.href);
-        if (view === 'list') {
-          url.searchParams.delete(VIEW_PARAM);
-        } else {
-          url.searchParams.set(VIEW_PARAM, view);
-        }
-        const next = url.pathname + url.search + url.hash;
-        if (replace) {
-          history.replaceState({ view }, '', next);
-        } else {
-          history.pushState({ view }, '', next);
-        }
-      }
+  function setViewButtons(view: DirectoryView) {
+    if (!listViewBtn || !mapViewBtn) return;
+    if (view === 'list') {
+      listViewBtn.className = activeBtn;
+      mapViewBtn.className = inactiveBtn;
+    } else {
+      mapViewBtn.className = activeBtn;
+      listViewBtn.className = inactiveBtn;
+    }
+  }
 
-      function applyView(view: DirectoryView, options: { updateUrl?: boolean; replaceUrl?: boolean } = {}) {
-        const { updateUrl = false, replaceUrl = false } = options;
-        setViewPanels(view);
-        setViewButtons(view);
-        if (updateUrl) syncViewToUrl(view, replaceUrl);
-        window.dispatchEvent(new CustomEvent('nena-businesses-view', { detail: { view } }));
-      }
+  function setViewPanels(view: DirectoryView) {
+    if (view === 'list') {
+      listView?.classList.remove('hidden');
+      mapView?.classList.add('hidden');
+    } else {
+      mapView?.classList.remove('hidden');
+      listView?.classList.add('hidden');
+    }
+  }
 
-      applyView(parseViewFromSearch(location.search), { updateUrl: true, replaceUrl: true });
+  function applyView(view: DirectoryView, options: { updateUrl?: boolean; replaceUrl?: boolean } = {}) {
+    const { updateUrl = false, replaceUrl = false } = options;
+    setViewPanels(view);
+    setViewButtons(view);
+    if (updateUrl) syncViewToUrl(view, replaceUrl);
+    window.dispatchEvent(new CustomEvent('nena-businesses-view', { detail: { view } }));
+  }
 
-      listViewBtn?.addEventListener('click', () => {
-        applyView('list', { updateUrl: true });
-      });
+  applyView(parseViewFromSearch(location.search), { updateUrl: true, replaceUrl: true });
 
-      mapViewBtn?.addEventListener('click', () => {
-        applyView('map', { updateUrl: true });
-      });
+  listViewBtn?.addEventListener('click', () => {
+    applyView('list', { updateUrl: true });
+  });
 
-      window.addEventListener('popstate', () => {
-        applyView(parseViewFromSearch(location.search));
-      });
-    </script>
-  )
-}
+  mapViewBtn?.addEventListener('click', () => {
+    applyView('map', { updateUrl: true });
+  });
+
+  window.addEventListener('popstate', () => {
+    applyView(parseViewFromSearch(location.search));
+  });
+</script>

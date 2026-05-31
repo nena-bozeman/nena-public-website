@@ -19,20 +19,26 @@
 # Regenerate: npm run inventory:legacy && npm run redirects:legacy
 # Cloudflare Pages: https://developers.cloudflare.com/pages/configuration/redirects/
 
-/objectives/safe-quiet-rail-crossings /news/2021-11-30-quiet-and-safe-rail-crossings 301
-/blog/2026/04/nena-news-spring-2026 /news/2026-03-15-spring-newsletter 301
-/objectives/udc/interim-zoning-2026 /objectives/bozeman-udc 301
-/objectives/trailsandpocketparks /objectives/trails-pocket-parks 301
+/objectives/safe-quiet-rail-crossings /our-work/safe-quiet-rail-crossings 301
+/our-work/development-watch /development 301
+/objectives/udc/interim-zoning-2026 /our-work/bozeman-udc 301
+/objectives/trailsandpocketparks /our-work/trails-pocket-parks 301
 /objectives/nena-bylaws-2024 /governance/bylaws 301
+/objectives/vision-ne /our-work/visionne 301
+/objectives/trees-2 /our-work/trees 301
+/objectives/udc /our-work/bozeman-udc 301
+/photovoicesne /our-work/visionne#photovoicesne 301
+/objectives/nena-newsletters /newsletter 301
+/objectives/nena-meetings/* /our-work/nena-meetings/:splat 301
+/objectives/nena-meetings /our-work/nena-meetings 301
+/objectives/past /our-work/past 301
+/objectives/* /our-work/:splat 301
+/objectives /our-work 301
+/blog/2026/04/nena-news-spring-2026 /news/2026-03-15-spring-newsletter 301
 /ne-business-directory /places 301
 /businesses/archive /businesses/past 301
 /development/past /development 301
-/objectives/vision-ne /objectives/visionne 301
-/objectives/trees-2 /objectives/trees 301
 /events-calendar /events 301
 /upcoming-events /events 301
-/objectives/udc /objectives/bozeman-udc 301
-/photovoicesne /objectives/visionne#photovoicesne 301
 /email-signup /newsletter 301
-/objectives/nena-newsletters /newsletter 301
 /elections /governance 301

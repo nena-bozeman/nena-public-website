@@ -1,0 +1,23 @@
+---
+import { nenaBoundaryDescription } from '../../data/nena-boundary';
+
+const base = import.meta.env.BASE_URL;
+const mapSrc = `${base}images/migrated/nenabozeman-org/files/large/nena-map.png`;
+---
+
+<aside
+  class="w-full max-w-xs rounded-lg border border-amber-100 bg-cream p-4 shadow-sm"
+  aria-labelledby="nena-boundary-heading"
+>
+  <h2 id="nena-boundary-heading" class="font-serif text-sm font-bold text-primary mb-2">
+    Neighborhood boundaries
+  </h2>
+  <img
+    src={mapSrc}
+    alt="Street map of Bozeman with the Northeast Neighborhood boundary highlighted"
+    class="w-full rounded-md border border-gray-200 bg-white object-contain"
+    loading="lazy"
+    decoding="async"
+  />
+  <p class="mt-2 text-xs text-gray-600 leading-relaxed">{nenaBoundaryDescription}</p>
+</aside>

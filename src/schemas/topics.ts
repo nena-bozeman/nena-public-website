@@ -1,5 +1,7 @@
 /** Curated topics — power cross-collection linking (objectives, related news/events, topic browse). */
 
+import { OUR_WORK_PATH } from '../data/our-work';
+
 export const TOPIC_VALUES = [
   'newsletter',
   'meeting',
@@ -52,6 +54,9 @@ export const TOPIC_OBJECTIVE_SLUG: Partial<Record<Topic, string>> = {
   'trails-pocket-parks': 'trails-pocket-parks',
   'traffic-calming': 'traffic-calming',
   'nena-survey': 'nena-survey',
+  'historic-preservation': 'ncod-guidelines',
+  'safe-quiet-rail-crossings': 'safe-quiet-rail-crossings',
+  community: 'inter-neighborhood-council',
 };
 
 export function isTopic(value: string): value is Topic {
@@ -74,7 +79,7 @@ export function objectiveHrefForTopic(topic: Topic, baseUrl: string): string | n
   }
   const slug = TOPIC_OBJECTIVE_SLUG[topic];
   if (!slug) return null;
-  return `${base}objectives/${slug}`;
+  return `${base}${OUR_WORK_PATH}/${slug}`;
 }
 
 export function allTopics(): readonly Topic[] {

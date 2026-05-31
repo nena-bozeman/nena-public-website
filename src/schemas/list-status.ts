@@ -35,7 +35,7 @@ export function parseListStatusFromPathname(pathname: string, baseUrl: string): 
     rel = rel.slice(base.length) || '/';
   }
   const normalized = rel.replace(/\/+$/, '') || '/';
-  const pageRoots = ['objectives', 'places', 'businesses'] as const;
+  const pageRoots = ['objectives', 'our-work', 'places', 'businesses'] as const;
   for (const root of pageRoots) {
     if (normalized === `/${root}/${LIST_STATUS_PAST_SEGMENT}`) {
       return 'past';
