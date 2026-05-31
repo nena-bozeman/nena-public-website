@@ -1,6 +1,6 @@
 ---
 title: 'Reminder: Burdock Blitz this weekend (August 2025)'
-date: 2025-08-22T00:00:00.000Z
+date: '2025-08-22'
 summary: >-
   Weekend volunteer mornings to cut burdock—meet Saturday at Fink’s (Wild Crumb treats for participants) or Sunday at
   City Hall.

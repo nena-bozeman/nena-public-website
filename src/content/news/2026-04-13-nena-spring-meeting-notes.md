@@ -1,8 +1,8 @@
 ---
 title: NENA Spring Meeting Notes
-date: 2026-04-13T00:00:00.000Z
-dateCreated: 2026-05-09T00:00:00.000Z
-dateUpdated: 2026-05-09T00:00:00.000Z
+date: '2026-04-13'
+dateCreated: '2026-05-09'
+dateUpdated: '2026-05-09'
 summary: Notes from the April 13 spring meeting at the Public Safety Center — potluck, elections, and guest presentations.
 author: Courtney Scott
 featured: false

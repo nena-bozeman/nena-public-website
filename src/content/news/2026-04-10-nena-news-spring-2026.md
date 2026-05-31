@@ -3,7 +3,7 @@ legacySource: pyro-cms
 legacyBlogUrl: https://www.nenabozeman.org/blog/2026/04/nena-news-spring-2026
 legacyId: '91'
 title: NENA NEWS Spring 2026
-date: 2026-04-10T00:00:00.000Z
+date: '2026-04-10'
 summary: See what's happening this spring.
 featured: false
 legacySlug: nena-news-spring-2026

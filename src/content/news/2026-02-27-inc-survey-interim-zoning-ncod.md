@@ -1,6 +1,6 @@
 ---
 title: 'INC survey: interim zoning and the Neighborhood Conservation Overlay District'
-date: 2026-02-27T00:00:00.000Z
+date: '2026-02-27'
 summary: >-
   The Inter-Neighborhood Council asked for neighbor input on a possible interim zoning approach for large projects in
   the NCOD ahead of historic preservation and design guideline updates.

@@ -1,6 +1,6 @@
 ---
 title: Centennial Park neighbors — UDC update and zoning map amendment
-date: 2025-12-01T00:00:00.000Z
+date: '2025-12-01'
 summary: >-
   Call for neighbor support as the City Commission considered the UDC update, including Centennial Park’s proposed R-A
   zoning map amendment.

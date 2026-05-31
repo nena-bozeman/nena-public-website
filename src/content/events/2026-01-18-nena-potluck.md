@@ -1,7 +1,7 @@
 ---
 title: NENA Potluck
-startDate: 2026-01-18T18:00:00.000Z
-endDate: 2026-01-18T20:00:00.000Z
+startDate: '2026-01-18T18:00:00.000Z'
+endDate: '2026-01-18T20:00:00.000Z'
 location: Beall Park Recreation Center
 address: 415 N Bozeman Ave, Bozeman, MT 59715
 summary: Winter neighborhood potluck; January 2026 featured Extreme History Project on archaeology near E. Mendenhall.

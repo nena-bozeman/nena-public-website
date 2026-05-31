@@ -1,6 +1,6 @@
 ---
 title: 'Save the date: NENA Potluck — January 18, 2026'
-date: 2025-12-14T00:00:00.000Z
+date: '2025-12-14'
 summary: Advance notice for the January potluck at Beall Park Recreation Center; neighbors and families welcome.
 featured: false
 tags: []

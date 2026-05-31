@@ -1,6 +1,6 @@
 ---
 title: NENA Spring Meeting and Potluck — April 13
-date: 2026-04-09T00:00:00.000Z
+date: '2026-04-09'
 summary: >-
   Potluck at 5:30 p.m., meeting at 6 p.m. at the Public Safety Center Community Room (901 N. Rouse). Board elections and
   guest speakers on the Landmark Program, zoning, water conservation, and Bozeman Creek.

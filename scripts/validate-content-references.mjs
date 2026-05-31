@@ -71,8 +71,64 @@ const slugSets = {
 
 const topicSet = new Set(TOPIC_VALUES);
 
+/** Frontmatter date-only fields must be quoted YAML strings ('YYYY-MM-DD').
+ *  Unquoted dates parse as Date objects and break Decap CMS list sorting.
+ *  Event startDate/endDate are datetime — not listed here. */
+const DATE_ONLY_FIELDS_BY_COLLECTION = {
+  news: ['date'],
+  meetings: ['meetingDate'],
+  development: ['submittedDate'],
+};
+
+const DATE_ONLY_RAW = /^'(\d{4}-\d{2}-\d{2})'\s*$/;
+
+/** Event datetimes must be quoted strings so Decap keeps them out of the Date sort group. */
+const DATETIME_FIELDS_BY_COLLECTION = {
+  events: ['startDate', 'endDate'],
+};
+const DATETIME_RAW =
+  /^'(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?(?:Z)?)'\s*$/;
+
 /** @type {{ file: string, field: string, value: string }[]} */
 const errors = [];
+
+function checkDateOnlyFields(filePath, collection) {
+  const fields = DATE_ONLY_FIELDS_BY_COLLECTION[collection];
+  if (!fields) return;
+  const raw = readFileSync(filePath, 'utf8');
+  const rel = filePath.replace(ROOT + '/', '');
+  for (const field of fields) {
+    const match = raw.match(new RegExp(`^${field}:\\s*(.+)$`, 'm'));
+    if (!match) continue;
+    const value = match[1].trim();
+    if (!DATE_ONLY_RAW.test(value)) {
+      errors.push({
+        file: rel,
+        field,
+        value: `must be quoted 'YYYY-MM-DD' (got ${value})`,
+      });
+    }
+  }
+}
+
+function checkDatetimeFields(filePath, collection) {
+  const fields = DATETIME_FIELDS_BY_COLLECTION[collection];
+  if (!fields) return;
+  const raw = readFileSync(filePath, 'utf8');
+  const rel = filePath.replace(ROOT + '/', '');
+  for (const field of fields) {
+    const match = raw.match(new RegExp(`^${field}:\\s*(.+)$`, 'm'));
+    if (!match) continue;
+    const value = match[1].trim();
+    if (!DATETIME_RAW.test(value)) {
+      errors.push({
+        file: rel,
+        field,
+        value: `must be quoted datetime string (got ${value})`,
+      });
+    }
+  }
+}
 
 function check(file, field, values, targetCollection) {
   const set = slugSets[targetCollection];
@@ -158,7 +214,10 @@ for (const [collection, validate] of Object.entries(validators)) {
   for (const file of walkMd(dir)) {
     const data = parseFrontmatter(file);
     if (!data) continue;
-    validate(file.replace(ROOT + '/', ''), data);
+    const rel = file.replace(ROOT + '/', '');
+    validate(rel, data);
+    checkDateOnlyFields(file, collection);
+    checkDatetimeFields(file, collection);
   }
 }
 
