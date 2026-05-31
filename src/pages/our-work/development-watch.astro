@@ -1,9 +1,0 @@
----
-import OurWorkSectionPage from '../../components/our-work/OurWorkSectionPage.astro';
-import { ourWorkSectionByHubSlug } from '../../data/our-work';
-
-const section = await ourWorkSectionByHubSlug('development-watch');
-if (!section) throw new Error('Missing Our Work section: development-watch');
----
-
-<OurWorkSectionPage section={section} />
