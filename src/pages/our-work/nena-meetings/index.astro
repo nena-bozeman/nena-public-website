@@ -1,0 +1,49 @@
+---
+import Base from '../../../layouts/Base.astro';
+import RelatedContent from '../../../components/related/RelatedContent.astro';
+import { getCollection, getEntry } from 'astro:content';
+import { OUR_WORK_PATH } from '../../../data/our-work';
+import { loadSiteContent, relatedEventsByTopics, relatedNewsByTopics } from '../../../utils/related-content';
+
+const base = import.meta.env.BASE_URL;
+const meetings = (await getCollection('meetings')).sort(
+  (a, b) => b.data.meetingDate.valueOf() - a.data.meetingDate.valueOf(),
+);
+
+const objective = await getEntry('objectives', 'nena-meetings');
+if (!objective) throw new Error('Missing content: objectives/nena-meetings');
+const topics = objective.data.topics;
+const content = await loadSiteContent();
+const relatedNews = relatedNewsByTopics(content.news, topics);
+const relatedEvents = relatedEventsByTopics(content.events, topics);
+const wideLayout = topics.length > 0;
+---
+<Base title="NENA Meetings" description="Neighborhood meeting minutes and archives for the Northeast Neighborhood Association.">
+  <div class:list={['mx-auto px-4 py-12', wideLayout ? 'max-w-4xl' : 'max-w-3xl']}>
+    <a href={`${base}${OUR_WORK_PATH}`} class="text-accent text-sm font-medium mb-8 inline-block">← Back to Our Work</a>
+    <h1 class="font-serif text-4xl font-bold text-primary mb-3">NENA Meetings</h1>
+    <p class="text-xl text-gray-600 mb-8">
+      NENA meets regularly with neighbors and the board. Each entry below links to minutes migrated from the legacy{' '}
+      <a href="https://www.nenabozeman.org/objectives/nena-meetings" class="text-accent hover:underline">nenabozeman.org</a> meetings page (PDF or Word as published).
+    </p>
+    <ul class="space-y-4 list-none p-0 m-0">
+      {
+        meetings.map((m) => (
+          <li class="border border-gray-100 rounded-lg p-5 bg-white shadow-xs">
+            <a href={`${base}${OUR_WORK_PATH}/nena-meetings/${m.slug}`} class="font-serif text-lg font-semibold text-primary hover:text-accent transition-colors">
+              {m.data.title}
+            </a>
+            <p class="text-sm text-gray-500 mt-1">
+              {m.data.meetingDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </p>
+            <p class="text-gray-600 text-sm mt-2">{m.data.summary}</p>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="text-gray-600 text-sm mt-10">
+      Additional agendas, recordings, or newer minutes can be added as new entries under <code class="text-xs bg-gray-100 px-1 rounded-sm">src/content/meetings/</code>.
+    </p>
+    <RelatedContent relatedNews={relatedNews} relatedEvents={relatedEvents} />
+  </div>
+</Base>

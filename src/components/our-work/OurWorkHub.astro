@@ -1,0 +1,165 @@
+---
+import Base from '../../layouts/Base.astro';
+import CurrentPastFilters from '../filters/CurrentPastFilters.astro';
+import ListStatusLegacyRedirect from '../filters/ListStatusLegacyRedirect.astro';
+import {
+  getOurWorkSections,
+  OUR_WORK_PATH,
+  ourWorkSlugFromHref,
+  resolveOurWorkHref,
+  sectionHubHref,
+} from '../../data/our-work';
+import { getCollection } from 'astro:content';
+import { matchesListStatus, type ListStatus } from '../../utils/list-status';
+
+export interface Props {
+  filterStatus?: ListStatus;
+}
+
+const { filterStatus = 'current' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const isPast = filterStatus === 'past';
+
+const OBJECTIVE_SLUGS_TO_SKIP = new Set(['nena-newsletters', 'nena-meetings']);
+
+const [ourWorkSections, allObjectives] = await Promise.all([
+  getOurWorkSections(),
+  getCollection('objectives'),
+]);
+const filteredObjectives = allObjectives.filter(
+  (objective) =>
+    matchesListStatus(objective.data.status, filterStatus) &&
+    !OBJECTIVE_SLUGS_TO_SKIP.has(objective.slug),
+);
+const objectivesBySlug = new Map(filteredObjectives.map((objective) => [objective.slug, objective]));
+
+const sectionCards = ourWorkSections.map((section) => {
+  const slugs = section.links
+    .map((link) => ourWorkSlugFromHref(link.href))
+    .filter((slug): slug is string => slug !== null);
+  const objectives = slugs
+    .map((slug) => objectivesBySlug.get(slug))
+    .filter((objective): objective is NonNullable<typeof objective> => objective !== undefined);
+  return { section, objectives };
+});
+
+const matchedSlugs = new Set(
+  sectionCards.flatMap(({ objectives }) => objectives.map((objective) => objective.slug)),
+);
+const otherObjectives = filteredObjectives
+  .filter((objective) => !matchedSlugs.has(objective.slug))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const pageTitle = isPast ? 'Past Our Work' : 'Our Work';
+const pageDescription = isPast
+  ? 'Former NENA committees and neighborhood objectives'
+  : 'Neighborhood communication, advocacy, and development watch for the Northeast Neighborhood Association.';
+const intro = isPast
+  ? 'Former committees and objectives NENA has wrapped up or replaced. Browse by area below.'
+  : 'NENA organizes neighbors around city planning, preservation, communication, and development in Northeast Bozeman. Browse by area below, or see past committees and objectives.';
+---
+
+<Base title={pageTitle} description={pageDescription}>
+  <div class="max-w-5xl mx-auto px-4 py-12">
+    <h1 class="font-serif text-4xl font-bold text-primary mb-4">{pageTitle}</h1>
+    <p class="text-gray-600 text-lg mb-8 max-w-3xl">{intro}</p>
+    <CurrentPastFilters pagePath={OUR_WORK_PATH} activeStatus={filterStatus} />
+    {
+      isPast &&
+        filteredObjectives.length === 0 && (
+          <p class="text-gray-500 text-center py-12 mt-8">No past committees or objectives to show.</p>
+        )
+    }
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+      {
+        sectionCards.map(({ section, objectives }) => {
+          if (isPast && objectives.length === 0) return null;
+          return (
+            <article class="bg-white rounded-lg shadow-xs border border-gray-100 p-6">
+              <h2 class="font-serif font-bold text-primary text-xl mb-2">
+                <a
+                  href={sectionHubHref(section, base)}
+                  class="hover:text-accent transition-colors"
+                >
+                  {section.label}
+                </a>
+              </h2>
+              <p class="text-gray-600 text-sm mb-4">{section.description}</p>
+              {
+                isPast ? (
+                  objectives.length > 0 ? (
+                    <ul class="space-y-3 text-sm list-none p-0 m-0 mb-4">
+                      {objectives.map((objective) => (
+                        <li>
+                          <a
+                            href={resolveOurWorkHref(base, `${OUR_WORK_PATH}/${objective.slug}`)}
+                            class="font-medium text-accent hover:text-amber-700"
+                          >
+                            {objective.data.title}
+                          </a>
+                          <p class="text-gray-600 mt-1">{objective.data.summary}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p class="text-gray-500 text-sm mb-4">No past items in this area.</p>
+                  )
+                ) : (
+                  <>
+                    <ul class="space-y-2 text-sm text-gray-700 list-none p-0 m-0 mb-4">
+                      {section.links.slice(0, 4).map((link) => (
+                        <li>
+                          <a
+                            href={resolveOurWorkHref(base, link.href)}
+                            class="text-accent hover:text-amber-700 font-medium"
+                            target={link.external ? '_blank' : undefined}
+                            rel={link.external ? 'noopener noreferrer' : undefined}
+                          >
+                            {link.label}
+                          </a>
+                        </li>
+                      ))}
+                      {section.links.length > 4 && (
+                        <li class="text-gray-500">+ {section.links.length - 4} more</li>
+                      )}
+                    </ul>
+                  </>
+                )
+              }
+              <a
+                href={sectionHubHref(section, base)}
+                class="inline-block text-accent text-sm font-medium"
+              >
+                View section →
+              </a>
+            </article>
+          );
+        })
+      }
+      {
+        isPast && otherObjectives.length > 0 && (
+          <article class="bg-white rounded-lg shadow-xs border border-gray-100 p-6 md:col-span-2">
+            <h2 class="font-serif font-bold text-primary text-xl mb-2">Neighborhood Advocacy</h2>
+            <p class="text-gray-600 text-sm mb-4">
+              Additional wrapped-up work.
+            </p>
+            <ul class="space-y-3 text-sm list-none p-0 m-0">
+              {otherObjectives.map((objective) => (
+                <li>
+                  <a
+                    href={resolveOurWorkHref(base, `${OUR_WORK_PATH}/${objective.slug}`)}
+                    class="font-medium text-accent hover:text-amber-700"
+                  >
+                    {objective.data.title}
+                  </a>
+                  <p class="text-gray-600 mt-1">{objective.data.summary}</p>
+                </li>
+              ))}
+            </ul>
+          </article>
+        )
+      }
+    </div>
+    {!isPast && <ListStatusLegacyRedirect pagePath={OUR_WORK_PATH} />}
+  </div>
+</Base>

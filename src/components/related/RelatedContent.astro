@@ -4,6 +4,7 @@ import EventList from '../events/EventList.astro';
 import type { CollectionEntry } from 'astro:content';
 import type { BacklinkRef } from '../../utils/backlinks';
 import { backlinkCollectionLabel, backlinkHref } from '../../utils/backlinks';
+import { OUR_WORK_PATH } from '../../data/our-work';
 import type { RelatedPageLink } from '../../utils/related-content';
 
 export interface Props {
@@ -95,7 +96,7 @@ const hasContent =
               {relatedObjectives.map((objective) => (
                 <li>
                   <a
-                    href={`${base}objectives/${objective.slug}`}
+                    href={`${base}${OUR_WORK_PATH}/${objective.slug}`}
                     class="block rounded-lg border border-gray-100 bg-white p-4 shadow-xs hover:shadow-md transition-shadow"
                   >
                     <span class="font-serif font-bold text-primary">{objective.data.title}</span>

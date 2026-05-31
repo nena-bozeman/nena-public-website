@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { OUR_WORK_PATH } from '../../data/our-work';
 import { listStatusLabel, type ListStatus } from '../../utils/list-status';
 
 export interface Props {
@@ -23,7 +24,7 @@ const statusLabel = listStatusLabel(filterStatus).toLowerCase();
         <article class="bg-white rounded-lg shadow-xs border border-gray-100 p-6">
           <h2 class="font-serif font-bold text-primary text-xl mb-2">
             <a
-              href={`${base}objectives/${objective.slug}`}
+              href={`${base}${OUR_WORK_PATH}/${objective.slug}`}
               class="hover:text-accent transition-colors"
             >
               {objective.data.title}
@@ -31,7 +32,7 @@ const statusLabel = listStatusLabel(filterStatus).toLowerCase();
           </h2>
           <p class="text-gray-600 text-sm mb-4">{objective.data.summary}</p>
           <a
-            href={`${base}objectives/${objective.slug}`}
+            href={`${base}${OUR_WORK_PATH}/${objective.slug}`}
             class="mt-4 inline-block text-accent text-sm font-medium"
           >
             Learn more →

@@ -1,6 +1,6 @@
 /** Shared site navigation — Option B (task-based grouping). */
 
-import type { ListStatus } from '../schemas/list-status';
+import { OUR_WORK_PATH, type OurWorkSection, ourWorkSectionNavHref } from './our-work';
 
 export type NavItem = {
   label: string;
@@ -13,6 +13,8 @@ export type NavItem = {
 
 export type NavSection = {
   label?: string;
+  /** Section hub link when the heading should navigate (e.g. our-work section pages). */
+  href?: string;
   links: NavItem[];
 };
 
@@ -20,6 +22,8 @@ export type NavGroup = {
   id: string;
   label: string;
   description?: string;
+  /** When set, the label links to this hub; a chevron button toggles the dropdown. */
+  hubHref?: string;
   sections: NavSection[];
 };
 
@@ -28,14 +32,6 @@ export type FooterColumn = {
   links: NavItem[];
 };
 
-export type ActiveObjective = {
-  title: string;
-  slug: string;
-};
-
-/** Meta listings — not surfaced in the objectives submenu. */
-const NAV_OBJECTIVE_SLUGS_TO_SKIP = new Set(['nena-newsletters']);
-
 const SECTION_HUBS = new Set([
   'news',
   'events',
@@ -43,11 +39,14 @@ const SECTION_HUBS = new Set([
   'places',
   'businesses',
   'development',
-  'objectives',
+  OUR_WORK_PATH,
   'governance',
 ]);
 
 export function resolveNavHref(base: string, href: string): string {
+  if (href.startsWith('http://') || href.startsWith('https://')) {
+    return href;
+  }
   const normalizedBase = base.endsWith('/') ? base : `${base}/`;
   return `${normalizedBase}${href}`.replace(/([^:]\/)\/+/g, '$1');
 }
@@ -71,29 +70,20 @@ export function isNavItemActive(pathname: string, base: string, href: string): b
 }
 
 export function getNavGroupLinks(group: NavGroup): NavItem[] {
-  return group.sections.flatMap((section) => section.links);
+  const sectionLinks = group.sections.flatMap((section) =>
+    section.href ? [{ label: section.label ?? '', href: section.href }] : [],
+  );
+  return [...sectionLinks, ...group.sections.flatMap((section) => section.links)];
 }
 
 export function isNavGroupActive(pathname: string, base: string, group: NavGroup): boolean {
+  if (group.hubHref && isNavItemActive(pathname, base, group.hubHref)) {
+    return true;
+  }
   return getNavGroupLinks(group).some((item) => isNavItemActive(pathname, base, item.href));
 }
 
-export function getActiveObjectives(
-  objectives: { slug: string; data: { title: string; status: ListStatus; order: number } }[],
-): ActiveObjective[] {
-  return objectives
-    .filter(
-      (objective) =>
-        objective.data.status === 'current' && !NAV_OBJECTIVE_SLUGS_TO_SKIP.has(objective.slug),
-    )
-    .sort((a, b) => a.data.order - b.data.order)
-    .map((objective) => ({
-      title: objective.data.title,
-      slug: objective.slug,
-    }));
-}
-
-export function buildNavGroups(activeObjectives: ActiveObjective[]): NavGroup[] {
+export function buildNavGroups(ourWorkSections: OurWorkSection[]): NavGroup[] {
   return [
     {
       id: 'news-events',
@@ -126,39 +116,43 @@ export function buildNavGroups(activeObjectives: ActiveObjective[]): NavGroup[] 
     {
       id: 'our-work',
       label: 'Our Work',
-      description: 'Advocacy, committees, and development watch',
-      sections: [
-        {
-          links: [
-            { label: 'All objectives & committees', href: 'objectives' },
-            ...activeObjectives.map((objective) => ({
-              label: objective.title,
-              href: `objectives/${objective.slug}`,
-              nested: true,
-            })),
-            { label: 'Development Watch', href: 'development' },
-          ],
-        },
-      ],
+      hubHref: OUR_WORK_PATH,
+      description: 'Neighborhood communication, advocacy, and development watch',
+      sections: ourWorkSections.map((section) => ({
+        label: section.label,
+        href: ourWorkSectionNavHref(section),
+        links: [
+          ...section.links.map((link) => ({
+            label: link.label,
+            href: link.href,
+            nested: link.nested ?? true,
+            external: link.external,
+          })),
+        ],
+      })),
     },
     {
       id: 'get-involved',
       label: 'Get Involved',
-      description: 'Support NENA, connect with neighbors, and learn about the association',
+      description: 'Learn, support, connect',
       sections: [
         {
-          links: [
-            { label: 'Donate', href: 'donate' },
-            { label: 'Contact', href: 'contact' },
-            { label: 'Events', href: 'events' },
-          ],
-        },
-        {
-          label: 'About NENA',
+          label: 'Learn',
           links: [
             { label: 'About NENA', href: 'about' },
             { label: 'Governance', href: 'governance' },
             { label: 'Bylaws', href: 'governance/bylaws' },
+          ],
+        },
+        {
+          label: 'Support',
+          links: [{ label: 'Donate', href: 'donate' }],
+        },
+        {
+          label: 'Connect',
+          links: [
+            { label: 'Sign up for email alerts', href: 'newsletter' },
+            { label: 'Contact', href: 'contact' },
           ],
         },
       ],
@@ -187,7 +181,7 @@ export function buildFooterColumns(): FooterColumn[] {
     {
       label: 'Our Work',
       links: [
-        { label: 'Objectives', href: 'objectives' },
+        { label: 'Our Work', href: OUR_WORK_PATH },
         { label: 'Development Watch', href: 'development' },
       ],
     },
