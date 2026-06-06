@@ -3,7 +3,7 @@ title: Wallace Works
 status: current
 phase: under-construction
 address: Wallace St Bozeman, MT
-submittedDate: 2020-11-22
+submittedDate: '2020-11-22'
 dateCreated: 2020-11-22
 dateUpdated: 2025-02-18
 summary: Wallace Works is located on the corner of Tamarack and Wallace, and is

@@ -3,6 +3,7 @@ import test from 'node:test';
 import {
   applySiteBaseToPathname,
   computeSiteRootPrefix,
+  containsCraftSitePlaceholder,
   expandCraftSitePlaceholder,
   normalizeAstroBase,
 } from './site-base.mjs';
@@ -40,5 +41,17 @@ test('expandCraftSitePlaceholder handles percent-encoded placeholder (built HTML
   assert.equal(
     expandCraftSitePlaceholder(href, prefix),
     'https://example.org/nena-public-website/files/download/ff06ed062887086',
+  );
+});
+
+test('containsCraftSitePlaceholder detects literal and encoded Craft tokens', () => {
+  assert.equal(containsCraftSitePlaceholder('{{ url:site }}files/large/x'), true);
+  assert.equal(
+    containsCraftSitePlaceholder('%7B%7B%20url:site%20%7D%7Dfiles/download/x'),
+    true,
+  );
+  assert.equal(
+    containsCraftSitePlaceholder('https://example.org/nena-public-website/files/download/x'),
+    false,
   );
 });
