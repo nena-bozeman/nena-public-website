@@ -60,8 +60,8 @@ export function objectivesForTopic(
 ): CollectionEntry<'objectives'>[] {
   return allObjectives.filter(
     (o) =>
-      o.slug !== 'nena-meetings' &&
-      o.slug !== 'nena-newsletters' &&
+      o.id !== 'nena-meetings' &&
+      o.id !== 'nena-newsletters' &&
       hasTopics(o) &&
       o.data.topics.includes(topic),
   );

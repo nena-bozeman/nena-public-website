@@ -25,8 +25,8 @@ export function spreadOverlappingMapPoints<T extends { lat: number; lng: number 
     }
     // Deterministic: sort by slug or name if present
     const sorted = [...group].sort((a, b) => {
-      const sa = 'slug' in a && typeof (a as { slug?: string }).slug === 'string' ? (a as { slug: string }).slug : '';
-      const sb = 'slug' in b && typeof (b as { slug?: string }).slug === 'string' ? (b as { slug: string }).slug : '';
+      const sa = 'id' in a && typeof (a as { id?: string }).id === 'string' ? (a as { id: string }).id : '';
+      const sb = 'id' in b && typeof (b as { id?: string }).id === 'string' ? (b as { id: string }).id : '';
       return sa.localeCompare(sb);
     });
     const n = sorted.length;

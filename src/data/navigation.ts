@@ -79,17 +79,17 @@ export function isNavGroupActive(pathname: string, base: string, group: NavGroup
 }
 
 export function getActiveObjectives(
-  objectives: { slug: string; data: { title: string; status: ListStatus; order: number } }[],
+  objectives: { id: string; data: { title: string; status: ListStatus; order: number } }[],
 ): ActiveObjective[] {
   return objectives
     .filter(
       (objective) =>
-        objective.data.status === 'current' && !NAV_OBJECTIVE_SLUGS_TO_SKIP.has(objective.slug),
+        objective.data.status === 'current' && !NAV_OBJECTIVE_SLUGS_TO_SKIP.has(objective.id),
     )
     .sort((a, b) => a.data.order - b.data.order)
     .map((objective) => ({
       title: objective.data.title,
-      slug: objective.slug,
+      slug: objective.id,
     }));
 }
 

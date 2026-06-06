@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import RelatedContent from '../../components/related/RelatedContent.astro';
 import TopicPills from '../../components/related/TopicPills.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import {
   backlinksFor,
   eventRelatedPages,
@@ -14,14 +14,14 @@ import {
 export async function getStaticPaths() {
   const events = await getCollection('events');
   return events.map((event) => ({
-    params: { slug: event.slug },
+    params: { slug: event.id },
     props: { event },
   }));
 }
 
 const base = import.meta.env.BASE_URL;
 const { event } = Astro.props;
-const { Content } = await event.render();
+const { Content } = await render(event);
 const content = await loadSiteContent();
 const topics = event.data.topics;
 const relatedPages = await eventRelatedPages(event, content, base);
@@ -40,7 +40,7 @@ const { category, cancelled } = event.data;
 <Base
   title={event.data.title}
   description={event.data.summary}
-  canonicalURL={`/events/${event.slug}`}
+  canonicalURL={`/events/${event.id}`}
 >
   <article class="max-w-3xl mx-auto px-4 py-12">
     <a href={`${base}events`} class="text-accent hover:text-amber-700 text-sm font-medium mb-8 inline-block transition-colors">← Back to Events</a>
@@ -98,8 +98,8 @@ const { category, cancelled } = event.data;
       relatedNews={relatedNewsByTopics(content.news, topics)}
       relatedObjectives={relatedObjectivesByTopics(content.objectives, topics)}
       relatedPages={relatedPages}
-      backlinks={backlinksFor(content.backlinkIndex, 'events', event.slug)}
-      excludeEventSlug={event.slug}
+      backlinks={backlinksFor(content.backlinkIndex, 'events', event.id)}
+      excludeEventSlug={event.id}
     />
   </article>
 </Base>

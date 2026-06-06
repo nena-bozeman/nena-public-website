@@ -23,7 +23,7 @@ const rawMapPoints = await Promise.all(
   mappable.map(async (b) => {
     const primary = placePrimaryCategory(b.data.categories ?? ['other']);
     const m = getPlaceCategoryMarker(primary);
-    const cover = getBusinessCoverImage(b.slug, b.data.image);
+    const cover = getBusinessCoverImage(b.id, b.data.image);
     let coverSrc: string | undefined;
     if (cover) {
       const { src } = await getImage({ src: cover, width: 400, height: 300 });
@@ -34,7 +34,7 @@ const rawMapPoints = await Promise.all(
       name: b.data.name,
       lat: b.data.lat!,
       lng: b.data.lng!,
-      slug: b.slug,
+      slug: b.id,
       placeType: b.data.placeType,
       categories: [...(b.data.categories ?? [])],
       address: b.data.address,

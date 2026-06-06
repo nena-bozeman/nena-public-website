@@ -119,9 +119,9 @@ export async function buildBacklinkIndex(): Promise<Map<EntityKey, BacklinkRef[]
   for (const post of news) {
     const title = post.data.title;
     const date = post.data.date;
-    const ref = { sourceCollection: 'news' as const, sourceSlug: post.slug };
+    const ref = { sourceCollection: 'news' as const, sourceSlug: post.id };
     scanBodyForLinks(post.body ?? '', ref, index, title, date);
-    addExplicitRefs(index, 'news', post.slug, title, date, [
+    addExplicitRefs(index, 'news', post.id, title, date, [
       ...(post.data.developments ?? []).map((slug) => ({
         collection: 'development' as const,
         slug,
@@ -144,7 +144,7 @@ export async function buildBacklinkIndex(): Promise<Map<EntityKey, BacklinkRef[]
   for (const event of events) {
     const title = event.data.title;
     const date = event.data.startDate;
-    const ref = { sourceCollection: 'events' as const, sourceSlug: event.slug };
+    const ref = { sourceCollection: 'events' as const, sourceSlug: event.id };
     scanBodyForLinks(event.body ?? '', ref, index, title, date);
     const refs: { collection: ContentCollection; slug: string }[] = [];
     if (event.data.meetingSlug) {
@@ -153,13 +153,13 @@ export async function buildBacklinkIndex(): Promise<Map<EntityKey, BacklinkRef[]
     for (const slug of event.data.newsSlugs ?? []) {
       refs.push({ collection: 'news', slug });
     }
-    addExplicitRefs(index, 'events', event.slug, title, date, refs);
+    addExplicitRefs(index, 'events', event.id, title, date, refs);
   }
 
   for (const meeting of meetings) {
     const title = meeting.data.title;
     const date = meeting.data.meetingDate;
-    const ref = { sourceCollection: 'meetings' as const, sourceSlug: meeting.slug };
+    const ref = { sourceCollection: 'meetings' as const, sourceSlug: meeting.id };
     scanBodyForLinks(meeting.body ?? '', ref, index, title, date);
     const refs: { collection: ContentCollection; slug: string }[] = [];
     if (meeting.data.eventSlug) {
@@ -168,16 +168,16 @@ export async function buildBacklinkIndex(): Promise<Map<EntityKey, BacklinkRef[]
     for (const slug of meeting.data.newsSlugs ?? []) {
       refs.push({ collection: 'news', slug });
     }
-    addExplicitRefs(index, 'meetings', meeting.slug, title, date, refs);
+    addExplicitRefs(index, 'meetings', meeting.id, title, date, refs);
   }
 
   for (const project of development) {
     const title = project.data.title;
     const date = project.data.dateUpdated;
-    const ref = { sourceCollection: 'development' as const, sourceSlug: project.slug };
+    const ref = { sourceCollection: 'development' as const, sourceSlug: project.id };
     scanBodyForLinks(project.body ?? '', ref, index, title, date);
     for (const slug of project.data.newsSlugs ?? []) {
-      addExplicitRefs(index, 'development', project.slug, title, date, [
+      addExplicitRefs(index, 'development', project.id, title, date, [
         { collection: 'news', slug },
       ]);
     }
@@ -186,10 +186,10 @@ export async function buildBacklinkIndex(): Promise<Map<EntityKey, BacklinkRef[]
   for (const entry of history) {
     const title = entry.data.title;
     const date = new Date(entry.data.year, 0, 1);
-    const ref = { sourceCollection: 'history' as const, sourceSlug: entry.slug };
+    const ref = { sourceCollection: 'history' as const, sourceSlug: entry.id };
     scanBodyForLinks(entry.body ?? '', ref, index, title, date);
     if (entry.data.placeSlug) {
-      addExplicitRefs(index, 'history', entry.slug, title, date, [
+      addExplicitRefs(index, 'history', entry.id, title, date, [
         { collection: 'places', slug: entry.data.placeSlug },
       ]);
     }
@@ -197,10 +197,10 @@ export async function buildBacklinkIndex(): Promise<Map<EntityKey, BacklinkRef[]
 
   for (const place of places) {
     const title = place.data.name;
-    const ref = { sourceCollection: 'places' as const, sourceSlug: place.slug };
+    const ref = { sourceCollection: 'places' as const, sourceSlug: place.id };
     scanBodyForLinks(place.body ?? '', ref, index, title);
     if (place.data.historySlug) {
-      addExplicitRefs(index, 'places', place.slug, title, undefined, [
+      addExplicitRefs(index, 'places', place.id, title, undefined, [
         { collection: 'history', slug: place.data.historySlug },
       ]);
     }
@@ -208,7 +208,7 @@ export async function buildBacklinkIndex(): Promise<Map<EntityKey, BacklinkRef[]
 
   for (const objective of objectives) {
     const title = objective.data.title;
-    const ref = { sourceCollection: 'objectives' as const, sourceSlug: objective.slug };
+    const ref = { sourceCollection: 'objectives' as const, sourceSlug: objective.id };
     scanBodyForLinks(objective.body ?? '', ref, index, title);
   }
 

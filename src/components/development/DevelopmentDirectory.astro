@@ -44,7 +44,7 @@ const mailchimpUrl = getMailchimpSignupUrl();
           {projects.map((project) => (
             <div data-development-phase={project.data.phase}>
               <ProjectCard
-                slug={project.slug}
+                slug={project.id}
                 title={project.data.title}
                 phase={project.data.phase}
                 address={project.data.address}

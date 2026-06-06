@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import RelatedContent from '../../components/related/RelatedContent.astro';
 import TopicPills from '../../components/related/TopicPills.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import { getBusinessCoverImage } from '../../utils/business-image';
 import {
   placeCategoryBadgeClass,
@@ -24,16 +24,16 @@ import {
 export async function getStaticPaths() {
   const places = await getCollection('places');
   return places
-    .filter((place) => place.slug !== LIST_STATUS_PAST_SEGMENT)
+    .filter((place) => place.id !== LIST_STATUS_PAST_SEGMENT)
     .map((place) => ({
-      params: { slug: place.slug },
+      params: { slug: place.id },
       props: { place },
     }));
 }
 
 const base = import.meta.env.BASE_URL;
 const { place } = Astro.props;
-const { Content } = await place.render();
+const { Content } = await render(place);
 const content = await loadSiteContent();
 
 const { categories, name, placeType, topics } = place.data;
@@ -43,21 +43,21 @@ const logoSrc =
     ? place.data.logo
     : `${base}${place.data.logo.replace(/^\//, '')}`);
 
-const hero = getBusinessCoverImage(place.slug, place.data.image);
+const hero = getBusinessCoverImage(place.id, place.data.image);
 const historyLinks = placeHistoryLinks(place, content.history, base);
 const relatedPages = historyLinks;
-const placeNews = newsReferencingPlace(content.news, place.slug);
-const placeNewsSlugs = new Set(placeNews.map((post) => post.slug));
+const placeNews = newsReferencingPlace(content.news, place.id);
+const placeNewsSlugs = new Set(placeNews.map((post) => post.id));
 const topicNews = relatedNewsByTopics(content.news, topics).filter(
-  (post) => !placeNewsSlugs.has(post.slug),
+  (post) => !placeNewsSlugs.has(post.id),
 );
-const allBacklinks = backlinksFor(content.backlinkIndex, 'places', place.slug);
+const allBacklinks = backlinksFor(content.backlinkIndex, 'places', place.id);
 const backlinks = allBacklinks.filter(
   (ref) => !(ref.sourceCollection === 'news' && placeNewsSlugs.has(ref.sourceSlug)),
 );
 ---
 
-<Base title={name} description={`${name} — Northeast Neighborhood places directory`} canonicalURL={`/places/${place.slug}`}>
+<Base title={name} description={`${name} — Northeast Neighborhood places directory`} canonicalURL={`/places/${place.id}`}>
   <article class="max-w-3xl mx-auto px-4 py-12">
     <a href={`${base}places`} class="text-accent hover:text-amber-700 text-sm font-medium mb-6 inline-block transition-colors">
       ← Back to Places

@@ -29,7 +29,7 @@ const wideLayout = topics.length > 0;
       {
         meetings.map((m) => (
           <li class="border border-gray-100 rounded-lg p-5 bg-white shadow-xs">
-            <a href={`${base}objectives/nena-meetings/${m.slug}`} class="font-serif text-lg font-semibold text-primary hover:text-accent transition-colors">
+            <a href={`${base}objectives/nena-meetings/${m.id}`} class="font-serif text-lg font-semibold text-primary hover:text-accent transition-colors">
               {m.data.title}
             </a>
             <p class="text-sm text-gray-500 mt-1">
