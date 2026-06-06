@@ -43,7 +43,7 @@ jobs:
       # PR comment on every push. We post/update a single sticky comment ourselves below.
       - name: Upload Worker preview version
         id: wrangler
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
