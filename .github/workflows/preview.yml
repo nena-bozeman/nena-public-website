@@ -12,6 +12,12 @@ permissions:
 
 jobs:
   deploy-preview:
+    # Dependabot and fork PRs cannot read repository secrets (including CLOUDFLARE_API_TOKEN).
+    # CI still validates build + Wrangler dry-runs on those PRs; only the live preview is skipped.
+    if: >-
+      github.actor != 'dependabot[bot]' &&
+      (github.event_name != 'pull_request' ||
+        github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-latest
     # Surfaces the preview URL in the PR sidebar / Deployments UI in addition to the sticky comment.
     environment:
