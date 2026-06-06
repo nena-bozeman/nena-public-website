@@ -117,7 +117,7 @@ function resolveOurWorkLinkRef(
 
   return {
     label: objective.data.title,
-    href: `${OUR_WORK_PATH}/${objective.slug}`,
+    href: `${OUR_WORK_PATH}/${objective.id}`,
     summary: objective.data.summary,
     nested: ref.nested,
   };
@@ -125,7 +125,7 @@ function resolveOurWorkLinkRef(
 
 export async function getOurWorkSections(): Promise<OurWorkSection[]> {
   const objectives = await getCollection('objectives');
-  const objectivesBySlug = new Map(objectives.map((objective) => [objective.slug, objective]));
+  const objectivesBySlug = new Map(objectives.map((objective) => [objective.id, objective]));
 
   return OUR_WORK_SECTION_CONFIG.map((section) => ({
     ...section,

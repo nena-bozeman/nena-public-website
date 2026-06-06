@@ -29,9 +29,9 @@ const [ourWorkSections, allObjectives] = await Promise.all([
 const filteredObjectives = allObjectives.filter(
   (objective) =>
     matchesListStatus(objective.data.status, filterStatus) &&
-    !OBJECTIVE_SLUGS_TO_SKIP.has(objective.slug),
+    !OBJECTIVE_SLUGS_TO_SKIP.has(objective.id),
 );
-const objectivesBySlug = new Map(filteredObjectives.map((objective) => [objective.slug, objective]));
+const objectivesBySlug = new Map(filteredObjectives.map((objective) => [objective.id, objective]));
 
 const sectionCards = ourWorkSections.map((section) => {
   const slugs = section.links
@@ -44,10 +44,10 @@ const sectionCards = ourWorkSections.map((section) => {
 });
 
 const matchedSlugs = new Set(
-  sectionCards.flatMap(({ objectives }) => objectives.map((objective) => objective.slug)),
+  sectionCards.flatMap(({ objectives }) => objectives.map((objective) => objective.id)),
 );
 const otherObjectives = filteredObjectives
-  .filter((objective) => !matchedSlugs.has(objective.slug))
+  .filter((objective) => !matchedSlugs.has(objective.id))
   .sort((a, b) => a.data.order - b.data.order);
 
 const pageTitle = isPast ? 'Past Our Work' : 'Our Work';
@@ -92,7 +92,7 @@ const intro = isPast
                       {objectives.map((objective) => (
                         <li>
                           <a
-                            href={resolveOurWorkHref(base, `${OUR_WORK_PATH}/${objective.slug}`)}
+                            href={resolveOurWorkHref(base, `${OUR_WORK_PATH}/${objective.id}`)}
                             class="font-medium text-accent hover:text-amber-700"
                           >
                             {objective.data.title}
@@ -147,7 +147,7 @@ const intro = isPast
               {otherObjectives.map((objective) => (
                 <li>
                   <a
-                    href={resolveOurWorkHref(base, `${OUR_WORK_PATH}/${objective.slug}`)}
+                    href={resolveOurWorkHref(base, `${OUR_WORK_PATH}/${objective.id}`)}
                     class="font-medium text-accent hover:text-amber-700"
                   >
                     {objective.data.title}
