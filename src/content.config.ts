@@ -111,7 +111,7 @@ const places = defineCollection({
     .superRefine((data, ctx) => {
       if (data.placeType === 'business' && (!data.categories || data.categories.length === 0)) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: 'custom',
           message: 'Business places require at least one category',
           path: ['categories'],
         });

@@ -12,8 +12,11 @@ export interface Props {
 
 const { upcoming, pastPaginated, pastPage, totalPastPages } = Astro.props;
 
+const rawCalendarId = import.meta.env.PUBLIC_GOOGLE_CALENDAR_ID;
 const calendarId =
-  import.meta.env.PUBLIC_GOOGLE_CALENDAR_ID?.trim() || 'nenabozeman@gmail.com';
+  typeof rawCalendarId === 'string' && rawCalendarId.trim()
+    ? rawCalendarId.trim()
+    : 'nenabozeman@gmail.com';
 ---
 
 <div class="max-w-4xl mx-auto px-4 py-12">
