@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import { unified } from '@astrojs/markdown-remark';
 import tailwindcss from '@tailwindcss/vite';
 import { computeSiteRootPrefix, normalizeAstroBase } from './src/utils/site-base.mjs';
 import { remarkExpandCraftSitePlaceholder } from './src/plugins/remark-expand-craft-site-placeholder.mjs';
@@ -22,10 +23,12 @@ export default defineConfig({
     ],
   },
   markdown: {
-    remarkPlugins: [[remarkExpandCraftSitePlaceholder, { siteRoot: siteRootPrefix }]],
-    rehypePlugins: [
-      [rehypeExpandUrlSitePlaceholder, { siteRoot: siteRootPrefix }],
-      [rehypeSiteBaseLinks, { base: siteBase }],
-    ],
+    processor: unified({
+      remarkPlugins: [[remarkExpandCraftSitePlaceholder, { siteRoot: siteRootPrefix }]],
+      rehypePlugins: [
+        [rehypeExpandUrlSitePlaceholder, { siteRoot: siteRootPrefix }],
+        [rehypeSiteBaseLinks, { base: siteBase }],
+      ],
+    }),
   },
 });
