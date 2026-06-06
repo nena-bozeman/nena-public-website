@@ -86,7 +86,7 @@ jobs:
 
       - name: Comment preview URL on PR
         if: github.event_name == 'pull_request' && steps.wrangler.outputs.deployment-url != ''
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           # `header` keys the comment so subsequent runs update it instead of adding a new one.
           header: preview-deployment
