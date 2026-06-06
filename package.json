@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.0",
-    "astro": "^5.18.1",
+    "astro": "^6.4.4",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.3.0"
   },
