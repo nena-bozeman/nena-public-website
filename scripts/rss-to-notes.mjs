@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 /**
- * Fetch a Mailchimp campaign-archive RSS feed (or read a saved copy) and print
- * a compact index of campaigns: pubDate, title, archive link. Use this as a
- * starting point when drafting src/content/news and src/content/events entries.
+ * Fetch a Mailchimp campaign-archive RSS feed (or read a saved copy), print a
+ * compact index, and optionally create draft news stubs for campaigns not yet
+ * referenced in src/content/news or src/content/events.
  *
  * Usage:
  *   pnpm run rss-to-notes
+ *   pnpm run rss-to-notes -- --write
+ *   pnpm run rss-to-notes -- --write --dry-run
  *   pnpm run rss-to-notes -- --url https://us18.campaign-archive.com/feed?u=...&id=...
  *   pnpm run rss-to-notes -- --file ./saved-feed.xml
  *   pnpm run rss-to-notes -- --format json
@@ -14,18 +16,31 @@
  *   RSS_TO_NOTES_URL   Default feed URL when --url is omitted (see docs/rss-to-notes.md).
  */
 
-import { readFileSync, existsSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { readFileSync, readdirSync, existsSync, writeFileSync, mkdirSync } from 'node:fs';
+import { resolve, join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import yaml from 'js-yaml';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(__dirname, '..');
+const NEWS_DIR = join(ROOT, 'src/content/news');
 
 /** Default: NENA Mailchimp archive RSS (public). */
 const DEFAULT_FEED_URL =
   'https://us18.campaign-archive.com/feed?u=f1ec16560a226111c086eeb58&id=16f66e5916';
+
+const CONTENT_SCAN_DIRS = [
+  join(ROOT, 'src/content/news'),
+  join(ROOT, 'src/content/events'),
+];
 
 function parseArgs(argv) {
   const out = {
     url: process.env.RSS_TO_NOTES_URL || DEFAULT_FEED_URL,
     file: '',
     format: 'markdown',
+    write: false,
+    dryRun: false,
     help: false,
   };
   for (let i = 0; i < argv.length; i++) {
@@ -34,9 +49,15 @@ function parseArgs(argv) {
     else if (a === '--url') out.url = argv[++i] || out.url;
     else if (a === '--file' || a === '-f') out.file = argv[++i] || '';
     else if (a === '--format') out.format = (argv[++i] || 'markdown').toLowerCase();
+    else if (a === '--write' || a === '-w') out.write = true;
+    else if (a === '--dry-run') out.dryRun = true;
   }
   if (!['markdown', 'json', 'tsv'].includes(out.format)) {
     console.error(`rss-to-notes: unknown --format ${out.format} (use markdown, json, or tsv)`);
+    process.exit(2);
+  }
+  if (out.dryRun && !out.write) {
+    console.error('rss-to-notes: --dry-run requires --write');
     process.exit(2);
   }
   return out;
@@ -68,6 +89,147 @@ function parseRssItems(xml) {
     }
   }
   return rows;
+}
+
+/** @param {string} url */
+function mailchiCampaignId(url) {
+  if (!url) return '';
+  const m = url.match(/mailchi\.mp\/([^/?#]+)/i);
+  return m?.[1]?.toLowerCase() ?? '';
+}
+
+/** @param {string} pubDate */
+function isoDateFromPubDate(pubDate) {
+  if (!pubDate) return '';
+  const d = new Date(pubDate);
+  if (Number.isNaN(d.getTime())) return '';
+  return d.toISOString().slice(0, 10);
+}
+
+/** @param {string} title */
+function slugFromTitle(title) {
+  const slug = title
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 80)
+    .replace(/-+$/g, '');
+  return slug || 'mailchimp-campaign';
+}
+
+function listMarkdownFiles(dir) {
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .filter((name) => name.endsWith('.md'))
+    .map((name) => join(dir, name));
+}
+
+function loadKnownCampaignIds() {
+  /** @type {Set<string>} */
+  const ids = new Set();
+  for (const dir of CONTENT_SCAN_DIRS) {
+    for (const filePath of listMarkdownFiles(dir)) {
+      const text = readFileSync(filePath, 'utf8');
+      for (const m of text.matchAll(/mailchi\.mp\/([^/?#\s"'<>]+)/gi)) {
+        ids.add(m[1].toLowerCase());
+      }
+    }
+  }
+  return ids;
+}
+
+/** @param {string} dir @param {string} dateStr @param {string} slug */
+function resolveNewsFilePath(dir, dateStr, slug) {
+  const base = `${dateStr}-${slug}`;
+  let candidate = join(dir, `${base}.md`);
+  if (!existsSync(candidate)) return candidate;
+  for (let n = 2; n < 100; n++) {
+    candidate = join(dir, `${base}-${n}.md`);
+    if (!existsSync(candidate)) return candidate;
+  }
+  throw new Error(`Could not find unused filename for ${base}.md`);
+}
+
+/** @param {{ title: string, link: string, pubDate: string }} row */
+function buildNewsStub(row) {
+  const date = isoDateFromPubDate(row.pubDate);
+  if (!date) {
+    throw new Error(`Missing or invalid pubDate for "${row.title}"`);
+  }
+  const frontmatter = {
+    title: row.title,
+    date,
+    summary:
+      'Draft stub from Mailchimp campaign — expand from the archive link below before publishing.',
+    featured: false,
+    draft: true,
+    tags: [],
+    topics: [],
+  };
+  const fm = yaml.dump(frontmatter, { lineWidth: -1, noRefs: true }).trimEnd();
+  const archiveLine = row.link
+    ? `**Original email (web version):** [${row.title}](${row.link})`
+    : '_No archive link in RSS item._';
+  return `---\n${fm}\n---\n\n${archiveLine}\n`;
+}
+
+/**
+ * @param {ReturnType<typeof parseRssItems>} rows
+ * @param {{ dryRun: boolean }} opts
+ */
+function writeMissingStubs(rows, opts) {
+  const knownIds = loadKnownCampaignIds();
+  if (!existsSync(NEWS_DIR)) mkdirSync(NEWS_DIR, { recursive: true });
+
+  let written = 0;
+  let skippedKnown = 0;
+  let skippedNoLink = 0;
+  /** @type {string[]} */
+  const errors = [];
+
+  for (const row of rows) {
+    const campaignId = mailchiCampaignId(row.link) || mailchiCampaignId(row.guid);
+    if (!campaignId) {
+      skippedNoLink++;
+      continue;
+    }
+    if (knownIds.has(campaignId)) {
+      skippedKnown++;
+      continue;
+    }
+
+    let filePath;
+    try {
+      const date = isoDateFromPubDate(row.pubDate);
+      if (!date) throw new Error(`missing pubDate`);
+      filePath = resolveNewsFilePath(NEWS_DIR, date, slugFromTitle(row.title));
+      const content = buildNewsStub(row);
+      if (opts.dryRun) {
+        console.log(`[dry-run] would write ${filePath.replace(ROOT + '/', '')}`);
+      } else {
+        writeFileSync(filePath, content, 'utf8');
+        console.log(`Wrote ${filePath.replace(ROOT + '/', '')}`);
+        knownIds.add(campaignId);
+      }
+      written++;
+    } catch (e) {
+      errors.push(
+        `"${row.title}": ${e instanceof Error ? e.message : String(e)}`,
+      );
+    }
+  }
+
+  const prefix = opts.dryRun ? 'Would write' : 'Wrote';
+  console.log(
+    `${prefix} ${written} draft news stub(s); skipped ${skippedKnown} already in content, ${skippedNoLink} without archive link.`,
+  );
+  if (errors.length > 0) {
+    console.error('rss-to-notes: failed to create stub(s):');
+    for (const err of errors) console.error(`  - ${err}`);
+    process.exit(1);
+  }
 }
 
 function escapeMdCell(s) {
@@ -139,10 +301,14 @@ Options:
   --url <url>       Feed URL (default: NENA archive or RSS_TO_NOTES_URL)
   --file, -f <path> Read XML from file instead of fetching (e.g. saved export)
   --format <fmt>    markdown | json | tsv (default: markdown)
+  --write, -w       Create draft news stubs for campaigns not yet in content
+  --dry-run         With --write, show paths without writing files
   --help, -h        This help
 
 Examples:
   pnpm run rss-to-notes
+  pnpm run rss-to-notes -- --write
+  pnpm run rss-to-notes -- --write --dry-run
   pnpm run rss-to-notes -- --format json
   pnpm run rss-to-notes -- --file ./feed.xml --format tsv
 `);
@@ -169,6 +335,11 @@ async function main() {
   if (opts.format === 'json') printJson(rows, sourceLabel);
   else if (opts.format === 'tsv') printTsv(rows);
   else printMarkdown(rows, sourceLabel);
+
+  if (opts.write) {
+    console.log('---');
+    writeMissingStubs(rows, { dryRun: opts.dryRun });
+  }
 }
 
 main();
