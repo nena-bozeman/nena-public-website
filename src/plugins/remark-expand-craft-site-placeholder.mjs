@@ -6,7 +6,22 @@ function walk(node, fn) {
   if (Array.isArray(kids)) for (const c of kids) walk(c, fn);
 }
 
-const STANDALONE_IMG_TEXT_RE = /^!\[([^\]]*)\]\(([^)]+)\)\s*$/;
+const LEADING_IMG_TEXT_RE = /^!\[([^\]]*)\]\(([^)]+)\)\s*/;
+
+function tryConvertLeadingImageParagraph(node, prefix) {
+  const first = node.children?.[0];
+  if (first?.type !== 'text') return;
+  const m = first.value.match(LEADING_IMG_TEXT_RE);
+  if (!m) return;
+  const url = expandCraftSitePlaceholder(m[2], prefix);
+  const tail = first.value.slice(m[0].length);
+  const imageNode = { type: 'image', url, alt: m[1] || '', title: null };
+  if (tail.length === 0) {
+    node.children[0] = imageNode;
+  } else {
+    node.children = [imageNode, { type: 'text', value: tail }, ...node.children.slice(1)];
+  }
+}
 
 /**
  * Expands Craft `{{ url:site }}` in markdown AST. Content-collection `.md` is not passed
@@ -21,6 +36,9 @@ export function remarkExpandCraftSitePlaceholder(opts = {}) {
   }
   return (tree) => {
     walk(tree, (node) => {
+      if (node.type === 'paragraph') {
+        tryConvertLeadingImageParagraph(node, prefix);
+      }
       if (
         (node.type === 'link' || node.type === 'image' || node.type === 'definition') &&
         typeof node.url === 'string'
@@ -29,16 +47,9 @@ export function remarkExpandCraftSitePlaceholder(opts = {}) {
         if (next !== node.url) node.url = next;
         return;
       }
-      if (
-        node.type === 'paragraph' &&
-        node.children?.length === 1 &&
-        node.children[0].type === 'text'
-      ) {
-        const raw = node.children[0].value;
-        const m = raw.match(STANDALONE_IMG_TEXT_RE);
-        if (!m) return;
-        const url = expandCraftSitePlaceholder(m[2], prefix);
-        node.children = [{ type: 'image', url, alt: m[1] || '', title: null }];
+      if (node.type === 'text' && typeof node.value === 'string') {
+        const next = expandCraftSitePlaceholder(node.value, prefix);
+        if (next !== node.value) node.value = next;
       }
     });
   };

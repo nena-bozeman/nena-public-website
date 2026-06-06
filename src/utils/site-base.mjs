@@ -62,3 +62,28 @@ export function expandCraftSitePlaceholder(value, siteRootPrefix) {
   if (!s.includes('{{')) return value;
   return s.replace(CRAFT_SITE_PLACEHOLDER_RE, siteRootPrefix);
 }
+
+const CRAFT_SITE_PLACEHOLDER_ENCODED_RE = /%7B%7B\s*url:site\s*%7D%7D/i;
+
+/**
+ * True when a string still contains an unexpanded Craft `{{ url:site }}` token
+ * (literal or percent-encoded, as in built HTML href/src attributes).
+ *
+ * @param {string} text
+ */
+export function containsCraftSitePlaceholder(text) {
+  if (typeof text !== 'string' || !text.toLowerCase().includes('url:site')) return false;
+  CRAFT_SITE_PLACEHOLDER_RE.lastIndex = 0;
+  if (CRAFT_SITE_PLACEHOLDER_RE.test(text)) return true;
+  if (CRAFT_SITE_PLACEHOLDER_ENCODED_RE.test(text)) return true;
+  if (text.includes('%7B%7B')) {
+    try {
+      const decoded = decodeURIComponent(text);
+      CRAFT_SITE_PLACEHOLDER_RE.lastIndex = 0;
+      if (CRAFT_SITE_PLACEHOLDER_RE.test(decoded)) return true;
+    } catch {
+      /* ignore malformed percent-encoding */
+    }
+  }
+  return false;
+}

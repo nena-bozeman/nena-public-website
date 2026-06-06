@@ -11,34 +11,76 @@ interface Props {
 const { group, base, pathname } = Astro.props;
 const panelId = `nav-panel-${group.id}`;
 const groupActive = isNavGroupActive(pathname, base, group);
+const hubHref = group.hubHref ? resolveNavHref(base, group.hubHref) : null;
 
 const linkClass =
   'block rounded-sm px-3 py-2 text-sm text-green-100 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
 const triggerClass =
-  'flex items-center gap-1 rounded-sm px-3 py-2 text-sm font-medium transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
+  'flex items-center gap-1 rounded-sm text-sm font-medium transition-colors hover:bg-green-800 hover:text-white focus-within:outline-solid focus-within:outline-2 focus-within:outline-offset-0 focus-within:outline-amber-300/80';
+const triggerActiveClass = groupActive ? 'text-white bg-green-800/70' : 'text-green-100';
+const hubLinkClass =
+  'rounded-sm px-3 py-2 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
+const hubButtonClass =
+  'rounded-sm px-1.5 py-2 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
+const sectionHeadingClass =
+  'block rounded-sm px-3 pb-1 pt-1 text-xs font-semibold uppercase tracking-wide text-green-300/90 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
 ---
 
 <div class="nav-dropdown relative" data-nav-dropdown>
-  <button
-    type="button"
-    id={`nav-trigger-${group.id}`}
-    data-nav-dropdown-trigger
-    class:list={[triggerClass, groupActive ? 'text-white bg-green-800/70' : 'text-green-100']}
-    aria-expanded="false"
-    aria-controls={panelId}
-    aria-haspopup="true"
-  >
-    {group.label}
-    <svg
-      class="nav-dropdown__chevron h-4 w-4 shrink-0 opacity-80"
-      aria-hidden="true"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-    </svg>
-  </button>
+  {
+    hubHref ? (
+      <div class:list={[triggerClass, triggerActiveClass]}>
+        <a
+          href={hubHref}
+          class={hubLinkClass}
+          aria-current={isNavItemActive(pathname, base, group.hubHref!) ? 'page' : undefined}
+        >
+          {group.label}
+        </a>
+        <button
+          type="button"
+          id={`nav-trigger-${group.id}`}
+          data-nav-dropdown-trigger
+          class={hubButtonClass}
+          aria-expanded="false"
+          aria-controls={panelId}
+          aria-haspopup="true"
+          aria-label={`${group.label} menu`}
+        >
+          <svg
+            class="nav-dropdown__chevron h-4 w-4 shrink-0 opacity-80"
+            aria-hidden="true"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+      </div>
+    ) : (
+      <button
+        type="button"
+        id={`nav-trigger-${group.id}`}
+        data-nav-dropdown-trigger
+        class:list={[triggerClass, 'px-3 py-2', triggerActiveClass]}
+        aria-expanded="false"
+        aria-controls={panelId}
+        aria-haspopup="true"
+      >
+        {group.label}
+        <svg
+          class="nav-dropdown__chevron h-4 w-4 shrink-0 opacity-80"
+          aria-hidden="true"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </button>
+    )
+  }
   <div
     id={panelId}
     data-nav-dropdown-panel
@@ -56,11 +98,24 @@ const triggerClass =
       group.sections.map((section: NavSection, sectionIndex: number) => (
         <div class:list={[sectionIndex > 0 ? 'mt-1 border-t border-green-700/60 pt-1' : '']}>
           {
-            section.label && (
-              <p class="px-3 pb-1 pt-1 text-xs font-semibold uppercase tracking-wide text-green-300/90">
-                {section.label}
-              </p>
-            )
+            section.label &&
+              (section.href ? (
+                <a
+                  href={resolveNavHref(base, section.href)}
+                  class:list={[
+                    sectionHeadingClass,
+                    isNavItemActive(pathname, base, section.href) ? 'bg-green-800/80 text-white' : '',
+                  ]}
+                  role="menuitem"
+                  aria-current={isNavItemActive(pathname, base, section.href) ? 'page' : undefined}
+                >
+                  {section.label}
+                </a>
+              ) : (
+                <p class="px-3 pb-1 pt-1 text-xs font-semibold uppercase tracking-wide text-green-300/90">
+                  {section.label}
+                </p>
+              ))
           }
           {
             section.links.map((item: NavItem) => {
@@ -75,6 +130,8 @@ const triggerClass =
                   ]}
                   role="menuitem"
                   aria-current={active ? 'page' : undefined}
+                  target={item.external ? '_blank' : undefined}
+                  rel={item.external ? 'noopener noreferrer' : undefined}
                 >
                   {item.label}
                 </a>

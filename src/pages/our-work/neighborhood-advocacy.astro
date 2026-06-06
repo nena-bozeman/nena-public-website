@@ -1,0 +1,9 @@
+---
+import OurWorkSectionPage from '../../components/our-work/OurWorkSectionPage.astro';
+import { ourWorkSectionByHubSlug } from '../../data/our-work';
+
+const section = await ourWorkSectionByHubSlug('neighborhood-advocacy');
+if (!section) throw new Error('Missing Our Work section: neighborhood-advocacy');
+---
+
+<OurWorkSectionPage section={section} />

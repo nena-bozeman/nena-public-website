@@ -21,6 +21,11 @@ export function rehypeExpandUrlSitePlaceholder(opts = {}) {
   }
   return (tree) => {
     walk(tree, (node) => {
+      if (node.type === 'text' && typeof node.value === 'string') {
+        const next = expandCraftSitePlaceholder(node.value, prefix);
+        if (next !== node.value) node.value = next;
+        return;
+      }
       if (node.type !== 'element' || !node.properties) return;
       for (const key of URL_ATTRS) {
         const val = node.properties[key];

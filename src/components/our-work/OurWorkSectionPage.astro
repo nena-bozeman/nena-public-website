@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import type { OurWorkSection } from '../../data/our-work';
+import { OUR_WORK_PATH, resolveOurWorkHref } from '../../data/our-work';
+
+export interface Props {
+  section: OurWorkSection;
+}
+
+const { section } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const hubHref = resolveOurWorkHref(base, OUR_WORK_PATH);
+---
+
+<Base title={section.label} description={section.description}>
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <a href={hubHref} class="text-accent text-sm font-medium mb-8 inline-block">← Back to Our Work</a>
+    <h1 class="font-serif text-4xl font-bold text-primary mb-3">{section.label}</h1>
+    <p class="text-xl text-gray-600 mb-8">{section.description}</p>
+    <ul class="space-y-6 list-none p-0 m-0">
+      {
+        section.links.map((link) => (
+          <li class="border border-gray-100 rounded-lg p-5 bg-white shadow-xs">
+            <h2 class="font-serif text-lg font-semibold text-primary mb-1">
+              <a
+                href={resolveOurWorkHref(base, link.href)}
+                class="hover:text-accent transition-colors"
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener noreferrer' : undefined}
+              >
+                {link.label}
+                {link.external && <span class="sr-only"> (opens in new tab)</span>}
+              </a>
+            </h2>
+            {link.summary && <p class="text-gray-600 text-sm">{link.summary}</p>}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Base>

@@ -19,7 +19,7 @@ NENA’s VisionNE committee focuses on **neighborhood character** and on **plann
 
 - **Affordable housing:** Engaging on code and policy directions that fit the neighborhood and support affordability, alongside city and consultant processes.
 - **B-3 to residential transition:** The edge where the downtown B-3 zone meets residential areas—how code can support character at that transition (the City has run community engagement on this theme in the past; VisionNE has tried to be a clear neighborhood voice).
-- **Defining “neighborhood character”:** Work with **Montana State University** and the **City of Bozeman** on inventory, survey, and engagement—building on the 2019 PhotoVoices project—with faculty including **Sarah Church** and **Susanne Cowen** (and students in planning and architecture) to measure and discuss what makes the NE neighborhood distinct.
+- **Defining “neighborhood character”:** Work with **Montana State University** and the **City of Bozeman** on inventory, survey, and engagement—building on the 2019 PhotoVoices project—with faculty including **Sarah Church** and **Susanne Cowan** (and students in planning and architecture) to measure and discuss what makes the NE neighborhood distinct. Published reports from this collaboration are listed under [MSU research & publications](#msu-research).
 
 **To get involved** with VisionNE, contact [Karen Filipovich](mailto:karen_filipovich@hotmail.com) or [NENABozeman@gmail.com](mailto:NENABozeman@gmail.com).
 
@@ -52,3 +52,13 @@ In the Fall of 2020, a Participatory Planning Course and undergraduate researche
 If you are interested in taking part going forward, please email [Suzanne Held](mailto:sznbzn@gmail.com).
 
 *From the PhotoVoicesNE team.*
+
+<h2 id="msu-research">MSU research & publications</h2>
+
+Building on the PhotoVoices exhibit and subsequent student analysis, MSU faculty and students published several reports comparing neighborhood voices with city plans and ordinances:
+
+- **[PhotoVoices Fact Sheet](https://westerntransportationinstitute.org/wp-content/uploads/2024/04/Peoria_Church_NENA-Project_Fact-Sheet.pdf)** (November 2020) — Dr. Sarah P. Church & Joe Peoria. Compares voices heard in PhotoVoicesNE with the City of Bozeman’s plans and ordinances, including recommendations.
+- **[Neighborhood Character in the Northeast Neighborhood of Bozeman](https://westerntransportationinstitute.org/wp-content/uploads/2024/04/Arch-452-2021-Neighborhood-Character.pdf)** (Spring 2021) — compiled by Professor Susanne Cowan; student work by Architecture 452: Research Methods.
+- **[Investigating Neighborhood Character in the Northeast Neighborhood of Bozeman, MT](https://westerntransportationinstitute.org/wp-content/uploads/2024/04/Investigating-Neighborhood-Character-in-the-Northeast-Neighborhood-of-Bozeman-MT.pdf)** (2022) — Dr. Susanne Cowan, Dr. Sarah P. Church, Brennan Radulski, Ryen Dalvit, Kip Giddings, Jack Rosenthal, & Joe Peoria.
+
+Other MSU student efforts are collected at the [Western Transportation Institute — Northeast neighborhood search](https://westerntransportationinstitute.org/?s=northeast+neighborhood).

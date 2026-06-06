@@ -3,6 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import RelatedContent from '../../../components/related/RelatedContent.astro';
 import TopicPills from '../../../components/related/TopicPills.astro';
 import { getCollection, render } from 'astro:content';
+import { OUR_WORK_PATH } from '../../../data/our-work';
 import { publicFileUrl } from '../../../utils/public-url';
 import {
   backlinksFor,
@@ -27,7 +28,7 @@ const relatedPages = await meetingRelatedPages(meeting, content, base);
 ---
 <Base {title} description={summary}>
   <div class="max-w-3xl mx-auto px-4 py-12">
-    <a href={`${base}objectives/nena-meetings`} class="text-accent text-sm font-medium mb-6 inline-block">← All meetings</a>
+    <a href={`${base}${OUR_WORK_PATH}/nena-meetings`} class="text-accent text-sm font-medium mb-6 inline-block">← All meetings</a>
     <p class="text-sm text-gray-500 mb-2">{dateLabel}</p>
     <h1 class="font-serif text-4xl font-bold text-primary mb-4">{title}</h1>
     <p class="text-lg text-gray-600 mb-4">{summary}</p>

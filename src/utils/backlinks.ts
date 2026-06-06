@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content';
+import { OUR_WORK_PATH } from '../data/our-work';
 
 export type ContentCollection =
   | 'news'
@@ -232,7 +233,7 @@ export function backlinkHref(ref: BacklinkRef, baseUrl: string): string {
   const base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
   switch (ref.sourceCollection) {
     case 'meetings':
-      return `${base}objectives/nena-meetings/${ref.sourceSlug}`;
+      return `${base}${OUR_WORK_PATH}/nena-meetings/${ref.sourceSlug}`;
     case 'news':
       return `${base}news/${ref.sourceSlug}`;
     case 'events':
@@ -244,7 +245,7 @@ export function backlinkHref(ref: BacklinkRef, baseUrl: string): string {
     case 'places':
       return `${base}places/${ref.sourceSlug}`;
     case 'objectives':
-      return `${base}objectives/${ref.sourceSlug}`;
+      return `${base}${OUR_WORK_PATH}/${ref.sourceSlug}`;
   }
 }
 
@@ -275,7 +276,7 @@ export function entityPageHref(
   const base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
   switch (collection) {
     case 'meetings':
-      return `${base}objectives/nena-meetings/${slug}`;
+      return `${base}${OUR_WORK_PATH}/nena-meetings/${slug}`;
     case 'places':
       return `${base}places/${slug}`;
     default:

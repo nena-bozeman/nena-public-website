@@ -2,6 +2,7 @@
 import Base from '../../../layouts/Base.astro';
 import RelatedContent from '../../../components/related/RelatedContent.astro';
 import { getCollection, getEntry } from 'astro:content';
+import { OUR_WORK_PATH } from '../../../data/our-work';
 import { loadSiteContent, relatedEventsByTopics, relatedNewsByTopics } from '../../../utils/related-content';
 
 const base = import.meta.env.BASE_URL;
@@ -19,7 +20,7 @@ const wideLayout = topics.length > 0;
 ---
 <Base title="NENA Meetings" description="Neighborhood meeting minutes and archives for the Northeast Neighborhood Association.">
   <div class:list={['mx-auto px-4 py-12', wideLayout ? 'max-w-4xl' : 'max-w-3xl']}>
-    <a href={`${base}objectives`} class="text-accent text-sm font-medium mb-8 inline-block">← Back to Objectives & Committees</a>
+    <a href={`${base}${OUR_WORK_PATH}`} class="text-accent text-sm font-medium mb-8 inline-block">← Back to Our Work</a>
     <h1 class="font-serif text-4xl font-bold text-primary mb-3">NENA Meetings</h1>
     <p class="text-xl text-gray-600 mb-8">
       NENA meets regularly with neighbors and the board. Each entry below links to minutes migrated from the legacy{' '}
@@ -29,7 +30,7 @@ const wideLayout = topics.length > 0;
       {
         meetings.map((m) => (
           <li class="border border-gray-100 rounded-lg p-5 bg-white shadow-xs">
-            <a href={`${base}objectives/nena-meetings/${m.id}`} class="font-serif text-lg font-semibold text-primary hover:text-accent transition-colors">
+            <a href={`${base}${OUR_WORK_PATH}/nena-meetings/${m.id}`} class="font-serif text-lg font-semibold text-primary hover:text-accent transition-colors">
               {m.data.title}
             </a>
             <p class="text-sm text-gray-500 mt-1">

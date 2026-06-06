@@ -1,14 +1,17 @@
 #!/usr/bin/env node
 /**
  * Validate entity relation frontmatter values against real collection slugs.
+ * When `dist/` exists (or --require-dist), also scan built HTML for unexpanded
+ * Craft `{{ url:site }}` placeholders that should be replaced at build time.
  *
- * Usage: node scripts/validate-content-references.mjs
+ * Usage: node scripts/validate-content-references.mjs [--require-dist] [--dir dist]
  */
 
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
+import { join, dirname, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
+import { containsCraftSitePlaceholder } from '../src/utils/site-base.mjs';
 
 const TOPIC_VALUES = [
   'newsletter',
@@ -32,6 +35,22 @@ const TOPIC_VALUES = [
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const CONTENT = join(ROOT, 'src/content');
+const DEFAULT_DIST = join(ROOT, 'dist');
+
+function parseArgs(argv) {
+  let distDir = DEFAULT_DIST;
+  let requireDist = false;
+  for (let i = 0; i < argv.length; i++) {
+    if (argv[i] === '--require-dist') {
+      requireDist = true;
+    } else if (argv[i] === '--dir' && argv[i + 1]) {
+      distDir = join(ROOT, argv[++i]);
+    }
+  }
+  return { distDir, requireDist };
+}
+
+const { distDir, requireDist } = parseArgs(process.argv.slice(2));
 
 function listSlugs(collection) {
   const dir = join(CONTENT, collection);
@@ -221,6 +240,51 @@ for (const [collection, validate] of Object.entries(validators)) {
   }
 }
 
+/** @param {string} dir */
+function walkHtmlFiles(dir, out = []) {
+  for (const name of readdirSync(dir)) {
+    if (name === '.' || name === '..') continue;
+    const full = join(dir, name);
+    const st = statSync(full);
+    if (st.isDirectory()) walkHtmlFiles(full, out);
+    else if (name.endsWith('.html')) out.push(full);
+  }
+  return out;
+}
+
+function checkBuiltPagesForCraftPlaceholders() {
+  if (!existsSync(distDir)) {
+    if (requireDist) {
+      errors.push({
+        file: relative(ROOT, distDir) || 'dist',
+        field: 'build output',
+        value: 'missing — run pnpm run build before validating final pages',
+      });
+    }
+    return;
+  }
+
+  const htmlFiles = walkHtmlFiles(distDir);
+  for (const abs of htmlFiles) {
+    const rel = relative(distDir, abs).split(sep).join('/');
+    const html = readFileSync(abs, 'utf8');
+    if (containsCraftSitePlaceholder(html)) {
+      errors.push({
+        file: rel,
+        field: 'html',
+        value: 'unexpanded Craft {{ url:site }} placeholder in built page',
+      });
+    }
+  }
+}
+
+checkBuiltPagesForCraftPlaceholders();
+
+let builtHtmlCount = 0;
+if (existsSync(distDir)) {
+  builtHtmlCount = walkHtmlFiles(distDir).length;
+}
+
 if (errors.length > 0) {
   console.error('Content reference validation failed:\n');
   for (const e of errors) {
@@ -229,4 +293,6 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log('Content references OK.');
+const distNote =
+  requireDist && builtHtmlCount > 0 ? ` and ${builtHtmlCount} built HTML page(s)` : '';
+console.log(`Content references OK${distNote}.`);

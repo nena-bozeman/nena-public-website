@@ -4,6 +4,7 @@ import CurrentPastFilters from '../filters/CurrentPastFilters.astro';
 import ListStatusLegacyRedirect from '../filters/ListStatusLegacyRedirect.astro';
 import ObjectiveList from './ObjectiveList.astro';
 import { getCollection } from 'astro:content';
+import { OUR_WORK_PATH } from '../../data/our-work';
 import { matchesListStatus, type ListStatus } from '../../utils/list-status';
 
 export interface Props {
@@ -20,18 +21,18 @@ const objectives = sorted.filter(
 );
 
 const pageTitle =
-  filterStatus === 'past' ? 'Past Objectives & Committees' : 'Objectives & Committees';
+  filterStatus === 'past' ? 'Past committees & objectives' : 'Our Work';
 const pageDescription =
   filterStatus === 'past'
     ? 'Former NENA committees and neighborhood objectives'
-    : "NENA's active committees and neighborhood objectives";
+    : 'Neighborhood communication, advocacy, and development watch';
 ---
 
 <Base title={pageTitle} description={pageDescription}>
   <div class="max-w-5xl mx-auto px-4 py-12">
     <h1 class="font-serif text-4xl font-bold text-primary mb-4">{pageTitle}</h1>
-    <CurrentPastFilters pagePath="objectives" activeStatus={filterStatus} />
+    <CurrentPastFilters pagePath={OUR_WORK_PATH} activeStatus={filterStatus} />
     <ObjectiveList objectives={objectives} filterStatus={filterStatus} />
-    {filterStatus === 'current' && <ListStatusLegacyRedirect pagePath="objectives" />}
+    {filterStatus === 'current' && <ListStatusLegacyRedirect pagePath={OUR_WORK_PATH} />}
   </div>
 </Base>

@@ -9,6 +9,7 @@ import {
 } from '../../utils/place-categories';
 import { getBusinessCoverImage } from '../../utils/business-image';
 import { getWebsiteLabel } from '../../utils/website-label';
+import { nenaBoundaryRing, nenaBoundaryStyle } from '../../data/nena-boundary';
 
 export interface Props {
   businesses: CollectionEntry<'places'>[];
@@ -56,7 +57,14 @@ const categoryLegend = [
     label: placeCategoryLabels[cat as keyof typeof placeCategoryLabels] ?? cat,
     fill: getPlaceCategoryMarker(cat).fill,
   }));
-const businessMapConfig = JSON.stringify({ allPoints: rawMapPoints, key: apiKey, siteBase, categoryLegend });
+const businessMapConfig = JSON.stringify({
+  allPoints: rawMapPoints,
+  key: apiKey,
+  siteBase,
+  categoryLegend,
+  boundaryRing: nenaBoundaryRing,
+  boundaryStyle: nenaBoundaryStyle,
+});
 ---
 
 <style is:global>
@@ -90,6 +98,13 @@ const businessMapConfig = JSON.stringify({ allPoints: rawMapPoints, key: apiKey,
             </span>
           ))}
         </div>
+        <span class="inline-flex items-center gap-1.5 mr-4">
+          <span
+            class="h-2.5 w-2.5 shrink-0 rounded-sm border-2 border-[#6ab4cc] bg-[#b1e5f1]"
+            aria-hidden="true"
+          />
+          <span>NENA boundary</span>
+        </span>
         <span class="text-gray-500 block mt-2 min-[500px]:inline min-[500px]:mt-0 min-[500px]:ml-2">
           Shared coordinates are fanned in a small ring so every pin is clickable. Run the geocode script to align pins to each street address.
         </span>
@@ -127,6 +142,7 @@ const businessMapConfig = JSON.stringify({ allPoints: rawMapPoints, key: apiKey,
 
       let map;
       let infoWindow;
+      let boundaryPolygon;
       const markerList = [];
       var mapReady = false;
       var mapLoadError = false;
@@ -226,6 +242,35 @@ const businessMapConfig = JSON.stringify({ allPoints: rawMapPoints, key: apiKey,
         return spreadOverlapping(list);
       }
 
+      function extendBoundsWithBoundary(bounds) {
+        if (!cfg.boundaryRing) return;
+        cfg.boundaryRing.forEach(function (p) {
+          bounds.extend(p);
+        });
+      }
+
+      function drawBoundary() {
+        if (!cfg.boundaryRing || !map) return;
+        // eslint-disable-next-line no-undef
+        var g = window.google;
+        if (!g || !g.maps) return;
+        if (boundaryPolygon) {
+          boundaryPolygon.setMap(null);
+        }
+        var boundaryStyle = cfg.boundaryStyle || {};
+        boundaryPolygon = new g.maps.Polygon({
+          paths: cfg.boundaryRing,
+          strokeColor: boundaryStyle.stroke || '#6ab4cc',
+          strokeOpacity: boundaryStyle.strokeOpacity ?? 0.85,
+          strokeWeight: 2,
+          fillColor: boundaryStyle.fill || '#b1e5f1',
+          fillOpacity: boundaryStyle.fillOpacity ?? 0.5,
+          clickable: false,
+          zIndex: 0,
+        });
+        boundaryPolygon.setMap(map);
+      }
+
       function clearMarkers() {
         for (var m = 0; m < markerList.length; m++) {
           markerList[m].setMap(null);
@@ -245,13 +290,19 @@ const businessMapConfig = JSON.stringify({ allPoints: rawMapPoints, key: apiKey,
         updateLegend(cat);
         clearMarkers();
         if (points.length === 0) {
-          map.setCenter({ lat: 45.684, lng: -111.03 });
-          map.setZoom(12);
+          var emptyBounds = new g.maps.LatLngBounds();
+          extendBoundsWithBoundary(emptyBounds);
+          if (cfg.boundaryRing && cfg.boundaryRing.length > 0) {
+            map.fitBounds(emptyBounds, 64);
+          } else {
+            map.setCenter({ lat: 45.684, lng: -111.03 });
+            map.setZoom(12);
+          }
           if (isMapViewVisible()) g.maps.event.trigger(map, 'resize');
           return;
         }
         var bounds = new g.maps.LatLngBounds();
-        var center0 = { lat: points[0].lat, lng: points[0].lng };
+        extendBoundsWithBoundary(bounds);
         points.forEach(function (p) {
           var position = { lat: p.lat, lng: p.lng };
           bounds.extend(position);
@@ -314,12 +365,7 @@ const businessMapConfig = JSON.stringify({ allPoints: rawMapPoints, key: apiKey,
             infoWindow.open({ map: map, anchor: marker, shouldFocus: false });
           });
         });
-        if (points.length === 1) {
-          map.setCenter(center0);
-          map.setZoom(16);
-        } else {
-          map.fitBounds(bounds, 64);
-        }
+        map.fitBounds(bounds, 64);
         if (isMapViewVisible()) g.maps.event.trigger(map, 'resize');
       }
 
@@ -404,6 +450,7 @@ const businessMapConfig = JSON.stringify({ allPoints: rawMapPoints, key: apiKey,
               styles: mapStyles,
             });
             infoWindow = new g.maps.InfoWindow({ maxWidth: 400 });
+            drawBoundary();
             mapReady = true;
             redrawMap();
           })

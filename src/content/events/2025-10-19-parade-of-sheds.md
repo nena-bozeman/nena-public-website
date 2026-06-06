@@ -18,4 +18,4 @@ newsSlugs:
 
 An **August 2025** email had moved that year’s parade to **Sunday, October 19**. The **September 29, 2025** neighborhood email **[cancelled the 2025 Parade of Sheds](/news/2025-09-29-upcoming-events-surveys-forums-udc/)** altogether. This calendar entry records the planned date and outcome so the archive stays consistent.
 
-Past years’ coverage remains under **[Parade of Sheds](/objectives/parade-of-sheds)** and **[related news](/topics/parade-of-sheds)**.
+Past years’ coverage remains under **[Parade of Sheds](/our-work/parade-of-sheds)** and **[related news](/topics/parade-of-sheds)**.

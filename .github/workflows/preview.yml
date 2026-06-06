@@ -19,6 +19,9 @@ jobs:
       url: ${{ steps.wrangler.outputs.deployment-url }}
     env:
       PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.PUBLIC_GOOGLE_MAPS_API_KEY }}
+      # Match Cloudflare Workers Builds: stable branch alias + per-version preview URL.
+      WRANGLER_CI_GENERATE_PREVIEW_ALIAS: "true"
+      WORKERS_CI_BRANCH: ${{ github.head_ref || github.ref_name }}
     steps:
       - uses: actions/checkout@v6
       - uses: pnpm/action-setup@v6
@@ -41,15 +44,44 @@ jobs:
           command: versions upload
           packageManager: pnpm
 
+      - name: Extract preview alias URL
+        id: preview-urls
+        if: steps.wrangler.outputs.deployment-url != ''
+        env:
+          WRANGLER_OUTPUT: ${{ steps.wrangler.outputs.command-output }}
+        run: |
+          alias_url=$(
+            printf '%s' "$WRANGLER_OUTPUT" \
+              | grep -oE 'Version Preview Alias URL: https?://[^[:space:]]+' \
+              | sed 's/Version Preview Alias URL: //' \
+              | head -1
+          )
+          echo "alias-url=${alias_url}" >> "$GITHUB_OUTPUT"
+
+      - name: Compose preview comment
+        id: preview-comment
+        if: github.event_name == 'pull_request' && steps.wrangler.outputs.deployment-url != ''
+        env:
+          VERSION_URL: ${{ steps.wrangler.outputs.deployment-url }}
+          ALIAS_URL: ${{ steps.preview-urls.outputs.alias-url }}
+          COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          message="### Preview deployment"
+          message="${message}"$'\n\n'"**Version URL (this commit):** ${VERSION_URL}"
+          if [ -n "$ALIAS_URL" ]; then
+            message="${message}"$'\n'"**Branch URL:** ${ALIAS_URL}"
+          fi
+          message="${message}"$'\n\n'"Updated for commit \`${COMMIT_SHA}\`."
+          {
+            echo 'message<<EOF'
+            printf '%s\n' "$message"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
       - name: Comment preview URL on PR
         if: github.event_name == 'pull_request' && steps.wrangler.outputs.deployment-url != ''
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           # `header` keys the comment so subsequent runs update it instead of adding a new one.
           header: preview-deployment
-          message: |
-            ### Preview deployment
-
-            **URL:** ${{ steps.wrangler.outputs.deployment-url }}
-
-            Updated for commit `${{ github.event.pull_request.head.sha }}`.
+          message: ${{ steps.preview-comment.outputs.message }}
