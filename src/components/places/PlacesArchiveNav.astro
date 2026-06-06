@@ -1,0 +1,31 @@
+---
+import { listStatusHref, type ListStatus } from '../../utils/list-status';
+
+export interface Props {
+  filterStatus: ListStatus;
+  extraSegment?: string;
+}
+
+const base = import.meta.env.BASE_URL;
+const { filterStatus, extraSegment } = Astro.props;
+const otherStatus = filterStatus === 'past' ? 'current' : 'past';
+const href = listStatusHref('places', otherStatus, base, extraSegment);
+const linkClass = 'text-gray-500 hover:text-primary transition-colors';
+---
+
+<nav
+  aria-label="Places archive"
+  class="mt-10 border-t border-gray-100 pt-6 text-center text-sm"
+>
+  {
+    filterStatus === 'past' ? (
+      <a href={href} class={linkClass}>
+        ← Back to current places
+      </a>
+    ) : (
+      <a href={href} class={linkClass}>
+        Past places →
+      </a>
+    )
+  }
+</nav>

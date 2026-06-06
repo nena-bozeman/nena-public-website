@@ -175,6 +175,7 @@ export function buildFooterColumns(): FooterColumn[] {
       links: [
         { label: 'History', href: 'history' },
         { label: 'Places', href: 'places' },
+        { label: 'Past places', href: 'places/past' },
         { label: 'Community', href: 'community' },
       ],
     },

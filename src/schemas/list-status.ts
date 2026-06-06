@@ -62,14 +62,18 @@ export function listStatusHref(
   pagePath: string,
   status: ListStatus,
   baseUrl: string,
+  extraSegment?: string,
 ): string {
   const base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
   const path = pagePath.replace(/^\//, '').replace(/\/$/, '');
   const hub = path ? `${base}${path}` : base.replace(/\/$/, '');
+  const extra = extraSegment
+    ? `/${extraSegment.replace(/^\//, '').replace(/\/$/, '')}`
+    : '';
   if (status === 'past') {
-    return `${hub}/${LIST_STATUS_PAST_SEGMENT}`;
+    return `${hub}/${LIST_STATUS_PAST_SEGMENT}${extra}`;
   }
-  return hub;
+  return `${hub}${extra}`;
 }
 
 export function listStatusLabel(status: ListStatus): string {

@@ -13,9 +13,11 @@ import { nenaBoundaryRing, nenaBoundaryStyle } from '../../data/nena-boundary';
 
 export interface Props {
   businesses: CollectionEntry<'places'>[];
+  compact?: boolean;
 }
 
-const { businesses } = Astro.props;
+const { businesses, compact = false } = Astro.props;
+const mapHeightClass = compact ? 'h-56 sm:h-64' : 'h-96';
 const rawKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
 const apiKey = typeof rawKey === 'string' ? rawKey.trim() : rawKey;
 const mappable = businesses.filter(b => b.data.lat && b.data.lng);
@@ -80,7 +82,7 @@ const businessMapConfig = JSON.stringify({
 <div class="bg-gray-100 rounded-lg overflow-hidden">
   {apiKey && mappable.length > 0 && (
     <>
-      <div id="business-map" class="w-full h-96"></div>
+      <div id="business-map" class:list={['w-full', mapHeightClass]}></div>
       <div class="border-t border-gray-200/80 bg-white/50 px-3 py-2.5 text-xs text-gray-700">
         <div
           class="flex flex-wrap items-center gap-x-4 gap-y-2"
@@ -105,9 +107,11 @@ const businessMapConfig = JSON.stringify({
           />
           <span>NENA boundary</span>
         </span>
-        <span class="text-gray-500 block mt-2 min-[500px]:inline min-[500px]:mt-0 min-[500px]:ml-2">
-          Shared coordinates are fanned in a small ring so every pin is clickable. Run the geocode script to align pins to each street address.
-        </span>
+        {!compact && (
+          <span class="text-gray-500 block mt-2 min-[500px]:inline min-[500px]:mt-0 min-[500px]:ml-2">
+            Shared coordinates are fanned in a small ring so every pin is clickable. Run the geocode script to align pins to each street address.
+          </span>
+        )}
       </div>
     </>
   )}
@@ -198,8 +202,8 @@ const businessMapConfig = JSON.stringify({
       }
 
       function isMapViewVisible() {
-        var v = document.getElementById('map-view');
-        return v && !v.classList.contains('hidden');
+        var el = document.getElementById('business-map');
+        return el && el.offsetParent !== null;
       }
 
       function esc(s) {
@@ -480,19 +484,7 @@ const businessMapConfig = JSON.stringify({
         });
       }
 
-      var mapTab = document.getElementById('map-view-btn');
-      mapTab && mapTab.addEventListener('click', scheduleMapInit);
-
-      window.addEventListener('nena-businesses-view', function (e) {
-        if (e.detail && e.detail.view === 'map') scheduleMapInit();
-      });
-
-      if (
-        document.getElementById('map-view') &&
-        !document.getElementById('map-view').classList.contains('hidden')
-      ) {
-        scheduleMapInit();
-      }
+      scheduleMapInit();
     })();
     </script>
   </>

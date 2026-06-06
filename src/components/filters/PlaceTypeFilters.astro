@@ -12,10 +12,10 @@ export interface Props {
 
 const { availableTypes } = Astro.props;
 
-const pill =
-  'inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium transition-colors place-type-filter';
-const idle = 'border-gray-200 bg-white text-gray-600 hover:border-primary hover:text-primary';
-const selected = 'border-primary bg-primary text-white';
+const tab =
+  'place-type-filter rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
+const idle = 'text-gray-600 hover:text-primary';
+const selected = 'place-type-filter-active bg-white text-primary shadow-xs';
 
 const available = new Set(availableTypes);
 const showFilters = availableTypes.length > 1;
@@ -23,30 +23,41 @@ const showFilters = availableTypes.length > 1;
 
 {
   showFilters && (
-    <nav aria-label="Filter by place type" class="flex flex-wrap items-center gap-2 mb-4">
-      <span class="text-sm text-gray-600 w-full sm:w-auto sm:mr-1">Type</span>
-      <button
-        type="button"
-        data-place-type="all"
-        class:list={[pill, selected, 'place-type-filter-active']}
-        aria-pressed="true"
-      >
-        All
-      </button>
-      {
-        PLACE_TYPE_VALUES.map((placeType) =>
-          available.has(placeType) ? (
-            <button
-              type="button"
-              data-place-type={placeType}
-              class:list={[pill, idle]}
-              aria-pressed="false"
-            >
-              {PLACE_TYPE_LABELS[placeType]}
-            </button>
-          ) : null,
-        )
-      }
-    </nav>
+    <div class="mb-4">
+      <p class="text-sm font-medium text-gray-700 mb-2" id="place-type-filter-label">
+        Browse
+      </p>
+      <nav aria-labelledby="place-type-filter-label" class="inline-flex max-w-full">
+        <div
+          class="inline-flex flex-wrap rounded-lg border border-gray-200 bg-gray-50 p-1 gap-0.5"
+          role="tablist"
+        >
+          <button
+            type="button"
+            data-place-type="all"
+            class:list={[tab, selected]}
+            role="tab"
+            aria-selected="true"
+          >
+            All
+          </button>
+          {
+            PLACE_TYPE_VALUES.map((placeType) =>
+              available.has(placeType) ? (
+                <button
+                  type="button"
+                  data-place-type={placeType}
+                  class:list={[tab, idle]}
+                  role="tab"
+                  aria-selected="false"
+                >
+                  {PLACE_TYPE_LABELS[placeType]}
+                </button>
+              ) : null,
+            )
+          }
+        </div>
+      </nav>
+    </div>
   )
 }

@@ -10,10 +10,12 @@ export interface Props {
   /** Path segment under the site base, e.g. `objectives`. */
   pagePath: string;
   activeStatus: ListStatus;
+  /** Optional trailing segment, e.g. `table` → `/places/table` or `/places/past/table`. */
+  extraSegment?: string;
 }
 
 const base = import.meta.env.BASE_URL;
-const { pagePath, activeStatus } = Astro.props;
+const { pagePath, activeStatus, extraSegment } = Astro.props;
 
 const pill =
   'inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium transition-colors';
@@ -26,7 +28,7 @@ const selected = 'border-accent bg-accent text-white shadow-xs';
   {
     allListStatuses().map((status) => (
       <a
-        href={listStatusHref(pagePath, status, base)}
+        href={listStatusHref(pagePath, status, base, extraSegment)}
         class:list={[pill, activeStatus === status ? selected : idle]}
         aria-current={activeStatus === status ? 'page' : undefined}
       >

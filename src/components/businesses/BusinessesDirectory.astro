@@ -1,19 +1,27 @@
 ---
 import Base from '../../layouts/Base.astro';
-import CurrentPastFilters from '../filters/CurrentPastFilters.astro';
 import ListStatusLegacyRedirect from '../filters/ListStatusLegacyRedirect.astro';
 import PlaceTypeFilters from '../filters/PlaceTypeFilters.astro';
+import PlacesArchiveNav from '../places/PlacesArchiveNav.astro';
 import BusinessList from './BusinessList.astro';
 import BusinessMap from './BusinessMap.astro';
 import { getCollection } from 'astro:content';
-import { placeCategoryFilterOptions, type PlaceType } from '../../utils/place-categories';
-import { matchesListStatus, type ListStatus } from '../../utils/list-status';
+import { placeBusinessCategoryFilterOptions, type PlaceType } from '../../utils/place-categories';
+import { listStatusHref, matchesListStatus, type ListStatus } from '../../utils/list-status';
 
 export interface Props {
   filterStatus: ListStatus;
+  layout?: 'grid' | 'table';
 }
 
-const { filterStatus } = Astro.props;
+const { filterStatus, layout = 'grid' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const cardsHref = listStatusHref('places', filterStatus, base);
+const tableHref = listStatusHref('places', filterStatus, base, 'table');
+const viewBtnActive =
+  'px-4 py-2 rounded-sm text-sm font-medium bg-primary text-white transition-colors';
+const viewBtnIdle =
+  'px-4 py-2 rounded-sm text-sm font-medium bg-white text-gray-600 border border-gray-200 hover:border-primary transition-colors';
 const allBusinesses = await getCollection('places');
 const filtered = allBusinesses.filter((b) => matchesListStatus(b.data.status, filterStatus));
 const businesses =
@@ -32,103 +40,88 @@ const pageDescription =
     ? 'Former Northeast Neighborhood businesses and other places kept on record for neighborhood history.'
     : 'Businesses, parks, and landmarks in the Northeast Neighborhood of Bozeman, Montana';
 
-const categories = placeCategoryFilterOptions(businesses);
-const showCategoryFilters = categories.length > 1;
+const categories = placeBusinessCategoryFilterOptions(businesses);
+const hasBusinessListings = businesses.some((b) => b.data.placeType === 'business');
+const showCategoryFilters = hasBusinessListings && categories.length > 1;
 const placeTypesPresent = [
   ...new Set(businesses.map((b) => b.data.placeType)),
 ] as PlaceType[];
-const defaultView = filterStatus === 'past' ? 'list' : 'map';
-const listInitiallyHidden = defaultView !== 'list';
-const mapInitiallyHidden = defaultView !== 'map';
 ---
 
 <Base title={pageTitle} description={pageDescription}>
-  <div class="max-w-7xl mx-auto px-4 py-12" data-default-view={defaultView}>
-    <h1 class="font-serif text-4xl font-bold text-primary mb-4">{pageTitle}</h1>
-    <CurrentPastFilters pagePath="places" activeStatus={filterStatus} />
-    {
-      filterStatus === 'past' ? (
-        <p class="text-gray-600 mb-8 max-w-2xl">
-          Listings for businesses that have closed remain here for reference. Year shown is when they
-          closed, when known.
-        </p>
-      ) : (
-        <p class="text-gray-600 mb-8">Supporting local businesses, parks, and landmarks in the Northeast Neighborhood.</p>
-      )
-    }
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 mb-10 items-start">
+      <div>
+        <h1 class="font-serif text-4xl font-bold text-primary mb-4">{pageTitle}</h1>
+        {
+          filterStatus === 'past' ? (
+            <p class="text-gray-600 mb-6 max-w-2xl">
+              Listings for businesses that have closed remain here for reference. Year shown is when they
+              closed, when known.
+            </p>
+          ) : (
+            <p class="text-gray-600 mb-6">
+              Supporting local businesses, parks, and landmarks in the Northeast Neighborhood.
+            </p>
+          )
+        }
 
-    <div class="flex flex-wrap items-center gap-4 mb-8">
-      <PlaceTypeFilters availableTypes={placeTypesPresent} />
-      {
-        showCategoryFilters && (
-          <div class="flex flex-wrap gap-2" id="category-filters">
-            {categories.map((cat) => (
-              <button
-                type="button"
-                data-category={cat.value === '' ? 'all' : cat.value}
-                class={`px-4 py-2 rounded-full text-sm font-medium transition-colors category-filter ${cat.value === '' ? 'bg-primary text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-primary'}`}
+        <PlaceTypeFilters availableTypes={placeTypesPresent} />
+        {
+          showCategoryFilters && (
+            <div id="category-filters-section" class="mt-4">
+              <p class="text-sm font-medium text-gray-700 mb-2" id="category-filter-label">
+                Business category
+              </p>
+              <div
+                class="flex flex-wrap gap-2"
+                id="category-filters"
+                role="group"
+                aria-labelledby="category-filter-label"
               >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-        )
-      }
-      <div class="ml-auto flex gap-2">
-        <button
-          id="list-view-btn"
-          class={`px-4 py-2 rounded-sm text-sm font-medium transition-colors ${defaultView === 'list' ? 'bg-primary text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-primary'}`}
-        >
-          List
-        </button>
-        <button
-          id="map-view-btn"
-          class={`px-4 py-2 rounded-sm text-sm font-medium transition-colors ${defaultView === 'map' ? 'bg-primary text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-primary'}`}
-        >
-          Map
-        </button>
+                {categories.map((cat) => (
+                  <button
+                    type="button"
+                    data-category={cat.value === '' ? 'all' : cat.value}
+                    class={`px-3 py-1 rounded-full text-sm font-medium transition-colors category-filter ${cat.value === '' ? 'bg-primary text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-primary'}`}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )
+        }
+      </div>
+
+      <div class="lg:sticky lg:top-4">
+        <BusinessMap businesses={businesses} compact />
       </div>
     </div>
 
-    <div id="list-view" class:list={[listInitiallyHidden && 'hidden']}>
-      <BusinessList businesses={businesses} />
+    <div class="flex flex-wrap items-center gap-2 mb-4">
+      <span class="text-sm text-gray-600">View</span>
+      <a
+        href={cardsHref}
+        class:list={[layout === 'grid' ? viewBtnActive : viewBtnIdle]}
+        aria-current={layout === 'grid' ? 'page' : undefined}
+      >
+        Cards
+      </a>
+      <a
+        href={tableHref}
+        class:list={[layout === 'table' ? viewBtnActive : viewBtnIdle]}
+        aria-current={layout === 'table' ? 'page' : undefined}
+      >
+        Table
+      </a>
     </div>
 
-    <div id="map-view" class:list={[mapInitiallyHidden && 'hidden']}>
-      <BusinessMap businesses={businesses} />
-    </div>
-
-    <script is:inline>
-      (function () {
-        var root = document.querySelector('[data-default-view]');
-        var defaultView = root?.getAttribute('data-default-view') === 'list' ? 'list' : 'map';
-        var view = new URLSearchParams(location.search).get('view');
-        var activeView = view === 'list' || view === 'map' ? view : defaultView;
-        if (activeView === 'list') {
-          document.getElementById('list-view')?.classList.remove('hidden');
-          document.getElementById('map-view')?.classList.add('hidden');
-          var listBtn = document.getElementById('list-view-btn');
-          var mapBtn = document.getElementById('map-view-btn');
-          if (listBtn && mapBtn) {
-            listBtn.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
-            listBtn.classList.add('bg-primary', 'text-white');
-            mapBtn.classList.remove('bg-primary', 'text-white');
-            mapBtn.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
-          }
-        } else {
-          document.getElementById('list-view')?.classList.add('hidden');
-          document.getElementById('map-view')?.classList.remove('hidden');
-          var listBtnMap = document.getElementById('list-view-btn');
-          var mapBtnMap = document.getElementById('map-view-btn');
-          if (listBtnMap && mapBtnMap) {
-            listBtnMap.classList.remove('bg-primary', 'text-white');
-            listBtnMap.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
-            mapBtnMap.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
-            mapBtnMap.classList.add('bg-primary', 'text-white');
-          }
-        }
-      })();
-    </script>
+    <BusinessList businesses={businesses} layout={layout} />
+    <PlacesArchiveNav
+      filterStatus={filterStatus}
+      extraSegment={layout === 'table' ? 'table' : undefined}
+    />
     {filterStatus === 'current' && <ListStatusLegacyRedirect pagePath="places" />}
   </div>
 </Base>
@@ -157,10 +150,37 @@ const mapInitiallyHidden = defaultView !== 'map';
     return cat === 'all' ? '' : cat;
   }
 
+  function showsBusinessCategories(placeType: string): boolean {
+    return !placeType || placeType === 'business';
+  }
+
+  function resetCategoryToAll() {
+    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.category-filter');
+    filterBtns.forEach((b) => {
+      b.classList.remove('bg-primary', 'text-white');
+      b.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+    });
+    const allBtn = document.querySelector<HTMLButtonElement>(
+      '#category-filters button.category-filter[data-category="all"]',
+    );
+    allBtn?.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+    allBtn?.classList.add('bg-primary', 'text-white');
+  }
+
+  function updateCategoryVisibility(placeType: string) {
+    const section = document.getElementById('category-filters-section');
+    if (!section) return;
+    const show = showsBusinessCategories(placeType);
+    section.classList.toggle('hidden', !show);
+    if (!show) resetCategoryToAll();
+  }
+
   function applyPlaceFilters() {
     const placeType = getActivePlaceType();
-    const category = getActiveCategory();
+    updateCategoryVisibility(placeType);
+    const category = showsBusinessCategories(placeType) ? getActiveCategory() : '';
     const items = document.querySelectorAll<HTMLElement>('.business-list-item[data-place-type]');
+    const tableWrap = document.getElementById('business-list-table-wrap');
     const grid = document.getElementById('business-list-grid');
     const emptyMsg = document.getElementById('business-category-empty');
     let visible = 0;
@@ -175,7 +195,9 @@ const mapInitiallyHidden = defaultView !== 'map';
       if (show) visible += 1;
     });
 
-    if (grid) grid.classList.toggle('hidden', visible === 0 && items.length > 0);
+    const hideList = visible === 0 && items.length > 0;
+    if (tableWrap) tableWrap.classList.toggle('hidden', hideList);
+    if (grid) grid.classList.toggle('hidden', hideList);
     emptyMsg?.classList.toggle('hidden', visible > 0 || items.length === 0);
   }
 
@@ -189,21 +211,21 @@ const mapInitiallyHidden = defaultView !== 'map';
   }
 
   const typeFilterBtns = document.querySelectorAll<HTMLButtonElement>('.place-type-filter');
-  const typePillIdle =
-    'inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium transition-colors place-type-filter border-gray-200 bg-white text-gray-600 hover:border-primary hover:text-primary';
-  const typePillSelected =
-    'inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium transition-colors place-type-filter place-type-filter-active border-primary bg-primary text-white';
+  const typeTabBase =
+    'place-type-filter rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
+  const typeTabIdle = `${typeTabBase} text-gray-600 hover:text-primary`;
+  const typeTabSelected = `${typeTabBase} place-type-filter-active bg-white text-primary shadow-xs`;
 
   typeFilterBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
       typeFilterBtns.forEach((b) => {
-        b.className = typePillIdle;
+        b.className = typeTabIdle;
         b.classList.remove('place-type-filter-active');
-        b.setAttribute('aria-pressed', 'false');
+        b.setAttribute('aria-selected', 'false');
       });
-      btn.className = typePillSelected;
+      btn.className = typeTabSelected;
       btn.classList.add('place-type-filter-active');
-      btn.setAttribute('aria-pressed', 'true');
+      btn.setAttribute('aria-selected', 'true');
       applyPlaceFilters();
       window.dispatchEvent(
         new CustomEvent('nena-businesses-filter', {
@@ -212,6 +234,8 @@ const mapInitiallyHidden = defaultView !== 'map';
       );
     });
   });
+
+  applyPlaceFilters();
 
   const filterBtns = document.querySelectorAll<HTMLButtonElement>('.category-filter');
   filterBtns.forEach((btn) => {
@@ -228,86 +252,3 @@ const mapInitiallyHidden = defaultView !== 'map';
   });
 </script>
 
-<script>
-  const VIEW_PARAM = 'view';
-  type DirectoryView = 'list' | 'map';
-
-  function getDefaultView(): DirectoryView {
-    const root = document.querySelector('[data-default-view]');
-    return root?.getAttribute('data-default-view') === 'list' ? 'list' : 'map';
-  }
-
-  function parseViewFromSearch(search: string): DirectoryView {
-    const v = new URLSearchParams(search).get(VIEW_PARAM);
-    if (v === 'list' || v === 'map') return v;
-    return getDefaultView();
-  }
-
-  function syncViewToUrl(view: DirectoryView, replace: boolean) {
-    const url = new URL(location.href);
-    if (view === getDefaultView()) {
-      url.searchParams.delete(VIEW_PARAM);
-    } else {
-      url.searchParams.set(VIEW_PARAM, view);
-    }
-    const next = url.pathname + url.search + url.hash;
-    if (replace) {
-      history.replaceState({ view }, '', next);
-    } else {
-      history.pushState({ view }, '', next);
-    }
-  }
-
-  const listViewBtn = document.getElementById('list-view-btn');
-  const mapViewBtn = document.getElementById('map-view-btn');
-  const listView = document.getElementById('list-view');
-  const mapView = document.getElementById('map-view');
-
-  const activeBtn =
-    'px-4 py-2 rounded-sm text-sm font-medium bg-primary text-white transition-colors';
-  const inactiveBtn =
-    'px-4 py-2 rounded-sm text-sm font-medium bg-white text-gray-600 border border-gray-200 hover:border-primary transition-colors';
-
-  function setViewButtons(view: DirectoryView) {
-    if (!listViewBtn || !mapViewBtn) return;
-    if (view === 'list') {
-      listViewBtn.className = activeBtn;
-      mapViewBtn.className = inactiveBtn;
-    } else {
-      mapViewBtn.className = activeBtn;
-      listViewBtn.className = inactiveBtn;
-    }
-  }
-
-  function setViewPanels(view: DirectoryView) {
-    if (view === 'list') {
-      listView?.classList.remove('hidden');
-      mapView?.classList.add('hidden');
-    } else {
-      mapView?.classList.remove('hidden');
-      listView?.classList.add('hidden');
-    }
-  }
-
-  function applyView(view: DirectoryView, options: { updateUrl?: boolean; replaceUrl?: boolean } = {}) {
-    const { updateUrl = false, replaceUrl = false } = options;
-    setViewPanels(view);
-    setViewButtons(view);
-    if (updateUrl) syncViewToUrl(view, replaceUrl);
-    window.dispatchEvent(new CustomEvent('nena-businesses-view', { detail: { view } }));
-  }
-
-  applyView(parseViewFromSearch(location.search), { updateUrl: true, replaceUrl: true });
-
-  listViewBtn?.addEventListener('click', () => {
-    applyView('list', { updateUrl: true });
-  });
-
-  mapViewBtn?.addEventListener('click', () => {
-    applyView('map', { updateUrl: true });
-  });
-
-  window.addEventListener('popstate', () => {
-    applyView(parseViewFromSearch(location.search));
-  });
-</script>

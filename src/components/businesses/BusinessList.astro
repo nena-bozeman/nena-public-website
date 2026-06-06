@@ -1,14 +1,22 @@
 ---
 import BusinessCard from './BusinessCard.astro';
 import type { CollectionEntry } from 'astro:content';
-import { placeHasCategory, type PlaceCategory } from '../../utils/place-categories';
+import {
+  formatPlaceCategoryLabels,
+  placeHasCategory,
+  placeTypeLabel,
+  type PlaceCategory,
+} from '../../utils/place-categories';
+import { getWebsiteLabel } from '../../utils/website-label';
 
 export interface Props {
   businesses: CollectionEntry<'places'>[];
   selectedCategory?: string;
+  layout?: 'grid' | 'table';
 }
 
-const { businesses, selectedCategory } = Astro.props;
+const { businesses, selectedCategory, layout = 'grid' } = Astro.props;
+const base = import.meta.env.BASE_URL;
 
 const filtered = selectedCategory
   ? businesses.filter((b) =>
@@ -17,33 +25,100 @@ const filtered = selectedCategory
   : businesses;
 ---
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="business-list-grid">
-  {filtered.length === 0 ? (
-    <p class="col-span-full text-gray-500 text-center py-8">No businesses found.</p>
+{
+  layout === 'table' ? (
+    <div class="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-xs" id="business-list-table-wrap">
+      {filtered.length === 0 ? (
+        <p class="text-gray-500 text-center py-8">No businesses found.</p>
+      ) : (
+        <table class="min-w-full text-sm" id="business-list-table">
+          <thead class="bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-600">
+            <tr>
+              <th scope="col" class="px-4 py-3">Name</th>
+              <th scope="col" class="px-4 py-3">Type</th>
+              <th scope="col" class="px-4 py-3">Category</th>
+              <th scope="col" class="px-4 py-3">Address</th>
+              <th scope="col" class="px-4 py-3">Website</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            {filtered.map((business) => {
+              const listingHref = `${base}places/${business.id}`;
+              const website = business.data.website;
+              return (
+                <tr
+                  class="business-list-item hover:bg-gray-50/80"
+                  data-categories={(business.data.categories ?? []).join(',')}
+                  data-place-type={business.data.placeType}
+                >
+                  <td class="px-4 py-3 font-medium text-primary">
+                    <a href={listingHref} class="hover:text-accent transition-colors">
+                      {business.data.name}
+                    </a>
+                    {business.data.status === 'past' && business.data.closedYear != null && (
+                      <span class="ml-2 text-xs font-normal text-red-700">
+                        Closed {business.data.closedYear}
+                      </span>
+                    )}
+                  </td>
+                  <td class="px-4 py-3 text-gray-600 whitespace-nowrap">
+                    {placeTypeLabel(business.data.placeType)}
+                  </td>
+                  <td class="px-4 py-3 text-gray-600">
+                    {formatPlaceCategoryLabels(business.data.categories ?? [])}
+                  </td>
+                  <td class="px-4 py-3 text-gray-600">{business.data.address}</td>
+                  <td class="px-4 py-3">
+                    {website ? (
+                      <a
+                        href={website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-accent hover:text-amber-700 font-medium transition-colors"
+                      >
+                        {getWebsiteLabel(website)} →
+                      </a>
+                    ) : (
+                      <span class="text-gray-400">—</span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
+    </div>
   ) : (
-    filtered.map((business) => (
-      <div
-        class="business-list-item min-h-0"
-        data-categories={(business.data.categories ?? []).join(',')}
-        data-place-type={business.data.placeType}
-      >
-        <BusinessCard
-          slug={business.id}
-          name={business.data.name}
-          categories={business.data.categories ?? []}
-          address={business.data.address}
-          website={business.data.website}
-          phone={business.data.phone}
-          founded={business.data.founded}
-          legacy={business.data.legacy}
-          status={business.data.status}
-          closedYear={business.data.closedYear}
-          image={business.data.image}
-        />
-      </div>
-    ))
-  )}
-</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="business-list-grid">
+      {filtered.length === 0 ? (
+        <p class="col-span-full text-gray-500 text-center py-8">No businesses found.</p>
+      ) : (
+        filtered.map((business) => (
+          <div
+            class="business-list-item min-h-0"
+            data-categories={(business.data.categories ?? []).join(',')}
+            data-place-type={business.data.placeType}
+          >
+            <BusinessCard
+              slug={business.id}
+              name={business.data.name}
+              categories={business.data.categories ?? []}
+              address={business.data.address}
+              website={business.data.website}
+              phone={business.data.phone}
+              founded={business.data.founded}
+              legacy={business.data.legacy}
+              status={business.data.status}
+              closedYear={business.data.closedYear}
+              image={business.data.image}
+            />
+          </div>
+        ))
+      )}
+    </div>
+  )
+}
 <p id="business-category-empty" class="hidden text-gray-500 text-center py-8">
   No businesses in this category.
 </p>

@@ -81,6 +81,13 @@ export function placeCategoryFilterOptions(
 export const PLACE_TYPE_VALUES = ['business', 'park', 'landmark'] as const;
 export type PlaceType = (typeof PLACE_TYPE_VALUES)[number];
 
+/** Business-category filter pills from business listings only (parks/landmarks excluded). */
+export function placeBusinessCategoryFilterOptions(
+  places: readonly { data: { placeType: PlaceType; categories?: readonly PlaceCategory[] } }[],
+): { value: '' | PlaceCategory; label: string }[] {
+  return placeCategoryFilterOptions(places.filter((place) => place.data.placeType === 'business'));
+}
+
 export const PLACE_TYPE_LABELS: Record<PlaceType, string> = {
   business: 'Business',
   park: 'Park',
