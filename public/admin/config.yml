@@ -10,6 +10,8 @@ backend:
   branch: main
   base_url: https://nena-website-edit.nenabozeman.workers.dev
   auth_endpoint: /auth
+  # Decap site_id for OAuth — pin to the public site hostname (switch to nenabozeman.org when live).
+  site_domain: nena-public-website.nenabozeman.workers.dev
 
 # Shared Decap CMS schema — collections, widgets, media paths.
 # Backend settings live in config.main.yml (production) or config.dev.yml (local).

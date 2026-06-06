@@ -7,3 +7,5 @@ backend:
   branch: main
   base_url: https://nena-website-edit.nenabozeman.workers.dev
   auth_endpoint: /auth
+  # Decap site_id for OAuth — pin to the public site hostname (switch to nenabozeman.org when live).
+  site_domain: nena-public-website.nenabozeman.workers.dev

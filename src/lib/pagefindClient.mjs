@@ -13,8 +13,7 @@ export async function loadPagefind(baseUrl) {
 }
 
 /**
- * Pagefind result URLs are root paths like `/about/`; with Astro `base` they need the subpath
- * (e.g. GitHub Pages) but must not be doubled.
+ * Pagefind result URLs are root paths like `/about/`; prefix with Astro `base` when needed.
  * @param {string} href
  * @param {string} baseWithSlash
  */
