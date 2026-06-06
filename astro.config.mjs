@@ -1,6 +1,10 @@
 import { defineConfig } from 'astro/config';
+import { unified } from '@astrojs/markdown-remark';
 import tailwindcss from '@tailwindcss/vite';
 import { computeSiteRootPrefix, normalizeAstroBase } from './src/utils/site-base.mjs';
+import { remarkExpandCraftSitePlaceholder } from './src/plugins/remark-expand-craft-site-placeholder.mjs';
+import { rehypeExpandUrlSitePlaceholder } from './src/plugins/rehype-expand-url-site-placeholder.mjs';
+import { rehypeSiteBaseLinks } from './src/plugins/rehype-site-base-links.mjs';
 import { viteExpandCraftSitePlaceholder } from './src/plugins/vite-expand-craft-site-placeholder.mjs';
 
 // Root-hosted on Cloudflare Workers. Override ASTRO_SITE when cutting over to nenabozeman.org.
@@ -19,11 +23,12 @@ export default defineConfig({
     ],
   },
   markdown: {
-    // Use file paths (not function references) so plugins survive Astro content sync serialization.
-    remarkPlugins: [['./src/plugins/remark-expand-craft-site-placeholder.mjs', { siteRoot: siteRootPrefix }]],
-    rehypePlugins: [
-      ['./src/plugins/rehype-expand-url-site-placeholder.mjs', { siteRoot: siteRootPrefix }],
-      ['./src/plugins/rehype-site-base-links.mjs', { base: siteBase }],
-    ],
+    processor: unified({
+      remarkPlugins: [[remarkExpandCraftSitePlaceholder, { siteRoot: siteRootPrefix }]],
+      rehypePlugins: [
+        [rehypeExpandUrlSitePlaceholder, { siteRoot: siteRootPrefix }],
+        [rehypeSiteBaseLinks, { base: siteBase }],
+      ],
+    }),
   },
 });

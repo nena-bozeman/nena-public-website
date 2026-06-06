@@ -61,7 +61,7 @@ export function relatedNewsByTopics(
   excludeSlug?: string,
 ): CollectionEntry<'news'>[] {
   const posts = newsMatchingTopics(news, topics);
-  return excludeSlug ? posts.filter((p) => p.slug !== excludeSlug) : posts;
+  return excludeSlug ? posts.filter((p) => p.id !== excludeSlug) : posts;
 }
 
 export function relatedEventsByTopics(
@@ -70,7 +70,7 @@ export function relatedEventsByTopics(
   excludeSlug?: string,
 ): CollectionEntry<'events'>[] {
   const matched = eventsMatchingTopics(events, topics);
-  return excludeSlug ? matched.filter((e) => e.slug !== excludeSlug) : matched;
+  return excludeSlug ? matched.filter((e) => e.id !== excludeSlug) : matched;
 }
 
 export function relatedObjectivesByTopics(
@@ -81,8 +81,8 @@ export function relatedObjectivesByTopics(
   const result: CollectionEntry<'objectives'>[] = [];
   for (const topic of topics) {
     for (const objective of objectivesForTopic(objectives, topic)) {
-      if (!seen.has(objective.slug)) {
-        seen.add(objective.slug);
+      if (!seen.has(objective.id)) {
+        seen.add(objective.id);
         result.push(objective);
       }
     }
@@ -103,10 +103,10 @@ export async function meetingRelatedPages(
 ): Promise<RelatedPageLink[]> {
   const pages: RelatedPageLink[] = [];
   if (meeting.data.eventSlug) {
-    const event = content.events.find((e) => e.slug === meeting.data.eventSlug);
+    const event = content.events.find((e) => e.id === meeting.data.eventSlug);
     if (event) {
       pages.push({
-        href: entityPageHref('events', event.slug, baseUrl),
+        href: entityPageHref('events', event.id, baseUrl),
         title: event.data.title,
         subtitle: event.data.startDate.toLocaleDateString('en-US', {
           weekday: 'long',
@@ -118,10 +118,10 @@ export async function meetingRelatedPages(
     }
   }
   for (const slug of meeting.data.newsSlugs ?? []) {
-    const post = content.news.find((p) => p.slug === slug);
+    const post = content.news.find((p) => p.id === slug);
     if (post) {
       pages.push({
-        href: entityPageHref('news', post.slug, baseUrl),
+        href: entityPageHref('news', post.id, baseUrl),
         title: post.data.title,
         subtitle: post.data.date.toLocaleDateString('en-US', {
           month: 'long',
@@ -141,10 +141,10 @@ export async function eventRelatedPages(
 ): Promise<RelatedPageLink[]> {
   const pages: RelatedPageLink[] = [];
   if (event.data.meetingSlug) {
-    const meeting = content.meetings.find((m) => m.slug === event.data.meetingSlug);
+    const meeting = content.meetings.find((m) => m.id === event.data.meetingSlug);
     if (meeting) {
       pages.push({
-        href: entityPageHref('meetings', meeting.slug, baseUrl),
+        href: entityPageHref('meetings', meeting.id, baseUrl),
         title: meeting.data.title,
         subtitle: meeting.data.meetingDate.toLocaleDateString('en-US', {
           month: 'long',
@@ -155,10 +155,10 @@ export async function eventRelatedPages(
     }
   }
   for (const slug of event.data.newsSlugs ?? []) {
-    const post = content.news.find((p) => p.slug === slug);
+    const post = content.news.find((p) => p.id === slug);
     if (post) {
       pages.push({
-        href: entityPageHref('news', post.slug, baseUrl),
+        href: entityPageHref('news', post.id, baseUrl),
         title: post.data.title,
         subtitle: post.data.date.toLocaleDateString('en-US', {
           month: 'long',
@@ -177,10 +177,10 @@ export function historyPlaceLink(
   baseUrl: string,
 ): RelatedPageLink | null {
   if (!entry.data.placeSlug) return null;
-  const place = places.find((p) => p.slug === entry.data.placeSlug);
+  const place = places.find((p) => p.id === entry.data.placeSlug);
   if (!place) return null;
   return {
-    href: entityPageHref('places', place.slug, baseUrl),
+    href: entityPageHref('places', place.id, baseUrl),
     title: place.data.name,
     subtitle: place.data.address,
   };
@@ -203,14 +203,14 @@ export function placeHistoryLinks(
   const slugs = new Set<string>();
   if (place.data.historySlug) slugs.add(place.data.historySlug);
   for (const entry of history) {
-    if (entry.data.placeSlug === place.slug) slugs.add(entry.slug);
+    if (entry.data.placeSlug === place.id) slugs.add(entry.id);
   }
   return [...slugs]
-    .map((slug) => history.find((h) => h.slug === slug))
+    .map((slug) => history.find((h) => h.id === slug))
     .filter((entry): entry is CollectionEntry<'history'> => Boolean(entry))
     .sort((a, b) => a.data.year - b.data.year)
     .map((entry) => ({
-      href: entityPageHref('history', entry.slug, baseUrl),
+      href: entityPageHref('history', entry.id, baseUrl),
       title: entry.data.title,
       subtitle: `${entry.data.year} — neighborhood history`,
     }));
@@ -221,7 +221,7 @@ export function newsBySlugs(
   slugs: string[],
 ): CollectionEntry<'news'>[] {
   return slugs
-    .map((slug) => news.find((p) => p.slug === slug))
+    .map((slug) => news.find((p) => p.id === slug))
     .filter((p): p is CollectionEntry<'news'> => Boolean(p));
 }
 

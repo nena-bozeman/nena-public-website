@@ -1,7 +1,9 @@
-import { defineCollection, z } from 'astro:content';
-import { DEVELOPMENT_PHASE_VALUES } from '../schemas/development-phase';
-import { LIST_STATUS_VALUES } from '../schemas/list-status';
-import { TOPIC_VALUES } from '../schemas/topics';
+import { defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
+import { DEVELOPMENT_PHASE_VALUES } from './schemas/development-phase';
+import { LIST_STATUS_VALUES } from './schemas/list-status';
+import { TOPIC_VALUES } from './schemas/topics';
 
 const listStatusSchema = z.enum(LIST_STATUS_VALUES).default('current');
 const developmentPhaseSchema = z.enum(DEVELOPMENT_PHASE_VALUES);
@@ -22,8 +24,11 @@ const placeCategorySchema = z.enum([
   'trails-pocket-parks',
 ]);
 
+const markdownLoader = (base: string) =>
+  glob({ pattern: '**/*.{md,mdx}', base });
+
 const news = defineCollection({
-  type: 'content',
+  loader: markdownLoader('./src/content/news'),
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
@@ -47,12 +52,12 @@ const news = defineCollection({
     legacySource: z.enum(['pyro-cms']).optional(),
     legacyId: z.string().optional(),
     legacySlug: z.string().optional(),
-    legacyBlogUrl: z.string().url().optional(),
+    legacyBlogUrl: z.url().optional(),
   }),
 });
 
 const events = defineCollection({
-  type: 'content',
+  loader: markdownLoader('./src/content/events'),
   schema: z.object({
     title: z.string(),
     startDate: z.coerce.date(),
@@ -64,7 +69,7 @@ const events = defineCollection({
     featured: z.boolean().default(false),
     /** When true, listings and the event page show a cancelled label (event kept for the record). */
     cancelled: z.boolean().default(false),
-    externalUrl: z.string().url().optional(),
+    externalUrl: z.url().optional(),
     topics: z.array(topicSchema).default([]),
     tags: z.array(z.string()).default([]),
     meetingSlug: z.string().optional(),
@@ -75,14 +80,14 @@ const events = defineCollection({
 });
 
 const places = defineCollection({
-  type: 'content',
+  loader: markdownLoader('./src/content/places'),
   schema: z
     .object({
       name: z.string(),
       placeType: placeTypeSchema,
       categories: z.array(placeCategorySchema).optional(),
       address: z.string(),
-      website: z.string().url().optional(),
+      website: z.url().optional(),
       phone: z.string().optional(),
       founded: z.number().optional(),
       logo: z.string().optional(),
@@ -115,7 +120,7 @@ const places = defineCollection({
 });
 
 const history = defineCollection({
-  type: 'content',
+  loader: markdownLoader('./src/content/history'),
   schema: z.object({
     title: z.string(),
     /** One- or two-sentence summary shown on the timeline list view. */
@@ -133,7 +138,7 @@ const history = defineCollection({
 });
 
 const development = defineCollection({
-  type: 'content',
+  loader: markdownLoader('./src/content/development'),
   schema: z.object({
     title: z.string(),
     /** Whether the project appears in the current Development Watch list or past archive. */
@@ -145,7 +150,7 @@ const development = defineCollection({
     dateCreated: z.coerce.date().optional(),
     dateUpdated: z.coerce.date(),
     summary: z.string(),
-    cityPlanningUrl: z.string().url().optional(),
+    cityPlanningUrl: z.url().optional(),
     lat: z.number().optional(),
     lng: z.number().optional(),
     topics: z.array(topicSchema).default([]),
@@ -154,13 +159,13 @@ const development = defineCollection({
 });
 
 const objectives = defineCollection({
-  type: 'content',
+  loader: markdownLoader('./src/content/objectives'),
   schema: z.object({
     title: z.string(),
     summary: z.string(),
     status: listStatusSchema,
     order: z.number().default(99),
-    contactEmail: z.string().email().optional(),
+    contactEmail: z.email().optional(),
     /** Curated topics matched against news and events for related content. */
     topics: z.array(topicSchema).default([]),
     dateCreated: z.coerce.date().optional(),
@@ -169,7 +174,7 @@ const objectives = defineCollection({
 });
 
 const pages = defineCollection({
-  type: 'content',
+  loader: markdownLoader('./src/content/pages'),
   schema: z.object({
     title: z.string(),
     dateCreated: z.coerce.date().optional(),
@@ -178,7 +183,7 @@ const pages = defineCollection({
 });
 
 const meetings = defineCollection({
-  type: 'content',
+  loader: markdownLoader('./src/content/meetings'),
   schema: z
     .object({
       title: z.string(),
@@ -187,7 +192,7 @@ const meetings = defineCollection({
       season: z.enum(['spring', 'fall', 'annual', 'other']).optional(),
       minutesPdf: z.string().optional(),
       minutesDocx: z.string().optional(),
-      legacyUrl: z.string().url().optional(),
+      legacyUrl: z.url().optional(),
       topics: z.array(topicSchema).default([]),
       eventSlug: z.string().optional(),
       newsSlugs: z.array(z.string()).default([]),

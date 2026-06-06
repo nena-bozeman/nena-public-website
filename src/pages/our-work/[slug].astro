@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import RelatedContent from '../../components/related/RelatedContent.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import { OUR_WORK_PATH } from '../../data/our-work';
 import { loadSiteContent, relatedEventsByTopics, relatedNewsByTopics } from '../../utils/related-content';
 import { LIST_STATUS_PAST_SEGMENT } from '../../schemas/list-status';
@@ -11,14 +11,14 @@ export async function getStaticPaths() {
   return objectives
     .filter(
       (objective) =>
-        objective.slug !== 'nena-meetings' &&
-        objective.slug !== 'nena-newsletters' &&
-        objective.slug !== LIST_STATUS_PAST_SEGMENT,
+        objective.id !== 'nena-meetings' &&
+        objective.id !== 'nena-newsletters' &&
+        objective.id !== LIST_STATUS_PAST_SEGMENT,
     )
-    .map((objective) => ({ params: { slug: objective.slug }, props: { objective } }));
+    .map((objective) => ({ params: { slug: objective.id }, props: { objective } }));
 }
 const { objective } = Astro.props;
-const { Content } = await objective.render();
+const { Content } = await render(objective);
 
 const topics = objective.data.topics;
 const content = await loadSiteContent();

@@ -8,9 +8,9 @@ void withSiteBase;
 export async function getStaticPaths() {
   const places = await getCollection('places');
   return places
-    .filter((place) => place.slug !== LIST_STATUS_PAST_SEGMENT)
+    .filter((place) => place.id !== LIST_STATUS_PAST_SEGMENT)
     .map((place) => ({
-      params: { slug: place.slug },
+      params: { slug: place.id },
     }));
 }
 

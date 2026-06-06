@@ -24,11 +24,11 @@ const latestNews = allNews
               {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
             </time>
             <h3 class="font-serif font-bold text-primary text-lg mt-2 mb-3 flex flex-wrap items-center gap-2">
-              <a href={`${base}news/${post.slug}`} class="hover:text-accent transition-colors">{post.data.title}</a>
+              <a href={`${base}news/${post.id}`} class="hover:text-accent transition-colors">{post.data.title}</a>
               <NewsDraftBadge show={post.data.draft} />
             </h3>
             <p class="text-gray-600 text-sm leading-relaxed mb-4">{post.data.summary}</p>
-            <a href={`${base}news/${post.slug}`} class="text-accent hover:text-amber-700 text-sm font-medium transition-colors">Read more →</a>
+            <a href={`${base}news/${post.id}`} class="text-accent hover:text-amber-700 text-sm font-medium transition-colors">Read more →</a>
           </div>
         </article>
       ))}

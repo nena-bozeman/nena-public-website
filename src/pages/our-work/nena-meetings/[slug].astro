@@ -2,7 +2,7 @@
 import Base from '../../../layouts/Base.astro';
 import RelatedContent from '../../../components/related/RelatedContent.astro';
 import TopicPills from '../../../components/related/TopicPills.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import { OUR_WORK_PATH } from '../../../data/our-work';
 import { publicFileUrl } from '../../../utils/public-url';
 import {
@@ -15,11 +15,11 @@ import {
 
 export async function getStaticPaths() {
   const meetings = await getCollection('meetings');
-  return meetings.map((meeting) => ({ params: { slug: meeting.slug }, props: { meeting } }));
+  return meetings.map((meeting) => ({ params: { slug: meeting.id }, props: { meeting } }));
 }
 
 const { meeting } = Astro.props;
-const { Content } = await meeting.render();
+const { Content } = await render(meeting);
 const base = import.meta.env.BASE_URL;
 const content = await loadSiteContent();
 const { title, meetingDate, summary, minutesPdf, minutesDocx, legacyUrl, topics } = meeting.data;
@@ -65,7 +65,7 @@ const relatedPages = await meetingRelatedPages(meeting, content, base);
       relatedNews={relatedNewsByTopics(content.news, topics)}
       relatedEvents={relatedEventsByTopics(content.events, topics)}
       relatedPages={relatedPages}
-      backlinks={backlinksFor(content.backlinkIndex, 'meetings', meeting.slug)}
+      backlinks={backlinksFor(content.backlinkIndex, 'meetings', meeting.id)}
     />
 
     {

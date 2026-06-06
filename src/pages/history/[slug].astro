@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import RelatedContent from '../../components/related/RelatedContent.astro';
 import TopicPills from '../../components/related/TopicPills.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import {
   backlinksFor,
   historyPlaceLink,
@@ -14,14 +14,14 @@ import {
 export async function getStaticPaths() {
   const entries = await getCollection('history');
   return entries.map((entry) => ({
-    params: { slug: entry.slug },
+    params: { slug: entry.id },
     props: { entry },
   }));
 }
 
 const base = import.meta.env.BASE_URL;
 const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 const content = await loadSiteContent();
 const topics = entry.data.topics;
 
@@ -47,7 +47,7 @@ const relatedPages = placeLink ? [placeLink] : [];
 <Base
   title={entry.data.title}
   description={entry.data.summary}
-  canonicalURL={`/history/${entry.slug}`}
+  canonicalURL={`/history/${entry.id}`}
 >
   <article class="max-w-3xl mx-auto px-4 py-12">
     <a href={`${base}history`} class="text-accent hover:text-amber-700 text-sm font-medium mb-8 inline-block transition-colors">← Back to Neighborhood History</a>
@@ -77,7 +77,7 @@ const relatedPages = placeLink ? [placeLink] : [];
     <RelatedContent
       relatedNews={relatedNewsByTopics(content.news, topics)}
       relatedEvents={relatedEventsByTopics(content.events, topics)}
-      backlinks={backlinksFor(content.backlinkIndex, 'history', entry.slug)}
+      backlinks={backlinksFor(content.backlinkIndex, 'history', entry.id)}
       relatedPages={relatedPages}
     />
   </article>

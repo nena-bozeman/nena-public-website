@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import RelatedContent from '../../components/related/RelatedContent.astro';
 import TopicPills from '../../components/related/TopicPills.astro';
 import { DEVELOPMENT_PHASE_BADGE } from '../../schemas/development-phase';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import {
   backlinksFor,
   loadSiteContent,
@@ -16,27 +16,27 @@ import {
 export async function getStaticPaths() {
   const projects = await getCollection('development');
   return projects.map((project) => ({
-    params: { slug: project.slug },
+    params: { slug: project.id },
     props: { project },
   }));
 }
 
 const base = import.meta.env.BASE_URL;
 const { project } = Astro.props;
-const { Content } = await project.render();
+const { Content } = await render(project);
 const content = await loadSiteContent();
 const topics = project.data.topics;
 
 const phaseBadge = DEVELOPMENT_PHASE_BADGE[project.data.phase];
 const explicitNews = newsBySlugs(content.news, project.data.newsSlugs ?? []);
 const topicNews = relatedNewsByTopics(content.news, topics);
-const relatedNews = [...explicitNews, ...topicNews.filter((p) => !explicitNews.some((e) => e.slug === p.slug))];
+const relatedNews = [...explicitNews, ...topicNews.filter((p) => !explicitNews.some((e) => e.id === p.id))];
 ---
 
 <Base
   title={project.data.title}
   description={project.data.summary}
-  canonicalURL={`/development/${project.slug}`}
+  canonicalURL={`/development/${project.id}`}
 >
   <article class="max-w-3xl mx-auto px-4 py-12">
     <a href={`${base}development`} class="text-accent hover:text-amber-700 text-sm font-medium mb-8 inline-block transition-colors">← Back to Development Watch</a>
@@ -80,7 +80,7 @@ const relatedNews = [...explicitNews, ...topicNews.filter((p) => !explicitNews.s
       relatedNews={relatedNews}
       relatedEvents={relatedEventsByTopics(content.events, topics)}
       relatedObjectives={relatedObjectivesByTopics(content.objectives, topics)}
-      backlinks={backlinksFor(content.backlinkIndex, 'development', project.slug)}
+      backlinks={backlinksFor(content.backlinkIndex, 'development', project.id)}
     />
   </article>
 </Base>
