@@ -1,6 +1,6 @@
 /**
  * Decap renders markdown preview in the browser with root-absolute `/images/...` URLs.
- * When the site uses Astro `base` (e.g. /nena-public-website/), those break unless
+ * When the site uses a non-root Astro `base`, those break unless
  * prefixed — same as rehype-site-base-links. Mirror applySiteBaseToPathname from
  * src/utils/site-base.mjs (keep in sync).
  */

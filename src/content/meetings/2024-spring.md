@@ -1,6 +1,6 @@
 ---
 title: "Spring 2024 neighborhood meeting"
-meetingDate: 2024-04-01
+meetingDate: '2024-04-01'
 season: spring
 summary: "Spring 2024 approved minutes."
 minutesPdf: documents/migrated/nenabozeman-org/SPRING 2024 MINUTES.pdf

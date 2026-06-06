@@ -1,7 +1,7 @@
 ---
 title: "NENA Annual Meeting"
-startDate: 2026-04-20T18:00:00
-endDate: 2026-04-20T20:00:00
+startDate: '2026-04-20T18:00:00'
+endDate: '2026-04-20T20:00:00'
 location: "Beall Park Recreation Center"
 address: "211 N Black Ave, Bozeman, MT 59715"
 summary: "Join us for the annual NENA neighborhood association meeting. All residents welcome!"

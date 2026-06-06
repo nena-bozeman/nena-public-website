@@ -1,8 +1,13 @@
-# Cloudflare Workers previews via GitHub Actions
+# Cloudflare Workers deploys via GitHub Actions
 
-The workflow [`.github/workflows/preview.yml`](../.github/workflows/preview.yml) builds with **`pnpm run build:cf`** (root-hosted Worker output; must match `pnpm run deploy:cf`) and uploads a **preview** using **`wrangler versions upload`** via [`cloudflare/wrangler-action@v3`](https://github.com/cloudflare/wrangler-action). That publishes a preview URL for the **Workers + assets** project defined in [`wrangler.jsonc`](../wrangler.jsonc) (`name` is currently **`nena-public-website`**; static files come from `dist`).
+Production and preview deploys use **Wrangler / Workers API** with static assets from `dist` per [`wrangler.jsonc`](../wrangler.jsonc) (`name`: **`nena-public-website`**). There is no GitHub Pages deploy and no `/nena-public-website/` subpath.
 
-This path uses the **Wrangler / Workers API**, not the Cloudflare **Pages** build API—there is no separate Pages project required for previews.
+| Workflow | Trigger | Command |
+|----------|---------|---------|
+| [`.github/workflows/deploy-cloudflare.yml`](../.github/workflows/deploy-cloudflare.yml) | Push to `main`, manual | `pnpm run build` → `wrangler deploy` |
+| [`.github/workflows/preview.yml`](../.github/workflows/preview.yml) | PRs and non-`main` branches | `pnpm run build` → `wrangler versions upload` |
+
+Local production deploy: **`pnpm run deploy`** (`build` then `wrangler deploy`).
 
 Use this checklist when onboarding a new fork or rotating credentials.
 
@@ -16,10 +21,10 @@ Use this checklist when onboarding a new fork or rotating credentials.
 ## Todo: Cloudflare dashboard
 
 - [x] **Confirm the Worker exists**
-  Cloudflare Dashboard → **Workers & Pages** → open the Worker whose name matches `name` in `wrangler.jsonc`. Create it if needed (e.g. first local `pnpm run deploy:cf` or dashboard **Create**).
+  Cloudflare Dashboard → **Workers & Pages** → open the Worker whose name matches `name` in `wrangler.jsonc`. Create it if needed (e.g. first local `pnpm run deploy` or dashboard **Create**).
 
 - [x] **Use GitHub Actions as the only Git-driven deploy (recommended)**
-  If this Worker is **also** connected to the GitHub repo under **Settings → Builds** (or legacy Git integration), Cloudflare will build and deploy on every push **in addition** to this workflow—duplicate previews and confusing deployment history. **Disconnect** the repo from Cloudflare for builds and rely on **`.github/workflows/preview.yml`** for branch/PR previews.
+  If this Worker is **also** connected to the GitHub repo under **Settings → Builds** (or legacy Git integration), Cloudflare will build and deploy on every push **in addition** to these workflows—duplicate deploys and confusing deployment history. **Disconnect** the repo from Cloudflare for builds and rely on GitHub Actions.
 
 - [x] **Copy the Account ID**
   Dashboard **Overview** (right sidebar) or the Worker’s **Settings** → copy **Account ID** (32-character hex). Store this as `CLOUDFLARE_ACCOUNT_ID`.
@@ -31,7 +36,7 @@ Use this checklist when onboarding a new fork or rotating credentials.
 
   - Start from template **“Edit Cloudflare Workers”**, **or** create a **Custom token** with minimal scope.
 
-  Minimum scopes that match **`wrangler versions upload`** / Worker uploads (labels may vary slightly):
+  Minimum scopes that match **`wrangler deploy`** / **`wrangler versions upload`** (labels may vary slightly):
 
   - **Account** → **Workers Scripts** → **Edit** (or the Workers edit scope included in the template above).
   - Optionally narrow **Account Resources** to this account only.
@@ -51,31 +56,30 @@ gh secret set CLOUDFLARE_API_TOKEN --repo nena-bozeman/nena-public-website
 
 ## Todo: GitHub repository secrets
 
-Repository → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**.
+Repository → **Settings** → **Secrets and variables → Actions** → **New repository secret**.
 
-| Secret | Required for previews | Notes |
-|--------|----------------------|--------|
+| Secret | Required | Notes |
+|--------|----------|--------|
 | `CLOUDFLARE_ACCOUNT_ID` | Yes | From Cloudflare Overview or Worker settings. |
-| `CLOUDFLARE_API_TOKEN` | Yes | Token with permission to upload Worker versions for this account. |
-| `PUBLIC_GOOGLE_MAPS_API_KEY` | Yes for maps on previews | Same variable name as local `.env`; inlined at build time. |
+| `CLOUDFLARE_API_TOKEN` | Yes | Token with permission to deploy Worker versions for this account. |
+| `PUBLIC_GOOGLE_MAPS_API_KEY` | Yes for maps | Same variable name as local `.env`; inlined at build time. |
 
 - [x] Add **`CLOUDFLARE_ACCOUNT_ID`**
 - [x] Add **`CLOUDFLARE_API_TOKEN`**
-- [x] Add **`PUBLIC_GOOGLE_MAPS_API_KEY`** (if not already set for other workflows)
-
-The workflow passes `GITHUB_TOKEN` to Wrangler automatically (`gitHubToken` in the action); no manual secret is needed for it.
+- [x] Add **`PUBLIC_GOOGLE_MAPS_API_KEY`** (if not already set)
 
 ---
 
 ## Verify
 
-- [x] Open a **pull request** or push a branch **other than `main`**.
-- [x] In GitHub → **Actions**, confirm **Deploy Preview** succeeds (look for **Upload Worker preview version** / Wrangler output).
-- [x] In Cloudflare → **Workers & Pages** → select the Worker → **Versions** / deployment history, confirm a new **version** or preview upload appears.
+- [x] Push to **`main`** → **Deploy to Cloudflare** succeeds and updates production at `https://nena-public-website.nenabozeman.workers.dev`.
+- [x] Open a **pull request** or push a branch **other than `main`** → **Deploy Preview** succeeds.
+- [x] In Cloudflare → **Workers & Pages** → select the Worker → **Versions**, confirm new versions appear.
 
 ---
 
-## Related
+## Legacy GitHub Pages URLs
 
-- **Production (GitHub Pages):** [`.github/workflows/deploy-pages.yml`](../.github/workflows/deploy-pages.yml) deploys `main` with **`pnpm run build`** to **GitHub Pages**, not Cloudflare.
-- **Production (Cloudflare Worker):** `pnpm run deploy:cf` runs **`pnpm run build:cf`** then **`wrangler deploy`** using `wrangler.jsonc`; that replaces production Worker traffic and is separate from **`versions upload`** previews in CI.
+The site was previously hosted at `https://nena-bozeman.github.io/nena-public-website/`. After disabling GitHub Pages in repo settings, add redirects at the DNS/hosting layer if needed. On the Worker, [`public/_redirects`](../public/_redirects) maps `/nena-public-website/*` → `/*` for any links that still use the old subpath pattern.
+
+When **`nenabozeman.org`** goes live, set `ASTRO_SITE` in CI/local builds and update `site_domain` in [`public/admin/config.main.yml`](../public/admin/config.main.yml).

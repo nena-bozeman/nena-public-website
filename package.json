@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "pnpm run cms:build-config",
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
@@ -22,15 +23,13 @@
     "content:news-from-blog": "node scripts/backfill-news-from-blog.mjs",
     "geocode:businesses": "node scripts/geocode-business-addresses.mjs",
     "images:business-heroes": "node scripts/fetch-business-hero-images.mjs",
-    "build:cf": "ASTRO_BASE_PATH=/ npm run build",
-    "check:internal-links:cf": "ASTRO_BASE_PATH=/ npm run build && ASTRO_BASE_PATH=/ npm run check:internal-links",
     "validate:content-references": "node scripts/validate-content-references.mjs",
     "cms:topic-options": "node scripts/generate-cms-topic-options.mjs",
-    "dev:cf": "pnpm run build:cf && wrangler dev",
-    "deploy:cf": "pnpm run build:cf && wrangler deploy",
+    "dev:worker": "pnpm run build && wrangler dev",
+    "deploy": "pnpm run build && wrangler deploy",
     "cf:typegen": "wrangler types",
-    "cms:use-dev-config": "cp public/admin/config.dev.yml public/admin/config.yml",
-    "cms:restore-prod-config": "git checkout HEAD -- public/admin/config.yml"
+    "cms:build-config": "node scripts/merge-cms-config.mjs main",
+    "cms:use-dev-config": "node scripts/merge-cms-config.mjs dev"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.0",

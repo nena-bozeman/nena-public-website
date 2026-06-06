@@ -26,7 +26,7 @@ export function parseListStatusFromSearch(search: string): ListStatus {
 
 /**
  * Past filter lives at `/{pagePath}/past` so static builds emit separate HTML.
- * `pathname` is the request path (e.g. `/nena-public-website/businesses/past`).
+ * `pathname` is the request path (e.g. `/businesses/past`).
  */
 export function parseListStatusFromPathname(pathname: string, baseUrl: string): ListStatus {
   const base = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;

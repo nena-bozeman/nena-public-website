@@ -1,6 +1,6 @@
 ---
 title: Idaho Pole Superfund site — EPA five-year review summary
-date: 2025-10-10T00:00:00.000Z
+date: '2025-10-10'
 summary: >-
   EPA completed the sixth five-year review; issues included TSA inspection, floodplain mapping, and groundwater vapor
   risk. Scout DAC timelines for reports and soil work were noted.

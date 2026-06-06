@@ -55,7 +55,7 @@ function initSearch() {
       } else {
         elStatus.textContent =
           detail ||
-          'Search is not available. The Pagefind index may be missing, or the site was built with a different base than this URL (set ASTRO_BASE_PATH to match GitHub Pages vs root).';
+          'Search is not available. The Pagefind index may be missing, or the site was built with a different base than this URL.';
       }
     }
 

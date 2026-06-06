@@ -1,6 +1,6 @@
 ---
 title: February Community Meeting Recap
-date: 2026-02-20T00:00:00.000Z
+date: '2026-02-20'
 summary: A summary of what was discussed at the February NENA community meeting.
 author: Jane Smith
 featured: false

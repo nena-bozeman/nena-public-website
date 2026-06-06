@@ -4,7 +4,7 @@
  *
  * Resolves <a href> and <area href> the same way static hosts do: trailing
  * /index.html, /path/index.html, and /path.html. Uses `base` and `site` from
- * astro.config.mjs so URL paths match the deployed GitHub Pages layout.
+ * astro.config.mjs so URL paths match the deployed Cloudflare Worker layout.
  *
  * Relative hrefs are checked twice: with the page URL as a directory (…/slug/)
  * and without a trailing slash (…/slug). Browsers differ; e.g. ../../x from
@@ -42,7 +42,7 @@ function readAstroStringField(name) {
 function readAstroRouting() {
   const envBase = process.env.ASTRO_BASE_PATH?.trim();
   const fromFile = readAstroStringField('base');
-  const baseWithSlash = normalizeAstroBase(envBase || fromFile || '/nena-public-website/');
+  const baseWithSlash = normalizeAstroBase(envBase || fromFile || '/');
   const baseNorm = baseWithSlash.replace(/\/$/, '') || '/';
   const basePath = baseNorm === '/' ? '' : baseNorm;
 
@@ -75,7 +75,7 @@ export function fileRelToDirUrlPath(relPosix, basePath) {
 }
 
 /**
- * @param {string} urlPath pathname only, e.g. /nena-public-website/news
+ * @param {string} urlPath pathname only, e.g. /news
  * @param {string} basePath e.g. /nena-public-website
  */
 export function stripBase(urlPath, basePath) {

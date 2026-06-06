@@ -1,6 +1,6 @@
 ---
 title: NENA Fall Meeting & Potluck — Wednesday, November 5
-date: 2025-11-04T00:00:00.000Z
+date: '2025-11-04'
 summary: >-
   Fall potluck and meeting at Live from the Divide: Study Commission, Bozeman Creek, NE Urban Renewal / TIF board
   applications, and last-call UDC input.

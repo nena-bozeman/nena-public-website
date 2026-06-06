@@ -1,7 +1,7 @@
 ---
 title: "NCOD consultants — neighborhood walk"
-startDate: 2026-04-14T15:00:00
-endDate: 2026-04-14T17:00:00
+startDate: '2026-04-14T15:00:00'
+endDate: '2026-04-14T17:00:00'
 location: "Centennial Park — southeast corner"
 address: "N Tracy Ave & E Cottonwood St, Bozeman, MT"
 summary: "Walk with NCOD design-guidelines consultants to discuss historic structures, infill, zoning, and mixed-use context."

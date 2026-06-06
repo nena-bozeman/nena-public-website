@@ -1,7 +1,7 @@
 ---
 title: Parade of Sheds
-startDate: 2025-10-19T11:00:00.000Z
-endDate: 2025-10-19T15:00:00.000Z
+startDate: '2025-10-19T11:00:00.000Z'
+endDate: '2025-10-19T15:00:00.000Z'
 location: Northeast Neighborhood
 address: Various locations, Northeast Neighborhood, Bozeman, MT
 summary: >-

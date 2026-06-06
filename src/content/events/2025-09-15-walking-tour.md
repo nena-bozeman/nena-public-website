@@ -1,7 +1,7 @@
 ---
 title: "Historic Northeast Neighborhood Walking Tour"
-startDate: 2025-09-15T10:00:00
-endDate: 2025-09-15T12:00:00
+startDate: '2025-09-15T10:00:00'
+endDate: '2025-09-15T12:00:00'
 location: "Babcock & N Willson Ave"
 address: "Babcock St & N Willson Ave, Bozeman, MT 59715"
 summary: "Explore the historic architecture and stories of our neighborhood on this guided walking tour."

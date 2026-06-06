@@ -3,9 +3,9 @@ import tailwindcss from '@tailwindcss/vite';
 import { computeSiteRootPrefix, normalizeAstroBase } from './src/utils/site-base.mjs';
 import { viteExpandCraftSitePlaceholder } from './src/plugins/vite-expand-craft-site-placeholder.mjs';
 
-// GitHub Pages: e.g. `/nena-public-website/`. Cloudflare (root): `/` or ``.
-const siteBase = normalizeAstroBase(process.env.ASTRO_BASE_PATH ?? '/nena-public-website/');
-const site = 'https://nena-bozeman.github.io';
+// Root-hosted on Cloudflare Workers. Override ASTRO_SITE when cutting over to nenabozeman.org.
+const siteBase = normalizeAstroBase(process.env.ASTRO_BASE_PATH ?? '/');
+const site = process.env.ASTRO_SITE ?? 'https://nena-public-website.nenabozeman.workers.dev';
 const siteRootPrefix = computeSiteRootPrefix(site, siteBase);
 
 export default defineConfig({

@@ -1,6 +1,6 @@
 ---
 title: Shape Bozeman’s water future — Integrated Water Resources Plan survey
-date: 2026-03-12T00:00:00.000Z
+date: '2026-03-12'
 summary: >-
   The City of Bozeman is updating its Integrated Water Resources Plan (IWRP). Residents were encouraged to take a short
   anonymous survey and note the boulevard tree cost-share program opening.

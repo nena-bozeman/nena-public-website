@@ -20,7 +20,7 @@ const contentDir = path.join(repoRoot, 'src/content/places');
 const outDir = path.join(repoRoot, 'src/assets/businesses');
 
 const UA =
-  'Mozilla/5.0 (compatible; NENA-directory/1.0; +https://nena-bozeman.github.io/nena-public-website/)';
+  'Mozilla/5.0 (compatible; NENA-directory/1.0; +https://nena-public-website.nenabozeman.workers.dev/)';
 
 const force = process.argv.includes('--force');
 const dryRun = process.argv.includes('--dry-run');

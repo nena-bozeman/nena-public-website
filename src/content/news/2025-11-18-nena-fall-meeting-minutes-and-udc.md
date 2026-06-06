@@ -1,6 +1,6 @@
 ---
 title: Fall meeting minutes — and UDC comment deadline reminders
-date: 2025-11-18T00:00:00.000Z
+date: '2025-11-18'
 summary: >-
   Fall potluck meeting recap with links to minutes; detailed pointers for specific public comment on the draft Unified
   Development Code.

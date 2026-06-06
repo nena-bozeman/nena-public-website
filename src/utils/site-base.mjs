@@ -1,6 +1,5 @@
 /**
- * Shared Astro `base` handling for GitHub Pages (subpath) vs Cloudflare (root).
- * Set `ASTRO_BASE_PATH` at build time, e.g. `/` or `/nena-public-website/`.
+ * Astro `base` handling (root-hosted on Cloudflare Workers; optional ASTRO_BASE_PATH override).
  */
 
 /** @param {unknown} input */
