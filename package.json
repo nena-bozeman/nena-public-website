@@ -42,7 +42,7 @@
     "@astrojs/check": "^0.9.9",
     "@tailwindcss/typography": "^0.5.19",
     "js-yaml": "^4.1.1",
-    "mysql2": "^3.22.3",
+    "mysql2": "^3.22.5",
     "pagefind": "^1.5.2",
     "turndown": "^7.2.4",
     "typescript": "^5.9.3",

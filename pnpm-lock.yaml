@@ -34,8 +34,8 @@ importers:
         specifier: ^4.1.1
         version: 4.1.1
       mysql2:
-        specifier: ^3.22.3
-        version: 3.22.3(@types/node@25.6.0)
+        specifier: ^3.22.5
+        version: 3.22.5(@types/node@25.6.0)
       pagefind:
         specifier: ^1.5.2
         version: 1.5.2
@@ -1674,8 +1674,8 @@ packages:
   muggle-string@0.4.1:
     resolution: {integrity: sha512-VNTrAak/KhO2i8dqqnqnAHOa3cYBwXEZe9h+D5h/1ZqFSTEFHdM65lR7RoIqq3tBBYavsOXV84NoHXZ0AkPyqQ==}
 
-  mysql2@3.22.3:
-    resolution: {integrity: sha512-uWWxvZSRvRhtBdh2CdcuK83YcOfPdmEeEYB069bAmPnV93QApDGVPuvCQOLjlh7tYHEWdgQPrn6kosDxHBVLkA==}
+  mysql2@3.22.5:
+    resolution: {integrity: sha512-95uZ2TrPWAZdwpB3vvvDbmEMcNG8yIeNCyu6GUcr/QnWEE/wXm7+mhOCsdQfWQDTV7qYT/PDUZ4U4UPP4AsXqQ==}
     engines: {node: '>= 8.0'}
     peerDependencies:
       '@types/node': '>= 8'
@@ -4027,7 +4027,7 @@ snapshots:
 
   muggle-string@0.4.1: {}
 
-  mysql2@3.22.3(@types/node@25.6.0):
+  mysql2@3.22.5(@types/node@25.6.0):
     dependencies:
       '@types/node': 25.6.0
       aws-ssl-profiles: 1.1.2
