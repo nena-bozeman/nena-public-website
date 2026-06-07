@@ -1,11 +1,11 @@
 ---
-title: Learn how to prepare for wildfire
-date: '2026-06-04'
+title: "Save the Date: Learn how to prepare for wildfire"
+date: 2026-06-04
 summary: Wildfire preparedness
 featured: false
 draft: false
-tags: []
 topics: []
+tags: []
 ---
 
 Are you prepared for Wildfire Season?
