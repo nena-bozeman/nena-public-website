@@ -20,9 +20,12 @@
     'submittedDate',
   ]);
   const DATETIME_FIELDS = new Set(['startDate', 'endDate']);
+  const DATE_ONLY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+  const { quoteFrontmatterDateFields } = globalThis.QuoteFrontmatterDates;
 
   function toDateOnly(value) {
     if (value == null || value === '') return value;
+    if (value instanceof Date) return value.toISOString().slice(0, 10);
     const match = String(value).match(/^(\d{4}-\d{2}-\d{2})/);
     return match ? match[1] : value;
   }
@@ -46,6 +49,28 @@
       return toDateTimeString(value);
     },
   });
+
+  CMS.registerWidgetValueSerializer('string', {
+    serialize(value) {
+      if (value == null || value === '') return '';
+      const text = toDateOnly(value);
+      return typeof text === 'string' && DATE_ONLY_PATTERN.test(text) ? text : String(value);
+    },
+    deserialize(value) {
+      if (value == null || value === '') return '';
+      const text = toDateOnly(value);
+      return typeof text === 'string' && DATE_ONLY_PATTERN.test(text) ? text : String(value);
+    },
+  });
+
+  const formatters = CMS.getCustomFormatsFormatters();
+  const frontmatter = formatters && formatters.frontmatter;
+  if (frontmatter) {
+    CMS.registerCustomFormat('frontmatter', 'md', {
+      fromFile: frontmatter.fromFile,
+      toFile: (...args) => quoteFrontmatterDateFields(frontmatter.toFile(...args)),
+    });
+  }
 
   CMS.registerEventListener({
     name: 'preSave',

@@ -1,6 +1,6 @@
 ---
 title: "Save the Date: Learn how to prepare for wildfire"
-date: 2026-06-04
+date: '2026-06-04'
 summary: Wildfire preparedness
 featured: false
 draft: false
