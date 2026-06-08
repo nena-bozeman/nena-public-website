@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PageSection from './PageSection.astro';
+import { splitPageBody } from '../../utils/page-sections.mjs';
+import { renderMarkdownChunk } from '../../utils/render-markdown-chunk.mjs';
+
+interface Props {
+  entry: CollectionEntry<'pages'>;
+  proseClass?: string;
+  bodyClass?: string;
+}
+
+const { entry, proseClass = 'prose-green', bodyClass = '' } = Astro.props;
+const segments = splitPageBody(entry.body ?? '');
+
+const rendered = await Promise.all(
+  segments.map(async (segment) => {
+    if (segment.type === 'markdown') {
+      return {
+        type: 'markdown' as const,
+        html: await renderMarkdownChunk(segment.content),
+      };
+    }
+    return segment;
+  }),
+);
+---
+
+<div class:list={[bodyClass]}>
+  {
+    rendered.map((segment) =>
+      segment.type === 'markdown' ? (
+        segment.html ? (
+          <div class:list={['prose', proseClass, 'max-w-none']} set:html={segment.html} />
+        ) : null
+      ) : (
+        <PageSection name={segment.name} pageSlug={entry.id} />
+      ),
+    )
+  }
+</div>

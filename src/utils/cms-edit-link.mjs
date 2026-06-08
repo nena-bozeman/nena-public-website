@@ -3,12 +3,14 @@
  * Section hub slugs must stay in sync with OUR_WORK_SECTION_CONFIG in src/data/our-work.ts.
  */
 
+import { CMS_PAGE_SLUGS } from './page-sections.mjs';
+
 /** @typedef {{ collection: string; entryId: string }} CmsEditTarget */
 
 const OUR_WORK_PATH = 'our-work';
 const LIST_STATUS_PAST_SEGMENT = 'past';
 
-const CMS_CONTENT_COLLECTIONS = new Set(['news', 'events', 'places', 'development', 'history']);
+const CMS_CONTENT_COLLECTIONS = new Set(['news', 'events', 'places', 'development', 'history', 'pages']);
 const PLACES_LIST_SEGMENTS = new Set(['past', 'archive', 'table']);
 const OUR_WORK_SECTION_HUB_SLUGS = new Set([
   'neighborhood-communication',
@@ -32,6 +34,10 @@ export function cmsEditTargetFromPathname(pathname, base = '/') {
   if (segments.length === 0) return null;
 
   const [first, second, third] = segments;
+
+  if (segments.length === 1 && CMS_PAGE_SLUGS.includes(first)) {
+    return { collection: 'pages', entryId: first };
+  }
 
   if (CMS_CONTENT_COLLECTIONS.has(first) && segments.length === 2) {
     if (first === 'places' && PLACES_LIST_SEGMENTS.has(second)) {

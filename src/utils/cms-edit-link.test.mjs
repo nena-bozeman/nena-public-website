@@ -15,6 +15,10 @@ test('cmsEditTargetFromPathname maps CMS content pages', () => {
     collection: 'places',
     entryId: 'some-business',
   });
+  assert.deepEqual(cmsEditTargetFromPathname('/about'), {
+    collection: 'pages',
+    entryId: 'about',
+  });
   assert.deepEqual(cmsEditTargetFromPathname('/our-work/bozeman-udc'), {
     collection: 'objectives',
     entryId: 'bozeman-udc',
@@ -30,7 +34,7 @@ test('cmsEditTargetFromPathname maps CMS content pages', () => {
 });
 
 test('cmsEditTargetFromPathname ignores static and listing pages', () => {
-  assert.equal(cmsEditTargetFromPathname('/about'), null);
+  assert.equal(cmsEditTargetFromPathname('/governance/bylaws'), null);
   assert.equal(cmsEditTargetFromPathname('/places/past'), null);
   assert.equal(cmsEditTargetFromPathname('/places/archive'), null);
   assert.equal(cmsEditTargetFromPathname('/news/page/2'), null);

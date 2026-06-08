@@ -1,0 +1,21 @@
+---
+import BoardOfficers from './sections/BoardOfficers.astro';
+import NeighborhoodMap from './sections/NeighborhoodMap.astro';
+import ContactCta from './sections/ContactCta.astro';
+import ContactDetails from './sections/ContactDetails.astro';
+import NewsletterCta from './sections/NewsletterCta.astro';
+import PayPalDonate from './sections/PayPalDonate.astro';
+import ArtsBusinessList from './sections/ArtsBusinessList.astro';
+
+const { name, pageSlug } = Astro.props;
+
+const boardVariant = pageSlug === 'about' ? 'about' : 'governance';
+---
+
+{name === 'neighborhood-map' && <NeighborhoodMap />}
+{name === 'board-officers' && <BoardOfficers variant={boardVariant} />}
+{name === 'contact-cta' && <ContactCta />}
+{name === 'contact-details' && <ContactDetails />}
+{name === 'newsletter-cta' && <NewsletterCta />}
+{name === 'paypal-donate' && <PayPalDonate />}
+{name === 'arts-business-list' && <ArtsBusinessList />}

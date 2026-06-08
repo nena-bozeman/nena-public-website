@@ -15,4 +15,4 @@ status: current
 
 Beall Park is the heart of the Northeast Neighborhood — a public gathering place with playgrounds, sports fields, and the [Beall Park Community Center](/history/1987-beall-park-community-center-added-to-the-national-register-of-historic-places) at 409 North Bozeman Avenue.
 
-The park was [established in 1902](/history/1902-beall-park) and has served residents for more than a century. NENA began hosting neighborhood meetings here after the association was [founded in 1985](/history/1985-nena-founded).
+The park was [established in 1902](/history/1902-beall-park) and has served residents for more than a century. NENA began hosting neighborhood meetings here after the association was [founded in 2001](/history/2001-nena-founded).

@@ -1,42 +1,9 @@
 ---
-import Base from '../layouts/Base.astro';
+import ContentPage from '../layouts/ContentPage.astro';
+import { getEntry } from 'astro:content';
 
-const base = import.meta.env.BASE_URL;
+const page = await getEntry('pages', 'contact');
+if (!page) throw new Error('Missing contact page content');
 ---
 
-<Base
-  title="Contact"
-  description="Contact the Northeast Neighborhood Association (NENA) in Bozeman, Montana."
->
-  <div class="max-w-3xl mx-auto px-4 py-12">
-    <h1 class="font-serif text-4xl font-bold text-primary mb-6">Contact NENA</h1>
-
-    <div class="prose prose-green max-w-none mb-8">
-      <p class="text-gray-700 text-lg">
-        NENA does not operate general-purpose email at nenabozeman.org. For direct questions, use the association Gmail below. For ongoing updates, use the newsletter and public meetings listed on this site.
-      </p>
-    </div>
-
-    <div class="space-y-6">
-      <section class="bg-cream rounded-lg p-8 border border-amber-100">
-        <h2 class="font-serif text-xl font-bold text-primary mb-4">Email</h2>
-        <p class="text-gray-700">
-          <a href="mailto:NENABozeman@gmail.com" class="text-accent hover:text-amber-700 font-medium">NENABozeman@gmail.com</a>
-        </p>
-      </section>
-
-      <section class="bg-white rounded-lg shadow-xs border border-gray-100 p-8">
-        <h2 class="font-serif text-xl font-bold text-primary mb-4">Newsletter</h2>
-        <p class="text-gray-700 mb-4">
-          For email updates and past newsletter issues, visit the newsletter page.
-        </p>
-        <a
-          href={`${base}newsletter`}
-          class="inline-block bg-accent hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
-        >
-          View newsletter page
-        </a>
-      </section>
-    </div>
-  </div>
-</Base>
+<ContentPage page={page} bodyClass="mb-8" />

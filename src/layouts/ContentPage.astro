@@ -1,19 +1,36 @@
 ---
+import type { CollectionEntry } from 'astro:content';
 import Base from './Base.astro';
+import ContentPageBody from '../components/pages/ContentPageBody.astro';
 
-export interface Props {
-  title: string;
-  description?: string;
+interface Props {
+  page: CollectionEntry<'pages'>;
+  proseClass?: string;
+  bodyClass?: string;
+  maxWidth?: '3xl' | '4xl' | '7xl';
+  titleClass?: string;
+  headerSpacing?: string;
 }
 
-const { title, description } = Astro.props;
+const {
+  page,
+  proseClass = 'prose-green',
+  bodyClass = '',
+  maxWidth = '3xl',
+  titleClass = 'font-serif text-4xl font-bold text-primary mb-6',
+  headerSpacing = 'mb-6',
+} = Astro.props;
+
+const widthClass =
+  maxWidth === '4xl' ? 'max-w-4xl' : maxWidth === '7xl' ? 'max-w-7xl' : 'max-w-3xl';
 ---
 
-<Base title={title} description={description}>
-  <div class="max-w-3xl mx-auto px-4 py-12">
-    <h1 class="text-4xl font-serif font-bold text-primary mb-6">{title}</h1>
-    <div class="prose prose-green max-w-none">
-      <slot />
-    </div>
+<Base title={page.data.title} description={page.data.description}>
+  <div class={`${widthClass} mx-auto px-4 py-12`}>
+    <h1 class:list={[titleClass, page.data.subtitle ? 'mb-2' : headerSpacing]}>{page.data.title}</h1>
+    {page.data.subtitle && (
+      <p class={`text-lg text-gray-600 ${headerSpacing}`}>{page.data.subtitle}</p>
+    )}
+    <ContentPageBody entry={page} proseClass={proseClass} bodyClass={bodyClass} />
   </div>
 </Base>

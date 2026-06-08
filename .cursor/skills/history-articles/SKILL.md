@@ -114,7 +114,7 @@ For a single fact on the timeline with little to cite yet.
 
 - Opening paragraph: what happened, year, neighborhood relevance.
 - No headings required.
-- Example style: [1985-nena-founded](src/content/history/1985-nena-founded.md), [1902-beall-park](src/content/history/1902-beall-park.md).
+- Example style: [2001-nena-founded](src/content/history/2001-nena-founded.md), [1902-beall-park](src/content/history/1902-beall-park.md).
 
 ### Tier B — Standard (2–4 paragraphs or 1–2 sections)
 

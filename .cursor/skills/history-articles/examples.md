@@ -4,26 +4,26 @@ Reference only—read when drafting or reviewing. Canonical patterns live in `sr
 
 Every example below includes **full required frontmatter**: `title`, `summary`, `year`, `decade`, `category`. Optional fields: `image`, `imageAlt` (set both when using a hero image).
 
-Filenames must use the **`{year}-` prefix** (e.g. `1985-nena-founded.md`).
+Filenames must use the **`{year}-` prefix** (e.g. `2001-nena-founded.md`).
 
 ---
 
 ## Tier A — milestone (minimal body)
 
-**File:** `src/content/history/1985-nena-founded.md`
+**File:** `src/content/history/2001-nena-founded.md`
 
 ```markdown
 ---
 title: "NENA Founded"
-summary: "Residents formally organized NENA in 1985 to speak up in city planning and build community around Beall Park."
-year: 1985
-decade: 1980
+summary: "Residents formally organized NENA in 2001 to speak up in city planning and build community around issues affecting the northeast neighborhood."
+year: 2001
+decade: 2000
 category: community
 image: images/nena-logo-lg.png
 imageAlt: "Northeast Neighborhood Association (NENA) logo."
 ---
 
-The Northeast Neighborhood Association (NENA) was formally organized in 1985 to give voice to residents in city planning decisions and to foster community connection. The organization began hosting regular meetings at Beall Park and quickly became a model for neighborhood organizing in Bozeman.
+The Northeast Neighborhood Association (NENA) was officially formed in 2001 by volunteers who were applying for a grant to create the "pocket park" near the historic railroad depot.
 ```
 
 **Without hero image** (omit `image` and `imageAlt`):

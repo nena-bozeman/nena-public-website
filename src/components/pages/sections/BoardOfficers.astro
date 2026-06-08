@@ -1,0 +1,35 @@
+---
+import { nenaBoardOfficers } from '../../../data/board-officers';
+
+const base = import.meta.env.BASE_URL;
+const { variant = 'governance' } = Astro.props;
+---
+
+{variant === 'about' ? (
+  <section class="mb-12 not-prose">
+    <h2 class="font-serif text-2xl font-bold text-primary mb-6">NENA Officers</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {nenaBoardOfficers.map((member) => (
+        <div class="bg-cream rounded-lg p-4 border border-amber-100">
+          <p class="font-semibold text-primary">{member.name}</p>
+          <p class="text-sm text-gray-500">{member.role}</p>
+        </div>
+      ))}
+    </div>
+    <aside class="mt-8 bg-cream rounded-lg border border-amber-100 p-5">
+      <p class="text-gray-700 text-sm sm:text-base">
+        Board officer nominations, bylaws, and how to run for office are on the{' '}
+        <a href={`${base}governance`} class="text-primary underline hover:text-accent font-semibold">Governance</a> page.
+      </p>
+    </aside>
+  </section>
+) : (
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 not-prose my-4 max-w-2xl">
+    {nenaBoardOfficers.map((member) => (
+      <div class="bg-cream rounded-lg p-4 border border-amber-100">
+        <p class="font-semibold text-primary">{member.name}</p>
+        <p class="text-sm text-gray-600">{member.role}</p>
+      </div>
+    ))}
+  </div>
+)}

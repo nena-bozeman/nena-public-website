@@ -1,0 +1,21 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+
+<section class="mb-12 not-prose" aria-labelledby="neighborhood-map-heading">
+  <h2 id="neighborhood-map-heading" class="font-serif text-2xl font-bold text-primary mb-4">
+    Neighborhood boundaries
+  </h2>
+  <figure class="w-full max-w-3xl mx-auto">
+    <img
+      src={`${base}images/migrated/nenabozeman-org/files/large/nena-map.png`}
+      alt="Street map of Bozeman with the Northeast Neighborhood boundary highlighted"
+      class="w-full rounded-lg border border-gray-200 shadow-md object-contain bg-gray-50"
+      loading="lazy"
+      decoding="async"
+    />
+    <figcaption class="mt-3 text-sm text-gray-600 text-center">
+      Northeast Neighborhood (NENA) area within Bozeman
+    </figcaption>
+  </figure>
+</section>

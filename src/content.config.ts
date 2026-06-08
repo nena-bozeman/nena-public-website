@@ -177,6 +177,8 @@ const pages = defineCollection({
   loader: markdownLoader('./src/content/pages'),
   schema: z.object({
     title: z.string(),
+    description: z.string(),
+    subtitle: z.string().optional(),
     dateCreated: z.coerce.date().optional(),
     dateUpdated: z.coerce.date().optional(),
   }),

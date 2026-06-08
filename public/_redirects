@@ -2,6 +2,7 @@
 /nena-public-website/* /:splat 301
 /nena-public-website / 301
 
+/history/1985-nena-founded /history/2001-nena-founded 301
 /businesses/* /places/:splat 301
 /news/tag/newsletter /topics/newsletter 301
 /news/tag/meeting /topics/meeting 301
