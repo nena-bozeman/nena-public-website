@@ -4,7 +4,7 @@ import NeighborhoodMap from './sections/NeighborhoodMap.astro';
 import ContactCta from './sections/ContactCta.astro';
 import ContactDetails from './sections/ContactDetails.astro';
 import NewsletterCta from './sections/NewsletterCta.astro';
-import PayPalDonate from './sections/PayPalDonate.astro';
+import DonateForm from './sections/DonateForm.astro';
 import ArtsBusinessList from './sections/ArtsBusinessList.astro';
 
 const { name, pageSlug } = Astro.props;
@@ -17,5 +17,5 @@ const boardVariant = pageSlug === 'about' ? 'about' : 'governance';
 {name === 'contact-cta' && <ContactCta />}
 {name === 'contact-details' && <ContactDetails />}
 {name === 'newsletter-cta' && <NewsletterCta />}
-{name === 'paypal-donate' && <PayPalDonate />}
+{name === 'donate-form' && <DonateForm />}
 {name === 'arts-business-list' && <ArtsBusinessList />}

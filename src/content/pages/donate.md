@@ -1,12 +1,18 @@
 ---
-title: Donate to NENA
+title: Donate
 description: Support the Northeast Neighborhood Association through donations and community fundraisers.
 ---
 
-If you'd like to support NENA, please use the PayPal button below.
+Donate $5 or more and receive a "**Last Best Neighborhood**" NENA Sticker!
 
-To mail a check, please contact us at [NENABozeman@gmail.com](mailto:NENABozeman@gmail.com).
+Please include your address and contact information.
 
-If you'd like to support NENA by buying a logo sticker, come to an event or email us at [NENABozeman@gmail.com](mailto:NENABozeman@gmail.com).
+Donations enable NENA to give back to our community, pay for trees that will be planted in the neighborhood, and/or create and host fun community-building events.
 
-<!-- @section paypal-donate -->
+If you would like to mail or drop off a donation please email [NENABozeman@gmail.com](mailto:NENABozeman@gmail.com?subject=NENA%20Donate).
+
+Donations are not tax-deductible.
+
+Thank you!
+
+<!-- @section donate-form -->

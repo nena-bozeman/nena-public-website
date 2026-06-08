@@ -364,4 +364,4 @@ collections:
       - label: "Body"
         name: "body"
         widget: "markdown"
-        hint: "Insert dynamic blocks with HTML comments on their own line, e.g. <!-- @section board-officers -->. Available sections: neighborhood-map, board-officers, contact-cta, contact-details, newsletter-cta, paypal-donate, arts-business-list."
+        hint: "Insert dynamic blocks with HTML comments on their own line, e.g. <!-- @section board-officers -->. Available sections: neighborhood-map, board-officers, contact-cta, contact-details, newsletter-cta, donate-form, arts-business-list."
