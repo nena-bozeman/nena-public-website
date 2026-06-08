@@ -48,10 +48,10 @@ test('cmsEditTargetFromPathname strips deploy base path', () => {
 test('cmsEditHref builds Decap CMS deep links', () => {
   assert.equal(
     cmsEditHref('/', { collection: 'news', entryId: '2026-06-04-foo' }),
-    '/admin/#/collections/news/entries/2026-06-04-foo',
+    'admin/#/collections/news/entries/2026-06-04-foo',
   );
   assert.equal(
     cmsEditHrefForPathname('/history/founding-era'),
-    '/admin/#/collections/history/entries/founding-era',
+    'admin/#/collections/history/entries/founding-era',
   );
 });

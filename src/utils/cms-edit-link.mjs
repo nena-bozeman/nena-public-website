@@ -60,11 +60,10 @@ export function cmsEditTargetFromPathname(pathname, base = '/') {
   return null;
 }
 
-/** @param {string} base @param {CmsEditTarget} target */
-export function cmsEditHref(base, target) {
-  const normalizedBase = base.endsWith('/') ? base : `${base}/`;
+/** @param {string} _base @param {CmsEditTarget} target */
+export function cmsEditHref(_base, target) {
   const { collection, entryId } = target;
-  return `${normalizedBase}admin/#/collections/${collection}/entries/${encodeURIComponent(entryId)}`;
+  return `admin/#/collections/${collection}/entries/${encodeURIComponent(entryId)}`;
 }
 
 /** @param {string} pathname @param {string} [base] @returns {string | null} */
