@@ -23,8 +23,19 @@ Use this checklist when onboarding a new fork or rotating credentials.
 - [x] **Confirm the Worker exists**
   Cloudflare Dashboard → **Workers & Pages** → open the Worker whose name matches `name` in `wrangler.jsonc`. Create it if needed (e.g. first local `pnpm run deploy` or dashboard **Create**).
 
-- [x] **Use GitHub Actions as the only Git-driven deploy (recommended)**
+- [ ] **Use GitHub Actions as the only Git-driven deploy (recommended)**
   If this Worker is **also** connected to the GitHub repo under **Settings → Builds** (or legacy Git integration), Cloudflare will build and deploy on every push **in addition** to these workflows—duplicate deploys and confusing deployment history. **Disconnect** the repo from Cloudflare for builds and rely on GitHub Actions.
+
+- [ ] **If you keep Workers Builds connected**, update **Settings → Build** on the Worker so commands match [`package.json`](../package.json) (the old `*:cf` scripts were aliases for root-hosted builds; `ASTRO_BASE_PATH=/` is now the default):
+
+  | Setting | Value |
+  |---------|-------|
+  | Build command | `pnpm run build` |
+  | Deploy command | `pnpm run deploy` (or `npx wrangler deploy` if build runs separately) |
+  | Non-production branch deploy command | `npx wrangler versions upload` |
+  | Build variables | `PUBLIC_GOOGLE_MAPS_API_KEY` (required for maps at build time) |
+
+  Thin `build:cf` / `deploy:cf` aliases remain in `package.json` so existing dashboard settings keep working until you update them.
 
 - [x] **Copy the Account ID**
   Dashboard **Overview** (right sidebar) or the Worker’s **Settings** → copy **Account ID** (32-character hex). Store this as `CLOUDFLARE_ACCOUNT_ID`.

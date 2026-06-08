@@ -27,6 +27,8 @@
     "cms:topic-options": "node scripts/generate-cms-topic-options.mjs",
     "dev:worker": "pnpm run build && wrangler dev",
     "deploy": "pnpm run build && wrangler deploy",
+    "build:cf": "pnpm run build",
+    "deploy:cf": "pnpm run deploy",
     "cf:typegen": "wrangler types",
     "cms:build-config": "node scripts/merge-cms-config.mjs main",
     "cms:use-dev-config": "node scripts/merge-cms-config.mjs dev"

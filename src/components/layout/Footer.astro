@@ -5,11 +5,17 @@ import {
   isNavItemActive,
   resolveNavHref,
 } from '../../data/navigation';
+import { cmsEditHrefForPathname } from '../../utils/cms-edit-link.mjs';
 
 const base = import.meta.env.BASE_URL;
 const pathname = Astro.url.pathname;
 const year = new Date().getFullYear();
 const footerColumns = buildFooterColumns();
+const editPageHref = cmsEditHrefForPathname(pathname, base);
+const footerUtilityBarLinks = [
+  ...(editPageHref ? [{ label: 'Edit this page', href: editPageHref, external: true }] : []),
+  ...footerUtilityLinks,
+];
 ---
 
 <footer class="mt-16 bg-primary text-green-100" data-pagefind-ignore>
@@ -68,12 +74,14 @@ const footerColumns = buildFooterColumns();
       </p>
       <p class="mt-2">
         {
-          footerUtilityLinks.map((link, index) => (
+          footerUtilityBarLinks.map((link, index) => (
             <span>
               {index > 0 && <span aria-hidden="true"> · </span>}
               <a
                 href={resolveNavHref(base, link.href)}
                 class="hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-2 focus:outline-amber-300/80"
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener noreferrer' : undefined}
               >
                 {link.label}
               </a>

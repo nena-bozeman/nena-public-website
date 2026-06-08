@@ -199,4 +199,4 @@ export function buildFooterColumns(): FooterColumn[] {
   ];
 }
 
-export const footerUtilityLinks: NavItem[] = [{ label: 'Admin', href: 'admin' }];
+export const footerUtilityLinks: NavItem[] = [{ label: 'Admin', href: 'admin', external: true }];
