@@ -61,16 +61,11 @@ const cmsBase = import.meta.env.BASE_URL;
   patchSrcIdl(HTMLVideoElement);
   patchSrcIdl(HTMLSourceElement);
 })(${JSON.stringify(cmsBase)});`}></script>
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-    <script is:inline define:vars={{ base: import.meta.env.BASE_URL }}>
-      (function (root) {
-        const norm = root.endsWith('/') ? root : `${root}/`;
-        for (const path of ['admin/entry-list.js', 'admin/decap-image-preview.js']) {
-          const s = document.createElement('script');
-          s.src = norm + path;
-          document.body.appendChild(s);
-        }
-      })(base);
-    </script>
+    {/* is:inline keeps Astro from bundling these as deferred ES modules; Decap expects classic scripts in order. */}
+    <script is:inline src={`${cmsBase}admin/quote-frontmatter-dates.js`}></script>
+    <script is:inline src={`${cmsBase}admin/normalize-dates.js`}></script>
+    <script is:inline src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script is:inline src={`${cmsBase}admin/entry-list.js`}></script>
+    <script is:inline src={`${cmsBase}admin/decap-image-preview.js`}></script>
   </body>
 </html>
