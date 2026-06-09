@@ -5,7 +5,7 @@ phase: under-review
 address: Northeast Bozeman, MT
 submittedDate: 2020-11-21
 dateCreated: 2020-11-21
-dateUpdated: 2025-02-18
+dateUpdated: 2026-06-09T19:40
 summary: >-
   Idaho Pole is an 87-acre area to the northeast of Bozeman's NE neighborhood.
   It is bounded by railroad tracks on the south, L Street on the west, and Rocky
