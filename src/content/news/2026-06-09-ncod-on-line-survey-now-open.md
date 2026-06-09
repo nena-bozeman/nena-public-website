@@ -3,7 +3,7 @@ title: NCOD On-Line Survey Now Open
 date: 2026-06-09
 dateCreated: 2026-06-09T20:52
 summary: Bozeman is updating the Neighborhood Conservation Overlay District
-  (NCOD0 design guidelines and related historic preservation policies with
+  (NCOD) design guidelines and related historic preservation policies with
   consultant-led outreach. As part of its public enagement strategy, an On-Line
   Survey will be open through June 30th.
 featured: false
