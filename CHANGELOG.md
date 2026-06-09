@@ -8,6 +8,43 @@ Changes not yet released.
 
 ---
 
+## 2026-06-08
+
+- **Donation form:** Replaced the PayPal embed with a Silent Partner Software donate form (`DonateForm.astro`); donate page copy updated in `src/content/pages/donate.md` and Decap CMS section hints.
+- **CMS-driven content pages:** Community, contact, governance, donate, and about pages now use markdown in `src/content/pages/` with `<!-- @section -->` blocks for dynamic sections (`ContentPageBody.astro`, `PageSection.astro`); route files are thin wrappers over `ContentPage.astro`.
+- **Page sections:** New reusable sections—`BoardOfficers`, `ContactCta`, `ContactDetails`, `NewsletterCta`, `NeighborhoodMap`, `ArtsBusinessList`—composable in Decap CMS via section comments.
+- **History correction:** NENA founding timeline entry renamed from `1985-nena-founded` to `2001-nena-founded` to reflect the correct founding year; related links and references updated.
+- **Decap CMS date quoting:** `quote-frontmatter-dates.js` quotes date-only and event-datetime front matter fields for consistent YAML parsing; integrated with `normalize-dates.js` and covered by tests.
+- **Edit this page:** Footer links to edit the current page in Decap CMS (`cms-edit-link.mjs`); edit-link utility and tests refined.
+- **Deployment tooling:** Cloudflare build/deploy scripts added to `package.json`; Makefile and Cloudflare docs updated.
+
+---
+
+## 2026-06-07
+
+- **News:** Wildfire preparedness post (`2026-06-04-learn-how-to-prepare-for-wildfire`) updated.
+- **History:** Further edits to the `2001-nena-founded` timeline article.
+
+---
+
+## 2026-06-06
+
+- **Production hosting:** GitHub Pages deploy workflow replaced by Cloudflare Workers production deploy (`.github/workflows/deploy-cloudflare.yml`); PR preview uploads unchanged.
+- **Astro 6 upgrade:** Upgraded to Astro 6.4.4 with `@astrojs/markdown-remark`; `src/content/config.ts` moved to `content.config.ts`; collection entries referenced by **`id`** instead of slug across routes and related-content utilities.
+- **Places directory:** Grid and table layout options on `/places` and `/places/past`; `PlacesArchiveNav` for current vs. past navigation; compact map view and improved category filter UI.
+- **CI and validation:** Content reference validation in CI; preview workflow handles Dependabot and fork PRs with dry-run deploys; built HTML checked for unexpanded Craft placeholders.
+- **News tooling:** `rss-to-notes.mjs` supports draft news stub creation; Makefile targets and docs updated; new Mailchimp campaign news entries added.
+- **Our Work hub:** Objective links in `OurWorkHub` use objective IDs instead of slugs.
+- **Dependencies:** Wrangler, `cloudflare/wrangler-action`, `js-yaml`, and related dev deps bumped via Dependabot.
+
+---
+
+## 2026-06-04
+
+- **Events:** Red Cross Ready class event added (`be-red-cross-ready-class`).
+
+---
+
 ## 2026-05-30
 
 - **Site-wide content linking:** Curated **topics** (`src/schemas/topics.ts`) replace tag-driven objective linking; `topics` front matter on news, events, meetings, places, development, history, and objectives powers cross-collection **RelatedContent**, **TopicPills**, topic browse at `/topics/[topic]`, and a build-time **backlink** index (`src/utils/backlinks.ts`, `src/utils/related-content.ts`, `src/utils/content-relationships.ts`).
