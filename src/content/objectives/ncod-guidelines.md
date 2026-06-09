@@ -9,6 +9,7 @@ order: 12
 topics:
   - historic-preservation
   - bozeman-udc
+dateUpdated: 2026-06-09T20:47
 ---
 The **Neighborhood Conservation Overlay District (NCOD)** is a city zoning overlay created in 1991 to conserve neighborhood character and protect historic properties around Bozeman's historic core. The NCOD was created to stimulate the restoration and rehabilitation of structures while also inviting new construction that enhances the character and function of the area. The Bozeman Guidelines for Historic Preservation and the Neighborhood Conservation Overlay District (NCOD) were originally adopted in 2006 and has a minor update in 2015. 
 
@@ -20,6 +21,19 @@ NENA tracks public meetings, neighborhood walks, and **Inter-Neighborhood Counci
 
 * [NCOD design guidelines update](https://engage.bozeman.net/ncodupdate) — current city engagement hub
 * [Historic Preservation Advisory Board](https://www.bozeman.net/government/boards-commissions/historic-preservation-advisory-board) — meeting schedules and agendas
+
+#### **06/06/26 UPDATE**
+
+# Engagement Survey Open Through June 30 
+
+The NCOD project team has been reviewing the feedback you provided during public engagement events in April. However, not all community members were able to join in those in-person events.
+
+**Online Survey Now Open!**
+
+This survey will supplement in-person feedback and emailed public comments. Even if you participated in the in-person events, please use the survey to add any additional thoughts you may have or jump ahead to the last few questions related to visual preferences. And if you know someone who has not yet shared their perspectives, please don't be shy about forwarding this update.
+
+[**Click Here to Take the Survey**(External link)](https://www.surveymonkey.com/r/NHD3W5P)
+**The survey will be open through June 30, 2026.**
 
 
 
