@@ -1,5 +1,5 @@
 ---
-title: NENA and Community-wide Surveys
+title: Community Surveys
 summary: Community surveys, how to participate, and published results that
   inform NENA priorities.
 status: current
