@@ -8,10 +8,10 @@ NENA works alongside the City of Bozeman, the Inter-Neighborhood Council, and ne
 
 ## City of Bozeman
 
-* [City of Bozeman](https://www.bozeman.net/) — main city site
-* [Neighborhoods program](https://www.bozeman.net/departments/administration/communications-engagement/neighborhoods-program) — how associations partner with the city
-* [Neighborhood associations](https://www.bozeman.net/departments/administration/communications-engagement/neighborhoods-program/neighborhood-associations) — directory of recognized associations
-* [Inter Neighborhood Council (INC)](https://www.bozeman.net/departments/administration/communications-engagement/neighborhoods-program/interneighborhood-council) — monthly forum for neighborhood reps
+* [City of Bozeman](https://www.bozeman.net/) — main City site
+* [Neighborhoods program](https://www.bozeman.net/departments/administration/communications-engagement/neighborhoods-program) — how neighborhood associations partner with the city
+* [Neighborhood associations](https://www.bozeman.net/departments/administration/communications-engagement/neighborhoods-program/neighborhood-associations) — directory of recognized neighborhood associations
+* [Inter-Neighborhood Council (INC)](https://www.bozeman.net/departments/administration/communications-engagement/neighborhoods-program/interneighborhood-council) — an advisory board to the City Commission that gives a voice to neighbors and neighborhood concerns and facilitates communication between the city and neighborhoods through a monthly representative forum
 * [Engage Bozeman](https://engage.bozemanmt.gov) — all of the projects that the City is seeking to get the word out about and get your input on
 
 ## Nearby neighborhoods & business community
