@@ -1,8 +1,8 @@
 ---
 title: Friends of NENA & neighborhood resources
 description: City of Bozeman resources, nearby neighborhood associations,
-  Northside businesses, neighborhood Arts & Culture business listings, and
-  Bozeman arts organizations linked from NENA.
+  northeast neighborhood businesses, neighborhood Arts & Culture business
+  listings, and Bozeman arts organizations linked from NENA.
 ---
 NENA works alongside the City of Bozeman, the Inter-Neighborhood Council, and neighbors across town. These links point to official city resources, other neighborhood groups, nearby business communities, and Bozeman's arts organizations.
 
