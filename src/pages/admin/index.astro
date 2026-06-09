@@ -63,8 +63,8 @@ const cmsBase = import.meta.env.BASE_URL;
 })(${JSON.stringify(cmsBase)});`}></script>
     {/* is:inline keeps Astro from bundling these as deferred ES modules; Decap expects classic scripts in order. */}
     <script is:inline src={`${cmsBase}admin/quote-frontmatter-dates.js`}></script>
-    <script is:inline src={`${cmsBase}admin/normalize-dates.js`}></script>
     <script is:inline src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script is:inline src={`${cmsBase}admin/normalize-dates.js`}></script>
     <script is:inline src={`${cmsBase}admin/entry-list.js`}></script>
     <script is:inline src={`${cmsBase}admin/decap-image-preview.js`}></script>
   </body>
