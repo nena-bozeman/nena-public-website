@@ -7,7 +7,7 @@ import NavDropdown from './NavDropdown.astro';
 
 const base = import.meta.env.BASE_URL;
 const pathname = Astro.url.pathname;
-const ourWorkSections = await getOurWorkSections();
+const ourWorkSections = await getOurWorkSections({ filterStatus: 'current' });
 const navGroups = buildNavGroups(ourWorkSections);
 ---
 

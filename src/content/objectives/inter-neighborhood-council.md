@@ -3,6 +3,7 @@ title: Inter-Neighborhood Council (INC)
 summary: >-
   Monthly forum where Bozeman neighborhood associations coordinate on city planning, zoning, and shared priorities.
 status: current
+section: neighborhood-advocacy
 order: 14
 topics:
   - community

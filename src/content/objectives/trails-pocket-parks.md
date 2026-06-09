@@ -4,6 +4,7 @@ summary: >-
   Advocating for expanded trail access, maintenance of existing trails, and development of pocket parks throughout the
   neighborhood.
 status: current
+section: neighborhood-advocacy
 order: 9
 topics:
   - trails-pocket-parks

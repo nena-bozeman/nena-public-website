@@ -3,6 +3,7 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { DEVELOPMENT_PHASE_VALUES } from './schemas/development-phase';
 import { LIST_STATUS_VALUES } from './schemas/list-status';
+import { ourWorkSectionSchema } from './schemas/our-work-section';
 import { TOPIC_VALUES } from './schemas/topics';
 
 const listStatusSchema = z.enum(LIST_STATUS_VALUES).default('current');
@@ -164,6 +165,10 @@ const objectives = defineCollection({
     title: z.string(),
     summary: z.string(),
     status: listStatusSchema,
+    /** Our Work hub section; omit for objectives that are not listed under a section. */
+    section: ourWorkSectionSchema.optional(),
+    /** When false, the objective is omitted from section nav and hub lists (page URL still works). */
+    listed: z.boolean().default(true),
     order: z.number().default(99),
     contactEmail: z.email().optional(),
     /** Curated topics matched against news and events for related content. */

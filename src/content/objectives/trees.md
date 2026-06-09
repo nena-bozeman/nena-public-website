@@ -2,6 +2,7 @@
 title: NENA Trees
 summary: Community tree planting, urban forestry, and preservation projects in the Northeast Neighborhood.
 status: current
+section: neighborhood-advocacy
 order: 8
 topics:
   - trees

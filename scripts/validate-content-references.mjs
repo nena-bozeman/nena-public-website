@@ -210,10 +210,18 @@ function validatePlaces(file, data) {
   checkOptional(file, 'historySlug', data.historySlug, 'history');
 }
 
+const OUR_WORK_OBJECTIVE_SECTIONS = new Set([
+  'neighborhood-communication',
+  'neighborhood-advocacy',
+]);
+
 function validateObjectives(file, data) {
   checkTopics(file, data.topics);
   if (data.newsTags) {
     errors.push({ file, field: 'newsTags', value: 'deprecated — use topics' });
+  }
+  if (data.section && !OUR_WORK_OBJECTIVE_SECTIONS.has(data.section)) {
+    errors.push({ file, field: 'section', value: data.section, message: 'unknown Our Work section' });
   }
 }
 

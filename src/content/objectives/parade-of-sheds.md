@@ -4,6 +4,7 @@ summary: >-
   NENA’s annual community event celebrating backyard sheds, studios, and creative outbuildings in the Northeast
   Neighborhood.
 status: current
+section: neighborhood-advocacy
 order: 5
 topics:
   - parade-of-sheds

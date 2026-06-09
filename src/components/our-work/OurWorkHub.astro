@@ -23,7 +23,7 @@ const isPast = filterStatus === 'past';
 const OBJECTIVE_SLUGS_TO_SKIP = new Set(['nena-newsletters', 'nena-meetings']);
 
 const [ourWorkSections, allObjectives] = await Promise.all([
-  getOurWorkSections(),
+  getOurWorkSections({ filterStatus }),
   getCollection('objectives'),
 ]);
 const filteredObjectives = allObjectives.filter(
@@ -139,9 +139,9 @@ const intro = isPast
       {
         isPast && otherObjectives.length > 0 && (
           <article class="bg-white rounded-lg shadow-xs border border-gray-100 p-6 md:col-span-2">
-            <h2 class="font-serif font-bold text-primary text-xl mb-2">Neighborhood Advocacy</h2>
+            <h2 class="font-serif font-bold text-primary text-xl mb-2">Other</h2>
             <p class="text-gray-600 text-sm mb-4">
-              Additional wrapped-up work.
+              Additional wrapped-up work not assigned to a section.
             </p>
             <ul class="space-y-3 text-sm list-none p-0 m-0">
               {otherObjectives.map((objective) => (

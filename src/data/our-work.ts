@@ -1,6 +1,7 @@
 /** Our Work hub — section groupings for nav and section landing pages. */
 
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { matchesListStatus, type ListStatus } from '../utils/list-status';
 
 export const OUR_WORK_PATH = 'our-work';
 
@@ -13,20 +14,14 @@ export type OurWorkLink = {
   nested?: boolean;
 };
 
-export type OurWorkLinkRef =
-  | {
-      kind: 'objective';
-      slug: string;
-      nested?: boolean;
-    }
-  | {
-      kind: 'custom';
-      label: string;
-      href: string;
-      summary?: string;
-      external?: boolean;
-      nested?: boolean;
-    };
+export type OurWorkCustomLinkRef = {
+  order: number;
+  label: string;
+  href: string;
+  summary?: string;
+  external?: boolean;
+  nested?: boolean;
+};
 
 export type OurWorkSectionConfig = {
   id: string;
@@ -36,11 +31,17 @@ export type OurWorkSectionConfig = {
   /** Section hub elsewhere on the site (e.g. `development`). Takes precedence over `hubSlug`. */
   hubHref?: string;
   description: string;
-  links: OurWorkLinkRef[];
+  /** Non-objective links interleaved with section objectives by `order`. */
+  customLinks: OurWorkCustomLinkRef[];
 };
 
-export type OurWorkSection = Omit<OurWorkSectionConfig, 'links'> & {
+export type OurWorkSection = Omit<OurWorkSectionConfig, 'customLinks'> & {
   links: OurWorkLink[];
+};
+
+export type GetOurWorkSectionsOptions = {
+  /** When set, objective links that do not match are omitted (custom links are always kept). */
+  filterStatus?: ListStatus;
 };
 
 export const OUR_WORK_SECTION_CONFIG: OurWorkSectionConfig[] = [
@@ -49,15 +50,13 @@ export const OUR_WORK_SECTION_CONFIG: OurWorkSectionConfig[] = [
     label: 'Neighborhood Communication',
     hubSlug: 'neighborhood-communication',
     description: 'Meetings, newsletters, and neighbor surveys that keep Northeast informed.',
-    links: [
-      { kind: 'objective', slug: 'nena-meetings' },
+    customLinks: [
       {
-        kind: 'custom',
-        label: 'NENA newsletters',
+        order: 3,
+        label: 'NENA Newsletters',
         href: 'newsletter',
         summary: 'Seasonal neighborhood news and announcements.',
       },
-      { kind: 'objective', slug: 'nena-survey' },
     ],
   },
   {
@@ -66,27 +65,16 @@ export const OUR_WORK_SECTION_CONFIG: OurWorkSectionConfig[] = [
     hubSlug: 'neighborhood-advocacy',
     description:
       'City planning, preservation, housing, mobility, and other issues NENA follows on neighbors’ behalf.',
-    links: [
-      { kind: 'objective', slug: 'bozeman-udc' },
-      { kind: 'objective', slug: 'ncod-guidelines' },
-      { kind: 'objective', slug: 'bozeman-creek-vision-plan' },
-      { kind: 'objective', slug: 'inter-neighborhood-council' },
-      { kind: 'objective', slug: 'northeast-urban-renewal-district' },
-      { kind: 'objective', slug: 'parade-of-sheds' },
-      { kind: 'objective', slug: 'safe-quiet-rail-crossings' },
-      { kind: 'objective', slug: 'trees' },
-      { kind: 'objective', slug: 'affordable-housing' },
-      { kind: 'objective', slug: 'trails-pocket-parks' },
-    ],
+    customLinks: [],
   },
   {
     id: 'development-watch',
     label: 'Development Watch',
     hubHref: 'development',
     description: 'Active development proposals and projects in the Northeast Neighborhood.',
-    links: [
+    customLinks: [
       {
-        kind: 'custom',
+        order: 1,
         label: 'All development projects',
         href: 'development',
         summary: 'Map and list of current projects NENA is tracking.',
@@ -95,46 +83,72 @@ export const OUR_WORK_SECTION_CONFIG: OurWorkSectionConfig[] = [
   },
 ];
 
-function resolveOurWorkLinkRef(
-  ref: OurWorkLinkRef,
-  objectivesBySlug: Map<string, CollectionEntry<'objectives'>>,
-  sectionId: string,
-): OurWorkLink {
-  if (ref.kind === 'custom') {
-    return {
-      label: ref.label,
-      href: ref.href,
-      summary: ref.summary,
-      external: ref.external,
-      nested: ref.nested,
-    };
-  }
+type SortableLink = OurWorkLink & { sortOrder: number };
 
-  const objective = objectivesBySlug.get(ref.slug);
-  if (!objective) {
-    throw new Error(`Our Work section "${sectionId}" references missing objective: ${ref.slug}`);
-  }
-
+function objectiveToLink(objective: CollectionEntry<'objectives'>): SortableLink {
   return {
+    sortOrder: objective.data.order,
     label: objective.data.title,
     href: `${OUR_WORK_PATH}/${objective.id}`,
     summary: objective.data.summary,
+    nested: true,
+  };
+}
+
+function customToLink(ref: OurWorkCustomLinkRef): SortableLink {
+  return {
+    sortOrder: ref.order,
+    label: ref.label,
+    href: ref.href,
+    summary: ref.summary,
+    external: ref.external,
     nested: ref.nested,
   };
 }
 
-export async function getOurWorkSections(): Promise<OurWorkSection[]> {
+function linksForSection(
+  sectionId: string,
+  objectives: CollectionEntry<'objectives'>[],
+  customLinks: OurWorkCustomLinkRef[],
+  filterStatus?: ListStatus,
+): OurWorkLink[] {
+  const objectiveLinks = objectives
+    .filter(
+      (objective) =>
+        objective.data.section === sectionId &&
+        objective.data.listed &&
+        (!filterStatus || matchesListStatus(objective.data.status, filterStatus)),
+    )
+    .map(objectiveToLink);
+
+  const custom = customLinks.map(customToLink);
+
+  return [...objectiveLinks, ...custom]
+    .sort((a, b) => a.sortOrder - b.sortOrder)
+    .map(({ sortOrder: _sortOrder, ...link }) => link);
+}
+
+export async function getOurWorkSections(
+  options: GetOurWorkSectionsOptions = {},
+): Promise<OurWorkSection[]> {
+  const { filterStatus } = options;
   const objectives = await getCollection('objectives');
-  const objectivesBySlug = new Map(objectives.map((objective) => [objective.id, objective]));
 
   return OUR_WORK_SECTION_CONFIG.map((section) => ({
-    ...section,
-    links: section.links.map((ref) => resolveOurWorkLinkRef(ref, objectivesBySlug, section.id)),
+    id: section.id,
+    label: section.label,
+    hubSlug: section.hubSlug,
+    hubHref: section.hubHref,
+    description: section.description,
+    links: linksForSection(section.id, objectives, section.customLinks, filterStatus),
   }));
 }
 
-export async function ourWorkSectionByHubSlug(slug: string): Promise<OurWorkSection | undefined> {
-  const sections = await getOurWorkSections();
+export async function ourWorkSectionByHubSlug(
+  slug: string,
+  options: GetOurWorkSectionsOptions = { filterStatus: 'current' },
+): Promise<OurWorkSection | undefined> {
+  const sections = await getOurWorkSections(options);
   return sections.find((section) => section.hubSlug === slug);
 }
 

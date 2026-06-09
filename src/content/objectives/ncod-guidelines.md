@@ -4,6 +4,7 @@ summary: >-
   City review of the NCOD overlay and design guidelines that protect historic neighborhood character in Northeast
   Bozeman.
 status: current
+section: neighborhood-advocacy
 order: 12
 topics:
   - historic-preservation

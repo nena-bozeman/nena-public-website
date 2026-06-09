@@ -2,6 +2,7 @@
 title: NENA Newsletters
 summary: Archive of neighborhood newsletters—spring and fall editions—with downloads as they are migrated from the legacy site.
 status: current
+listed: false
 order: 1
 topics:
   - newsletter

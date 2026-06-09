@@ -3,6 +3,7 @@ title: Safe & Quiet Railroad Crossings
 summary: >-
   At-grade crossing upgrades, train horn noise, and safe routes along rail corridors that affect Northeast neighbors.
 status: current
+section: neighborhood-advocacy
 order: 16
 topics:
   - safe-quiet-rail-crossings

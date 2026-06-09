@@ -2,6 +2,7 @@
 title: NENA Survey
 summary: Community surveys, how to participate, and published results that inform NENA priorities.
 status: current
+section: neighborhood-communication
 order: 11
 topics:
   - nena-survey

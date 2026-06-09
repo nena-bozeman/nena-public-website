@@ -4,7 +4,8 @@ summary: >-
   Unified Development Code advocacy—documentation and positions related to design review and the built environment
   affecting Northeast Bozeman.
 status: current
-order: 3
+section: neighborhood-advocacy
+order: 13
 topics:
   - bozeman-udc
 ---

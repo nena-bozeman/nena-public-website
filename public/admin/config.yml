@@ -306,6 +306,13 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Status", name: "status", widget: "select", options: ["current", "past"], default: "current" }
+      - label: "Section"
+        name: "section"
+        widget: "select"
+        options: ["neighborhood-communication", "neighborhood-advocacy"]
+        required: false
+        hint: "Our Work hub section. Omit for objectives not listed under a section."
+      - { label: "Listed in Our Work", name: "listed", widget: "boolean", default: true, hint: "When off, hidden from nav and hub lists; the page URL still works." }
       - { label: "Order", name: "order", widget: "number", default: 99 }
       - { label: "Contact Email", name: "contactEmail", widget: "string", required: false }
       - <<: *topics_field

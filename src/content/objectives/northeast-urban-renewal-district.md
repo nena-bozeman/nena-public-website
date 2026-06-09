@@ -4,6 +4,7 @@ summary: >-
   Tax increment financing and public improvements in northeast Bozeman, including trails, streets, and the Aspen Street
   bridge.
 status: current
+section: neighborhood-advocacy
 order: 15
 topics:
   - trails-pocket-parks

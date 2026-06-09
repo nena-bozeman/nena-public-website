@@ -4,6 +4,7 @@ summary: >-
   City planning for Bozeman Creek resiliency, floodplain management, and corridor improvements that affect Northeast
   neighbors.
 status: current
+section: neighborhood-advocacy
 order: 13
 topics:
   - environment

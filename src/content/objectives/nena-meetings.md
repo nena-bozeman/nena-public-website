@@ -2,6 +2,7 @@
 title: NENA Meetings
 summary: Agendas, minutes, and recordings for the Northeast Neighborhood Association.
 status: current
+section: neighborhood-communication
 order: 2
 topics:
   - meeting

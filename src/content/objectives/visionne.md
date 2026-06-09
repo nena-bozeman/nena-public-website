@@ -4,6 +4,7 @@ summary: >-
   Neighborhood vision, character, and long-range planning for Northeast Bozeman—including the PhotoVoicesNE community
   photo project.
 status: past
+section: neighborhood-advocacy
 order: 6
 topics:
   - visionne

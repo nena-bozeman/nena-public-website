@@ -1,7 +1,8 @@
 ---
 title: Affordable Housing
 summary: Working to preserve and expand affordable housing options in the Northeast Neighborhood as Bozeman grows.
-status: current
+status: past
+section: neighborhood-advocacy
 order: 4
 topics:
   - affordable-housing

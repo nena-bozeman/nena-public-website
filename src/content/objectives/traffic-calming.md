@@ -2,6 +2,7 @@
 title: Traffic Calming
 summary: Working to make neighborhood streets safer for pedestrians, cyclists, and drivers through traffic calming measures.
 status: past
+section: neighborhood-advocacy
 order: 10
 topics:
   - traffic-calming
