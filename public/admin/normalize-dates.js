@@ -63,13 +63,10 @@
     },
   });
 
-  const formatters = CMS.getCustomFormatsFormatters();
-  const frontmatter = formatters && formatters.frontmatter;
-  if (frontmatter) {
-    CMS.registerCustomFormat('frontmatter', 'md', {
-      fromFile: frontmatter.fromFile,
-      toFile: (...args) => quoteFrontmatterDateFields(frontmatter.toFile(...args)),
-    });
+  const { registerFrontmatterFormat } = globalThis.NenaFrontmatterFormat;
+  const yaml = globalThis.jsyaml;
+  if (registerFrontmatterFormat && yaml && quoteFrontmatterDateFields) {
+    registerFrontmatterFormat(CMS, yaml, quoteFrontmatterDateFields);
   }
 
   CMS.registerEventListener({

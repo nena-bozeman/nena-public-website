@@ -3,8 +3,8 @@ title: Idaho Pole - A Superfund Site and an Urban Renewal District
 status: current
 phase: under-review
 address: Northeast Bozeman, MT
-submittedDate: 2020-11-21
-dateCreated: 2020-11-21
+submittedDate: '2020-11-21'
+dateCreated: '2020-11-21'
 dateUpdated: 2026-06-09T19:40
 summary: >-
   Idaho Pole is an 87-acre area to the northeast of Bozeman's NE neighborhood.

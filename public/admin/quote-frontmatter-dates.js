@@ -17,7 +17,7 @@ function quoteYamlField(yaml, field, valuePattern) {
 }
 
 function quoteFrontmatterDateFields(fileText) {
-  const match = fileText.match(/^---\n([\s\S]*?)\n---/);
+  const match = fileText.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!match) return fileText;
 
   let yaml = match[1];

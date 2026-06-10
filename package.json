@@ -8,7 +8,7 @@
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "astro check",
+    "check": "pnpm run validate:content-references && astro check",
     "test": "node --test",
     "inventory:legacy": "node scripts/build-legacy-inventory.mjs",
     "inventory:legacy:quick": "node scripts/build-legacy-inventory.mjs --no-crawl-assets",
