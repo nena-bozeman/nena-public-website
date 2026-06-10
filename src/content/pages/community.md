@@ -21,6 +21,10 @@ NENA works alongside the City of Bozeman, the Inter-Neighborhood Council, and ne
 
 For other neighborhood associations across Bozeman, use the city's [neighborhood associations](https://www.bozeman.net/departments/administration/communications-engagement/neighborhoods-program/neighborhood-associations) directory (NENA is the Northeast association).
 
+## Neighborhood history
+
+* [Extreme History Project](https://extremehistoryproject.org/) — nonprofit offering historic walking tours, lectures, and programs, including tours of Bozeman's North Side
+
 ## Bozeman arts & downtown culture
 
 Much of Bozeman's gallery, studio, and performance activity clusters downtown and around the Emerson. These organizations are useful starting points if you are looking for the "arts district" side of town.
