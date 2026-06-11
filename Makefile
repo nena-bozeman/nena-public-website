@@ -13,6 +13,7 @@ ci:
 	pnpm test
 	pnpm run build
 	pnpm run check:internal-links
+	pnpm run check:external-links
 
 # Show available targets (uses the comment above each target)
 help:

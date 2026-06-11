@@ -12,6 +12,9 @@ data
 !data/docker/legacy-mysql/
 !data/docker/legacy-mysql/**
 
+# lychee link-check cache (see .lychee.toml)
+.lycheecache
+
 # build output
 dist/
 .output/

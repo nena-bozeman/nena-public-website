@@ -85,7 +85,7 @@ Repository → **Settings** → **Secrets and variables → Actions** → **New 
 
 - [x] Push to **`main`** → **Deploy to Cloudflare** succeeds and updates production at `https://nena-public-website.nenabozeman.workers.dev`.
 - [x] Open a **pull request** or push a branch **other than `main`** → **Deploy Preview** succeeds.
-- [x] **Dependabot** and **fork** pull requests skip **Deploy Preview** (no access to Cloudflare secrets). **CI** still runs on those PRs: `astro check`, unit tests, `pnpm run build`, content-reference validation, internal-link checks, and `wrangler deploy` / `wrangler versions upload` **dry-runs** (no API token required).
+- [x] **Dependabot** and **fork** pull requests skip **Deploy Preview** (no access to Cloudflare secrets). **CI** still runs on those PRs: `astro check`, unit tests, `pnpm run build`, content-reference validation, internal- and external-link checks (Lychee; local install: [docs/link-checking.md](link-checking.md)), and `wrangler deploy` / `wrangler versions upload` **dry-runs** (no API token required).
 - [x] In Cloudflare → **Workers & Pages** → select the Worker → **Versions**, confirm new versions appear.
 
 ---

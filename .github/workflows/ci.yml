@@ -1,7 +1,7 @@
 name: CI
 
 # Required gate for every PR, including Dependabot. Validates install, types, tests,
-# production build, internal links, and Wrangler packaging without Cloudflare secrets.
+# production build, internal + external links, and Wrangler packaging without Cloudflare secrets.
 on:
   pull_request:
   push:
@@ -55,8 +55,43 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: dist
+          retention-days: 1
       - run: pnpm run validate:content-references -- --require-dist
       - run: pnpm run check:internal-links
       # Dry-run both deploy paths without CLOUDFLARE_API_TOKEN (works on Dependabot PRs).
       - run: pnpm exec wrangler deploy --dry-run
       - run: pnpm exec wrangler versions upload --dry-run
+
+  check-external-links:
+    name: External links
+    needs: [build-and-check-internal-links]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-dist
+          path: dist
+      - name: Restore lychee cache
+        id: restore-lychee-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .lycheecache
+          key: lychee-${{ github.sha }}
+          restore-keys: lychee-
+      - name: Check external links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --config .lychee.toml dist/
+          fail: true
+          jobSummary: true
+      - name: Save lychee cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .lycheecache
+          key: ${{ steps.restore-lychee-cache.outputs.cache-primary-key }}

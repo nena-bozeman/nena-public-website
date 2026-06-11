@@ -1,0 +1,63 @@
+# External link checker for built static output (see scripts/check-internal-links.mjs for internal links).
+# Setup: docs/link-checking.md (brew bundle)
+# Usage: pnpm run build && pnpm run check:external-links
+# CI: .github/workflows/ci.yml → check-external-links job
+
+# Resolve root-relative hrefs in dist/ locally; internal targets are not HTTP-checked.
+base_url = "https://nena-public-website.nenabozeman.workers.dev"
+root_dir = "dist"
+
+verbose = "warn"
+no_progress = true
+cache = true
+max_cache_age = "7d"
+timeout = 20
+max_retries = 2
+retry_wait_time = 2
+max_concurrency = 8
+host_concurrency = 2
+
+# Redirects are fine; rate limits are retried separately.
+# 403: common for government sites and SharePoint that block CI user-agents.
+accept = ["100..=399", "403", "429"]
+
+# City site redirects bozeman.net → bozemanmt.gov; check the current host directly.
+remap = ["https://www.bozeman.net https://www.bozemanmt.gov"]
+
+include_fragments = "none"
+include_mail = false
+include_verbatim = false
+
+exclude = [
+  # Covered by check:internal-links (filesystem resolution, base path).
+  '^https://nena-public-website\.nenabozeman\.workers\.dev',
+  '^https://nenabozeman\.org',
+  '^https://www\.nenabozeman\.org',
+  # Legacy Craft CMS asset routes referenced in migrated content.
+  '/files/(download|thumb|large)/',
+  # Maps loader URL is runtime-only and key/referrer-dependent.
+  '^https://maps\.googleapis\.com/',
+  # Non-navigational schemes.
+  '^mailto:',
+  '^tel:',
+  '^javascript:',
+  '^data:',
+  # Known broken or unreachable URLs in migrated content (see src paths in comments).
+  # wallaceworks.md — city file-share host no longer resolves (DNS)
+  'https?://bzncloud\.bozeman\.net',
+  # 2021-04-25-community-solar-access.md — host no longer resolves
+  'mtsolarcommunity\.mt\.gov/Portals/185/Documents/Montana_Solar_Market_Assessment',
+  # 2020-10-09-trails-projects.md — expired Webex session
+  'cityofbozeman\.webex\.com/cityofbozeman/onstage/g\.php\?MTID=e2fa09fdbf703ec57c7d4db6389350401',
+  # 2025-09-29 / 2025-11-04 news — closed Monday.com survey
+  'forms\.monday\.com/forms/2bee0384d8ce6d8b244cbdfd4d732f7d',
+  # 2021-04-25-ne-bozeman-environmental-initiatives-part-3.md — PDF removed from MT Native Plants site
+  'mtnativeplants\.org/wp-content/uploads/2018/07/Calypson-Chapter-Native-Plant-Landscaping',
+  # community.md — site times out from CI link checker
+  '^https://www\.theemerson\.org/?$',
+]
+
+exclude_path = [
+  # Pagefind search bundle — not user-facing outbound links.
+  '(^|/)pagefind/',
+]
