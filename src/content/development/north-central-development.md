@@ -131,7 +131,7 @@ See the study here: [Framework Parking Study.pdf](<{{ url:site }}files/download
 
 Click here to see a Traffic Study completed for HomeBase Partners by Marvin & Assoc.  
   
-[https://www.dropbox.com/s/gtamyq9qqta9u3g/North%20Central%20TIS%20Final%20Report%20020321.pdf?dl=0](https://www.dropbox.com/s/gtamyq9qqta9u3g/North%20Central%20TIS%20Final%20Report%20020321.pdf?dl=0)
+[North Central TIS Final Report (PDF)](https://www.dropbox.com/scl/fi/4gb1u682ta21lhamfpg7c/North-Central-TIS-Final-Report-020321.pdf?rlkey=qup5uxkxx9wwxrbzi7e9pnpyb&dl=0)
 
 # Notes from June 3rd, 2021 NENA Townhall
 

@@ -101,7 +101,7 @@ One 11 Street View
   
 Watch their promotional video here.
 
-[https://northcentralbozeman.com/](https://northcentralbozeman.com/?fbclid=IwAR2CqsH9FqpG8XhqFoOjNNP-70iwqLMRjnyPIHoLA0fPuIV-B0lDlLwqAGg)  
+[northcentralbozeman.com](https://northcentralbozeman.com/)  
  
 
 ## Notes from June 3rd, 2021 NENA Townhall

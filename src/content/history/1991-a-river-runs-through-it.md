@@ -20,6 +20,6 @@ Redford told a local interviewer that he "loved being here" and that Montana's p
 
 ## Legacy in the neighborhood
 
-The depot remains a landmark along Front Street, and the film is still closely associated with Bozeman's identity as a river town. Montana PBS later documented the production in [*Shadow Casting: The Making of "A River Runs Through It"*](https://watch.montanapbs.org/video/shadow-casting-the-making-of-a-river-runs-through-it-pd7adb/), and the [Montana Film Office](https://montanafilm.com/) maintains a gallery of behind-the-scenes images from the shoot.
+The depot remains a landmark along Front Street, and the film is still closely associated with Bozeman's identity as a river town. Montana PBS later documented the production in [*Shadow Casting: The Making of "A River Runs Through It"*](https://watch.montanapbs.org/video/shadow-casting-the-making-of-a-river-runs-through-it-pd7adb/), and the [Montana Film Office](https://commerce.mt.gov/Business/Programs-and-Services/Montana-Film-Office) maintains a gallery of behind-the-scenes images from the shoot.
 
 *Hero photograph: Robert Redford directing on the Gallatin River during filming, 1991. Photograph by [Thomas Burns](https://bigskyjournal.com/parting-words/); reprinted in [Big Sky Journal](https://bigskyjournal.com/parting-words/). Depot photograph: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Bozeman_Depot,_4_May_2022_-_south_faces.jpg) (CC0).*

@@ -19,10 +19,14 @@ host_concurrency = 2
 
 # Redirects are fine; rate limits are retried separately.
 # 403: common for government sites and SharePoint that block CI user-agents.
-accept = ["100..=399", "403", "429"]
+# 415: some marketing/dev sites reject Lychee's request format but work in browsers.
+accept = ["100..=399", "403", "415", "429"]
 
-# City site redirects bozeman.net → bozemanmt.gov; check the current host directly.
-remap = ["https://www.bozeman.net https://www.bozemanmt.gov"]
+# Follow common host migrations directly instead of redirect chains.
+remap = [
+  "https://www.bozeman.net https://www.bozemanmt.gov",
+  "https://engage.bozeman.net https://engage.bozemanmt.gov",
+]
 
 include_fragments = "none"
 include_mail = false
@@ -53,6 +57,12 @@ exclude = [
   'forms\.monday\.com/forms/2bee0384d8ce6d8b244cbdfd4d732f7d',
   # 2021-04-25-ne-bozeman-environmental-initiatives-part-3.md — PDF removed from MT Native Plants site
   'mtnativeplants\.org/wp-content/uploads/2018/07/Calypson-Chapter-Native-Plant-Landscaping',
+  # 2021-04-25-ne-bozeman-environmental-initiatives-part-3.md — NRCS pamphlet PDF has untrusted TLS in CI
+  'mtnativeplants\.org/wp-content/uploads/2018/07/mtpmcbr11694\.pdf',
+  # ncod-guidelines.md, visionne.md — Gigapan panorama times out or returns 404s from CI
+  'gigapan\.com/gigapans/217435',
+  # 1991-a-river-runs-through-it.md — Montana PBS player page times out from CI
+  'watch\.montanapbs\.org/video/shadow-casting-the-making-of-a-river-runs-through-it-pd7adb',
   # community.md — site times out from CI link checker
   '^https://www\.theemerson\.org/?$',
 ]

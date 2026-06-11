@@ -81,8 +81,9 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: .lycheecache
-          key: lychee-${{ github.sha }}
-          restore-keys: lychee-
+          # Include config in the key so stale cached errors are not restored after excludes/accept change.
+          key: lychee-${{ hashFiles('.lychee.toml', '.lychee-version') }}-${{ github.sha }}
+          restore-keys: lychee-${{ hashFiles('.lychee.toml', '.lychee-version') }}-
       - name: Read lychee version
         id: lychee-version
         run: echo "version=v$(tr -d '[:space:]' < .lychee-version)" >> "$GITHUB_OUTPUT"
