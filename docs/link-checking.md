@@ -11,7 +11,7 @@ Run the full local gate (including both link checks): **`make ci`**.
 
 ## Install Lychee (local only)
 
-CI installs Lychee automatically via [`lycheeverse/lychee-action`](https://github.com/lycheeverse/lychee-action). You only need a local install to run `pnpm run check:external-links` or `make ci` on your machine.
+CI and local dev use the same Lychee release, pinned in [`.lychee-version`](../.lychee-version). CI installs it via [`lycheeverse/lychee-action`](https://github.com/lycheeverse/lychee-action); `pnpm run check:external-links` verifies your local binary matches before scanning `dist/`.
 
 ### macOS (recommended)
 
@@ -66,6 +66,7 @@ Lychee caches results in `.lycheecache` (gitignored) to speed up repeat runs.
 
 ## Troubleshooting
 
-- **`lychee: command not found`** — Install with `brew install lychee` (see above) or use `make ci` only after installing.
+- **`lychee: command not found`** — Install with `brew bundle` (see above) or use `make ci` only after installing.
+- **`lychee version mismatch`** — Upgrade to the version in `.lychee-version` (e.g. `brew upgrade lychee`). Bump that file and CI together when upgrading.
 - **`Missing build output: dist`** — Run `pnpm run build` first.
 - **Intermittent failures** — Re-run locally; third-party sites rate-limit or block automated requests. Check whether the URL works in a browser before changing content or excludes.

@@ -83,9 +83,13 @@ jobs:
           path: .lycheecache
           key: lychee-${{ github.sha }}
           restore-keys: lychee-
+      - name: Read lychee version
+        id: lychee-version
+        run: echo "version=v$(tr -d '[:space:]' < .lychee-version)" >> "$GITHUB_OUTPUT"
       - name: Check external links
         uses: lycheeverse/lychee-action@v2
         with:
+          lycheeVersion: ${{ steps.lychee-version.outputs.version }}
           args: --config .lychee.toml dist/
           fail: true
           jobSummary: true
