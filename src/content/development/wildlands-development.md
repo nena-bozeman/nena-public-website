@@ -7,46 +7,14 @@ submittedDate: '2021-06-08'
 dateCreated: '2021-06-08'
 dateUpdated: '2025-02-18'
 summary: >-
-  www.Wildlandsbozeman.com 5/25/22 Update Construction: Peach is open again after some required upgrades were made to
-  the existing fire and water service Currently Langlas is pouring footings Fire, water and line testin…
+  A mixed-use redevelopment of the Brown Building at Peach and Wallace, adding community retail, office space, and
+  residential units with sustainable building features.
 topics: []
-newsSlugs: []
+newsSlugs:
+  - 2022-05-25-wildlands-development-update
 ---
 
-[www.Wildlandsbozeman.com](https://www.wildlandsbozeman.com/) 
-
-**5/25/22 Update**
-
-Construction:
-
-Peach is open again after some required upgrades were made to the existing fire and water service 
-
-Currently Langlas is pouring footings
-
-Fire, water and line testing is currently underway
-
-Community: 
-
- On April 20th, OREP sponsored a Customer Appreciation Day for the first 400 patrons.  Everyone received delicious Valrhona chocolate brownies. We plan to do customer appreciation days once every two months until the project is completed. 
-
-Sustainability:
-
-We have an eye on the future and understand it is incumbent on us to sustainably manage the land, water, wildlife, and other natural resources in Southwest Montana. We are proud that Wildlands will be a sustainable and environmentally friendly development that includes these green initiatives throughout the building.
-
-Wildlands Includes the following green initiatives throughout the building: 
-
-*   Solar-ready rooftop to sustainably power all common areas
-*   Energy star-rated appliances in every unit
-*   Programmable thermostats in every unit
-*   Advanced Low-E insulating dual-pane windows with argon
-*   Highest efficiency furnaces (98% efficient) for each residence; each furnace is also provided with a modulating, variable-speed fan to reduce energy usage as much as possible
-*   Low irrigation landscaping 
-*   Low-VOC paints used in units
-
-
-
-![]({{ url:site }}files/large/402136c2dfef70c) 
- 
+[www.Wildlandsbozeman.com](https://www.wildlandsbozeman.com/)
 
 The Wild Crumb Building will be redeveloped. The project addition is a 4 story mixed use development with public commercial spaces, office lease space, and 15 high end residential units.  (See below for more information from 45 Architecture) Included in the project is an upper level public access elevated park and plaza space surrounded by existing and new building program.  This project aims to maintain and enhance the social community presence of the site, while providing public out door space for the neighborhood. The developer will spend one-hour with NENA Members to talk about the project. 
 
