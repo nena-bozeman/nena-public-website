@@ -94,4 +94,4 @@ Repository → **Settings** → **Secrets and variables → Actions** → **New 
 
 The site was previously hosted at `https://nena-bozeman.github.io/nena-public-website/`. After disabling GitHub Pages in repo settings, add redirects at the DNS/hosting layer if needed. On the Worker, [`public/_redirects`](../public/_redirects) maps `/nena-public-website/*` → `/*` for any links that still use the old subpath pattern.
 
-When **`nenabozeman.org`** goes live, set `ASTRO_SITE` in CI/local builds and update `site_domain` in [`public/admin/config.main.yml`](../public/admin/config.main.yml).
+When **`nenabozeman.org`** goes live, follow [DNS migration to nenabozeman.org](dns-migration-nenabozeman-org.md) (`ASTRO_SITE`, Decap `site_domain`, Cloudflare custom domain, and legacy redirects).

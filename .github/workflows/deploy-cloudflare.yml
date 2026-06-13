@@ -30,6 +30,14 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
+      # Calendar sync: production only (not preview.yml or ci.yml). Live writes require NENA_CALENDAR_SYNC_ALLOW=1.
+      - name: Sync events to Google Calendar
+        run: pnpm run sync:google-calendar
+        env:
+          NENA_CALENDAR_SYNC_ALLOW: '1'
+          PUBLIC_GOOGLE_CALENDAR_ID: ${{ secrets.PUBLIC_GOOGLE_CALENDAR_ID }}
+          GOOGLE_CALENDAR_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_CALENDAR_SERVICE_ACCOUNT_JSON }}
+          ASTRO_SITE: https://nena-public-website.nenabozeman.workers.dev
       - name: Deploy Worker
         uses: cloudflare/wrangler-action@v4
         with:
