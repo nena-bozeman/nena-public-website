@@ -1,7 +1,7 @@
 ---
 title: '"Be Red Cross Ready" Class'
-startDate: '2026-06-11T17:30:00.000Z'
-endDate: '2026-06-11T18:30:00.000Z'
+startDate: '2026-06-11T17:30:00'
+endDate: '2026-06-11T18:30:00'
 location: Bozeman Public Safety Center Community Room, 901 N Rouse Ave
 summary: Red Cross Wildfire Preparedness Class
 category: social

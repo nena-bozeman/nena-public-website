@@ -172,6 +172,8 @@ collections:
     folder: "src/content/events"
     create: true
     summary: "{{title}}  ·  {{fields.startDate}}"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path_date_field: startDate
     sortable_fields:
       - title
       - { field: startDate, default_sort: desc }
@@ -180,6 +182,7 @@ collections:
       - label: "Start Date"
         name: "startDate"
         <<: *event_datetime_widget
+        hint: "Sets the date prefix in the filename (e.g. 2026-07-08-potluck.md)."
       - label: "End Date"
         name: "endDate"
         <<: *event_datetime_widget

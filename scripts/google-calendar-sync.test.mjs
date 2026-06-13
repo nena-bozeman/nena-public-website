@@ -87,14 +87,14 @@ test('formatEventSummary adds and removes cancelled prefix', () => {
   );
 });
 
-test('normalizeDateTime handles local and UTC datetimes', () => {
+test('normalizeDateTime treats all values as America/Denver wall clock', () => {
   assert.deepEqual(normalizeDateTime('2026-07-08T18:00:00'), {
     dateTime: '2026-07-08T18:00:00',
     timeZone: EVENT_TIME_ZONE,
   });
   assert.deepEqual(normalizeDateTime('2026-06-11T17:30:00.000Z'), {
-    dateTime: '2026-06-11T17:30:00Z',
-    timeZone: 'UTC',
+    dateTime: '2026-06-11T17:30:00',
+    timeZone: EVENT_TIME_ZONE,
   });
 });
 
@@ -105,7 +105,7 @@ test('resolveEventEnd defaults to one hour after start', () => {
   );
   assert.deepEqual(
     resolveEventEnd('2026-06-11T17:30:00.000Z', undefined),
-    { dateTime: '2026-06-11T18:30:00Z', timeZone: 'UTC' },
+    { dateTime: '2026-06-11T18:30:00', timeZone: EVENT_TIME_ZONE },
   );
 });
 

@@ -1,7 +1,7 @@
 ---
 title: 'NENA Town Hall: Cloverleaf Development Update'
-startDate: '2023-02-23T18:00:00.000Z'
-endDate: '2023-02-23T19:00:00.000Z'
+startDate: '2023-02-23T18:00:00'
+endDate: '2023-02-23T19:00:00'
 location: Virtual — NENA Town Hall
 summary: >-
   Outlaw Partners presented concept plans for the Cloverleaf mixed-use project on the former Bronken's Distributing site

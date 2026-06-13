@@ -43,6 +43,28 @@ export function formatEventSummary(title, cancelled) {
 }
 
 /**
+ * Event times are always Bozeman wall clock. Legacy frontmatter sometimes
+ * appended `Z` without converting to UTC; ignore the suffix and keep digits.
+ *
+ * @param {Date} date
+ * @returns {string}
+ */
+function formatWallClockInEventTimeZone(date) {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: EVENT_TIME_ZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  }).formatToParts(date);
+  const get = (type) => parts.find((part) => part.type === type)?.value ?? '';
+  return `${get('year')}-${get('month')}-${get('day')}T${get('hour')}:${get('minute')}:${get('second')}`;
+}
+
+/**
  * @param {unknown} value
  * @returns {{ dateTime: string, timeZone: string }}
  */
@@ -56,31 +78,22 @@ export function normalizeDateTime(value) {
       throw new Error('Event datetime is invalid');
     }
     return {
-      dateTime: value.toISOString().replace(/\.\d{3}Z$/, 'Z'),
-      timeZone: 'UTC',
+      dateTime: formatWallClockInEventTimeZone(value),
+      timeZone: EVENT_TIME_ZONE,
     };
   }
 
   const raw = String(value).trim();
   if (!raw) throw new Error('Event datetime is required');
 
-  if (/Z$/i.test(raw)) {
-    const parsed = new Date(raw);
-    if (Number.isNaN(parsed.valueOf())) {
-      throw new Error(`Invalid UTC datetime: ${raw}`);
-    }
-    const withoutMs = raw.replace(/\.\d{3}Z$/i, 'Z');
-    return { dateTime: withoutMs, timeZone: 'UTC' };
-  }
-
-  const localMatch = raw.match(
-    /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(?:\.\d+)?$/,
+  const wallClockMatch = raw.match(
+    /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(?:\.\d+)?(?:Z)?$/i,
   );
-  if (!localMatch) {
+  if (!wallClockMatch) {
     throw new Error(`Unsupported datetime format: ${raw}`);
   }
 
-  return { dateTime: localMatch[1], timeZone: EVENT_TIME_ZONE };
+  return { dateTime: wallClockMatch[1], timeZone: EVENT_TIME_ZONE };
 }
 
 /**
@@ -88,17 +101,6 @@ export function normalizeDateTime(value) {
  * @param {number} hours
  */
 export function addHoursToDateTime(normalized, hours) {
-  if (normalized.timeZone === 'UTC') {
-    const iso = normalized.dateTime.endsWith('Z')
-      ? normalized.dateTime
-      : `${normalized.dateTime}Z`;
-    const endDate = new Date(new Date(iso).valueOf() + hours * 60 * 60 * 1000);
-    return {
-      dateTime: endDate.toISOString().replace(/\.\d{3}Z$/, 'Z'),
-      timeZone: 'UTC',
-    };
-  }
-
   const match = normalized.dateTime.match(
     /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})$/,
   );

@@ -31,11 +31,26 @@
   }
 
   /** Keep datetime values as strings so Decap list sort does not split Date vs string. */
+  function formatWallClockInDenver(value) {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/Denver',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    }).formatToParts(value);
+    const get = (type) => parts.find((part) => part.type === type)?.value ?? '';
+    return `${get('year')}-${get('month')}-${get('day')}T${get('hour')}:${get('minute')}:${get('second')}`;
+  }
+
   function toDateTimeString(value) {
     if (value == null || value === '') return value;
-    if (value instanceof Date) return value.toISOString();
+    if (value instanceof Date) return formatWallClockInDenver(value);
     const text = String(value);
-    const match = text.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z?)/);
+    const match = text.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})/);
     return match ? match[1] : text;
   }
 
