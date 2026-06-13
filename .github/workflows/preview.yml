@@ -37,6 +37,7 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
+      # Google Calendar sync intentionally omitted — live sync runs in deploy-cloudflare.yml (main) only.
       # Worker + assets project: use Wrangler, not Pages API (no Pages project exists for this app).
       # `versions upload` publishes a preview URL without replacing production traffic.
       # Note: intentionally no `gitHubToken` here — wrangler-action would otherwise post a fresh
