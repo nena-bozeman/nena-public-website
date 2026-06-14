@@ -1,5 +1,6 @@
 import { getCollection } from 'astro:content';
 import { OUR_WORK_PATH } from '../data/our-work';
+import { newsEntriesForSite } from './news';
 
 export type ContentCollection =
   | 'news'
@@ -117,7 +118,7 @@ export async function buildBacklinkIndex(): Promise<Map<EntityKey, BacklinkRef[]
 
   const index = new Map<EntityKey, BacklinkRef[]>();
 
-  for (const post of news) {
+  for (const post of newsEntriesForSite(news)) {
     const title = post.data.title;
     const date = post.data.date;
     const ref = { sourceCollection: 'news' as const, sourceSlug: post.id };
