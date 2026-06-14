@@ -151,6 +151,11 @@ collections:
         display_fields: ["title", "startDate"]
         multiple: true
         required: false
+      - label: "Mailchimp archive URL"
+        name: "mailchimpArchiveUrl"
+        widget: "string"
+        required: false
+        hint: "mailchi.mp web version link from the campaign RSS feed or archive."
       - { label: "Body", name: "body", widget: "markdown" }
   - name: "events"
     label: "Events"

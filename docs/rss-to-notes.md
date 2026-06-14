@@ -47,10 +47,10 @@ pnpm run rss-to-notes -- --url 'https://us18.campaign-archive.com/feed?u=...&id=
 
 Each stub includes:
 
-- Frontmatter: `title`, `date` (from RSS `pubDate`), placeholder `summary`, `draft: true`
-- Body: a single **Original email (web version)** link to the Mailchimp archive
+- Frontmatter: `title`, `date` (from RSS `pubDate`), placeholder `summary`, `draft: true`, and `mailchimpArchiveUrl` when the feed provides a link
+- Empty body — expand from the archive URL in frontmatter before publishing
 
-Matching is by **`mailchi.mp` campaign id** already present in any news or events markdown file. Existing posts are never overwritten.
+Matching is by **`mailchi.mp` campaign id** already present in any news or events markdown file (including `mailchimpArchiveUrl` in frontmatter). Existing posts are never overwritten.
 
 ## Limitations
 

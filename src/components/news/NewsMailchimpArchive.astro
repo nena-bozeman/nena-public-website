@@ -1,0 +1,19 @@
+---
+interface Props {
+  url: string;
+}
+
+const { url } = Astro.props;
+---
+
+<footer class="not-prose mt-10 pt-6 border-t border-gray-200">
+  <p class="text-sm">
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      View original email
+    </a>
+  </p>
+</footer>

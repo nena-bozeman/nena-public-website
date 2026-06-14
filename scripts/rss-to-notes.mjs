@@ -162,17 +162,15 @@ function buildNewsStub(row) {
     title: row.title,
     date,
     summary:
-      'Draft stub from Mailchimp campaign — expand from the archive link below before publishing.',
+      'Draft stub from Mailchimp campaign — expand from the archive link before publishing.',
     featured: false,
     draft: true,
     tags: [],
     topics: [],
+    ...(row.link ? { mailchimpArchiveUrl: row.link } : {}),
   };
   const fm = yaml.dump(frontmatter, { lineWidth: -1, noRefs: true }).trimEnd();
-  const archiveLine = row.link
-    ? `**Original email (web version):** [${row.title}](${row.link})`
-    : '_No archive link in RSS item._';
-  return `---\n${fm}\n---\n\n${archiveLine}\n`;
+  return `---\n${fm}\n---\n\n`;
 }
 
 /**

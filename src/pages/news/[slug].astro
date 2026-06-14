@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import NewsDraftBadge from '../../components/news/NewsDraftBadge.astro';
+import NewsMailchimpArchive from '../../components/news/NewsMailchimpArchive.astro';
 import RelatedContent from '../../components/related/RelatedContent.astro';
 import TopicPills from '../../components/related/TopicPills.astro';
 import { getCollection, render } from 'astro:content';
@@ -52,6 +53,10 @@ const topics = post.data.topics;
     <div class="prose prose-green max-w-none">
       <Content />
     </div>
+
+    {post.data.mailchimpArchiveUrl && (
+      <NewsMailchimpArchive url={post.data.mailchimpArchiveUrl} />
+    )}
 
     <RelatedContent
       relatedObjectives={relatedObjectivesByTopics(content.objectives, topics)}

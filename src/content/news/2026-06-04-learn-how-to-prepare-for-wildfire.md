@@ -1,20 +1,22 @@
 ---
 title: "Save the Date: Learn how to prepare for wildfire"
 date: '2026-06-04'
-summary: Wildfire preparedness
+summary: >-
+  Save the date for a free Red Cross wildfire preparedness class on Thursday, June 11 — see the June 9 reminder for full
+  details.
 featured: false
-draft: false
-topics: []
+draft: true
 tags: []
+topics:
+  - newsletter
+  - community
+events:
+  - 2026-06-11-be-red-cross-ready-class
+mailchimpArchiveUrl: https://mailchi.mp/5c848c5abbd3/nena-cloverleaf-zma-vote-12854121
 ---
 
-Are you prepared for Wildfire Season?
+Are you prepared for wildfire season?
 
-The American Red Cross wants to prepare you and your community! Please join us June 11th for Be Red Cross Ready. In this free class you'll learn about building preparedness kits, creating a communication plan with your family, and ensuring your home is safe in case of a wildfire.
+The American Red Cross invites neighbors to **Be Red Cross Ready** on **Thursday, June 11, 5:30–6:30 p.m.** at the **Bozeman Public Safety Center** (901 N Rouse Ave). This free class covers preparedness kits, family communication plans, and home safety during wildfire season.
 
-WHEN: Thursday, June 11, 5:30–6:30 pm
-WHERE: Bozeman Public Safety Center, 901 N Rouse Ave
-
-Bring a friend or neighbor!
-
-**Original email (web version):** [Learn how to prepare for wildfire](https://mailchi.mp/5c848c5abbd3/nena-cloverleaf-zma-vote-12854121)
+See the updated **[Neighborhood Opportunities This Week](/news/2026-06-09-neighborhood-opportunities-this-week)** post and the [event listing](/events/2026-06-11-be-red-cross-ready-class).
