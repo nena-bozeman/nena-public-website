@@ -10,7 +10,9 @@ tags:
   - planning
 topics:
   - meeting
+mailchimpArchiveUrl: https://mailchi.mp/ae913d46e346/nena-cloverleaf-zma-vote-12852674
 ---
+
 
 The **February 16** neighborhood email highlighted several City advisory meetings and projects that week, including:
 
@@ -20,5 +22,3 @@ The **February 16** neighborhood email highlighted several City advisory meeting
 - **Tax Increment Financing Advisory Board** (**Thursday, February 19**, noon–1:30 p.m.) including Northeast Urban Renewal District work plan discussion.
 
 Neighbors were also reminded about the **Neighborhood Traffic Calming Program** for street or intersection safety concerns: [Traffic calming](https://www.bozeman.net/departments/transportation-engineering/traffic-calming).
-
-**Original email (web version):** [Important opportunities for public involvement THIS WEEK!](https://mailchi.mp/ae913d46e346/nena-cloverleaf-zma-vote-12852674)

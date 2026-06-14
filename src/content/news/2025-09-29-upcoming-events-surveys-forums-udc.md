@@ -11,7 +11,9 @@ tags:
 topics:
   - bozeman-udc
   - community
+mailchimpArchiveUrl: https://mailchi.mp/ac991f8fed5f/nena-cloverleaf-zma-vote-12850586
 ---
+
 
 Highlights from the **September 29, 2025** neighborhood email:
 
@@ -21,5 +23,3 @@ Highlights from the **September 29, 2025** neighborhood email:
 - **UDC** — Updated draft materials on **[engage.bozeman.net/udc](https://engage.bozeman.net/udc)**; **Oct 1** lunch webinar and evening session at the Public Safety Center; hearings beginning **Nov 3** at the Community Development Board.
 - **Historic Preservation Awards** — Nominations due **Sunday, October 5** via **[engage.bozeman.net/hpawards2025](https://engage.bozeman.net/hpawards2025)**.
 - **Parade of Sheds** — That year’s parade was **cancelled**; fall meeting save-the-date **Wednesday, November 5**.
-
-**Original email (web version):** [UPCOMING EVENTS AND OPPORTUNITIES](https://mailchi.mp/ac991f8fed5f/nena-cloverleaf-zma-vote-12850586)

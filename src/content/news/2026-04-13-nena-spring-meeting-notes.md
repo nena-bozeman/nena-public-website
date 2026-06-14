@@ -30,6 +30,6 @@ The published agenda included:
 - **Pizza + Story Night** recap and next steps (Suzanne Held and Courtney Scott)  
 - Announcements  
 
-**Announcement (full formatting):** [NENA Spring Meeting and Potluck — April 13](https://mailchi.mp/2fde5800b871/nena-cloverleaf-zma-vote-12853364)
+See the [original meeting announcement](/news/2026-04-09-nena-spring-meeting-potluck-april-13) for full formatting.
 
 _Add formal minutes here when approved by the board._

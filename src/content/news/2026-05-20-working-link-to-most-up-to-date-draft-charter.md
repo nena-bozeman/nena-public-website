@@ -6,6 +6,7 @@ featured: false
 draft: true
 tags: []
 topics: []
+mailchimpArchiveUrl: https://mailchi.mp/2871c5e24746/nena-cloverleaf-zma-vote-12853979
 ---
 
-**Original email (web version):** [Working link to most up-to-date draft Charter](https://mailchi.mp/2871c5e24746/nena-cloverleaf-zma-vote-12853979)
+

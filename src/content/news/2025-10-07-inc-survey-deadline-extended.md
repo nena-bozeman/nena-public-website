@@ -12,10 +12,10 @@ tags:
 topics:
   - nena-survey
   - bozeman-udc
+mailchimpArchiveUrl: https://mailchi.mp/210c0d92a4c9/nena-cloverleaf-zma-vote-12850728
 ---
+
 
 For the **October 9, 2025** **Inter-Neighborhood Council** meeting, NENA’s INC representative needed a **quorum of 45** survey responses to vote on behalf of the neighborhood on topics including the **City Government Study Commission**, **NCOD**, and **UDC**. The survey was **reopened** with an extended deadline.
 
 **Survey:** [INC survey (SurveyMonkey)](https://www.surveymonkey.com/r/HYTD6G8)
-
-**Original email (web version):** [INC Survey deadline extended - We want to hear from you!](https://mailchi.mp/210c0d92a4c9/nena-cloverleaf-zma-vote-12850728)

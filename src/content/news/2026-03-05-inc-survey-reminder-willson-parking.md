@@ -12,7 +12,9 @@ tags:
 topics:
   - nena-survey
   - parking
+mailchimpArchiveUrl: https://mailchi.mp/e8a12fb3b85f/nena-cloverleaf-zma-vote-12852945
 ---
+
 
 **Inter-Neighborhood Council survey**
 
@@ -24,5 +26,3 @@ The **March 5** email reminded neighbors that responses to the **INC survey on i
 **N. Willson parking**
 
 The City indicated plans to **reduce street parking on the east side of N. Willson** between **Villard** and **Short**, following complaints about traffic flow. A postcard was expected to neighbors on both sides of Willson in that segment.
-
-**Original email (web version):** [INC SURVEY REMINDER](https://mailchi.mp/e8a12fb3b85f/nena-cloverleaf-zma-vote-12852945)
