@@ -1,7 +1,7 @@
 ---
 title: Tinworks Art exhibition opening and Juneteenth Celebration
-startDate: 2026-06-19T15:00:00
-endDate: 2026-06-19T20:00:00
+startDate: '2026-06-19T15:00:00'
+endDate: '2026-06-19T20:00:00'
 location: Tinworks Art 719 N Ida
 summary: Join us for a public Juneteenth Celebration at Tinworks Art
 category: social

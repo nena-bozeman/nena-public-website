@@ -35,6 +35,9 @@ x-tags-field: &tags_field
   required: false
   hint: "Freeform labels for display and search only — do not power objective linking."
 
+# All markdown collections use the custom frontmatter formatter (public/admin/frontmatter-format.js)
+# so date-only and event-datetime fields are quoted on save. Keep `format: frontmatter` on each collection.
+#
 # Date-only fields: quoted 'YYYY-MM-DD' strings in frontmatter (required for CMS list sorting).
 # Use widget: string (not datetime) so Decap keeps values as strings in memory; the datetime
 # widget coerces ISO timestamps to Date objects and lodash then sorts them in a separate group.
@@ -97,6 +100,7 @@ collections:
   - name: "news"
     label: "News"
     folder: "src/content/news"
+    format: frontmatter
     create: true
     summary: "{{title}}  ·  {{fields.date}}"
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
@@ -160,6 +164,7 @@ collections:
   - name: "events"
     label: "Events"
     folder: "src/content/events"
+    format: frontmatter
     create: true
     summary: "{{title}}  ·  {{fields.startDate}}"
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
@@ -206,6 +211,7 @@ collections:
   - name: "places"
     label: "Places"
     folder: "src/content/places"
+    format: frontmatter
     create: true
     identifier_field: name
     summary: "{{name}}  ·  {{fields.status}}"
@@ -238,6 +244,7 @@ collections:
   - name: "development"
     label: "Development Watch"
     folder: "src/content/development"
+    format: frontmatter
     create: true
     summary: "{{title}}  ·  {{fields.phase}}  ·  {{fields.status}}"
     fields:
@@ -267,6 +274,7 @@ collections:
   - name: "history"
     label: "History"
     folder: "src/content/history"
+    format: frontmatter
     create: true
     summary: "{{title}}  ·  {{decade}}s  ·  {{fields.year}}"
     sortable_fields:
@@ -293,6 +301,7 @@ collections:
   - name: "objectives"
     label: "Our Work (Objectives)"
     folder: "src/content/objectives"
+    format: frontmatter
     create: true
     summary: "{{title}}  ·  {{fields.status}}"
     fields:
@@ -315,6 +324,7 @@ collections:
   - name: "meetings"
     label: "NENA Meetings"
     folder: "src/content/meetings"
+    format: frontmatter
     create: true
     summary: "{{title}}  ·  {{fields.meetingDate}}"
     sortable_fields:
@@ -352,6 +362,7 @@ collections:
   - name: "pages"
     label: "Pages"
     folder: "src/content/pages"
+    format: frontmatter
     create: true
     extension: "md"
     summary: "{{title}}"

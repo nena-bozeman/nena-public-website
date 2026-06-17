@@ -38,3 +38,19 @@ test('serializeFrontmatter quotes unquoted date-only fields on save', () => {
   assert.match(output, /^date: '2026-06-09'/m);
   assert.match(output, /Survey details/);
 });
+
+test('serializeFrontmatter quotes unquoted event datetimes on save', () => {
+  const output = serializeFrontmatter(
+    {
+      title: 'Juneteenth Celebration',
+      startDate: '2026-06-19T15:00:00',
+      endDate: '2026-06-19T20:00:00',
+      body: 'Event details\n',
+    },
+    ['title', 'startDate', 'endDate'],
+    yaml,
+    quoteFrontmatterDateFields,
+  );
+  assert.match(output, /^startDate: '2026-06-19T15:00:00'/m);
+  assert.match(output, /^endDate: '2026-06-19T20:00:00'/m);
+});
