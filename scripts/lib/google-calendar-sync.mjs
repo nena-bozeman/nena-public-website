@@ -43,25 +43,16 @@ export function formatEventSummary(title, cancelled) {
 }
 
 /**
- * Event times are always Bozeman wall clock. Legacy frontmatter sometimes
- * appended `Z` without converting to UTC; ignore the suffix and keep digits.
+ * js-yaml parses unquoted YAML timestamps as UTC Date objects whose UTC
+ * components match the wall-clock digits in the file. Use those digits as
+ * Bozeman local time — do not convert through America/Denver.
  *
  * @param {Date} date
  * @returns {string}
  */
-function formatWallClockInEventTimeZone(date) {
-  const parts = new Intl.DateTimeFormat('en-US', {
-    timeZone: EVENT_TIME_ZONE,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-  }).formatToParts(date);
-  const get = (type) => parts.find((part) => part.type === type)?.value ?? '';
-  return `${get('year')}-${get('month')}-${get('day')}T${get('hour')}:${get('minute')}:${get('second')}`;
+function formatWallClockFromYamlDate(date) {
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}T${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:${pad(date.getUTCSeconds())}`;
 }
 
 /**
@@ -78,7 +69,7 @@ export function normalizeDateTime(value) {
       throw new Error('Event datetime is invalid');
     }
     return {
-      dateTime: formatWallClockInEventTimeZone(value),
+      dateTime: formatWallClockFromYamlDate(value),
       timeZone: EVENT_TIME_ZONE,
     };
   }

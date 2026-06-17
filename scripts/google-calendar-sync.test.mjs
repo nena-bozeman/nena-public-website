@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import yaml from 'js-yaml';
 import {
   CANCELLED_PREFIX,
   CALENDAR_SYNC_ALLOW_ENV,
@@ -94,6 +95,51 @@ test('normalizeDateTime treats all values as America/Denver wall clock', () => {
   });
   assert.deepEqual(normalizeDateTime('2026-06-11T17:30:00.000Z'), {
     dateTime: '2026-06-11T17:30:00',
+    timeZone: EVENT_TIME_ZONE,
+  });
+});
+
+test('normalizeDateTime keeps js-yaml Date timestamps as wall clock digits', () => {
+  const { startDate, endDate } = yaml.load(`---
+startDate: 2026-06-19T15:00:00
+endDate: 2026-06-19T20:00:00
+`);
+  assert.ok(startDate instanceof Date);
+  assert.deepEqual(normalizeDateTime(startDate), {
+    dateTime: '2026-06-19T15:00:00',
+    timeZone: EVENT_TIME_ZONE,
+  });
+  assert.deepEqual(normalizeDateTime(endDate), {
+    dateTime: '2026-06-19T20:00:00',
+    timeZone: EVENT_TIME_ZONE,
+  });
+});
+
+test('buildGoogleCalendarEvent maps unquoted YAML datetimes to Bozeman wall clock', () => {
+  const { startDate, endDate } = yaml.load(`---
+startDate: 2026-06-19T15:00:00
+endDate: 2026-06-19T20:00:00
+`);
+  const payload = buildGoogleCalendarEvent(
+    sampleEvent({
+      slug: '2026-06-19-tinworks-art-exhibition-opening-and-juneteenth-celebration',
+      title: 'Tinworks Art exhibition opening and Juneteenth Celebration',
+      startDate,
+      endDate,
+      location: 'Tinworks Art 719 N Ida',
+      summary: 'Join us for a public Juneteenth Celebration at Tinworks Art',
+      body: '',
+      externalUrl: undefined,
+    }),
+    SITE_URL,
+  );
+
+  assert.deepEqual(payload.start, {
+    dateTime: '2026-06-19T15:00:00',
+    timeZone: EVENT_TIME_ZONE,
+  });
+  assert.deepEqual(payload.end, {
+    dateTime: '2026-06-19T20:00:00',
     timeZone: EVENT_TIME_ZONE,
   });
 });
