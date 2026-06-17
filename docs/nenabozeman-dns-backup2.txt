@@ -1,0 +1,40 @@
+
+; <<>> DiG 9.10.6 <<>> @ns1.dreamhost.com nenabozeman.org A +noall +answer
+; (1 server found)
+;; global options: +cmd
+nenabozeman.org.	60	IN	A	66.33.207.239
+
+; <<>> DiG 9.10.6 <<>> @ns1.dreamhost.com nenabozeman.org AAAA +noall +answer
+; (1 server found)
+;; global options: +cmd
+
+; <<>> DiG 9.10.6 <<>> @ns1.dreamhost.com nenabozeman.org CNAME +noall +answer
+; (1 server found)
+;; global options: +cmd
+
+; <<>> DiG 9.10.6 <<>> @ns1.dreamhost.com nenabozeman.org MX +noall +answer
+; (1 server found)
+;; global options: +cmd
+nenabozeman.org.	60	IN	MX	0 mx1.mailchannels.net.
+nenabozeman.org.	60	IN	MX	0 mx2.mailchannels.net.
+
+; <<>> DiG 9.10.6 <<>> @ns1.dreamhost.com nenabozeman.org TXT +noall +answer
+; (1 server found)
+;; global options: +cmd
+nenabozeman.org.	60	IN	TXT	"v=spf1 mx include:netblocks.dreamhost.com include:relay.mailchannels.net -all"
+
+; <<>> DiG 9.10.6 <<>> @ns1.dreamhost.com nenabozeman.org NS +noall +answer
+; (1 server found)
+;; global options: +cmd
+nenabozeman.org.	3470	IN	NS	ns2.dreamhost.com.
+nenabozeman.org.	3470	IN	NS	ns1.dreamhost.com.
+nenabozeman.org.	3470	IN	NS	ns3.dreamhost.com.
+
+; <<>> DiG 9.10.6 <<>> @ns1.dreamhost.com nenabozeman.org SOA +noall +answer
+; (1 server found)
+;; global options: +cmd
+nenabozeman.org.	59	IN	SOA	ns1.dreamhost.com. hostmaster.dreamhost.com. 2026061103 16495 600 1814400 60
+
+; <<>> DiG 9.10.6 <<>> @ns1.dreamhost.com nenabozeman.org SRV +noall +answer
+; (1 server found)
+;; global options: +cmd

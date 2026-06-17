@@ -1,0 +1,4 @@
+
+; <<>> DiG 9.10.6 <<>> @ns1.dreamhost.com nenabozeman.org ANY +noall +answer
+; (1 server found)
+;; global options: +cmd

@@ -9,5 +9,11 @@
   },
   "assets": {
     "directory": "dist"
-  }
+  },
+  "routes": [
+    {
+      "pattern": "nenabozeman.org",
+      "custom_domain": true
+    }
+  ]
 }
