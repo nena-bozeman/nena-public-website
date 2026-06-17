@@ -1,5 +1,7 @@
 # DNS migration to nenabozeman.org
 
+**Status (June 2026):** Cutover complete. Production is live at **`https://nenabozeman.org`**. The workers.dev URL remains available for debugging. See [Finish in Cloudflare dashboard](#finish-in-cloudflare-dashboard-2-minutes) for operational steps used during cutover.
+
 Move public traffic from the staging Worker URL (`nena-public-website.nenabozeman.workers.dev`) to the production domain **`nenabozeman.org`**. The site is a static Astro build deployed to the Cloudflare Worker **`nena-public-website`** ([`wrangler.jsonc`](../wrangler.jsonc)); GitHub Actions on `main` runs the deploy ([`deploy-cloudflare.yml`](../.github/workflows/deploy-cloudflare.yml)).
 
 Use this checklist when you are ready to cut over. Most application changes are a single environment variable (`ASTRO_SITE`); DNS and Cloudflare routing are the main operational work.
@@ -64,6 +66,67 @@ You can still use a Cloudflare Worker custom domain, but setup differs. Prefer m
 ### SSL
 
 With the zone on Cloudflare and the orange cloud (proxied) enabled, **Universal SSL** covers HTTPS. Confirm **SSL/TLS** mode is **Full (strict)** once the custom domain is active.
+
+---
+
+## Finish in Cloudflare dashboard (~2 minutes)
+
+Operational checklist once the zone is **Active** on Cloudflare nameservers. Do these in order.
+
+### 1. Remove the old apex A record
+
+**DNS → Records** → delete the **A** record for `nenabozeman.org` pointing at the previous host (e.g. Dreamhost `66.33.207.239`).
+
+**Keep** email records:
+
+- **MX** → `mx1.mailchannels.net` / `mx2.mailchannels.net`
+- **TXT** → SPF record
+
+The Worker custom domain cannot attach while this A record exists. A failed deploy shows:
+
+```text
+Some triggers failed to deploy for nena-public-website:
+  - A request to the Cloudflare API (.../domains/records) failed.
+```
+
+Or, when adding the domain manually:
+
+```text
+Hostname 'nenabozeman.org' already has externally managed DNS records (A, CNAME, etc).
+Delete them first or try a different hostname.
+```
+
+### 2. Attach the Worker custom domain
+
+Either redeploy from CI (after step 1) or add in the dashboard:
+
+**Workers & Pages → `nena-public-website` → Settings → Domains & Routes → Add → Custom Domain** → `nenabozeman.org`
+
+The repo also declares this in [`wrangler.jsonc`](../wrangler.jsonc) (`routes` with `custom_domain: true`), so `wrangler deploy` creates the domain and DNS record automatically when the conflicting A record is gone.
+
+**API token:** the GitHub `CLOUDFLARE_API_TOKEN` needs **Workers Scripts Edit** plus **DNS Edit** on the zone so deploy can create the custom-domain DNS record.
+
+### 3. Redirect www → apex (non-canonical)
+
+Do **not** add `www` as a Worker custom domain. Per [Cloudflare’s www/apex redirect guidance](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/#redirect-between-www-and-root-domain):
+
+1. **DNS → Add record**: `www` **A** → `192.0.2.0`, **Proxied** (orange cloud). This is a placeholder; Cloudflare intercepts proxied requests.
+2. **Rules → Redirect Rules → Create rule**:
+   - **If**: hostname equals `www.nenabozeman.org`
+   - **Then**: dynamic redirect to `https://nenabozeman.org/${http.request.uri.path}` (301, preserve query string)
+
+### Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| `curl nenabozeman.org` returns Apache `301` to `http://www.nenabozeman.org/` | Apex still points at the old host (Dreamhost), not the Worker | Delete the legacy **A** record; confirm custom domain is attached and apex DNS is Worker-managed |
+| Deploy succeeds but site unchanged | Custom domain attached but DNS not updated yet | Check **DNS → Records**; wait a minute and retry |
+| Deploy fails on `domains/records` | Conflicting apex **A** or **CNAME** still present | Delete it (step 1), rerun deploy |
+
+After steps 1–3:
+
+- `https://nenabozeman.org` → public site (Worker)
+- `https://www.nenabozeman.org` → 301 to apex
 
 ---
 

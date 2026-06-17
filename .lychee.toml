@@ -4,7 +4,7 @@
 # CI: .github/workflows/ci.yml → check-external-links job
 
 # Resolve root-relative hrefs in dist/ locally; internal targets are not HTTP-checked.
-base_url = "https://nena-public-website.nenabozeman.workers.dev"
+base_url = "https://nenabozeman.org"
 root_dir = "dist"
 
 verbose = "warn"

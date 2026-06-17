@@ -7,9 +7,9 @@ import { rehypeExpandUrlSitePlaceholder } from './src/plugins/rehype-expand-url-
 import { rehypeSiteBaseLinks } from './src/plugins/rehype-site-base-links.mjs';
 import { viteExpandCraftSitePlaceholder } from './src/plugins/vite-expand-craft-site-placeholder.mjs';
 
-// Root-hosted on Cloudflare Workers. Override ASTRO_SITE when cutting over to nenabozeman.org.
+// Root-hosted on Cloudflare Workers at nenabozeman.org. Override ASTRO_SITE for local preview or workers.dev debugging.
 const siteBase = normalizeAstroBase(process.env.ASTRO_BASE_PATH ?? '/');
-const site = process.env.ASTRO_SITE ?? 'https://nena-public-website.nenabozeman.workers.dev';
+const site = process.env.ASTRO_SITE ?? 'https://nenabozeman.org';
 const siteRootPrefix = computeSiteRootPrefix(site, siteBase);
 
 export default defineConfig({

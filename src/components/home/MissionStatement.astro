@@ -1,4 +1,5 @@
 ---
+const yearsOfCommunity = new Date().getFullYear() - 2001;
 ---
 
 <section class="bg-cream py-16 px-4 border-b border-amber-100">
@@ -9,17 +10,20 @@
     </p>
     <div class="mt-8 flex flex-wrap gap-6 justify-center text-center">
       <div class="flex flex-col items-center">
-        <span class="text-4xl font-serif font-bold text-accent">40+</span>
+        <span class="text-4xl font-serif font-bold text-accent">{yearsOfCommunity}+</span>
         <span class="text-sm text-gray-600 mt-1">Years of Community</span>
       </div>
       <div class="flex flex-col items-center">
         <span class="text-4xl font-serif font-bold text-accent">500+</span>
         <span class="text-sm text-gray-600 mt-1">Households</span>
       </div>
-      <div class="flex flex-col items-center">
-        <span class="text-4xl font-serif font-bold text-accent">4</span>
-        <span class="text-sm text-gray-600 mt-1">Active Committees</span>
-      </div>
+      <a
+        href={`${import.meta.env.BASE_URL}our-work`}
+        class="flex flex-col items-center transition-opacity hover:opacity-80"
+      >
+        <span class="text-4xl font-serif font-bold text-accent">Many</span>
+        <span class="text-sm text-gray-600 mt-1">Active Programs</span>
+      </a>
     </div>
   </div>
 </section>

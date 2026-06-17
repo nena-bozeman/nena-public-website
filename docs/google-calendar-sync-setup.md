@@ -52,7 +52,7 @@ Add these to the **`cloudflare-production`** environment (or repository secrets 
 | `GOOGLE_CALENDAR_SERVICE_ACCOUNT_JSON` | Full contents of the service account JSON key file |
 | `PUBLIC_GOOGLE_CALENDAR_ID` | Calendar ID (e.g. `nenabozeman@gmail.com`) |
 
-`ASTRO_SITE` is set in the workflow for event page links in calendar descriptions. Update it when cutting over to a custom domain.
+`ASTRO_SITE` is set to `https://nenabozeman.org` in the production deploy workflow so event page links in calendar descriptions use the live domain.
 
 ---
 

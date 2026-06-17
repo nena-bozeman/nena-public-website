@@ -2,6 +2,8 @@
 
 Production and preview deploys use **Wrangler / Workers API** with static assets from `dist` per [`wrangler.jsonc`](../wrangler.jsonc) (`name`: **`nena-public-website`**). There is no GitHub Pages deploy and no `/nena-public-website/` subpath.
 
+**Production URL:** `https://nenabozeman.org` (custom domain on the Worker). Staging/debug: `https://nena-public-website.nenabozeman.workers.dev`.
+
 | Workflow | Trigger | Command |
 |----------|---------|---------|
 | [`.github/workflows/deploy-cloudflare.yml`](../.github/workflows/deploy-cloudflare.yml) | Push to `main`, manual | `pnpm run build` → `wrangler deploy` |
@@ -50,6 +52,7 @@ Use this checklist when onboarding a new fork or rotating credentials.
   Minimum scopes that match **`wrangler deploy`** / **`wrangler versions upload`** (labels may vary slightly):
 
   - **Account** → **Workers Scripts** → **Edit** (or the Workers edit scope included in the template above).
+  - **Zone** → **DNS** → **Edit** on `nenabozeman.org` (required so deploy can create the Worker custom-domain DNS record).
   - Optionally narrow **Account Resources** to this account only.
 
   If deploy fails with permission errors, compare against [Cloudflare API token permissions](https://developers.cloudflare.com/fundamentals/api/reference/permissions/) and add the smallest extra scope the error asks for.
@@ -83,7 +86,7 @@ Repository → **Settings** → **Secrets and variables → Actions** → **New 
 
 ## Verify
 
-- [x] Push to **`main`** → **Deploy to Cloudflare** succeeds and updates production at `https://nena-public-website.nenabozeman.workers.dev`.
+- [x] Push to **`main`** → **Deploy to Cloudflare** succeeds and updates production at `https://nenabozeman.org`.
 - [x] Open a **pull request** or push a branch **other than `main`** → **Deploy Preview** succeeds.
 - [x] **Dependabot** and **fork** pull requests skip **Deploy Preview** (no access to Cloudflare secrets). **CI** still runs on those PRs: `astro check`, unit tests, `pnpm run build`, content-reference validation, internal- and external-link checks (Lychee; local install: [docs/link-checking.md](link-checking.md)), and `wrangler deploy` / `wrangler versions upload` **dry-runs** (no API token required).
 - [x] In Cloudflare → **Workers & Pages** → select the Worker → **Versions**, confirm new versions appear.
@@ -94,4 +97,4 @@ Repository → **Settings** → **Secrets and variables → Actions** → **New 
 
 The site was previously hosted at `https://nena-bozeman.github.io/nena-public-website/`. After disabling GitHub Pages in repo settings, add redirects at the DNS/hosting layer if needed. On the Worker, [`public/_redirects`](../public/_redirects) maps `/nena-public-website/*` → `/*` for any links that still use the old subpath pattern.
 
-When **`nenabozeman.org`** goes live, follow [DNS migration to nenabozeman.org](dns-migration-nenabozeman-org.md) (`ASTRO_SITE`, Decap `site_domain`, Cloudflare custom domain, and legacy redirects).
+DNS cutover to **`nenabozeman.org`** is complete (June 2026). See [DNS migration to nenabozeman.org](dns-migration-nenabozeman-org.md) for cutover notes, legacy redirects, and rollback.

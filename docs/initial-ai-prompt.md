@@ -2,14 +2,14 @@ Here's a prompt you can paste directly into that Copilot box:
 
 ---
 
-Build a static neighborhood association website for NENA (Northeast Neighborhood Association) in Bozeman, Montana using Astro, Tailwind CSS, and Decap CMS. The site should be deployable to Cloudflare Pages with a devcontainer configuration for GitHub Codespaces support.
+Build a static neighborhood association website for NENA (Northeast Neighborhood Association) in Bozeman, Montana using Astro, Tailwind CSS, and Decap CMS. The site should be deployable to Cloudflare Workers (production domain `nenabozeman.org`) with a devcontainer configuration for GitHub Codespaces support.
 
 ## Tech Stack
 
 - **Framework:** Astro (latest) with static output by default
 - **Styling:** Tailwind CSS v4 via `@tailwindcss/vite` (theme and plugins in `src/styles/global.css`, not a JS config file)
 - **CMS:** Decap CMS (git-based, no database) with `local_backend: true` for development
-- **Deployment target:** Cloudflare Pages
+- **Deployment target:** Cloudflare Workers (`nenabozeman.org`)
 - **Package manager:** pnpm
 - **TypeScript:** enabled
 - **Content:** Astro Content Collections for all content types
@@ -533,7 +533,7 @@ Generate a thorough `README.md` covering:
 - Getting started locally and via Codespaces (one-click badge)
 - How to run the Decap local backend
 - How to add content via the CMS
-- Deployment to Cloudflare Pages (build command `pnpm run build`, output directory `dist`)
+- Deployment to Cloudflare Workers (build command `pnpm run build`, output directory `dist`, production URL `https://nenabozeman.org`)
 - Environment variables reference
 - How to contribute
 - License (MIT)
