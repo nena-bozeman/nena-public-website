@@ -7,7 +7,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '72'
 legacySlug: north-church-pocket-park
-legacyBlogUrl: https://www.nenabozeman.org/blog/2021/12/north-church-pocket-park
 dateUpdated: '1970-01-01'
 topics:
   - trails-pocket-parks

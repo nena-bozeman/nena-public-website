@@ -10,7 +10,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '52'
 legacySlug: the-front-street-pathway-update
-legacyBlogUrl: https://www.nenabozeman.org/blog/2021/04/the-front-street-pathway-update
 topics:
   - trails-pocket-parks
 ---

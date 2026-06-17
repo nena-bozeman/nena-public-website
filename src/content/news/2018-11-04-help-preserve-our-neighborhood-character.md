@@ -10,7 +10,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '23'
 legacySlug: help-preserve-our-neighborhood-character
-legacyBlogUrl: https://www.nenabozeman.org/blog/2018/11/help-preserve-our-neighborhood-character
 topics:
   - bozeman-udc
   - historic-preservation

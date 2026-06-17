@@ -53,7 +53,6 @@ const news = defineCollection({
     legacySource: z.enum(['pyro-cms']).optional(),
     legacyId: z.string().optional(),
     legacySlug: z.string().optional(),
-    legacyBlogUrl: z.url().optional(),
     /** Mailchimp campaign archive (mailchi.mp) for newsletter-sourced posts. */
     mailchimpArchiveUrl: z.url().optional(),
   }),

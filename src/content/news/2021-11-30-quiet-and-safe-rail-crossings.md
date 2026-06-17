@@ -9,7 +9,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '68'
 legacySlug: quiet-and-safe-rail-crossings
-legacyBlogUrl: https://www.nenabozeman.org/blog/2021/11/quiet-and-safe-rail-crossings
 topics:
   - safe-quiet-rail-crossings
 ---

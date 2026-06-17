@@ -10,7 +10,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '58'
 legacySlug: ne-bozeman-environmental-initiatives-part-2
-legacyBlogUrl: https://www.nenabozeman.org/blog/2021/04/ne-bozeman-environmental-initiatives-part-2
 topics:
   - environment
   - trees

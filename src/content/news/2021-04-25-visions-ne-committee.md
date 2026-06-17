@@ -7,7 +7,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '55'
 legacySlug: visions-ne-committee
-legacyBlogUrl: https://www.nenabozeman.org/blog/2021/04/visions-ne-committee
 topics:
   - visionne
 places:

@@ -7,7 +7,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '67'
 legacySlug: idaho-pole-project-update
-legacyBlogUrl: https://www.nenabozeman.org/blog/2021/11/idaho-pole-project-update
 topics:
   - environment
 developments:

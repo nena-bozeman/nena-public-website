@@ -4,6 +4,8 @@
  *
  * Usage: node scripts/backfill-news-from-blog.mjs
  * Optional: DRY_RUN=1 node scripts/backfill-news-from-blog.mjs
+ *
+ * Legacy /blog/… URLs are redirected via public/_redirects (not frontmatter).
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -40,21 +42,6 @@ function parseCsvLine(line) {
   }
   result.push(cur);
   return result;
-}
-
-/** Canonical legacy blog post URLs from inventory (path month may differ from export timestamps). */
-function loadLegacyBlogUrlsBySlug() {
-  const map = new Map();
-  const text = fs.readFileSync(LEGACY_CSV, 'utf8');
-  const lines = text.split(/\r?\n/);
-  for (let i = 1; i < lines.length; i++) {
-    const cols = parseCsvLine(lines[i]);
-    if (cols[1] !== 'page') continue;
-    const url = cols[0];
-    const m = url.match(/\/blog\/\d{4}\/\d{2}\/([^/?#]+)\/?$/);
-    if (m) map.set(m[1], url);
-  }
-  return map;
 }
 
 /** @returns {Map<string, string>} file download id -> site path e.g. /documents/migrated/... */
@@ -117,15 +104,6 @@ function isoDateFromUnix(sec) {
   return d.toISOString().slice(0, 10);
 }
 
-function resolveLegacyBlogUrl(slug, createdSec, legacyBySlug) {
-  return legacyBySlug.get(slug) ?? (() => {
-    const d = new Date(createdSec * 1000);
-    const y = d.getFullYear();
-    const mo = String(d.getMonth() + 1).padStart(2, '0');
-    return `${SITE_ORIGIN}/blog/${y}/${mo}/${slug}`;
-  })();
-}
-
 const td = new TurndownService({
   headingStyle: 'atx',
   codeBlockStyle: 'fenced',
@@ -150,7 +128,7 @@ function htmlToMarkdown(html) {
   return md.trim() || '_No body content._';
 }
 
-function buildFrontmatter(post, { summary, author, legacyBySlug }) {
+function buildFrontmatter(post, { summary, author }) {
   const date = isoDateFromUnix(post.created_on);
   const updated =
     post.updated_on && post.updated_on !== post.created_on ? isoDateFromUnix(post.updated_on) : undefined;
@@ -164,7 +142,6 @@ function buildFrontmatter(post, { summary, author, legacyBySlug }) {
     legacySource: 'pyro-cms',
     legacyId: post.id != null ? String(post.id) : undefined,
     legacySlug: post.slug,
-    legacyBlogUrl: resolveLegacyBlogUrl(post.slug, post.created_on, legacyBySlug),
   };
   if (author) data.author = author;
   if (updated) data.dateUpdated = updated;
@@ -179,7 +156,6 @@ function buildFrontmatter(post, { summary, author, legacyBySlug }) {
 
 function main() {
   const downloadMap = loadDownloadPathMap();
-  const legacyBySlug = loadLegacyBlogUrlsBySlug();
   const posts = JSON.parse(fs.readFileSync(BLOG_JSON, 'utf8'));
   const live = posts.filter((p) => p.status === 'live');
   if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
@@ -201,7 +177,7 @@ function main() {
     if (body) combinedHtml += body;
 
     const bodyMd = htmlToMarkdown(combinedHtml);
-    const fm = buildFrontmatter(post, { summary, author, legacyBySlug });
+    const fm = buildFrontmatter(post, { summary, author });
     const fileContent = `---\n${fm}---\n\n${bodyMd}\n`;
 
     if (dryRun) {

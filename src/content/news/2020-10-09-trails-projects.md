@@ -10,7 +10,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '40'
 legacySlug: trails-projects
-legacyBlogUrl: https://www.nenabozeman.org/blog/2020/10/trails-projects
 dateUpdated: '1970-01-01'
 topics:
   - trails-pocket-parks

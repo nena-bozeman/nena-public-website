@@ -10,7 +10,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '20'
 legacySlug: round-2-of-ncod-review-oct-13
-legacyBlogUrl: https://www.nenabozeman.org/blog/2018/09/round-2-of-ncod-review-oct-13
 topics:
   - bozeman-udc
   - historic-preservation

@@ -1,6 +1,5 @@
 ---
 legacySource: pyro-cms
-legacyBlogUrl: https://www.nenabozeman.org/blog/2026/04/nena-news-spring-2026
 legacyId: '91'
 title: NENA NEWS Spring 2026
 date: '2026-04-10'

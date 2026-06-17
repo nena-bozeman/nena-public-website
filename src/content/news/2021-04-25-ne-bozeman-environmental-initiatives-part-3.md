@@ -7,7 +7,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '54'
 legacySlug: ne-bozeman-environmental-initiatives-part-3
-legacyBlogUrl: https://www.nenabozeman.org/blog/2021/04/ne-bozeman-environmental-initiatives-part-3
 topics:
   - environment
 ---

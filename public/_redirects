@@ -22,6 +22,7 @@
 /news/tag/historic-preservation /topics/historic-preservation 301
 /news/tag/parking /topics/parking 301
 # Regenerate: npm run inventory:legacy && npm run redirects:legacy
+# Legacy /blog/… paths: see legacy-blog-redirects section below
 # Cloudflare Pages: https://developers.cloudflare.com/pages/configuration/redirects/
 
 /objectives/safe-quiet-rail-crossings /our-work/safe-quiet-rail-crossings 301
@@ -39,7 +40,6 @@
 /objectives/past /our-work/past 301
 /objectives/* /our-work/:splat 301
 /objectives /our-work 301
-/blog/2026/04/nena-news-spring-2026 /news/2026-03-15-spring-newsletter 301
 /ne-business-directory /places 301
 /businesses/archive /businesses/past 301
 /development/past /development 301
@@ -48,3 +48,36 @@
 /events/be-red-cross-ready-class /events/2026-06-11-be-red-cross-ready-class 301
 /email-signup /newsletter 301
 /elections /governance 301
+
+# BEGIN legacy-blog-redirects
+# Pyro CMS /blog/YYYY/MM/slug → /news/YYYY-MM-DD-slug (edit here when adding migrated posts)
+
+/blog/2021/04/ne-bozeman-environmental-initiatives-part-2 /news/2021-04-25-ne-bozeman-environmental-initiatives-part-2 301
+/blog/2021/04/ne-bozeman-environmental-initiatives-part-3 /news/2021-04-25-ne-bozeman-environmental-initiatives-part-3 301
+/blog/2018/11/help-preserve-our-neighborhood-character /news/2018-11-04-help-preserve-our-neighborhood-character 301
+/blog/2021/04/ne-bozeman-environmental-initiatives /news/2021-04-25-ne-bozeman-environmental-initiatives 301
+/blog/2018/09/ncod-review-october-public-events /news/2018-09-07-ncod-review-october-public-events 301
+/blog/2019/05/nena-news-spring-2019-newsletter /news/2019-05-16-nena-news-spring-2019-newsletter 301
+/blog/2021/04/the-front-street-pathway-update /news/2021-04-25-the-front-street-pathway-update 301
+/blog/2018/07/bozeman-community-plan-update /news/2018-07-25-bozeman-community-plan-update 301
+/blog/2018/09/round-2-of-ncod-review-oct-13 /news/2018-09-18-round-2-of-ncod-review-oct-13 301
+/blog/2021/04/the-north-central-master-plan /news/2021-04-23-the-north-central-master-plan 301
+/blog/2021/11/quiet-and-safe-rail-crossings /news/2021-11-30-quiet-and-safe-rail-crossings 301
+/blog/2021/12/front-street-connector-trail /news/2021-12-10-front-street-connector-trail 301
+/blog/2018/07/more-details-on-ncod-review /news/2018-07-03-more-details-on-ncod-review 301
+/blog/2021/11/idaho-pole-project-update /news/2021-11-30-idaho-pole-project-update 301
+/blog/2021/12/north-church-pocket-park /news/2021-12-09-north-church-pocket-park 301
+/blog/2021/04/aspen-st-bridge-update /news/2021-04-16-aspen-st-bridge-update 301
+/blog/2021/04/community-solar-access /news/2021-04-25-community-solar-access 301
+/blog/2024/04/nena-news-spring-2024 /news/2024-04-24-nena-news-spring-2024 301
+/blog/2026/04/nena-news-spring-2026 /news/2026-04-10-nena-news-spring-2026 301
+/blog/2018/07/ncod-review-schedule /news/2018-07-14-ncod-review-schedule 301
+/blog/2021/04/visions-ne-committee /news/2021-04-25-visions-ne-committee 301
+/blog/2024/10/2024-parade-of-sheds /news/2024-10-09-2024-parade-of-sheds 301
+/blog/2021/11/aspen-street-bridge /news/2021-11-30-aspen-street-bridge 301
+/blog/2024/12/fall-2024-nena-news /news/2024-12-05-fall-2024-nena-news 301
+/blog/2025/10/nena-news-fall-2025 /news/2025-11-01-nena-news-fall-2025 301
+/blog/2021/09/parking-resolution /news/2021-09-28-parking-resolution 301
+/blog/2020/10/trails-projects /news/2020-10-09-trails-projects 301
+/blog/2019/05/m /news/2019-05-25-m 301
+# END legacy-blog-redirects

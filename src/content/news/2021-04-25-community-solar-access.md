@@ -10,7 +10,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '56'
 legacySlug: community-solar-access
-legacyBlogUrl: https://www.nenabozeman.org/blog/2021/04/community-solar-access
 topics:
   - environment
 ---

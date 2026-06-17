@@ -7,7 +7,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '77'
 legacySlug: front-street-connector-trail
-legacyBlogUrl: https://www.nenabozeman.org/blog/2021/12/front-street-connector-trail
 topics:
   - trails-pocket-parks
 ---

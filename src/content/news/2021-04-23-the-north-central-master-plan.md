@@ -7,7 +7,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '50'
 legacySlug: the-north-central-master-plan
-legacyBlogUrl: https://www.nenabozeman.org/blog/2021/04/the-north-central-master-plan
 topics:
   - affordable-housing
 developments:
@@ -151,7 +150,7 @@ Over a year of planning & meeting with project stakeholders resulted in feedback
 **Learn More:**
 
 -   **Upcoming NENA Town Hall: Mountain View Care Center Tour** \- June 17th, 6-7pm (Info posted on the NENA site under ‘Events’)
--   [https://www.nenabozeman.org/blog/2021/04/the-north-central-master-plan](https://nenabozeman.us18.list-manage.com/track/click?u=f1ec16560a226111c086eeb58&id=415aa5badb&e=e3e81a0332)
+-   [North Central Master Plan](/news/2021-04-23-the-north-central-master-plan)
 -   [https://northcentralbozeman.com/](https://northcentralbozeman.com/)
 
   

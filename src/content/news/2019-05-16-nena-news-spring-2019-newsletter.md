@@ -9,7 +9,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '31'
 legacySlug: nena-news-spring-2019-newsletter
-legacyBlogUrl: https://www.nenabozeman.org/blog/2019/05/nena-news-spring-2019-newsletter
 topics:
   - newsletter
 ---

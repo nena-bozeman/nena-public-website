@@ -9,7 +9,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '88'
 legacySlug: 2024-parade-of-sheds
-legacyBlogUrl: https://www.nenabozeman.org/blog/2024/10/2024-parade-of-sheds
 topics:
   - parade-of-sheds
 places:

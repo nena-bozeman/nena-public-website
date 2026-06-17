@@ -263,7 +263,8 @@ Do these in order to minimize broken links and double deploys:
 | Item | Why |
 |------|-----|
 | Event/news markdown internal links (`/events/...`, `/places/...`) | Expanded at build time from `ASTRO_SITE` |
-| `legacyUrl` / `legacyBlogUrl` in content | Intentional references to the old site |
+| `legacyUrl` in content | Intentional references to the old site |
+| Legacy `/blog/…` URLs | Redirected via `public/_redirects` |
 | Calendar sync script | Reads `ASTRO_SITE` from the environment |
 | Worker name in `wrangler.jsonc` | Same Worker; only custom domains added |
 

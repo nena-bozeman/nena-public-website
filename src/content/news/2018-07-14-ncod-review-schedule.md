@@ -9,7 +9,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '8'
 legacySlug: ncod-review-schedule
-legacyBlogUrl: https://www.nenabozeman.org/blog/2018/07/ncod-review-schedule
 topics:
   - bozeman-udc
   - historic-preservation

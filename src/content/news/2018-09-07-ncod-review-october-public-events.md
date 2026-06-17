@@ -10,7 +10,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '17'
 legacySlug: ncod-review-october-public-events
-legacyBlogUrl: https://www.nenabozeman.org/blog/2018/09/ncod-review-october-public-events
 topics:
   - bozeman-udc
   - historic-preservation

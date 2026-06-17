@@ -10,7 +10,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '5'
 legacySlug: more-details-on-ncod-review
-legacyBlogUrl: https://www.nenabozeman.org/blog/2018/07/more-details-on-ncod-review
 author: Tanya Andreasen
 topics:
   - bozeman-udc

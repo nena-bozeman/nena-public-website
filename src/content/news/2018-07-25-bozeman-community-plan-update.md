@@ -9,7 +9,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '9'
 legacySlug: bozeman-community-plan-update
-legacyBlogUrl: https://www.nenabozeman.org/blog/2018/07/bozeman-community-plan-update
 dateUpdated: '1970-01-01'
 topics:
   - bozeman-udc

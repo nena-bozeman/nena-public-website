@@ -7,7 +7,6 @@ tags: []
 legacySource: pyro-cms
 legacyId: '48'
 legacySlug: aspen-st-bridge-update
-legacyBlogUrl: https://www.nenabozeman.org/blog/2021/04/aspen-st-bridge-update
 dateUpdated: '1970-01-01'
 topics:
   - trails-pocket-parks
