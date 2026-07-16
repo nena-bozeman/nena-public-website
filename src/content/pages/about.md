@@ -18,7 +18,7 @@ NENA was founded in 2001 and has been a voice for Northeast Bozeman residents ev
 
 NENA is registered as a Domestic Non-Profit Corporation with the Montana Secretary of State. Our entity number is D112324 and our registration is active and in good standing. Our [2026 annual report](https://biz.sosmt.gov/api/report/GetImageByNum/185244132198234133250060237157134076013075081012) is available from the Secretary of State.
 
-NENA is also registered with the IRS as a 501(c)(3) non-profit organization (EID 03-0516393). As a small tax-exempt organization with annual gross receipts of less than $50,000, we annually file Form 990-N, also known as the e-Postcard, to meet our annual reporting requirements.
+NENA is also registered with the IRS as a 501(c)(4) non-profit organization (EID 03-0516393). As a small tax-exempt organization with annual gross receipts of less than $50,000, we annually file Form 990-N, also known as the e-Postcard, to meet our annual reporting requirements.
 
 <!-- @section neighborhood-map -->
 
