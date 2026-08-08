@@ -45,7 +45,7 @@
     "@astrojs/markdown-remark": "^7.2.0",
     "@astrojs/check": "^0.9.9",
     "@tailwindcss/typography": "^0.5.19",
-    "googleapis": "^160.0.0",
+    "googleapis": "^173.0.0",
     "js-yaml": "^4.2.0",
     "mysql2": "^3.22.5",
     "pagefind": "^1.5.2",
