@@ -11,6 +11,7 @@ Changes not yet released.
 ## 2026-08-17
 
 - **Our Work:** Added a standing Burdock Blitz objective (`/our-work/burdock-blitz`) for the annual invasive-weed volunteer mornings, with a `burdock-blitz` topic so related news and events cluster on that page.
+- **External link check:** CI now logs Lychee failures and the summary table instead of every excluded URL; Historic Montana, Montana Genealogy, and the Montana Film Office URLs that time out from GitHub Actions are excluded.
 
 ---
 
