@@ -13,6 +13,7 @@ topics:
   - community
 newsSlugs:
   - 2026-08-03-parade-of-sheds-planning-meeting
+  - 2026-08-06-today-parade-of-sheds-planning-meeting
 ---
 
 The annual [Parade of Sheds](/our-work/parade-of-sheds) is **Sunday, October 18, 2026, 11:00 a.m.–3:00 p.m.**

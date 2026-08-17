@@ -16,6 +16,7 @@ topics:
   - community
 newsSlugs:
   - 2026-08-03-parade-of-sheds-planning-meeting
+  - 2026-08-06-today-parade-of-sheds-planning-meeting
 ---
 
 Help NENA make this year’s [Parade of Sheds](/our-work/parade-of-sheds) the best ever.
