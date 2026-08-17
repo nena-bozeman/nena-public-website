@@ -3,9 +3,9 @@ title: Knock out burdock — neighborhood Burdock Blitz (August 2025)
 date: '2025-08-18'
 summary: Volunteer mornings with Sacajawea Audubon and neighbors to cut burdock before it seeds; meet at Fink’s or City Hall.
 featured: false
-tags:
-  - burdock-blitz
+tags: []
 topics:
+  - burdock-blitz
   - community
   - volunteer
   - environment
@@ -13,7 +13,7 @@ mailchimpArchiveUrl: https://mailchi.mp/65db723eb4b3/nena-cloverleaf-zma-vote-12
 ---
 
 
-Every summer, **Sacajawea Audubon Society** and neighborhood volunteers work to cut back **burdock** before velcro-like seed heads trap songbirds. Neighbors were invited to bring **pruning clippers or loppers**, **gloves**, and **long sleeves and pants** (fabrics that burs won’t stick to), and to plan for **about one to two hours**.
+Every summer, **Sacajawea Audubon Society** and neighborhood volunteers work to cut back **burdock** before velcro-like seed heads trap songbirds — NENA’s annual **[Burdock Blitz](/our-work/burdock-blitz)**. Neighbors were invited to bring **pruning clippers or loppers**, **gloves**, and **long sleeves and pants** (fabrics that burs won’t stick to), and to plan for **about one to two hours**.
 
 **2025 meetups (from the announcement):**
 

@@ -6,9 +6,9 @@ summary: >-
   burdock, then treats at Roly Poly.
 featured: false
 draft: false
-tags:
-  - burdock-blitz
+tags: []
 topics:
+  - burdock-blitz
   - community
   - volunteer
   - environment
@@ -21,7 +21,7 @@ places:
 mailchimpArchiveUrl: https://mailchi.mp/30e8234eb9d4/nena-cloverleaf-zma-vote-12854961
 ---
 
-Join this year’s **[Burdock Blitz](/events/2026-08-22-burdock-blitz)** — **Saturday, August 22, 9:00 a.m.** on the patio between [Fink’s](/places/finks-deli) and [Biome](/places/biome-slow-craft).
+Join this year’s **[Burdock Blitz](/our-work/burdock-blitz)** — **[Saturday, August 22, 9:00 a.m.](/events/2026-08-22-burdock-blitz)** on the patio between [Fink’s](/places/finks-deli) and [Biome](/places/biome-slow-craft).
 
 For the past several years, NENA and Midtown neighbors have cut burdock, an invasive weed whose velcro-like seed balls can trap small birds and bats. The work is making a huge difference: every year the remaining weeds are fewer.
 

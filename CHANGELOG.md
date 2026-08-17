@@ -8,6 +8,12 @@ Changes not yet released.
 
 ---
 
+## 2026-08-17
+
+- **Our Work:** Added a standing Burdock Blitz objective (`/our-work/burdock-blitz`) for the annual invasive-weed volunteer mornings, with a `burdock-blitz` topic so related news and events cluster on that page.
+
+---
+
 ## 2026-06-08
 
 - **Donation form:** Replaced the PayPal embed with a Silent Partner Software donate form (`DonateForm.astro`); donate page copy updated in `src/content/pages/donate.md` and Decap CMS section hints.

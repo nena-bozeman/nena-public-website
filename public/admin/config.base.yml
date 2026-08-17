@@ -16,6 +16,7 @@ x-topics-field: &topics_field
     - { label: "Bozeman UDC", value: "bozeman-udc" }
     - { label: "Affordable Housing", value: "affordable-housing" }
     - { label: "Parade of Sheds", value: "parade-of-sheds" }
+    - { label: "Burdock Blitz", value: "burdock-blitz" }
     - { label: "VisionNE", value: "visionne" }
     - { label: "NENA Trees", value: "trees" }
     - { label: "Trails & Parks", value: "trails-pocket-parks" }

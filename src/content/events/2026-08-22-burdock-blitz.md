@@ -11,6 +11,7 @@ category: social
 featured: false
 externalUrl: https://mailchi.mp/30e8234eb9d4/nena-cloverleaf-zma-vote-12854961
 topics:
+  - burdock-blitz
   - community
   - volunteer
   - environment
@@ -18,7 +19,7 @@ newsSlugs:
   - 2026-08-17-help-our-birds-bats-and-enjoy-a-treat-after
 ---
 
-NENA’s annual **Burdock Blitz** — help cut weed stalks that trap small birds and bats, then gather at Roly Poly for a treat.
+NENA’s annual **[Burdock Blitz](/our-work/burdock-blitz)** — help cut weed stalks that trap small birds and bats, then gather at Roly Poly for a treat.
 
 **When:** Saturday, August 22, 9:00 a.m.–noon
 
