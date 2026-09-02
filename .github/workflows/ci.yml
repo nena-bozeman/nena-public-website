@@ -78,7 +78,7 @@ jobs:
           path: dist
       - name: Restore lychee cache
         id: restore-lychee-cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: .lycheecache
           # Include config in the key so stale cached errors are not restored after excludes/accept change.
@@ -97,7 +97,7 @@ jobs:
           jobSummary: true
       - name: Save lychee cache
         if: always()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: .lycheecache
           key: ${{ steps.restore-lychee-cache.outputs.cache-primary-key }}
