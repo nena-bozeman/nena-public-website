@@ -16,6 +16,7 @@ export interface Props {
 const { title, description = 'Northeast Neighborhood Association of Bozeman, Montana', image = '/images/og-default.jpg', canonicalURL } = Astro.props;
 const siteURL = Astro.site ?? new URL('https://nenabozeman.org');
 const ogImage = new URL(image, siteURL);
+const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID?.trim();
 ---
 
 <!doctype html>
@@ -48,6 +49,20 @@ const ogImage = new URL(image, siteURL);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    {gaMeasurementId && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} />
+        <script is:inline define:vars={{ gaMeasurementId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', gaMeasurementId);
+        </script>
+      </>
+    )}
   </head>
   <body class="min-h-screen flex flex-col">
     <Header />

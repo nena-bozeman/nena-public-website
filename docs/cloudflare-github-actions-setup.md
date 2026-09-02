@@ -77,10 +77,12 @@ Repository → **Settings** → **Secrets and variables → Actions** → **New 
 | `CLOUDFLARE_ACCOUNT_ID` | Yes | From Cloudflare Overview or Worker settings. |
 | `CLOUDFLARE_API_TOKEN` | Yes | Token with permission to deploy Worker versions for this account. |
 | `PUBLIC_GOOGLE_MAPS_API_KEY` | Yes for maps | Same variable name as local `.env`; inlined at build time. |
+| `PUBLIC_GA_MEASUREMENT_ID` | Yes for Analytics | GA4 measurement ID (`G-…`); production deploy only. |
 
 - [x] Add **`CLOUDFLARE_ACCOUNT_ID`**
 - [x] Add **`CLOUDFLARE_API_TOKEN`**
 - [x] Add **`PUBLIC_GOOGLE_MAPS_API_KEY`** (if not already set)
+- [ ] Add **`PUBLIC_GA_MEASUREMENT_ID`** (GA4 Admin → Data streams → Web)
 
 ---
 
