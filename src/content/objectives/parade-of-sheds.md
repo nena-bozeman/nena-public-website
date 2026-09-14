@@ -10,11 +10,16 @@ topics:
   - parade-of-sheds
 ---
 
-The Parade of Sheds is a signature Northeast Neighborhood gathering. Details, routes, participant guidelines, and photo galleries from past years will be consolidated here alongside the [Events](/events) calendar.
+Join the Northeast Neighborhood Association (NENA) for our annual Parade of Sheds **Sunday, October 18, 11:00 a.m.–4:00 p.m.** This signature event brings together friends and the community while showcasing the quirky and unique character of our corner of town.
 
-The event has taken a number of forms over the years. Some years there's a parade of people walking together. Other years people have opened their sheds.
+What is the Parade of Sheds? It is a tongue-in-cheek salute to more traditional Parade of Homes tours, but feels more genuine and down-to-earth to suit our neck of the woods. This event strives to preserve a feeling of “home” in our otherwise rapidly changing town of Bozeman. Get to know some of the wonderful folks connected to this area as they invite you into their sheds, yards, murals, homes, and alleyways!
 
-## Upcoming
+## This year
 
-- **[Planning meeting](/events/2026-08-06-parade-of-sheds-planning-meeting/)** — Thursday, August 6, 4:30–6:00 p.m. at 702 E. Peach. Everyone is welcome to help organize.
-- **[Parade of Sheds](/events/2026-10-18-parade-of-sheds/)** — Sunday, October 18, 2026, 11:00 a.m.–3:00 p.m.
+**[Parade of Sheds](/events/2026-10-18-parade-of-sheds/)** — Sunday, October 18, 2026, 11:00 a.m.–4:00 p.m. at [Tinworks Art](/places/tinworks), 719 N. Ida Ave.
+
+### Schedule
+
+- **11:00 a.m.** — Parade starts at Tinworks Art. Anyone interested is welcome to join a fun and casual stroll with costumes and decorated bikes around the neighborhood. All ages welcome!
+- **12:00–1:30 p.m.** — Potluck cookout at Tinworks Art. Items that need to stay cool can be dropped off before the parade.
+- **2:00–4:00 p.m.** — Neighbors open their locations for an on-your-own-schedule tour. A map of tour stops will be provided.
