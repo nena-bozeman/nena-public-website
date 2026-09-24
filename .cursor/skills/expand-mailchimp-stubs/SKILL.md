@@ -70,7 +70,7 @@ Search existing news/events by title, date, and topic before creating. Mailchimp
 
 ### 4. Update the news stub
 
-Set `draft: false` when the body is complete. Keep `mailchimpArchiveUrl`. `featured: false` unless it is a major neighborhood-wide event (spring/fall meeting, Parade of Sheds). `tags` stay `[]` unless a freeform tag truly helps.
+Set `draft: false` when the body is complete. Keep `mailchimpArchiveUrl`. `featured: false` — homepage and `/events` order by date only, so the flag does not change placement. `tags` stay `[]` unless a freeform tag truly helps.
 
 ```yaml
 ---
@@ -136,7 +136,7 @@ newsSlugs:
 - **Datetimes:** quoted America/Denver **wall clock** `'YYYY-MM-DDTHH:mm:ss'` — no `Z`, no offset. `4:30–6:00 p.m.` → `T16:30:00` / `T18:00:00`. Omit `endDate` if the email has no end and duration is unknown (do not guess).
 - **`location`:** short name people say. **`address`:** full Bozeman street when known.
 - **`category`:** `social` (potluck, volunteer, parade, stroll) · `civic` (NENA meeting, hearing NENA is turning out for) · `committee` (planning/organizing session) · `tour` (walk, walking tour) · `other` (last resort).
-- **`featured`:** true only for flagship events (Parade of Sheds, seasonal NENA meeting).
+- **`featured`:** leave `false`. Nothing in the public listings reads it yet.
 - **`externalUrl`:** RSVP or official calendar first; Mailchimp archive is fine if that is the only URL.
 - **`newsSlugs`:** every related news slug, including this one and any earlier invite.
 

@@ -6,7 +6,7 @@ location: Public Safety Center — Community Room
 address: 901 N Rouse Ave, Bozeman, MT 59715
 summary: Biannual fall membership meeting and potluck, 5:00–7:30 p.m. Open to neighbors. Agenda details TBA.
 category: civic
-featured: true
+featured: false
 topics:
   - meeting
 meetingSlug: 2026-fall-october
