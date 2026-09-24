@@ -9,6 +9,7 @@ category: civic
 featured: true
 topics:
   - meeting
+meetingSlug: 2026-fall-october
 ---
 
 NENA’s biannual fall membership meeting and potluck. Neighbors are welcome.
