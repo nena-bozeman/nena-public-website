@@ -67,6 +67,8 @@ exclude = [
   'watch\.montanapbs\.org/video/shadow-casting-the-making-of-a-river-runs-through-it-pd7adb',
   # community.md — site times out from CI link checker
   '^https://www\.theemerson\.org/?$',
+  # places/medium-gallery.md — site times out from CI link checker
+  '^https://www\.mediumgallery\.com/?$',
   # History NR citations — historicmt.org times out from GitHub Actions (items 503, 570, 571, 577, 579, 595, 2222)
   '^https://historicmt\.org/',
   # 1883-hawthorne-elementary-east-side-school-opens.md — times out from CI
