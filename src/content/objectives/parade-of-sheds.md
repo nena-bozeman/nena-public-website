@@ -18,10 +18,10 @@ What is the Parade of Sheds? It is a tongue-in-cheek salute to more traditional 
 
 **[Parade of Sheds](/events/2026-10-18-parade-of-sheds/)** — Sunday, October 18, 2026, 11:00 a.m.–4:00 p.m.
 
-**Potluck, picnic, and parade gather:** [Tinworks Art](/places/tinworks), 719 N Wallace Ave. Marked **P** on the map below. Tour stop 9 is at this same site.
+**Potluck, picnic, and parade gather:** [Tinworks Art](/places/tinworks), 719 N Ida Ave. Marked **P** on the map below.
 
 ### Schedule
 
 - **11:00 a.m.** — Parade starts at Tinworks Art. Anyone interested is welcome to join a fun and casual stroll with costumes and decorated bikes around the neighborhood. All ages welcome!
-- **12:00–1:30 p.m.** — Potluck cookout and picnic at Tinworks Art, 719 N Wallace Ave. Items that need to stay cool can be dropped off before the parade.
+- **12:00–1:30 p.m.** — Potluck cookout and picnic at Tinworks Art, 719 N Ida Ave. Items that need to stay cool can be dropped off before the parade.
 - **2:00–4:00 p.m.** — Neighbors open their locations for an on-your-own-schedule tour. The numbered stops and map are below.
