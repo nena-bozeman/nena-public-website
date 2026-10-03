@@ -10,9 +10,10 @@ const { stops } = Astro.props;
 const rawKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
 const apiKey = typeof rawKey === 'string' ? rawKey.trim() : '';
 const mappable = stops.filter((stop) => Number.isFinite(stop.lat) && Number.isFinite(stop.lng));
+// Exact coordinate stacks are fanned here. Nearby pins (4/5/6, 8/11, 9/12) are
+// separated in screen pixels after the map zoom is known, in fanMarkersToZoom.
 const points = spreadOverlappingMapPoints(
   mappable.map((stop) => ({ ...stop, id: stop.label })),
-  16,
 );
 const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c');
 ---
@@ -77,8 +78,11 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
         var mapReady = false;
         var mapLoadError = false;
         var markersByLabel = {};
+        var originals = {};
         var fullBounds = null;
         var pendingLabel = null;
+        var fannedZoom = null;
+        var MIN_PIN_GAP_PX = 42;
 
         function esc(s) {
           return String(s)
@@ -188,8 +192,56 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
           if (!map || !fullBounds || !infoWindow) return;
           infoWindow.close();
           setActiveStop(null);
+          fannedZoom = null;
           map.fitBounds(fullBounds, 48);
           capZoom();
+        }
+
+        function fanMarkersToZoom() {
+          var g = window.google;
+          var projection = map && map.getProjection();
+          if (!g || !projection) return;
+          var zoom = map.getZoom();
+          if (typeof zoom !== 'number') return;
+          var scale = Math.pow(2, zoom);
+          var labels = Object.keys(markersByLabel);
+          var pos = {};
+          labels.forEach(function (label) {
+            var world = projection.fromLatLngToPoint(originals[label]);
+            pos[label] = { x: world.x * scale, y: world.y * scale };
+          });
+          for (var iter = 0; iter < 80; iter++) {
+            var moved = false;
+            for (var i = 0; i < labels.length; i++) {
+              for (var j = i + 1; j < labels.length; j++) {
+                var a = pos[labels[i]];
+                var b = pos[labels[j]];
+                var dx = b.x - a.x;
+                var dy = b.y - a.y;
+                var dist = Math.hypot(dx, dy);
+                if (dist >= MIN_PIN_GAP_PX) continue;
+                if (dist < 0.5) {
+                  var angle = ((i * 7 + j * 3) % 12) * (Math.PI / 6);
+                  dx = Math.cos(angle);
+                  dy = Math.sin(angle);
+                  dist = 1;
+                }
+                var push = (MIN_PIN_GAP_PX - dist) / 2;
+                var ux = dx / dist;
+                var uy = dy / dist;
+                a.x -= ux * push;
+                a.y -= uy * push;
+                b.x += ux * push;
+                b.y += uy * push;
+                moved = true;
+              }
+            }
+            if (!moved) break;
+          }
+          labels.forEach(function (label) {
+            var latLng = projection.fromPointToLatLng(new g.maps.Point(pos[label].x / scale, pos[label].y / scale));
+            markersByLabel[label].setPosition(latLng);
+          });
         }
 
         function focusStop(label) {
@@ -199,18 +251,20 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
           }
           var marker = markersByLabel[String(label)];
           var point = pointByLabel(label);
-          if (!marker || !point) return;
-          var position = marker.getPosition();
-          if (!position) return;
+          var position = originals[String(label)];
+          if (!marker || !point || !position) return;
           setActiveStop(label);
           mapEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          map.setZoom(16);
-          map.panTo(position);
-          infoWindow.setContent(infoHtml(point));
-          infoWindow.open({ map: map, anchor: marker, shouldFocus: false });
           window.google.maps.event.addListenerOnce(map, 'idle', function () {
+            var settled = markersByLabel[String(label)];
+            if (!settled) return;
+            infoWindow.setContent(infoHtml(point));
+            infoWindow.open({ map: map, anchor: settled, shouldFocus: false });
+            map.panTo(settled.getPosition());
             map.panBy(0, 80);
           });
+          map.setZoom(16);
+          map.panTo(position);
         }
 
         function bindStopButtons() {
@@ -244,6 +298,7 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
               zIndex: point.role === 'potluck' ? 20 : 1,
             });
             markersByLabel[String(point.label)] = marker;
+            originals[String(point.label)] = position;
             marker.addListener('click', function () {
               setActiveStop(point.label);
               infoWindow.setContent(infoHtml(point));
@@ -277,6 +332,13 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
               ],
             });
             infoWindow = new g.maps.InfoWindow({ maxWidth: 360 });
+            map.addListener('idle', function () {
+              if (!Object.keys(markersByLabel).length) return;
+              var zoom = map.getZoom();
+              if (zoom === fannedZoom) return;
+              fannedZoom = zoom;
+              fanMarkersToZoom();
+            });
             mapReady = true;
             drawMarkers();
           })
