@@ -45,15 +45,31 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
         <span class="inline-block h-px w-4 bg-gray-500" aria-hidden="true"></span>
         Gray line — street address when a number is moved aside
       </li>
+      <li id="parade-tour-map-you-legend" class="hidden">
+        <span class="inline-flex items-center gap-1.5">
+          <span class="inline-block h-3 w-3 rounded-full border-2 border-white shadow-xs" style="background-color:#1a73e8" aria-hidden="true"></span>
+          Blue dot — you are here
+        </span>
+      </li>
     </ul>
     {apiKey && mappable.length > 0 && (
-      <button
-        type="button"
-        id="parade-tour-map-reset"
-        class="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-800 shadow-xs hover:bg-gray-50"
-      >
-        Reset map
-      </button>
+      <div class="flex flex-wrap gap-2">
+        <button
+          type="button"
+          id="parade-tour-map-locate"
+          class="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-800 shadow-xs hover:bg-gray-50"
+          aria-pressed="false"
+        >
+          Show my location
+        </button>
+        <button
+          type="button"
+          id="parade-tour-map-reset"
+          class="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-800 shadow-xs hover:bg-gray-50"
+        >
+          Reset map
+        </button>
+      </div>
     )}
   </div>
 </div>
@@ -86,7 +102,15 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
         var fullBounds = null;
         var pendingLabel = null;
         var fannedZoom = null;
+        var lastFittedZoom = null;
+        var fitToken = 0;
+        var mapWidth = 0;
+        var mapHeight = 0;
+        var viewerMarker = null;
+        var viewerHalo = null;
+        var pendingLocate = false;
         var MIN_PIN_GAP_PX = 42;
+        var MAX_FIT_ZOOM = 17;
 
         function esc(s) {
           return String(s)
@@ -183,22 +207,174 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
           });
         }
 
-        function capZoom() {
+        function applyZoomFloor(zoom) {
+          if (!map || typeof zoom !== 'number' || !isFinite(zoom)) return;
+          var fitted = Math.max(0, Math.min(MAX_FIT_ZOOM, zoom));
+          lastFittedZoom = fitted;
+          // One level past the view that fits every stop. Zooming in stays open.
+          map.setOptions({ minZoom: Math.max(0, fitted - 1) });
+        }
+
+        function fitNeighborhood(restore) {
           var g = window.google;
-          if (!g || !g.maps || !map) return;
-          g.maps.event.addListenerOnce(map, 'idle', function () {
+          if (!g || !map || !fullBounds) return;
+          var token = ++fitToken;
+          map.setOptions({ minZoom: null });
+          fannedZoom = null;
+          map.fitBounds(fullBounds, 48);
+          var settled = false;
+          function settleFit() {
+            if (settled || token !== fitToken || !map) return;
+            settled = true;
             var zoom = map.getZoom();
-            if (typeof zoom === 'number' && zoom > 17) map.setZoom(17);
+            var fitted = zoom;
+            if (typeof fitted === 'number' && fitted > MAX_FIT_ZOOM) fitted = MAX_FIT_ZOOM;
+            applyZoomFloor(fitted);
+            if (restore && restore.center && restore.offset) {
+              var floor = typeof fitted === 'number' ? Math.max(0, fitted - 1) : 0;
+              var target = typeof fitted === 'number' ? fitted + restore.offset : restore.zoom;
+              if (typeof target !== 'number' || !isFinite(target)) target = restore.zoom;
+              if (target < floor) target = floor;
+              fannedZoom = null;
+              map.setZoom(target);
+              map.setCenter(restore.center);
+              return;
+            }
+            if (typeof zoom === 'number' && zoom > MAX_FIT_ZOOM) map.setZoom(MAX_FIT_ZOOM);
+          }
+          g.maps.event.addListenerOnce(map, 'idle', settleFit);
+          // fitBounds does not fire idle when the camera is already on the fitted view.
+          window.setTimeout(settleFit, 1200);
+        }
+
+        function refitAfterResize() {
+          var g = window.google;
+          if (!g || !map || !fullBounds) return;
+          var zoom = map.getZoom();
+          var center = map.getCenter();
+          var offset = 0;
+          if (typeof zoom === 'number' && lastFittedZoom != null) offset = zoom - lastFittedZoom;
+          g.maps.event.trigger(map, 'resize');
+          window.requestAnimationFrame(function () {
+            if (!offset || !center) {
+              fitNeighborhood(null);
+              return;
+            }
+            fitNeighborhood({ offset: offset, zoom: zoom, center: center });
           });
+        }
+
+        var resizeTimer = null;
+
+        function watchMapSize() {
+          var schedule = function () {
+            var w = mapEl.clientWidth;
+            var h = mapEl.clientHeight;
+            var dw = Math.abs(w - mapWidth);
+            var dh = Math.abs(h - mapHeight);
+            if (!mapReady || !fullBounds || (dw < 16 && dh < 16)) {
+              mapWidth = w;
+              mapHeight = h;
+              return;
+            }
+            mapWidth = w;
+            mapHeight = h;
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(refitAfterResize, 150);
+          };
+          if (typeof ResizeObserver === 'function') {
+            var observer = new ResizeObserver(schedule);
+            observer.observe(mapEl);
+            return;
+          }
+          window.addEventListener('resize', schedule);
         }
 
         function showFullMap() {
           if (!map || !fullBounds || !infoWindow) return;
           infoWindow.close();
           setActiveStop(null);
-          fannedZoom = null;
-          map.fitBounds(fullBounds, 48);
-          capZoom();
+          fitNeighborhood(null);
+        }
+
+        function showViewer(latLng, accuracy) {
+          var g = window.google;
+          if (!g || !map) return;
+          if (!viewerMarker) {
+            viewerMarker = new g.maps.Marker({
+              map: map,
+              position: latLng,
+              title: 'You are here',
+              clickable: false,
+              zIndex: 40,
+              icon: {
+                path: g.maps.SymbolPath.CIRCLE,
+                scale: 10,
+                fillColor: '#1a73e8',
+                fillOpacity: 1,
+                strokeColor: '#ffffff',
+                strokeWeight: 2,
+              },
+            });
+          } else {
+            viewerMarker.setPosition(latLng);
+          }
+          if (viewerHalo) {
+            viewerHalo.setMap(null);
+            viewerHalo = null;
+          }
+          if (typeof accuracy === 'number' && isFinite(accuracy) && accuracy > 0 && accuracy <= 300) {
+            viewerHalo = new g.maps.Circle({
+              map: map,
+              center: latLng,
+              radius: accuracy,
+              fillColor: '#1a73e8',
+              fillOpacity: 0.15,
+              strokeColor: '#1a73e8',
+              strokeOpacity: 0.4,
+              strokeWeight: 1,
+              clickable: false,
+              zIndex: 0,
+            });
+          }
+          var legend = document.getElementById('parade-tour-map-you-legend');
+          if (legend) legend.classList.remove('hidden');
+          var button = document.getElementById('parade-tour-map-locate');
+          if (button) {
+            button.setAttribute('aria-pressed', 'true');
+            button.textContent = 'Update my location';
+          }
+          var bounds = map.getBounds();
+          if (!bounds || !bounds.contains(latLng)) map.panTo(latLng);
+        }
+
+        function requestViewerLocation() {
+          if (!mapReady || !map) {
+            pendingLocate = true;
+            return;
+          }
+          pendingLocate = false;
+          if (!navigator.geolocation) return;
+          var button = document.getElementById('parade-tour-map-locate');
+          if (button) {
+            button.disabled = true;
+            button.setAttribute('aria-busy', 'true');
+          }
+          navigator.geolocation.getCurrentPosition(function (pos) {
+            if (button) {
+              button.disabled = false;
+              button.removeAttribute('aria-busy');
+            }
+            showViewer(
+              { lat: pos.coords.latitude, lng: pos.coords.longitude },
+              pos.coords.accuracy
+            );
+          }, function () {
+            if (button) {
+              button.disabled = false;
+              button.removeAttribute('aria-busy');
+            }
+          }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
         }
 
         function fanMarkersToZoom() {
@@ -331,6 +507,8 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
           });
           var reset = document.getElementById('parade-tour-map-reset');
           if (reset) reset.addEventListener('click', showFullMap);
+          var locate = document.getElementById('parade-tour-map-locate');
+          if (locate) locate.addEventListener('click', requestViewerLocation);
         }
 
         function drawMarkers() {
@@ -362,13 +540,15 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
             });
           });
           fullBounds = bounds;
-          map.fitBounds(bounds, 48);
-          capZoom();
+          mapWidth = mapEl.clientWidth;
+          mapHeight = mapEl.clientHeight;
+          fitNeighborhood(null);
           if (pendingLabel) {
             var queued = pendingLabel;
             pendingLabel = null;
             focusStop(queued);
           }
+          if (pendingLocate) requestViewerLocation();
         }
 
         loadMapsLibrary()
@@ -395,6 +575,7 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
               fannedZoom = zoom;
               fanMarkersToZoom();
             });
+            watchMapSize();
             mapReady = true;
             drawMarkers();
           })
