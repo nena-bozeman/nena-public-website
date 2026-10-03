@@ -1,0 +1,53 @@
+---
+import TourStopMap from './TourStopMap.astro';
+import { paradeOfSheds2026Stops } from '../../data/parade-of-sheds-2026';
+
+const stops = paradeOfSheds2026Stops;
+const potluck = stops.find((stop) => stop.role === 'potluck');
+const tourStops = stops.filter((stop) => stop.role === 'stop');
+---
+
+<section class="not-prose mt-10" aria-labelledby="parade-tour-heading">
+  <h2 id="parade-tour-heading" class="font-serif text-2xl font-bold text-primary mb-3">
+    Self-guided tour stops
+  </h2>
+  <p class="text-gray-700 mb-4">
+    <strong>2:00–4:00 p.m.</strong> Visit on your own schedule. Pins on the map use the same numbers.
+  </p>
+
+  {potluck && (
+    <div class="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3">
+      <p class="text-sm font-semibold uppercase tracking-wide text-amber-900">Potluck, picnic, and parade gather</p>
+      <p class="mt-1 text-gray-800">
+        <strong>{potluck.name}</strong> — {potluck.address}. Marked <strong>P</strong> on the map.
+        Stop 9, Boiled peanuts from the South, is at this same site.
+      </p>
+    </div>
+  )}
+
+  <ol class="mb-8 list-none space-y-3 pl-0">
+    {tourStops.map((stop) => (
+      <li class="flex gap-3">
+        <span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-white" aria-hidden="true">
+          {stop.label}
+        </span>
+        <span class="text-gray-800">
+          {stop.name ? (
+            <>
+              <strong>{stop.name}</strong>
+              <span> — {stop.address}</span>
+            </>
+          ) : (
+            <strong>{stop.address}</strong>
+          )}
+          {stop.note && <span class="block text-sm text-gray-600">{stop.note}</span>}
+        </span>
+      </li>
+    ))}
+  </ol>
+
+  <h2 id="parade-tour-map-heading" class="font-serif text-2xl font-bold text-primary mb-3">
+    Tour map
+  </h2>
+  <TourStopMap stops={stops} />
+</section>

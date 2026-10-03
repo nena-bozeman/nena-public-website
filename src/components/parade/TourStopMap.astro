@@ -1,0 +1,201 @@
+---
+import { spreadOverlappingMapPoints } from '../../utils/business-map-points';
+import type { ParadeTourStop } from '../../data/parade-of-sheds-2026';
+
+export interface Props {
+  stops: ParadeTourStop[];
+}
+
+const { stops } = Astro.props;
+const rawKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
+const apiKey = typeof rawKey === 'string' ? rawKey.trim() : '';
+const mappable = stops.filter((stop) => Number.isFinite(stop.lat) && Number.isFinite(stop.lng));
+const points = spreadOverlappingMapPoints(
+  mappable.map((stop) => ({ ...stop, id: stop.label })),
+  16,
+);
+const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c');
+---
+
+<div class="not-prose">
+  {apiKey && mappable.length > 0 ? (
+    <div class="overflow-hidden rounded-lg border border-gray-200 bg-gray-100 shadow-xs">
+      <div id="parade-tour-map" class="h-96 w-full" role="region" aria-label="Map of Parade of Sheds tour stops"></div>
+    </div>
+  ) : (
+    <div class="flex h-48 flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 bg-gray-50 p-6 text-center text-gray-500">
+      <p class="font-medium text-gray-700">Map view unavailable</p>
+      <p class="text-sm">
+        Add a <code>PUBLIC_GOOGLE_MAPS_API_KEY</code> to enable the Parade of Sheds map. The stop list above still works.
+      </p>
+    </div>
+  )}
+  <ul class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
+    <li class="inline-flex items-center gap-1.5">
+      <span class="inline-block h-3 w-3 rounded-full border-2 border-white bg-accent shadow-xs" aria-hidden="true"></span>
+      P — Tinworks Art potluck, picnic, and parade gather (also stop 9)
+    </li>
+    <li class="inline-flex items-center gap-1.5">
+      <span class="inline-block h-3 w-3 rounded-full border-2 border-white bg-primary shadow-xs" aria-hidden="true"></span>
+      Numbered tour stops
+    </li>
+  </ul>
+</div>
+
+{apiKey && mappable.length > 0 && (
+  <>
+    <script is:inline type="application/json" id="parade-tour-map-data" set:html={mapConfig}></script>
+    <script is:inline>
+      (function () {
+        var dataEl = document.getElementById('parade-tour-map-data');
+        var mapEl = document.getElementById('parade-tour-map');
+        if (!dataEl || !mapEl) return;
+        var cfg = JSON.parse(dataEl.textContent || '{}');
+        var key = cfg.key;
+        var points = cfg.points || [];
+        if (!key || !points.length) return;
+
+        var map;
+        var infoWindow;
+        var mapReady = false;
+        var mapLoadError = false;
+
+        function esc(s) {
+          return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/"/g, '&quot;');
+        }
+
+        function showMapAuthHelp() {
+          mapLoadError = true;
+          var origin = typeof location !== 'undefined' ? location.origin : '';
+          mapEl.innerHTML =
+            '<div class="p-5 text-left text-sm text-gray-800 max-w-lg space-y-3">' +
+            '<p class="font-medium text-primary">Google Maps could not use this API key</p>' +
+            '<p class="text-gray-700">In Google Cloud Console for this key, check:</p>' +
+            '<ul class="list-disc pl-5 space-y-1 text-gray-700">' +
+            '<li><strong>Maps JavaScript API</strong> is enabled.</li>' +
+            '<li><strong>Billing</strong> is enabled for the project.</li>' +
+            '<li>If the key uses <strong>HTTP referrers</strong>, allow this origin: <code class="text-xs bg-white px-1 rounded-sm break-all">' +
+            esc(origin || 'unknown') +
+            '</code></li>' +
+            '</ul></div>';
+        }
+
+        function loadMapsLibrary() {
+          if (window.google && window.google.maps) return Promise.resolve();
+          window.gm_authFailure = showMapAuthHelp;
+          return new Promise(function (resolve, reject) {
+            var existing = document.querySelector('script[data-nena-maps]');
+            if (existing) {
+              existing.addEventListener('load', function () { resolve(); });
+              existing.addEventListener('error', function () { reject(new Error('Maps script failed to load')); });
+              return;
+            }
+            var s = document.createElement('script');
+            s.setAttribute('data-nena-maps', '');
+            s.async = true;
+            s.defer = true;
+            s.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(key);
+            s.onload = function () { resolve(); };
+            s.onerror = function () { reject(new Error('Maps script failed to load')); };
+            document.head.appendChild(s);
+          });
+        }
+
+        function markerIcon(g, point) {
+          var potluck = point.role === 'potluck';
+          return {
+            path: g.maps.SymbolPath.CIRCLE,
+            fillColor: potluck ? '#d4840a' : '#2d5016',
+            fillOpacity: 1,
+            strokeColor: '#ffffff',
+            strokeWeight: 2,
+            scale: String(point.label).length > 1 ? 13 : 11,
+          };
+        }
+
+        function infoHtml(point) {
+          var eyebrow = point.role === 'potluck'
+            ? 'Potluck, picnic, and parade gather'
+            : 'Tour stop ' + point.label;
+          var title = point.name ? esc(point.name) : esc(point.address);
+          var address = point.name
+            ? '<p style="font-size:13px;color:#4b5563;margin:6px 0 0;line-height:1.35;">' + esc(point.address) + '</p>'
+            : '';
+          var note = point.note
+            ? '<p style="font-size:13px;color:#374151;margin:8px 0 0;line-height:1.4;">' + esc(point.note) + '</p>'
+            : '';
+          return (
+            '<div style="max-width:280px;padding:2px 2px 4px;line-height:1.35;">' +
+            '<div style="font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:4px;">' +
+            esc(eyebrow) +
+            '</div>' +
+            '<strong style="font-size:15px;color:#1e3a2f;">' + title + '</strong>' +
+            address +
+            note +
+            '</div>'
+          );
+        }
+
+        function drawMarkers() {
+          var g = window.google;
+          if (!g || !g.maps || !map) return;
+          var bounds = new g.maps.LatLngBounds();
+          points.forEach(function (point) {
+            var position = { lat: point.lat, lng: point.lng };
+            bounds.extend(position);
+            var marker = new g.maps.Marker({
+              position: position,
+              map: map,
+              title: (point.name ? point.name + ' — ' : '') + point.address,
+              label: {
+                text: String(point.label),
+                color: '#ffffff',
+                fontSize: '11px',
+                fontWeight: '700',
+              },
+              icon: markerIcon(g, point),
+              zIndex: point.role === 'potluck' ? 20 : 1,
+            });
+            marker.addListener('click', function () {
+              infoWindow.setContent(infoHtml(point));
+              infoWindow.open({ map: map, anchor: marker, shouldFocus: false });
+            });
+          });
+          map.fitBounds(bounds, 48);
+          g.maps.event.addListenerOnce(map, 'idle', function () {
+            var zoom = map.getZoom();
+            if (typeof zoom === 'number' && zoom > 17) map.setZoom(17);
+          });
+        }
+
+        loadMapsLibrary()
+          .then(function () {
+            if (mapLoadError || mapReady) return;
+            var g = window.google;
+            if (!g || !g.maps) return;
+            map = new g.maps.Map(mapEl, {
+              center: { lat: 45.685, lng: -111.032 },
+              zoom: 15,
+              mapTypeControl: false,
+              streetViewControl: false,
+              fullscreenControl: true,
+              styles: [
+                { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+                { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+              ],
+            });
+            infoWindow = new g.maps.InfoWindow({ maxWidth: 320 });
+            mapReady = true;
+            drawMarkers();
+          })
+          .catch(function () {
+            mapLoadError = true;
+            mapEl.textContent = 'Map failed to load. Check that the Maps JavaScript API is enabled for this key.';
+          });
+      })();
+    </script>
+  </>
+)}
