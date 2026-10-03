@@ -26,20 +26,31 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
     <div class="flex h-48 flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 bg-gray-50 p-6 text-center text-gray-500">
       <p class="font-medium text-gray-700">Map view unavailable</p>
       <p class="text-sm">
-        Add a <code>PUBLIC_GOOGLE_MAPS_API_KEY</code> to enable the Parade of Sheds map. The stop list above still works.
+        Add a <code>PUBLIC_GOOGLE_MAPS_API_KEY</code> to enable the Parade of Sheds map. The stop list below still works.
       </p>
     </div>
   )}
-  <ul class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
-    <li class="inline-flex items-center gap-1.5">
-      <span class="inline-block h-3 w-3 rounded-full border-2 border-white bg-accent shadow-xs" aria-hidden="true"></span>
-      P — Tinworks Art potluck, picnic, and parade gather
-    </li>
-    <li class="inline-flex items-center gap-1.5">
-      <span class="inline-block h-3 w-3 rounded-full border-2 border-white bg-primary shadow-xs" aria-hidden="true"></span>
-      Numbered tour stops
-    </li>
-  </ul>
+  <div class="mt-3 flex flex-wrap items-center justify-between gap-3">
+    <ul class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
+      <li class="inline-flex items-center gap-1.5">
+        <span class="inline-block h-3 w-3 rounded-full border-2 border-white bg-accent shadow-xs" aria-hidden="true"></span>
+        P — Tinworks Art potluck, picnic, and parade gather
+      </li>
+      <li class="inline-flex items-center gap-1.5">
+        <span class="inline-block h-3 w-3 rounded-full border-2 border-white bg-primary shadow-xs" aria-hidden="true"></span>
+        Numbered tour stops
+      </li>
+    </ul>
+    {apiKey && mappable.length > 0 && (
+      <button
+        type="button"
+        id="parade-tour-map-reset"
+        class="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-800 shadow-xs hover:bg-gray-50"
+      >
+        Reset map
+      </button>
+    )}
+  </div>
 </div>
 
 {apiKey && mappable.length > 0 && (
@@ -55,10 +66,19 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
         var points = cfg.points || [];
         if (!key || !points.length) return;
 
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', bindStopButtons);
+        } else {
+          bindStopButtons();
+        }
+
         var map;
         var infoWindow;
         var mapReady = false;
         var mapLoadError = false;
+        var markersByLabel = {};
+        var fullBounds = null;
+        var pendingLabel = null;
 
         function esc(s) {
           return String(s)
@@ -139,6 +159,70 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
           );
         }
 
+        function pointByLabel(label) {
+          for (var i = 0; i < points.length; i++) {
+            if (String(points[i].label) === String(label)) return points[i];
+          }
+          return null;
+        }
+
+        function setActiveStop(label) {
+          var buttons = document.querySelectorAll('[data-parade-stop]');
+          buttons.forEach(function (button) {
+            var on = label != null && button.getAttribute('data-parade-stop') === String(label);
+            button.setAttribute('aria-pressed', on ? 'true' : 'false');
+            button.classList.toggle('bg-amber-50', on);
+          });
+        }
+
+        function capZoom() {
+          var g = window.google;
+          if (!g || !g.maps || !map) return;
+          g.maps.event.addListenerOnce(map, 'idle', function () {
+            var zoom = map.getZoom();
+            if (typeof zoom === 'number' && zoom > 17) map.setZoom(17);
+          });
+        }
+
+        function showFullMap() {
+          if (!map || !fullBounds || !infoWindow) return;
+          infoWindow.close();
+          setActiveStop(null);
+          map.fitBounds(fullBounds, 48);
+          capZoom();
+        }
+
+        function focusStop(label) {
+          if (!mapReady || !map || !infoWindow) {
+            pendingLabel = label;
+            return;
+          }
+          var marker = markersByLabel[String(label)];
+          var point = pointByLabel(label);
+          if (!marker || !point) return;
+          var position = marker.getPosition();
+          if (!position) return;
+          setActiveStop(label);
+          mapEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          map.setZoom(16);
+          map.panTo(position);
+          infoWindow.setContent(infoHtml(point));
+          infoWindow.open({ map: map, anchor: marker, shouldFocus: false });
+          window.google.maps.event.addListenerOnce(map, 'idle', function () {
+            map.panBy(0, 80);
+          });
+        }
+
+        function bindStopButtons() {
+          document.querySelectorAll('[data-parade-stop]').forEach(function (button) {
+            button.addEventListener('click', function () {
+              focusStop(button.getAttribute('data-parade-stop'));
+            });
+          });
+          var reset = document.getElementById('parade-tour-map-reset');
+          if (reset) reset.addEventListener('click', showFullMap);
+        }
+
         function drawMarkers() {
           var g = window.google;
           if (!g || !g.maps || !map) return;
@@ -159,16 +243,21 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
               icon: markerIcon(g, point),
               zIndex: point.role === 'potluck' ? 20 : 1,
             });
+            markersByLabel[String(point.label)] = marker;
             marker.addListener('click', function () {
+              setActiveStop(point.label);
               infoWindow.setContent(infoHtml(point));
               infoWindow.open({ map: map, anchor: marker, shouldFocus: false });
             });
           });
+          fullBounds = bounds;
           map.fitBounds(bounds, 48);
-          g.maps.event.addListenerOnce(map, 'idle', function () {
-            var zoom = map.getZoom();
-            if (typeof zoom === 'number' && zoom > 17) map.setZoom(17);
-          });
+          capZoom();
+          if (pendingLabel) {
+            var queued = pendingLabel;
+            pendingLabel = null;
+            focusStop(queued);
+          }
         }
 
         loadMapsLibrary()

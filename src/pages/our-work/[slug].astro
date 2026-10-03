@@ -33,7 +33,11 @@ const paradeEvent =
 const flyerPdf = paradeEvent?.data.flyerPdf;
 const flyerImage = paradeEvent?.data.flyerImage;
 ---
-<Base title={objective.data.title} description={objective.data.summary}>
+<Base
+  title={objective.data.title}
+  description={objective.data.summary}
+  disableAddressDetection={objective.id === 'parade-of-sheds'}
+>
   <div class:list={['mx-auto px-4 py-12', wideLayout ? 'max-w-4xl' : 'max-w-3xl']}>
     <a href={`${base}${OUR_WORK_PATH}`} class="text-accent text-sm font-medium mb-8 inline-block">← Back to Our Work</a>
     {flyerPdf && flyerImage && (
