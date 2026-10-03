@@ -2,8 +2,7 @@
  * 2026 Parade of Sheds tour pins.
  * Coordinates are street-address geocodes for the interactive map.
  * Stop 3 (721 ½) uses the 721 N Montana Ave house point.
- * Stop 13 is pinned at 424 N Church Ave — the northeast address — because
- * "424 Church St" without a direction geocodes to South Church downtown.
+ * Stop 13 is shown as 424 N Church St and pinned at 424 N Church Ave.
  */
 export type ParadeTourRole = 'potluck' | 'stop';
 
@@ -150,7 +149,7 @@ export const paradeOfSheds2026Stops: ParadeTourStop[] = [
     label: '13',
     role: 'stop',
     name: 'Ping Pong & Coors',
-    address: '424 Church St',
+    address: '424 N Church St',
     description: 'Need we say more?',
     lat: 45.684045,
     lng: -111.030078,
