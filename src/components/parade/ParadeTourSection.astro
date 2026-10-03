@@ -39,7 +39,7 @@ const tourStops = stops.filter((stop) => stop.role === 'stop');
           ) : (
             <strong>{stop.address}</strong>
           )}
-          {stop.note && <span class="block text-sm text-gray-600">{stop.note}</span>}
+          {stop.description && <span class="mt-1 block text-sm leading-relaxed text-gray-700">{stop.description}</span>}
         </span>
       </li>
     ))}

@@ -124,17 +124,17 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
           var address = point.name
             ? '<p style="font-size:13px;color:#4b5563;margin:6px 0 0;line-height:1.35;">' + esc(point.address) + '</p>'
             : '';
-          var note = point.note
-            ? '<p style="font-size:13px;color:#374151;margin:8px 0 0;line-height:1.4;">' + esc(point.note) + '</p>'
+          var description = point.description
+            ? '<p style="font-size:13px;color:#374151;margin:8px 0 0;line-height:1.45;">' + esc(point.description) + '</p>'
             : '';
           return (
-            '<div style="max-width:280px;padding:2px 2px 4px;line-height:1.35;">' +
+            '<div style="max-width:320px;padding:2px 2px 4px;line-height:1.35;">' +
             '<div style="font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:4px;">' +
             esc(eyebrow) +
             '</div>' +
             '<strong style="font-size:15px;color:#1e3a2f;">' + title + '</strong>' +
             address +
-            note +
+            description +
             '</div>'
           );
         }
@@ -187,7 +187,7 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
                 { featureType: 'transit', stylers: [{ visibility: 'off' }] },
               ],
             });
-            infoWindow = new g.maps.InfoWindow({ maxWidth: 320 });
+            infoWindow = new g.maps.InfoWindow({ maxWidth: 360 });
             mapReady = true;
             drawMarkers();
           })
