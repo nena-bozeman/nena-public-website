@@ -35,6 +35,16 @@ const categoryColors: Record<string, string> = {
 };
 
 const { category, cancelled } = event.data;
+
+function publicAsset(path: string | undefined): string | undefined {
+  if (!path) return undefined;
+  if (/^https?:\/\//.test(path)) return path;
+  return `${base}${path.replace(/^\//, '')}`;
+}
+
+const flyerHref = publicAsset(event.data.flyerPdf);
+const flyerSrc = publicAsset(event.data.flyerImage);
+const flyerAlt = event.data.flyerAlt ?? 'Event flyer';
 ---
 
 <Base
@@ -44,6 +54,22 @@ const { category, cancelled } = event.data;
 >
   <article class="max-w-3xl mx-auto px-4 py-12">
     <a href={`${base}events`} class="text-accent hover:text-amber-700 text-sm font-medium mb-8 inline-block transition-colors">← Back to Events</a>
+
+    {flyerHref && flyerSrc && (
+      <a
+        href={flyerHref}
+        class="float-right mb-4 ml-4 w-32 no-underline sm:ml-6 sm:w-44"
+      >
+        <img
+          src={flyerSrc}
+          alt={flyerAlt}
+          width="900"
+          height="1650"
+          class="h-auto w-full rounded-lg border border-gray-200 bg-white shadow-xs"
+        />
+        <span class="mt-2 block text-center text-sm font-medium text-accent">Full flyer (PDF)</span>
+      </a>
+    )}
 
     <div class="mb-6">
       {cancelled && (
@@ -94,12 +120,14 @@ const { category, cancelled } = event.data;
       <Content />
     </div>
 
-    <RelatedContent
-      relatedNews={relatedNewsByTopics(content.news, topics)}
-      relatedObjectives={relatedObjectivesByTopics(content.objectives, topics)}
-      relatedPages={relatedPages}
-      backlinks={backlinksFor(content.backlinkIndex, 'events', event.id)}
-      excludeEventSlug={event.id}
-    />
+    <div class="clear-both">
+      <RelatedContent
+        relatedNews={relatedNewsByTopics(content.news, topics)}
+        relatedObjectives={relatedObjectivesByTopics(content.objectives, topics)}
+        relatedPages={relatedPages}
+        backlinks={backlinksFor(content.backlinkIndex, 'events', event.id)}
+        excludeEventSlug={event.id}
+      />
+    </div>
   </article>
 </Base>

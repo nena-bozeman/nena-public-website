@@ -15,6 +15,9 @@ topics:
 newsSlugs:
   - 2026-08-03-parade-of-sheds-planning-meeting
   - 2026-08-06-today-parade-of-sheds-planning-meeting
+flyerPdf: /documents/parade-of-sheds/2026-parade-of-sheds-flyer.pdf
+flyerImage: /images/parade-of-sheds/2026-parade-of-sheds-flyer.jpg
+flyerAlt: 2026 Parade of Sheds flyer
 ---
 
 Join the Northeast Neighborhood Association (NENA) for our annual [Parade of Sheds](/our-work/parade-of-sheds) **Sunday, October 18, 11:00 a.m.–4:00 p.m.**
