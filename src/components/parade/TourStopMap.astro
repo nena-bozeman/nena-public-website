@@ -41,6 +41,10 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
         <span class="inline-block h-3 w-3 rounded-full border-2 border-white bg-primary shadow-xs" aria-hidden="true"></span>
         Numbered tour stops
       </li>
+      <li class="inline-flex items-center gap-1.5">
+        <span class="inline-block h-px w-4 bg-gray-500" aria-hidden="true"></span>
+        Gray line — street address when a number is moved aside
+      </li>
     </ul>
     {apiKey && mappable.length > 0 && (
       <button
@@ -241,6 +245,58 @@ const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c
           labels.forEach(function (label) {
             var latLng = projection.fromPointToLatLng(new g.maps.Point(pos[label].x / scale, pos[label].y / scale));
             markersByLabel[label].setPosition(latLng);
+          });
+          syncLeaderLines();
+        }
+
+        var leaderLines = {};
+
+        function syncLeaderLines() {
+          var g = window.google;
+          var projection = map && map.getProjection();
+          if (!g || !projection) return;
+          var zoom = map.getZoom();
+          if (typeof zoom !== 'number') return;
+          var scale = Math.pow(2, zoom);
+          Object.keys(markersByLabel).forEach(function (label) {
+            var marker = markersByLabel[label];
+            var origin = originals[label];
+            var display = marker.getPosition();
+            if (!origin || !display) return;
+            var worldOrigin = projection.fromLatLngToPoint(origin);
+            var worldDisplay = projection.fromLatLngToPoint(display);
+            var dx = (worldOrigin.x - worldDisplay.x) * scale;
+            var dy = (worldOrigin.y - worldDisplay.y) * scale;
+            var moved = Math.hypot(dx, dy) >= 8;
+            var line = leaderLines[label];
+            if (!moved) {
+              if (line) line.setMap(null);
+              return;
+            }
+            if (!line) {
+              line = new g.maps.Polyline({
+                map: map,
+                strokeColor: '#6b7280',
+                strokeOpacity: 0.8,
+                strokeWeight: 1.5,
+                clickable: false,
+                zIndex: 0,
+                icons: [{
+                  icon: {
+                    path: g.maps.SymbolPath.CIRCLE,
+                    scale: 2.5,
+                    fillColor: '#4b5563',
+                    fillOpacity: 0.9,
+                    strokeWeight: 0,
+                  },
+                  offset: '0%',
+                }],
+              });
+              leaderLines[label] = line;
+            } else if (!line.getMap()) {
+              line.setMap(map);
+            }
+            line.setPath([origin, display]);
           });
         }
 
