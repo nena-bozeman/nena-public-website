@@ -2,6 +2,10 @@
 /nena-public-website/* /:splat 301
 /nena-public-website / 301
 
+# Short link for the 2026 tour map. Both spellings, before any splat rules.
+/parade-of-sheds /our-work/parade-of-sheds 301
+/parade-of-sheds/ /our-work/parade-of-sheds 301
+
 /history/1985-nena-founded /history/2001-nena-founded 301
 /businesses/* /places/:splat 301
 /news/tag/newsletter /topics/newsletter 301
