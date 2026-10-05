@@ -26,8 +26,6 @@ This signature event brings together friends and the community while showcasing 
 
 **Where:** [Tinworks Art](/places/tinworks), 719 N Ida Ave — potluck, picnic, and parade gather.
 
-**Tour stops and map:** [Parade of Sheds](/our-work/parade-of-sheds) — the numbered self-guided stops and an interactive map.
-
 All ages welcome.
 
 ## Schedule

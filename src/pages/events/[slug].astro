@@ -83,6 +83,14 @@ const flyerImage = event.data.flyerImage;
         📍 {event.data.location}
         {event.data.address && ` · ${event.data.address}`}
       </p>
+      {event.id === '2026-10-18-parade-of-sheds' && (
+        <a
+          href={`${base}our-work/parade-of-sheds`}
+          class="mt-4 inline-block max-w-full bg-accent hover:bg-amber-600 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors"
+        >
+          See the tour &amp; live map
+        </a>
+      )}
       <p class="text-xl text-gray-600 mt-4">{event.data.summary}</p>
       <TopicPills topics={topics} tags={event.data.tags} />
       {event.data.externalUrl && !cancelled && (
