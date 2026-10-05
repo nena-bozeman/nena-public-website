@@ -1,5 +1,4 @@
 ---
-import { spreadOverlappingMapPoints } from '../../utils/business-map-points';
 import type { ParadeTourStop } from '../../data/parade-of-sheds-2026';
 
 export interface Props {
@@ -10,11 +9,10 @@ const { stops } = Astro.props;
 const rawKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
 const apiKey = typeof rawKey === 'string' ? rawKey.trim() : '';
 const mappable = stops.filter((stop) => Number.isFinite(stop.lat) && Number.isFinite(stop.lng));
-// Exact coordinate stacks are fanned here. Nearby pins (4/5/6, 8/11, 9/12) are
-// separated in screen pixels after the map zoom is known, in fanMarkersToZoom.
-const points = spreadOverlappingMapPoints(
-  mappable.map((stop) => ({ ...stop, id: stop.label })),
-);
+// Pins stay on their geocoded coordinates. fanMarkersToZoom separates stacks
+// and nearby pins (4/5/6, 8/11, 9/12, 13/14) in screen pixels, and leader
+// lines run back to these coordinates.
+const points = mappable.map((stop) => ({ ...stop, id: stop.label }));
 const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c');
 ---
 
