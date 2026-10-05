@@ -24,12 +24,12 @@ Join the Northeast Neighborhood Association (NENA) for our annual [Parade of She
 
 This signature event brings together friends and the community while showcasing the quirky and unique character of our corner of town. It is a tongue-in-cheek salute to more traditional Parade of Homes tours, but feels more genuine and down-to-earth to suit our neck of the woods. This event strives to preserve a feeling of “home” in our otherwise rapidly changing town of Bozeman. Get to know some of the wonderful folks connected to this area as they invite you into their sheds, yards, murals, homes, and alleyways!
 
-**Where:** [Tinworks Art](/places/tinworks), 719 N Ida Ave — potluck, picnic, and parade gather.
+**Where:** [Tinworks Art](/places/tinworks), 719 N Ida Ave — potluck, picnic, and parade gather. Items can be dropped off before the parade at the designated area.
 
 All ages welcome.
 
 ## Schedule
 
 - **11:00 a.m.** — Parade starts at Tinworks Art. Anyone interested is welcome to join a fun and casual stroll with costumes and decorated bikes around the neighborhood.
-- **12:00–1:30 p.m.** — Potluck cookout and picnic at Tinworks Art, 719 N Ida Ave. Items that need to stay cool can be dropped off before the parade.
+- **12:00–1:30 p.m.** — Potluck cookout and picnic at Tinworks Art, 719 N Ida Ave. Items can be dropped off before the parade at the designated area.
 - **2:00–4:00 p.m.** — Neighbors open their locations for an on-your-own-schedule tour. Stops and the map are on the [Parade of Sheds](/our-work/parade-of-sheds) page.
