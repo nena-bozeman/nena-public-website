@@ -2,9 +2,7 @@
  * 2026 Parade of Sheds tour pins.
  * Coordinates are street-address geocodes for the interactive map.
  * Stop 3 (721 ½) uses the 721 N Montana Ave house point.
- * Stop 13 is shown as 424 N Church St and pinned at 424 N Church Ave,
- * because a bare "Church St" geocode landed south of the neighborhood.
- * Stop 14, Little Free TOOL Library, is at that same 424 N Church Ave point.
+ * Stops 13 and 14 are both at 424 N Church Ave and share one pin.
  */
 export type ParadeTourRole = 'potluck' | 'stop';
 
@@ -151,7 +149,7 @@ export const paradeOfSheds2026Stops: ParadeTourStop[] = [
     label: '13',
     role: 'stop',
     name: 'Ping Pong & Coors',
-    address: '424 N Church St',
+    address: '424 N Church Ave',
     description: 'Need we say more?',
     lat: 45.684045,
     lng: -111.030078,
