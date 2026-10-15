@@ -2,6 +2,7 @@
  * 2026 Parade of Sheds tour pins.
  * Coordinates are street-address geocodes for the interactive map.
  * Stop 3 (721 ½) uses the 721 N Montana Ave house point.
+ * Stop 6 (711 E Orange St) was withdrawn; other stops keep their original numbers.
  * Stops 13 and 14 are both at 424 N Church Ave and share one pin.
  */
 export type ParadeTourRole = 'potluck' | 'stop';
@@ -74,16 +75,6 @@ export const paradeOfSheds2026Stops: ParadeTourStop[] = [
       'While you are digesting your yummy Swedish pancake, stroll across the alley and visit this tiny pop-up art gallery.',
     lat: 45.685597,
     lng: -111.026324,
-  },
-  {
-    label: '6',
-    role: 'stop',
-    name: 'Disco shed, hot cider around the bonfire, and original artwork!',
-    address: '711 E Orange St',
-    description:
-      'Right next door to Swedish pancakes! Come visit 2 FUNky sheds in Daniel’s backyard. We will have a bonfire going, hot apple cider, disco lights and music in one shed and Brittney Banks’ flower art and greeting cards in another.',
-    lat: 45.684804,
-    lng: -111.026343,
   },
   {
     label: '7',
