@@ -3,7 +3,6 @@ name: Medium Gallery
 categories:
   - arts-culture
 address: 618 N Wallace Ave, Bozeman, MT 59715
-website: https://www.mediumgallery.com
 legacy: false
 status: past
 lat: 45.686411

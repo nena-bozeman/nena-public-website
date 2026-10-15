@@ -12,6 +12,9 @@
  *   pnpm run rss-to-notes -- --file ./saved-feed.xml
  *   pnpm run rss-to-notes -- --format json
  *
+ * With --write, also prints a reminder to run the expand-mailchimp-stubs skill
+ * (.cursor/skills/expand-mailchimp-stubs/) to fill stubs and add events.
+ *
  * Environment:
  *   RSS_TO_NOTES_URL   Default feed URL when --url is omitted (see docs/rss-to-notes.md).
  */
@@ -223,11 +226,23 @@ function writeMissingStubs(rows, opts) {
   console.log(
     `${prefix} ${written} draft news stub(s); skipped ${skippedKnown} already in content, ${skippedNoLink} without archive link.`,
   );
+  printSkillReminder(opts.dryRun);
   if (errors.length > 0) {
     console.error('rss-to-notes: failed to create stub(s):');
     for (const err of errors) console.error(`  - ${err}`);
     process.exit(1);
   }
+}
+
+function printSkillReminder(dryRun) {
+  const next = dryRun
+    ? 'After writing stubs, run the expand-mailchimp-stubs skill'
+    : 'Next: run the expand-mailchimp-stubs skill';
+  console.log('');
+  console.log(
+    `${next} to fill draft news from each Mailchimp archive and create event pages when the email is a gathering.`,
+  );
+  console.log('  .cursor/skills/expand-mailchimp-stubs/');
 }
 
 function escapeMdCell(s) {
@@ -302,6 +317,9 @@ Options:
   --write, -w       Create draft news stubs for campaigns not yet in content
   --dry-run         With --write, show paths without writing files
   --help, -h        This help
+
+After --write, fill stubs with the expand-mailchimp-stubs skill
+  (.cursor/skills/expand-mailchimp-stubs/).
 
 Examples:
   pnpm run rss-to-notes

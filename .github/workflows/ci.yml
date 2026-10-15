@@ -18,7 +18,7 @@ jobs:
     name: Astro check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
@@ -32,7 +32,7 @@ jobs:
     name: Unit tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
@@ -47,7 +47,7 @@ jobs:
     env:
       PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.PUBLIC_GOOGLE_MAPS_API_KEY }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
@@ -71,14 +71,14 @@ jobs:
     needs: [build-and-check-internal-links]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/download-artifact@v8
         with:
           name: site-dist
           path: dist
       - name: Restore lychee cache
         id: restore-lychee-cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: .lycheecache
           # Include config in the key so stale cached errors are not restored after excludes/accept change.
@@ -89,7 +89,7 @@ jobs:
         run: echo "version=v$(tr -d '[:space:]' < .lychee-version)" >> "$GITHUB_OUTPUT"
       # Pin to commit with 0.24.x tarball subfolder fix (lychee-action#330); @v2.8.0 still expects a flat archive.
       - name: Check external links
-        uses: lycheeverse/lychee-action@faea714062690f6c2e6f7f388469ec4fa6d9c4e1
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8
         with:
           lycheeVersion: ${{ steps.lychee-version.outputs.version }}
           args: --config .lychee.toml dist/
@@ -97,7 +97,7 @@ jobs:
           jobSummary: true
       - name: Save lychee cache
         if: always()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: .lycheecache
           key: ${{ steps.restore-lychee-cache.outputs.cache-primary-key }}

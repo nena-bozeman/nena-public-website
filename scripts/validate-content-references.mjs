@@ -19,6 +19,7 @@ const TOPIC_VALUES = [
   'bozeman-udc',
   'affordable-housing',
   'parade-of-sheds',
+  'burdock-blitz',
   'visionne',
   'trees',
   'trails-pocket-parks',

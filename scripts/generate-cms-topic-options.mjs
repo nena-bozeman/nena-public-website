@@ -11,6 +11,7 @@ const TOPIC_LABELS = {
   'bozeman-udc': 'Bozeman UDC',
   'affordable-housing': 'Affordable Housing',
   'parade-of-sheds': 'Parade of Sheds',
+  'burdock-blitz': 'Burdock Blitz',
   visionne: 'VisionNE',
   trees: 'NENA Trees',
   'trails-pocket-parks': 'Trails & Parks',

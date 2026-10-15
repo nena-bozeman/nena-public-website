@@ -5,9 +5,9 @@ summary: >-
   Weekend volunteer mornings to cut burdock—meet Saturday at Fink’s (Wild Crumb treats for participants) or Sunday at
   City Hall.
 featured: false
-tags:
-  - burdock-blitz
+tags: []
 topics:
+  - burdock-blitz
   - community
   - volunteer
   - environment

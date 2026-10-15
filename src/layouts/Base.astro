@@ -11,11 +11,20 @@ export interface Props {
   description?: string;
   image?: string;
   canonicalURL?: string;
+  /** Stops mobile browsers from turning street addresses into maps links. */
+  disableAddressDetection?: boolean;
 }
 
-const { title, description = 'Northeast Neighborhood Association of Bozeman, Montana', image = '/images/og-default.jpg', canonicalURL } = Astro.props;
+const {
+  title,
+  description = 'Northeast Neighborhood Association of Bozeman, Montana',
+  image = '/images/og-default.jpg',
+  canonicalURL,
+  disableAddressDetection = false,
+} = Astro.props;
 const siteURL = Astro.site ?? new URL('https://nenabozeman.org');
 const ogImage = new URL(image, siteURL);
+const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID?.trim();
 ---
 
 <!doctype html>
@@ -23,6 +32,7 @@ const ogImage = new URL(image, siteURL);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {disableAddressDetection && <meta name="format-detection" content="address=no" />}
     <title>{title} | NENA – Northeast Neighborhood Association</title>
     <meta name="description" content={description} />
     
@@ -48,6 +58,20 @@ const ogImage = new URL(image, siteURL);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    {gaMeasurementId && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} />
+        <script is:inline define:vars={{ gaMeasurementId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', gaMeasurementId);
+        </script>
+      </>
+    )}
   </head>
   <body class="min-h-screen flex flex-col">
     <Header />

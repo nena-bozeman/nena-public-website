@@ -1,0 +1,587 @@
+---
+import type { ParadeTourStop } from '../../data/parade-of-sheds-2026';
+
+export interface Props {
+  stops: ParadeTourStop[];
+}
+
+const { stops } = Astro.props;
+const rawKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
+const apiKey = typeof rawKey === 'string' ? rawKey.trim() : '';
+const mappable = stops.filter((stop) => Number.isFinite(stop.lat) && Number.isFinite(stop.lng));
+// Pins stay on their geocoded coordinates. fanMarkersToZoom separates stacks
+// and nearby pins (4/5/6, 8/11, 9/12, 13/14) in screen pixels, and leader
+// lines run back to these coordinates.
+const points = mappable.map((stop) => ({ ...stop, id: stop.label }));
+const mapConfig = JSON.stringify({ key: apiKey, points }).replace(/</g, '\\u003c');
+---
+
+<div class="not-prose">
+  {apiKey && mappable.length > 0 ? (
+    <div class="overflow-hidden rounded-lg border border-gray-200 bg-gray-100 shadow-xs">
+      <div id="parade-tour-map" class="h-96 w-full" role="region" aria-label="Map of Parade of Sheds tour stops"></div>
+    </div>
+  ) : (
+    <div class="flex h-48 flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 bg-gray-50 p-6 text-center text-gray-500">
+      <p class="font-medium text-gray-700">Map view unavailable</p>
+      <p class="text-sm">
+        Add a <code>PUBLIC_GOOGLE_MAPS_API_KEY</code> to enable the Parade of Sheds map. The stop list below still works.
+      </p>
+    </div>
+  )}
+  <div class="mt-3 flex flex-wrap items-center justify-between gap-3">
+    <ul class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
+      <li class="inline-flex items-center gap-1.5">
+        <span class="inline-block h-3 w-3 rounded-full border-2 border-white bg-accent shadow-xs" aria-hidden="true"></span>
+        P — Tinworks Art potluck, picnic, and parade gather
+      </li>
+      <li class="inline-flex items-center gap-1.5">
+        <span class="inline-block h-3 w-3 rounded-full border-2 border-white bg-primary shadow-xs" aria-hidden="true"></span>
+        Numbered tour stops
+      </li>
+      <li class="inline-flex items-center gap-1.5">
+        <span class="inline-block h-px w-4 bg-gray-500" aria-hidden="true"></span>
+        Gray line — street address when a number is moved aside
+      </li>
+      <li id="parade-tour-map-you-legend" class="hidden">
+        <span class="inline-flex items-center gap-1.5">
+          <span class="inline-block h-3 w-3 rounded-full border-2 border-white shadow-xs" style="background-color:#1a73e8" aria-hidden="true"></span>
+          Blue dot — you are here
+        </span>
+      </li>
+    </ul>
+    {apiKey && mappable.length > 0 && (
+      <div class="flex flex-wrap gap-2">
+        <button
+          type="button"
+          id="parade-tour-map-locate"
+          class="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-800 shadow-xs hover:bg-gray-50"
+          aria-pressed="false"
+        >
+          Show my location
+        </button>
+        <button
+          type="button"
+          id="parade-tour-map-reset"
+          class="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-800 shadow-xs hover:bg-gray-50"
+        >
+          Reset map
+        </button>
+      </div>
+    )}
+  </div>
+</div>
+
+{apiKey && mappable.length > 0 && (
+  <>
+    <script is:inline type="application/json" id="parade-tour-map-data" set:html={mapConfig}></script>
+    <script is:inline>
+      (function () {
+        var dataEl = document.getElementById('parade-tour-map-data');
+        var mapEl = document.getElementById('parade-tour-map');
+        if (!dataEl || !mapEl) return;
+        var cfg = JSON.parse(dataEl.textContent || '{}');
+        var key = cfg.key;
+        var points = cfg.points || [];
+        if (!key || !points.length) return;
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', bindStopButtons);
+        } else {
+          bindStopButtons();
+        }
+
+        var map;
+        var infoWindow;
+        var mapReady = false;
+        var mapLoadError = false;
+        var markersByLabel = {};
+        var originals = {};
+        var fullBounds = null;
+        var pendingLabel = null;
+        var fannedZoom = null;
+        var lastFittedZoom = null;
+        var fitToken = 0;
+        var mapWidth = 0;
+        var mapHeight = 0;
+        var viewerMarker = null;
+        var viewerHalo = null;
+        var pendingLocate = false;
+        var MIN_PIN_GAP_PX = 42;
+        var MAX_FIT_ZOOM = 17;
+
+        function esc(s) {
+          return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/"/g, '&quot;');
+        }
+
+        function showMapAuthHelp() {
+          mapLoadError = true;
+          var origin = typeof location !== 'undefined' ? location.origin : '';
+          mapEl.innerHTML =
+            '<div class="p-5 text-left text-sm text-gray-800 max-w-lg space-y-3">' +
+            '<p class="font-medium text-primary">Google Maps could not use this API key</p>' +
+            '<p class="text-gray-700">In Google Cloud Console for this key, check:</p>' +
+            '<ul class="list-disc pl-5 space-y-1 text-gray-700">' +
+            '<li><strong>Maps JavaScript API</strong> is enabled.</li>' +
+            '<li><strong>Billing</strong> is enabled for the project.</li>' +
+            '<li>If the key uses <strong>HTTP referrers</strong>, allow this origin: <code class="text-xs bg-white px-1 rounded-sm break-all">' +
+            esc(origin || 'unknown') +
+            '</code></li>' +
+            '</ul></div>';
+        }
+
+        function loadMapsLibrary() {
+          if (window.google && window.google.maps) return Promise.resolve();
+          window.gm_authFailure = showMapAuthHelp;
+          return new Promise(function (resolve, reject) {
+            var existing = document.querySelector('script[data-nena-maps]');
+            if (existing) {
+              existing.addEventListener('load', function () { resolve(); });
+              existing.addEventListener('error', function () { reject(new Error('Maps script failed to load')); });
+              return;
+            }
+            var s = document.createElement('script');
+            s.setAttribute('data-nena-maps', '');
+            s.async = true;
+            s.defer = true;
+            s.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(key);
+            s.onload = function () { resolve(); };
+            s.onerror = function () { reject(new Error('Maps script failed to load')); };
+            document.head.appendChild(s);
+          });
+        }
+
+        function markerIcon(g, point) {
+          var potluck = point.role === 'potluck';
+          return {
+            path: g.maps.SymbolPath.CIRCLE,
+            fillColor: potluck ? '#d4840a' : '#2d5016',
+            fillOpacity: 1,
+            strokeColor: '#ffffff',
+            strokeWeight: 2,
+            scale: String(point.label).length > 1 ? 13 : 11,
+          };
+        }
+
+        function infoHtml(point) {
+          var eyebrow = point.role === 'potluck'
+            ? 'Potluck, picnic, and parade gather'
+            : 'Tour stop ' + point.label;
+          var title = point.name ? esc(point.name) : esc(point.address);
+          var address = point.name
+            ? '<p style="font-size:13px;color:#4b5563;margin:6px 0 0;line-height:1.35;">' + esc(point.address) + '</p>'
+            : '';
+          var description = point.description
+            ? '<p style="font-size:13px;color:#374151;margin:8px 0 0;line-height:1.45;">' + esc(point.description) + '</p>'
+            : '';
+          return (
+            '<div style="max-width:320px;padding:2px 2px 4px;line-height:1.35;">' +
+            '<div style="font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:#6b7280;margin-bottom:4px;">' +
+            esc(eyebrow) +
+            '</div>' +
+            '<strong style="font-size:15px;color:#1e3a2f;">' + title + '</strong>' +
+            address +
+            description +
+            '</div>'
+          );
+        }
+
+        function pointByLabel(label) {
+          for (var i = 0; i < points.length; i++) {
+            if (String(points[i].label) === String(label)) return points[i];
+          }
+          return null;
+        }
+
+        function setActiveStop(label) {
+          var buttons = document.querySelectorAll('[data-parade-stop]');
+          buttons.forEach(function (button) {
+            var on = label != null && button.getAttribute('data-parade-stop') === String(label);
+            button.setAttribute('aria-pressed', on ? 'true' : 'false');
+            button.classList.toggle('bg-amber-50', on);
+          });
+        }
+
+        function applyZoomFloor(zoom) {
+          if (!map || typeof zoom !== 'number' || !isFinite(zoom)) return;
+          var fitted = Math.max(0, Math.min(MAX_FIT_ZOOM, zoom));
+          lastFittedZoom = fitted;
+          // One level past the view that fits every stop. Zooming in stays open.
+          map.setOptions({ minZoom: Math.max(0, fitted - 1) });
+        }
+
+        function fitNeighborhood(restore) {
+          var g = window.google;
+          if (!g || !map || !fullBounds) return;
+          var token = ++fitToken;
+          map.setOptions({ minZoom: null });
+          fannedZoom = null;
+          map.fitBounds(fullBounds, 48);
+          var settled = false;
+          function settleFit() {
+            if (settled || token !== fitToken || !map) return;
+            settled = true;
+            var zoom = map.getZoom();
+            var fitted = zoom;
+            if (typeof fitted === 'number' && fitted > MAX_FIT_ZOOM) fitted = MAX_FIT_ZOOM;
+            applyZoomFloor(fitted);
+            if (restore && restore.center && restore.offset) {
+              var floor = typeof fitted === 'number' ? Math.max(0, fitted - 1) : 0;
+              var target = typeof fitted === 'number' ? fitted + restore.offset : restore.zoom;
+              if (typeof target !== 'number' || !isFinite(target)) target = restore.zoom;
+              if (target < floor) target = floor;
+              fannedZoom = null;
+              map.setZoom(target);
+              map.setCenter(restore.center);
+              return;
+            }
+            if (typeof zoom === 'number' && zoom > MAX_FIT_ZOOM) map.setZoom(MAX_FIT_ZOOM);
+          }
+          g.maps.event.addListenerOnce(map, 'idle', settleFit);
+          // fitBounds does not fire idle when the camera is already on the fitted view.
+          window.setTimeout(settleFit, 1200);
+        }
+
+        function refitAfterResize() {
+          var g = window.google;
+          if (!g || !map || !fullBounds) return;
+          var zoom = map.getZoom();
+          var center = map.getCenter();
+          var offset = 0;
+          if (typeof zoom === 'number' && lastFittedZoom != null) offset = zoom - lastFittedZoom;
+          g.maps.event.trigger(map, 'resize');
+          window.requestAnimationFrame(function () {
+            if (!offset || !center) {
+              fitNeighborhood(null);
+              return;
+            }
+            fitNeighborhood({ offset: offset, zoom: zoom, center: center });
+          });
+        }
+
+        var resizeTimer = null;
+
+        function watchMapSize() {
+          var schedule = function () {
+            var w = mapEl.clientWidth;
+            var h = mapEl.clientHeight;
+            var dw = Math.abs(w - mapWidth);
+            var dh = Math.abs(h - mapHeight);
+            if (!mapReady || !fullBounds || (dw < 16 && dh < 16)) {
+              mapWidth = w;
+              mapHeight = h;
+              return;
+            }
+            mapWidth = w;
+            mapHeight = h;
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(refitAfterResize, 150);
+          };
+          if (typeof ResizeObserver === 'function') {
+            var observer = new ResizeObserver(schedule);
+            observer.observe(mapEl);
+            return;
+          }
+          window.addEventListener('resize', schedule);
+        }
+
+        function showFullMap() {
+          if (!map || !fullBounds || !infoWindow) return;
+          infoWindow.close();
+          setActiveStop(null);
+          fitNeighborhood(null);
+        }
+
+        function showViewer(latLng, accuracy) {
+          var g = window.google;
+          if (!g || !map) return;
+          if (!viewerMarker) {
+            viewerMarker = new g.maps.Marker({
+              map: map,
+              position: latLng,
+              title: 'You are here',
+              clickable: false,
+              zIndex: 40,
+              icon: {
+                path: g.maps.SymbolPath.CIRCLE,
+                scale: 10,
+                fillColor: '#1a73e8',
+                fillOpacity: 1,
+                strokeColor: '#ffffff',
+                strokeWeight: 2,
+              },
+            });
+          } else {
+            viewerMarker.setPosition(latLng);
+          }
+          if (viewerHalo) {
+            viewerHalo.setMap(null);
+            viewerHalo = null;
+          }
+          if (typeof accuracy === 'number' && isFinite(accuracy) && accuracy > 0 && accuracy <= 300) {
+            viewerHalo = new g.maps.Circle({
+              map: map,
+              center: latLng,
+              radius: accuracy,
+              fillColor: '#1a73e8',
+              fillOpacity: 0.15,
+              strokeColor: '#1a73e8',
+              strokeOpacity: 0.4,
+              strokeWeight: 1,
+              clickable: false,
+              zIndex: 0,
+            });
+          }
+          var legend = document.getElementById('parade-tour-map-you-legend');
+          if (legend) legend.classList.remove('hidden');
+          var button = document.getElementById('parade-tour-map-locate');
+          if (button) {
+            button.setAttribute('aria-pressed', 'true');
+            button.textContent = 'Update my location';
+          }
+          var bounds = map.getBounds();
+          if (!bounds || !bounds.contains(latLng)) map.panTo(latLng);
+        }
+
+        function requestViewerLocation() {
+          if (!mapReady || !map) {
+            pendingLocate = true;
+            return;
+          }
+          pendingLocate = false;
+          if (!navigator.geolocation) return;
+          var button = document.getElementById('parade-tour-map-locate');
+          if (button) {
+            button.disabled = true;
+            button.setAttribute('aria-busy', 'true');
+          }
+          navigator.geolocation.getCurrentPosition(function (pos) {
+            if (button) {
+              button.disabled = false;
+              button.removeAttribute('aria-busy');
+            }
+            showViewer(
+              { lat: pos.coords.latitude, lng: pos.coords.longitude },
+              pos.coords.accuracy
+            );
+          }, function () {
+            if (button) {
+              button.disabled = false;
+              button.removeAttribute('aria-busy');
+            }
+          }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
+        }
+
+        function fanMarkersToZoom() {
+          var g = window.google;
+          var projection = map && map.getProjection();
+          if (!g || !projection) return;
+          var zoom = map.getZoom();
+          if (typeof zoom !== 'number') return;
+          var scale = Math.pow(2, zoom);
+          var labels = Object.keys(markersByLabel);
+          var pos = {};
+          labels.forEach(function (label) {
+            var world = projection.fromLatLngToPoint(originals[label]);
+            pos[label] = { x: world.x * scale, y: world.y * scale };
+          });
+          for (var iter = 0; iter < 80; iter++) {
+            var moved = false;
+            for (var i = 0; i < labels.length; i++) {
+              for (var j = i + 1; j < labels.length; j++) {
+                var a = pos[labels[i]];
+                var b = pos[labels[j]];
+                var dx = b.x - a.x;
+                var dy = b.y - a.y;
+                var dist = Math.hypot(dx, dy);
+                if (dist >= MIN_PIN_GAP_PX) continue;
+                if (dist < 0.5) {
+                  var angle = ((i * 7 + j * 3) % 12) * (Math.PI / 6);
+                  dx = Math.cos(angle);
+                  dy = Math.sin(angle);
+                  dist = 1;
+                }
+                var push = (MIN_PIN_GAP_PX - dist) / 2;
+                var ux = dx / dist;
+                var uy = dy / dist;
+                a.x -= ux * push;
+                a.y -= uy * push;
+                b.x += ux * push;
+                b.y += uy * push;
+                moved = true;
+              }
+            }
+            if (!moved) break;
+          }
+          labels.forEach(function (label) {
+            var latLng = projection.fromPointToLatLng(new g.maps.Point(pos[label].x / scale, pos[label].y / scale));
+            markersByLabel[label].setPosition(latLng);
+          });
+          syncLeaderLines();
+        }
+
+        var leaderLines = {};
+
+        function syncLeaderLines() {
+          var g = window.google;
+          var projection = map && map.getProjection();
+          if (!g || !projection) return;
+          var zoom = map.getZoom();
+          if (typeof zoom !== 'number') return;
+          var scale = Math.pow(2, zoom);
+          Object.keys(markersByLabel).forEach(function (label) {
+            var marker = markersByLabel[label];
+            var origin = originals[label];
+            var display = marker.getPosition();
+            if (!origin || !display) return;
+            var worldOrigin = projection.fromLatLngToPoint(origin);
+            var worldDisplay = projection.fromLatLngToPoint(display);
+            var dx = (worldOrigin.x - worldDisplay.x) * scale;
+            var dy = (worldOrigin.y - worldDisplay.y) * scale;
+            var moved = Math.hypot(dx, dy) >= 8;
+            var line = leaderLines[label];
+            if (!moved) {
+              if (line) line.setMap(null);
+              return;
+            }
+            if (!line) {
+              line = new g.maps.Polyline({
+                map: map,
+                strokeColor: '#6b7280',
+                strokeOpacity: 0.8,
+                strokeWeight: 1.5,
+                clickable: false,
+                zIndex: 0,
+                icons: [{
+                  icon: {
+                    path: g.maps.SymbolPath.CIRCLE,
+                    scale: 2.5,
+                    fillColor: '#4b5563',
+                    fillOpacity: 0.9,
+                    strokeWeight: 0,
+                  },
+                  offset: '0%',
+                }],
+              });
+              leaderLines[label] = line;
+            } else if (!line.getMap()) {
+              line.setMap(map);
+            }
+            line.setPath([origin, display]);
+          });
+        }
+
+        function focusStop(label) {
+          if (!mapReady || !map || !infoWindow) {
+            pendingLabel = label;
+            return;
+          }
+          var marker = markersByLabel[String(label)];
+          var point = pointByLabel(label);
+          var position = originals[String(label)];
+          if (!marker || !point || !position) return;
+          setActiveStop(label);
+          mapEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          window.google.maps.event.addListenerOnce(map, 'idle', function () {
+            var settled = markersByLabel[String(label)];
+            if (!settled) return;
+            infoWindow.setContent(infoHtml(point));
+            infoWindow.open({ map: map, anchor: settled, shouldFocus: false });
+            map.panTo(settled.getPosition());
+            map.panBy(0, 80);
+          });
+          map.setZoom(16);
+          map.panTo(position);
+        }
+
+        function bindStopButtons() {
+          document.querySelectorAll('[data-parade-stop]').forEach(function (button) {
+            button.addEventListener('click', function () {
+              focusStop(button.getAttribute('data-parade-stop'));
+            });
+          });
+          var reset = document.getElementById('parade-tour-map-reset');
+          if (reset) reset.addEventListener('click', showFullMap);
+          var locate = document.getElementById('parade-tour-map-locate');
+          if (locate) locate.addEventListener('click', requestViewerLocation);
+        }
+
+        function drawMarkers() {
+          var g = window.google;
+          if (!g || !g.maps || !map) return;
+          var bounds = new g.maps.LatLngBounds();
+          points.forEach(function (point) {
+            var position = { lat: point.lat, lng: point.lng };
+            bounds.extend(position);
+            var marker = new g.maps.Marker({
+              position: position,
+              map: map,
+              title: (point.name ? point.name + ' — ' : '') + point.address,
+              label: {
+                text: String(point.label),
+                color: '#ffffff',
+                fontSize: '11px',
+                fontWeight: '700',
+              },
+              icon: markerIcon(g, point),
+              zIndex: point.role === 'potluck' ? 20 : 1,
+            });
+            markersByLabel[String(point.label)] = marker;
+            originals[String(point.label)] = position;
+            marker.addListener('click', function () {
+              setActiveStop(point.label);
+              infoWindow.setContent(infoHtml(point));
+              infoWindow.open({ map: map, anchor: marker, shouldFocus: false });
+            });
+          });
+          fullBounds = bounds;
+          mapWidth = mapEl.clientWidth;
+          mapHeight = mapEl.clientHeight;
+          fitNeighborhood(null);
+          if (pendingLabel) {
+            var queued = pendingLabel;
+            pendingLabel = null;
+            focusStop(queued);
+          }
+          if (pendingLocate) requestViewerLocation();
+        }
+
+        loadMapsLibrary()
+          .then(function () {
+            if (mapLoadError || mapReady) return;
+            var g = window.google;
+            if (!g || !g.maps) return;
+            map = new g.maps.Map(mapEl, {
+              center: { lat: 45.685, lng: -111.032 },
+              zoom: 15,
+              mapTypeControl: false,
+              streetViewControl: false,
+              fullscreenControl: true,
+              styles: [
+                { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+                { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+              ],
+            });
+            infoWindow = new g.maps.InfoWindow({ maxWidth: 360 });
+            map.addListener('idle', function () {
+              if (!Object.keys(markersByLabel).length) return;
+              var zoom = map.getZoom();
+              if (zoom === fannedZoom) return;
+              fannedZoom = zoom;
+              fanMarkersToZoom();
+            });
+            watchMapSize();
+            mapReady = true;
+            drawMarkers();
+          })
+          .catch(function () {
+            mapLoadError = true;
+            mapEl.textContent = 'Map failed to load. Check that the Maps JavaScript API is enabled for this key.';
+          });
+      })();
+    </script>
+  </>
+)}

@@ -72,6 +72,11 @@ const events = defineCollection({
     /** When true, listings and the event page show a cancelled label (event kept for the record). */
     cancelled: z.boolean().default(false),
     externalUrl: z.url().optional(),
+    /** Site path or URL of the full flyer PDF. Shown with `flyerImage`. */
+    flyerPdf: z.string().optional(),
+    /** Site path or URL of a preview image (first page of the flyer). */
+    flyerImage: z.string().optional(),
+    flyerAlt: z.string().optional(),
     topics: z.array(topicSchema).default([]),
     tags: z.array(z.string()).default([]),
     meetingSlug: z.string().optional(),

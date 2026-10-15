@@ -7,7 +7,9 @@
 base_url = "https://nenabozeman.org"
 root_dir = "dist"
 
-verbose = "warn"
+# "error" prints failures only; the summary table still includes success/timeout/exclude counts.
+# Use `lychee --config .lychee.toml --verbose dist/` locally to dump excluded/redirected URLs.
+verbose = "error"
 no_progress = true
 cache = true
 max_cache_age = "7d"
@@ -65,6 +67,12 @@ exclude = [
   'watch\.montanapbs\.org/video/shadow-casting-the-making-of-a-river-runs-through-it-pd7adb',
   # community.md — site times out from CI link checker
   '^https://www\.theemerson\.org/?$',
+  # History NR citations — historicmt.org times out from GitHub Actions (items 503, 570, 571, 577, 579, 595, 2222)
+  '^https://historicmt\.org/',
+  # 1883-hawthorne-elementary-east-side-school-opens.md — times out from CI
+  'montanagenealogy\.com/gallatin/first_schools\.htm',
+  # 1991-a-river-runs-through-it.md — Montana Film Office times out from CI
+  'commerce\.mt\.gov/Business/Programs-and-Services/Montana-Film-Office',
 ]
 
 exclude_path = [

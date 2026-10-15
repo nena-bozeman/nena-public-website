@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import EventFlyer from '../../components/events/EventFlyer.astro';
 import RelatedContent from '../../components/related/RelatedContent.astro';
 import TopicPills from '../../components/related/TopicPills.astro';
 import { getCollection, render } from 'astro:content';
@@ -35,6 +36,8 @@ const categoryColors: Record<string, string> = {
 };
 
 const { category, cancelled } = event.data;
+const flyerPdf = event.data.flyerPdf;
+const flyerImage = event.data.flyerImage;
 ---
 
 <Base
@@ -44,6 +47,10 @@ const { category, cancelled } = event.data;
 >
   <article class="max-w-3xl mx-auto px-4 py-12">
     <a href={`${base}events`} class="text-accent hover:text-amber-700 text-sm font-medium mb-8 inline-block transition-colors">← Back to Events</a>
+
+    {flyerPdf && flyerImage && (
+      <EventFlyer href={flyerPdf} src={flyerImage} alt={event.data.flyerAlt ?? 'Event flyer'} />
+    )}
 
     <div class="mb-6">
       {cancelled && (
@@ -76,6 +83,14 @@ const { category, cancelled } = event.data;
         📍 {event.data.location}
         {event.data.address && ` · ${event.data.address}`}
       </p>
+      {event.id === '2026-10-18-parade-of-sheds' && (
+        <a
+          href={`${base}our-work/parade-of-sheds`}
+          class="mt-4 inline-block max-w-full bg-accent hover:bg-amber-600 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors"
+        >
+          See the tour &amp; live map
+        </a>
+      )}
       <p class="text-xl text-gray-600 mt-4">{event.data.summary}</p>
       <TopicPills topics={topics} tags={event.data.tags} />
       {event.data.externalUrl && !cancelled && (
@@ -94,12 +109,14 @@ const { category, cancelled } = event.data;
       <Content />
     </div>
 
-    <RelatedContent
-      relatedNews={relatedNewsByTopics(content.news, topics)}
-      relatedObjectives={relatedObjectivesByTopics(content.objectives, topics)}
-      relatedPages={relatedPages}
-      backlinks={backlinksFor(content.backlinkIndex, 'events', event.id)}
-      excludeEventSlug={event.id}
-    />
+    <div class="clear-both">
+      <RelatedContent
+        relatedNews={relatedNewsByTopics(content.news, topics)}
+        relatedObjectives={relatedObjectivesByTopics(content.objectives, topics)}
+        relatedPages={relatedPages}
+        backlinks={backlinksFor(content.backlinkIndex, 'events', event.id)}
+        excludeEventSlug={event.id}
+      />
+    </div>
   </article>
 </Base>

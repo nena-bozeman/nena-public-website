@@ -60,7 +60,9 @@ lychee --config .lychee.toml --verbose dist/
 
 ## Configuration
 
-[`.lychee.toml`](../.lychee.toml) at the repo root controls timeouts, concurrency, excludes (same-origin URLs, legacy Craft `/files/*` routes, Google Maps loader), and hosts that often return **403** to CI bots. Edit that file when a URL is legitimately unreachable from GitHub Actions but fine in a browser.
+[`.lychee.toml`](../.lychee.toml) at the repo root controls timeouts, concurrency, excludes (same-origin URLs, legacy Craft `/files/*` routes, Google Maps loader), and hosts that often return **403** or time out from CI. Edit that file when a URL is legitimately unreachable from GitHub Actions but fine in a browser.
+
+CI uses `verbose = "error"` so the job log lists failures and the summary table (success/timeout/exclude counts), not every excluded URL. Pass `--verbose` locally when you need the excluded/redirect dump.
 
 Lychee caches results in `.lycheecache` (gitignored) to speed up repeat runs.
 
