@@ -53,6 +53,8 @@ exclude = [
   'https?://bzncloud\.bozeman\.net',
   # 2021-04-25-community-solar-access.md — host no longer resolves
   'mtsolarcommunity\.mt\.gov/Portals/185/Documents/Montana_Solar_Market_Assessment',
+  # 2021-04-25-community-solar-access.md — homepage returns HTTP 500
+  '^https?://(www\.)?communitysolaraccess\.org/?$',
   # 2020-10-09-trails-projects.md — expired Webex session
   'cityofbozeman\.webex\.com/cityofbozeman/onstage/g\.php\?MTID=e2fa09fdbf703ec57c7d4db6389350401',
   # 2025-09-29 / 2025-11-04 news — closed Monday.com survey

@@ -32,7 +32,7 @@ export const paradeOfSheds2026Stops: ParadeTourStop[] = [
     name: 'Hot dogs and Big Vehicles',
     address: 'Simkins Lumber, 326 N Broadway Ave',
     description:
-      'Enjoy a hot dog off the grill while your kids climb up into the cab of some big machinery (photo op!)',
+      'Enjoy hot dogs from Daniel’s Gourmet Meats and Sausages off the grill while your kids climb up into the cab of some big machinery (photo op!)',
     lat: 45.682902,
     lng: -111.024556,
   },
