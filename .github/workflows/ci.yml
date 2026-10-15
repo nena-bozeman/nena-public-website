@@ -89,7 +89,7 @@ jobs:
         run: echo "version=v$(tr -d '[:space:]' < .lychee-version)" >> "$GITHUB_OUTPUT"
       # Pin to commit with 0.24.x tarball subfolder fix (lychee-action#330); @v2.8.0 still expects a flat archive.
       - name: Check external links
-        uses: lycheeverse/lychee-action@faea714062690f6c2e6f7f388469ec4fa6d9c4e1
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8
         with:
           lycheeVersion: ${{ steps.lychee-version.outputs.version }}
           args: --config .lychee.toml dist/
