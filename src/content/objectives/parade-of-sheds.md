@@ -24,4 +24,4 @@ What is the Parade of Sheds? It is a tongue-in-cheek salute to more traditional 
 
 - **11:00 a.m.** — Parade starts at Tinworks Art. Anyone interested is welcome to join a fun and casual stroll with costumes and decorated bikes around the neighborhood. All ages welcome!
 - **12:00–1:30 p.m.** — Potluck cookout and picnic at Tinworks Art, 719 N Ida Ave. Items can be dropped off before the parade at the designated area.
-- **2:00–4:00 p.m.** — Neighbors open their locations for an on-your-own-schedule tour. The numbered stops and map are below.
+- **2:00–4:00 p.m.** — Neighbors open their locations for an on-your-own-schedule tour. The stops and map are below.
