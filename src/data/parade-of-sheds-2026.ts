@@ -4,6 +4,7 @@
  * Stop 3 (721 ½) uses the 721 N Montana Ave house point.
  * Stop 6 (711 E Orange St) was withdrawn; other stops keep their original numbers.
  * Stops 13 and 14 are both at 424 N Church Ave and share one pin.
+ * Stop A is a letter label at 314 N Black Ave, not a printed-sheet number.
  */
 export type ParadeTourRole = 'potluck' | 'stop';
 
@@ -154,5 +155,15 @@ export const paradeOfSheds2026Stops: ParadeTourStop[] = [
       'Check out the grand opening of Bozeman’s first little free tool library! A neighborhood resource to help fulfill your DIY dreams and foster collective creativity.',
     lat: 45.684045,
     lng: -111.030078,
+  },
+  {
+    label: 'A',
+    role: 'stop',
+    name: 'Community Style Mural',
+    address: '314 N Black Ave, Bozeman, MT',
+    description:
+      'We need your help! Come make your mark and help us keep our alley funky. Snacks and bubblies provided',
+    lat: 45.68258,
+    lng: -111.035519,
   },
 ];
