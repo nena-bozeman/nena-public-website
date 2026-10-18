@@ -4,7 +4,7 @@ description: Mission, boundaries, and work of the Northeast Neighborhood Associa
 subtitle: Northeast Neighborhood Association · Bozeman, Montana
 ---
 
-The Northeast Neighborhood Association (NENA) represents the Northeast Neighborhood in Bozeman, Montana. NENA is a grassroots, volunteer-run neighborhood association, not a homeowners association. Neighbors who care about where they live take an active role in how the neighborhood changes. The [bylaws](/governance/bylaws) do not require dues.
+The Northeast Neighborhood Association (NENA) represents the Northeast Neighborhood in Bozeman, Montana. NENA is a grassroots, volunteer-run neighborhood association, not a homeowners association. Neighbors who care about where they live take an active role so that the neighborhood continues to be a unique place where people want to live, work, visit, and patronize. The [bylaws](/governance/bylaws) do not require dues.
 
 Whether you rent, own, work, run a local business, make art, or just moved in, you are welcome at meetings and events. Email [nenabozeman@gmail.com](mailto:nenabozeman@gmail.com).
 
