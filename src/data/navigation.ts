@@ -1,5 +1,6 @@
 /** Shared site navigation — Option B (task-based grouping). */
 
+import type { NavIconName } from './nav-icons';
 import { OUR_WORK_PATH, type OurWorkSection, ourWorkSectionNavHref } from './our-work';
 
 export type NavItem = {
@@ -9,12 +10,16 @@ export type NavItem = {
   external?: boolean;
   /** Indented sub-link (e.g. objectives under the objectives hub). */
   nested?: boolean;
+  /** Lucide icon name. Rendered when set (Our Work dropdown and mobile menu). */
+  icon?: NavIconName;
 };
 
 export type NavSection = {
   label?: string;
   /** Section hub link when the heading should navigate (e.g. our-work section pages). */
   href?: string;
+  /** Lucide icon name shown beside the section heading when set. */
+  icon?: NavIconName;
   links: NavItem[];
 };
 
@@ -24,6 +29,8 @@ export type NavGroup = {
   description?: string;
   /** When set, the label links to this hub; a chevron button toggles the dropdown. */
   hubHref?: string;
+  /** Extra classes for the desktop dropdown panel (for example a fixed width). */
+  panelClass?: string;
   sections: NavSection[];
 };
 
@@ -118,15 +125,18 @@ export function buildNavGroups(ourWorkSections: OurWorkSection[]): NavGroup[] {
       label: 'Our Work',
       hubHref: OUR_WORK_PATH,
       description: 'Neighborhood communication, advocacy, and development watch',
+      panelClass: 'w-80',
       sections: ourWorkSections.map((section) => ({
         label: section.label,
         href: ourWorkSectionNavHref(section),
+        icon: section.icon,
         links: [
           ...section.links.map((link) => ({
             label: link.label,
             href: link.href,
             nested: link.nested ?? true,
             external: link.external,
+            icon: link.icon,
           })),
         ],
       })),

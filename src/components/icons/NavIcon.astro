@@ -1,0 +1,60 @@
+---
+import Building from '@lucide/astro/icons/building';
+import Calendar from '@lucide/astro/icons/calendar';
+import CarFront from '@lucide/astro/icons/car-front';
+import ClipboardList from '@lucide/astro/icons/clipboard-list';
+import Compass from '@lucide/astro/icons/compass';
+import Eye from '@lucide/astro/icons/eye';
+import Footprints from '@lucide/astro/icons/footprints';
+import HousePlus from '@lucide/astro/icons/house-plus';
+import Landmark from '@lucide/astro/icons/landmark';
+import LandPlot from '@lucide/astro/icons/land-plot';
+import Megaphone from '@lucide/astro/icons/megaphone';
+import MessagesSquare from '@lucide/astro/icons/messages-square';
+import Newspaper from '@lucide/astro/icons/newspaper';
+import Scale from '@lucide/astro/icons/scale';
+import Sprout from '@lucide/astro/icons/sprout';
+import TrainFront from '@lucide/astro/icons/train-front';
+import TreeDeciduous from '@lucide/astro/icons/tree-deciduous';
+import Users from '@lucide/astro/icons/users';
+import Warehouse from '@lucide/astro/icons/warehouse';
+import WavesHorizontal from '@lucide/astro/icons/waves-horizontal';
+import type { NavIconName } from '../../data/nav-icons';
+
+interface Props {
+  name: NavIconName;
+  /** Tailwind size classes. Defaults to 16px, matching `size`. */
+  class?: string;
+  /** SVG width and height in pixels. Defaults to 16. */
+  size?: number;
+}
+
+const { name, class: className = 'h-4 w-4', size = 16 } = Astro.props;
+
+const icons = {
+  building: Building,
+  calendar: Calendar,
+  'car-front': CarFront,
+  'clipboard-list': ClipboardList,
+  compass: Compass,
+  eye: Eye,
+  footprints: Footprints,
+  'house-plus': HousePlus,
+  landmark: Landmark,
+  'land-plot': LandPlot,
+  megaphone: Megaphone,
+  'messages-square': MessagesSquare,
+  newspaper: Newspaper,
+  scale: Scale,
+  sprout: Sprout,
+  'train-front': TrainFront,
+  'tree-deciduous': TreeDeciduous,
+  users: Users,
+  warehouse: Warehouse,
+  'waves-horizontal': WavesHorizontal,
+} satisfies Record<NavIconName, typeof Building>;
+
+const Icon = icons[name];
+---
+
+<Icon class:list={['shrink-0', className]} size={size} color="currentColor" aria-hidden="true" />

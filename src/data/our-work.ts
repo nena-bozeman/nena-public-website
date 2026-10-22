@@ -2,6 +2,8 @@
 
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { matchesListStatus, type ListStatus } from '../utils/list-status';
+import type { NavIconName } from './nav-icons';
+import { ourWorkObjectiveIcons } from './our-work-nav-icons';
 
 export const OUR_WORK_PATH = 'our-work';
 
@@ -12,6 +14,8 @@ export type OurWorkLink = {
   external?: boolean;
   /** Indented sub-link in the nav dropdown. */
   nested?: boolean;
+  /** Lucide icon name shown beside this link in the Our Work nav. */
+  icon: NavIconName;
 };
 
 export type OurWorkCustomLinkRef = {
@@ -21,6 +25,8 @@ export type OurWorkCustomLinkRef = {
   summary?: string;
   external?: boolean;
   nested?: boolean;
+  /** Lucide icon name shown beside this link in the Our Work nav. */
+  icon: NavIconName;
 };
 
 export type OurWorkSectionConfig = {
@@ -31,6 +37,8 @@ export type OurWorkSectionConfig = {
   /** Section hub elsewhere on the site (e.g. `development`). Takes precedence over `hubSlug`. */
   hubHref?: string;
   description: string;
+  /** Lucide icon name shown beside this section heading in the Our Work nav. */
+  icon: NavIconName;
   /** Non-objective links interleaved with section objectives by `order`. */
   customLinks: OurWorkCustomLinkRef[];
 };
@@ -50,12 +58,14 @@ export const OUR_WORK_SECTION_CONFIG: OurWorkSectionConfig[] = [
     label: 'Neighborhood Communication',
     hubSlug: 'neighborhood-communication',
     description: 'Meetings, newsletters, and neighbor surveys that keep Northeast informed.',
+    icon: 'messages-square',
     customLinks: [
       {
         order: 3,
         label: 'NENA Newsletters',
         href: 'newsletter',
         summary: 'Seasonal neighborhood news and announcements.',
+        icon: 'newspaper',
       },
     ],
   },
@@ -65,6 +75,7 @@ export const OUR_WORK_SECTION_CONFIG: OurWorkSectionConfig[] = [
     hubSlug: 'neighborhood-advocacy',
     description:
       'City planning, preservation, housing, mobility, and other issues NENA follows on neighbors’ behalf.',
+    icon: 'megaphone',
     customLinks: [],
   },
   {
@@ -72,12 +83,14 @@ export const OUR_WORK_SECTION_CONFIG: OurWorkSectionConfig[] = [
     label: 'Development Watch',
     hubHref: 'development',
     description: 'Active development proposals and projects in the Northeast Neighborhood.',
+    icon: 'eye',
     customLinks: [
       {
         order: 1,
         label: 'All development projects',
         href: 'development',
         summary: 'Map and list of current projects NENA is tracking.',
+        icon: 'building',
       },
     ],
   },
@@ -86,12 +99,20 @@ export const OUR_WORK_SECTION_CONFIG: OurWorkSectionConfig[] = [
 type SortableLink = OurWorkLink & { sortOrder: number };
 
 function objectiveToLink(objective: CollectionEntry<'objectives'>): SortableLink {
+  const icon = ourWorkObjectiveIcons[objective.id];
+  if (!icon) {
+    throw new Error(
+      `Missing Our Work nav icon for "${objective.id}". Add a Lucide name in src/data/our-work-nav-icons.ts.`,
+    );
+  }
+
   return {
     sortOrder: objective.data.order,
     label: objective.data.title,
     href: `${OUR_WORK_PATH}/${objective.id}`,
     summary: objective.data.summary,
     nested: true,
+    icon,
   };
 }
 
@@ -103,6 +124,7 @@ function customToLink(ref: OurWorkCustomLinkRef): SortableLink {
     summary: ref.summary,
     external: ref.external,
     nested: ref.nested,
+    icon: ref.icon,
   };
 }
 
@@ -140,6 +162,7 @@ export async function getOurWorkSections(
     hubSlug: section.hubSlug,
     hubHref: section.hubHref,
     description: section.description,
+    icon: section.icon,
     links: linksForSection(section.id, objectives, section.customLinks, filterStatus),
   }));
 }
