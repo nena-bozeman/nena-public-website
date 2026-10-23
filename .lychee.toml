@@ -75,6 +75,9 @@ exclude = [
   'montanagenealogy\.com/gallatin/first_schools\.htm',
   # 1991-a-river-runs-through-it.md — Montana Film Office times out from CI
   'commerce\.mt\.gov/Business/Programs-and-Services/Montana-Film-Office',
+  # Idaho Pole news — EPA SEMS document host times out from CI
+  # (2021-01-27, 2021-02-17, 2022-07-26, 2025-10-10)
+  'semspub\.epa\.gov',
 ]
 
 exclude_path = [

@@ -202,6 +202,16 @@ collections:
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Category", name: "category", widget: "select", options: ["social","civic","committee","tour","other"] }
       - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - label: "Photo (filename in src/assets/events/)"
+        name: "image"
+        widget: "string"
+        required: false
+        hint: "Optional hero photo. Put the file in src/assets/events/ and enter the filename (for example 2026-10-22-nena-fall-meeting.jpg)."
+      - label: "Photo alt text"
+        name: "imageAlt"
+        widget: "string"
+        required: false
+        hint: "Required when a photo is set. Describe the scene; do not name people."
       - <<: *date_created_field
       - <<: *date_updated_field
       - <<: *topics_field
