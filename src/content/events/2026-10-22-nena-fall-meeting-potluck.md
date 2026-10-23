@@ -22,4 +22,6 @@ Two of the topics discussed:
 
 **Proposed City Charter.** Neighbor **Barb Cestero** presented the proposed new City Charter on the November ballot and answered questions ahead of the vote. More information is at [chartingbzn.com](https://chartingbzn.com).
 
-**Bozeman Creek Vision Plan.** **Jim Madden** shared an update and a slideshow preview of the plan the team will present to the City Commission in December. See the city’s [Bozeman Creek](https://engage.bozemanmt.gov/bzncreek) page, and NENA’s [Bozeman Creek Vision Plan](/our-work/bozeman-creek-vision-plan) page.
+**Bozeman Creek Vision Plan.** **Jim Madden** shared an update and a slideshow preview of the plan the team will present to the City Commission in December. See the city’s [Bozeman Creek](https://engage.bozemanmt.gov/bzncreek) page, and NENA’s [Bozeman Creek Vision Plan](/our-work/bozeman-creek-vision-plan).
+
+**Related:** [Inter-Neighborhood Council (INC)](/our-work/inter-neighborhood-council) · [Bozeman Creek Vision Plan](/our-work/bozeman-creek-vision-plan)
