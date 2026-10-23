@@ -26,6 +26,7 @@ const hubButtonClass =
 const sectionHeadingClass =
   'rounded-sm px-3 pb-1 pt-1 text-xs font-semibold uppercase tracking-wide text-green-300/90 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
 const panelWidthClass = group.panelClass ?? 'min-w-56';
+const panelAlignClass = group.panelAlign === 'end' ? 'right-0' : 'left-0';
 ---
 
 <div class="nav-dropdown relative" data-nav-dropdown>
@@ -87,7 +88,8 @@ const panelWidthClass = group.panelClass ?? 'min-w-56';
     id={panelId}
     data-nav-dropdown-panel
     class:list={[
-      'nav-dropdown__panel absolute left-0 top-full z-50 mt-1 rounded-md border border-green-700/60 bg-primary py-2 shadow-lg',
+      'nav-dropdown__panel absolute top-full z-50 mt-1 rounded-md border border-green-700/60 bg-primary py-2 shadow-lg',
+      panelAlignClass,
       panelWidthClass,
     ]}
     role="menu"

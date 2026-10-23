@@ -18,7 +18,7 @@ const triggerClass =
 const hubRowClass =
   'flex w-full items-stretch overflow-hidden rounded-sm text-xl font-medium text-green-100 transition-colors focus-within:outline-solid focus-within:outline-2 focus-within:outline-offset-0 focus-within:outline-amber-300/80';
 const hubLinkClass =
-  'flex flex-1 items-center rounded-sm px-4 py-3 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
+  'flex flex-1 items-center gap-2 rounded-sm px-4 py-3 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
 const hubButtonClass =
   'flex shrink-0 items-center justify-center rounded-sm px-3 py-3 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
 const sectionHeadingClass =
@@ -42,6 +42,7 @@ const sectionHeadingClass =
                   class={hubLinkClass}
                   aria-current={isNavItemActive(pathname, base, group.hubHref!) ? 'page' : undefined}
                 >
+                  {group.icon && <NavIcon name={group.icon} class="h-5 w-5" size={20} />}
                   {group.label}
                 </a>
                 <button
@@ -71,7 +72,10 @@ const sectionHeadingClass =
                 aria-expanded="false"
                 aria-controls={panelId}
               >
-                {group.label}
+                <span class="flex items-center gap-2">
+                  {group.icon && <NavIcon name={group.icon} class="h-5 w-5" size={20} />}
+                  {group.label}
+                </span>
                 <svg
                   class="mobile-nav-section__chevron h-5 w-5 shrink-0 opacity-80"
                   aria-hidden="true"

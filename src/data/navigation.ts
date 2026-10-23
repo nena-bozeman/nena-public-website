@@ -1,6 +1,7 @@
 /** Shared site navigation — Option B (task-based grouping). */
 
-import type { NavIconName } from './nav-icons';
+import { getCollection } from 'astro:content';
+import { assertLucideIconName, type NavIconName } from './nav-icons';
 import { OUR_WORK_PATH, type OurWorkSection, ourWorkSectionNavHref } from './our-work';
 
 export type NavItem = {
@@ -10,7 +11,7 @@ export type NavItem = {
   external?: boolean;
   /** Indented sub-link (e.g. objectives under the objectives hub). */
   nested?: boolean;
-  /** Lucide icon name. Rendered when set (Our Work dropdown and mobile menu). */
+  /** Lucide icon name. Rendered when set, in the desktop dropdown and the mobile menu. */
   icon?: NavIconName;
 };
 
@@ -31,6 +32,14 @@ export type NavGroup = {
   hubHref?: string;
   /** Extra classes for the desktop dropdown panel (for example a fixed width). */
   panelClass?: string;
+  /** Which edge of the trigger the desktop panel hangs from. */
+  panelAlign?: 'start' | 'end';
+  /**
+   * Lucide icon beside this group in the mobile menu.
+   * Group labels are not markdown pages, so the name stays in this config.
+   * Omitted from the desktop bar so the header stays a short text row.
+   */
+  icon?: NavIconName;
   sections: NavSection[];
 };
 
@@ -90,18 +99,49 @@ export function isNavGroupActive(pathname: string, base: string, group: NavGroup
   return getNavGroupLinks(group).some((item) => isNavItemActive(pathname, base, item.href));
 }
 
-export function buildNavGroups(ourWorkSections: OurWorkSection[]): NavGroup[] {
+/** Nav hrefs backed by `src/content/pages/{slug}.md`. The icon comes from that file. */
+const PAGE_NAV_HREFS = new Set(['about', 'governance', 'community', 'donate', 'contact']);
+
+function navIcon(name: string, context: string): NavIconName {
+  return assertLucideIconName(name, context);
+}
+
+function pageNavItem(
+  label: string,
+  href: string,
+  iconByHref: Map<string, string | undefined>,
+): NavItem {
+  const icon = iconByHref.get(href);
+  if (!icon) {
+    throw new Error(
+      `Missing nav icon for "${label}". Set icon in src/content/pages/${href}.md.`,
+    );
+  }
+  return { label, href, icon: navIcon(icon, `page "${href}"`) };
+}
+
+function configNavItem(label: string, href: string, icon: string): NavItem {
+  return { label, href, icon: navIcon(icon, `nav item "${label}"`) };
+}
+
+export async function buildNavGroups(ourWorkSections: OurWorkSection[]): Promise<NavGroup[]> {
+  const pages = await getCollection('pages');
+  const iconByHref = new Map(
+    pages.filter((page) => PAGE_NAV_HREFS.has(page.id)).map((page) => [page.id, page.data.icon]),
+  );
+
   return [
     {
       id: 'news-events',
       label: 'News & Events',
       description: 'Stay informed about neighborhood news and gatherings',
+      icon: navIcon('calendar-range', 'nav group "News & Events"'),
       sections: [
         {
           links: [
-            { label: 'News', href: 'news' },
-            { label: 'Events', href: 'events' },
-            { label: 'Newsletter', href: 'newsletter' },
+            configNavItem('News', 'news', 'newspaper'),
+            configNavItem('Events', 'events', 'calendar-days'),
+            configNavItem('Newsletter', 'newsletter', 'newspaper'),
           ],
         },
       ],
@@ -110,12 +150,13 @@ export function buildNavGroups(ourWorkSections: OurWorkSection[]): NavGroup[] {
       id: 'neighborhood',
       label: 'Our Neighborhood',
       description: 'Explore the place, history, and local connections',
+      icon: navIcon('map', 'nav group "Our Neighborhood"'),
       sections: [
         {
           links: [
-            { label: 'History', href: 'history' },
-            { label: 'Places', href: 'places' },
-            { label: 'Community', href: 'community' },
+            configNavItem('History', 'history', 'book-open'),
+            configNavItem('Places', 'places', 'map-pin'),
+            pageNavItem('Community', 'community', iconByHref),
           ],
         },
       ],
@@ -126,6 +167,7 @@ export function buildNavGroups(ourWorkSections: OurWorkSection[]): NavGroup[] {
       hubHref: OUR_WORK_PATH,
       description: 'Neighborhood communication, advocacy, and development watch',
       panelClass: 'w-80',
+      icon: navIcon('handshake', 'nav group "Our Work"'),
       sections: ourWorkSections.map((section) => ({
         label: section.label,
         href: ourWorkSectionNavHref(section),
@@ -145,24 +187,27 @@ export function buildNavGroups(ourWorkSections: OurWorkSection[]): NavGroup[] {
       id: 'get-involved',
       label: 'Get Involved',
       description: 'Learn, support, connect',
+      icon: navIcon('hand-helping', 'nav group "Get Involved"'),
+      panelClass: 'w-72',
+      panelAlign: 'end',
       sections: [
         {
           label: 'Learn',
           links: [
-            { label: 'About NENA', href: 'about' },
-            { label: 'Governance', href: 'governance' },
-            { label: 'Bylaws', href: 'governance/bylaws' },
+            pageNavItem('About NENA', 'about', iconByHref),
+            pageNavItem('Governance', 'governance', iconByHref),
+            configNavItem('Bylaws', 'governance/bylaws', 'scroll-text'),
           ],
         },
         {
           label: 'Support',
-          links: [{ label: 'Donate', href: 'donate' }],
+          links: [pageNavItem('Donate', 'donate', iconByHref)],
         },
         {
           label: 'Connect',
           links: [
-            { label: 'Sign up for email alerts', href: 'newsletter' },
-            { label: 'Contact', href: 'contact' },
+            configNavItem('Sign up for email alerts', 'newsletter', 'mail-plus'),
+            pageNavItem('Contact', 'contact', iconByHref),
           ],
         },
       ],

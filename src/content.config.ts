@@ -206,6 +206,21 @@ const pages = defineCollection({
     title: z.string(),
     description: z.string(),
     subtitle: z.string().optional(),
+    /**
+     * Lucide icon name shown beside this page in the main menu.
+     * An unknown name fails the build. Nav items that link here must set one.
+     */
+    icon: z
+      .string()
+      .superRefine((name, ctx) => {
+        if (!isLucideIconName(name)) {
+          ctx.addIssue({
+            code: 'custom',
+            message: `Unknown Lucide icon "${name}". Use a Lucide icon name such as "tree-deciduous".`,
+          });
+        }
+      })
+      .optional(),
     dateCreated: z.coerce.date().optional(),
     dateUpdated: z.coerce.date().optional(),
   }),
