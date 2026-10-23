@@ -77,13 +77,29 @@ const events = defineCollection({
     /** Site path or URL of a preview image (first page of the flyer). */
     flyerImage: z.string().optional(),
     flyerAlt: z.string().optional(),
+    /**
+     * Optional filename under `src/assets/events/` (e.g. `2026-10-22-nena-fall-meeting.jpg`).
+     * Shown as a hero on the event page and processed with `astro:assets`.
+     */
+    image: z.string().optional(),
+    /** Required when `image` is set. Describe the scene; do not name people. */
+    imageAlt: z.string().optional(),
     topics: z.array(topicSchema).default([]),
     tags: z.array(z.string()).default([]),
     meetingSlug: z.string().optional(),
     newsSlugs: z.array(z.string()).default([]),
     dateCreated: z.coerce.date().optional(),
     dateUpdated: z.coerce.date().optional(),
-  }),
+  })
+    .superRefine((data, ctx) => {
+      if (data.image && !data.imageAlt?.trim()) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Events with an image need imageAlt',
+          path: ['imageAlt'],
+        });
+      }
+    }),
 });
 
 const places = defineCollection({

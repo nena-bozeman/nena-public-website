@@ -7,6 +7,8 @@ address: 901 N Rouse Ave, Bozeman, MT 59715
 summary: Biannual fall membership meeting and potluck, 5:00–7:30 p.m. Open to neighbors. Agenda details TBA.
 category: civic
 featured: false
+image: 2026-10-22-nena-fall-meeting.jpg
+imageAlt: 'Neighbors seated at tables in a meeting room listen to a presenter beside a screen that reads “Election Day is November 3rd.”'
 topics:
   - meeting
 meetingSlug: 2026-fall-october
