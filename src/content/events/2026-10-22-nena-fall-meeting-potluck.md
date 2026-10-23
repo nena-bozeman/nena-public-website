@@ -5,8 +5,8 @@ endDate: '2026-10-22T19:30:00'
 location: Public Safety Center — Community Room
 address: 901 N Rouse Ave, Bozeman, MT 59715
 summary: >-
-  Fall potluck and membership meeting. Topics included a City Charter presentation and a Bozeman Creek Vision Plan
-  update.
+  Fall potluck and membership meeting. Thank you to everyone who joined. Topics included a City Charter presentation
+  and a Bozeman Creek Vision Plan update.
 category: civic
 featured: false
 image: 2026-10-22-nena-fall-meeting.jpg
@@ -16,7 +16,7 @@ topics:
 meetingSlug: 2026-fall-october
 ---
 
-Neighbors met **Thursday, October 22, 2026**, **5:00–7:30 p.m.**, at the **Public Safety Center — Community Room** (**901 N Rouse Ave**) for the fall potluck and membership meeting.
+Neighbors met **Thursday, October 22, 2026**, **5:00–7:30 p.m.**, at the **Public Safety Center — Community Room** (**901 N Rouse Ave**) for the fall potluck and membership meeting. Thank you to everyone who joined.
 
 Two of the topics discussed:
 
