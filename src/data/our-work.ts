@@ -67,7 +67,7 @@ export const OUR_WORK_SECTION_CONFIG: OurWorkSectionConfig[] = [
         label: 'NENA Newsletters',
         href: 'newsletter',
         summary: 'Seasonal neighborhood news and announcements.',
-        icon: 'newspaper',
+        icon: 'mail-open',
       },
     ],
   },

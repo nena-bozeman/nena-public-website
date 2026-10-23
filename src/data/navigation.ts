@@ -141,7 +141,7 @@ export async function buildNavGroups(ourWorkSections: OurWorkSection[]): Promise
           links: [
             configNavItem('News', 'news', 'newspaper'),
             configNavItem('Events', 'events', 'calendar-days'),
-            configNavItem('Newsletter', 'newsletter', 'newspaper'),
+            configNavItem('Newsletter', 'newsletter', 'mail-open'),
           ],
         },
       ],
