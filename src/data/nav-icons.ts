@@ -1,25 +1,25 @@
-/** Lucide icon names rendered by `NavIcon.astro`. Add a name here and a component there together. */
-export const NAV_ICON_NAMES = [
-  'building',
-  'calendar',
-  'car-front',
-  'clipboard-list',
-  'compass',
-  'eye',
-  'footprints',
-  'house-plus',
-  'landmark',
-  'land-plot',
-  'megaphone',
-  'messages-square',
-  'newspaper',
-  'scale',
-  'sprout',
-  'train-front',
-  'tree-deciduous',
-  'users',
-  'warehouse',
-  'waves-horizontal',
-] as const;
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 
-export type NavIconName = (typeof NAV_ICON_NAMES)[number];
+/** Resolved from the project root so the check still works in the prerender bundle. */
+const lucideIconsDir = join(process.cwd(), 'node_modules/@lucide/astro/src/icons');
+
+/** Canonical Lucide icon name (`@lucide/astro/icons/<name>`). */
+export type NavIconName = string;
+
+/** True when `name` is a Lucide icon file, not an alias. */
+export function isLucideIconName(name: string): name is NavIconName {
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name)) {
+    return false;
+  }
+  return existsSync(join(lucideIconsDir, `${name}.ts`));
+}
+
+export function assertLucideIconName(name: string, context: string): NavIconName {
+  if (!isLucideIconName(name)) {
+    throw new Error(
+      `Unknown Lucide icon "${name}" for ${context}. Use a Lucide icon name such as "tree-deciduous".`,
+    );
+  }
+  return name;
+}

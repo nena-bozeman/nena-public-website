@@ -6,6 +6,7 @@ status: current
 section: neighborhood-advocacy
 listed: true
 order: 12
+icon: landmark
 topics:
   - historic-preservation
   - bozeman-udc

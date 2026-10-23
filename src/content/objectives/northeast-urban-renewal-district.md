@@ -6,6 +6,7 @@ summary: >-
 status: current
 section: neighborhood-advocacy
 order: 15
+icon: land-plot
 topics:
   - trails-pocket-parks
   - community

@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { isLucideIconName } from './data/nav-icons';
 import { DEVELOPMENT_PHASE_VALUES } from './schemas/development-phase';
 import { LIST_STATUS_VALUES } from './schemas/list-status';
 import { ourWorkSectionSchema } from './schemas/our-work-section';
@@ -176,6 +177,21 @@ const objectives = defineCollection({
     /** When false, the objective is omitted from section nav and hub lists (page URL still works). */
     listed: z.boolean().default(true),
     order: z.number().default(99),
+    /**
+     * Lucide icon name shown beside this objective in the Our Work nav.
+     * Listed objectives must set one; an unknown name fails the build.
+     */
+    icon: z
+      .string()
+      .superRefine((name, ctx) => {
+        if (!isLucideIconName(name)) {
+          ctx.addIssue({
+            code: 'custom',
+            message: `Unknown Lucide icon "${name}". Use a Lucide icon name such as "tree-deciduous".`,
+          });
+        }
+      })
+      .optional(),
     contactEmail: z.email().optional(),
     /** Curated topics matched against news and events for related content. */
     topics: z.array(topicSchema).default([]),

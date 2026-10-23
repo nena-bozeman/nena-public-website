@@ -2,8 +2,7 @@
 
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { matchesListStatus, type ListStatus } from '../utils/list-status';
-import type { NavIconName } from './nav-icons';
-import { ourWorkObjectiveIcons } from './our-work-nav-icons';
+import { assertLucideIconName, type NavIconName } from './nav-icons';
 
 export const OUR_WORK_PATH = 'our-work';
 
@@ -37,7 +36,10 @@ export type OurWorkSectionConfig = {
   /** Section hub elsewhere on the site (e.g. `development`). Takes precedence over `hubSlug`. */
   hubHref?: string;
   description: string;
-  /** Lucide icon name shown beside this section heading in the Our Work nav. */
+  /**
+   * Lucide icon beside this section heading.
+   * Section hubs are Astro pages, not markdown, so the name stays in this config.
+   */
   icon: NavIconName;
   /** Non-objective links interleaved with section objectives by `order`. */
   customLinks: OurWorkCustomLinkRef[];
@@ -99,10 +101,10 @@ export const OUR_WORK_SECTION_CONFIG: OurWorkSectionConfig[] = [
 type SortableLink = OurWorkLink & { sortOrder: number };
 
 function objectiveToLink(objective: CollectionEntry<'objectives'>): SortableLink {
-  const icon = ourWorkObjectiveIcons[objective.id];
+  const icon = objective.data.icon;
   if (!icon) {
     throw new Error(
-      `Missing Our Work nav icon for "${objective.id}". Add a Lucide name in src/data/our-work-nav-icons.ts.`,
+      `Missing Our Work nav icon for "${objective.id}". Set icon in src/content/objectives/${objective.id}.md.`,
     );
   }
 
@@ -112,7 +114,7 @@ function objectiveToLink(objective: CollectionEntry<'objectives'>): SortableLink
     href: `${OUR_WORK_PATH}/${objective.id}`,
     summary: objective.data.summary,
     nested: true,
-    icon,
+    icon: assertLucideIconName(icon, `objective "${objective.id}"`),
   };
 }
 
@@ -124,7 +126,7 @@ function customToLink(ref: OurWorkCustomLinkRef): SortableLink {
     summary: ref.summary,
     external: ref.external,
     nested: ref.nested,
-    icon: ref.icon,
+    icon: assertLucideIconName(ref.icon, `custom link "${ref.label}"`),
   };
 }
 
@@ -162,7 +164,7 @@ export async function getOurWorkSections(
     hubSlug: section.hubSlug,
     hubHref: section.hubHref,
     description: section.description,
-    icon: section.icon,
+    icon: assertLucideIconName(section.icon, `section "${section.label}"`),
     links: linksForSection(section.id, objectives, section.customLinks, filterStatus),
   }));
 }

@@ -6,6 +6,7 @@ summary: >-
 status: current
 section: neighborhood-advocacy
 order: 5
+icon: warehouse
 topics:
   - parade-of-sheds
 ---
