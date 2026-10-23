@@ -4,6 +4,7 @@ summary: Working to preserve and expand affordable housing options in the Northe
 status: past
 section: neighborhood-advocacy
 order: 4
+icon: house-plus
 topics:
   - affordable-housing
 ---

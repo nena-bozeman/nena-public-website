@@ -6,6 +6,7 @@ summary: >-
 status: current
 section: neighborhood-advocacy
 order: 7
+icon: sprout
 topics:
   - burdock-blitz
 ---

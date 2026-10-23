@@ -1,0 +1,27 @@
+---
+import { assertLucideIconName } from '../../data/nav-icons';
+
+interface Props {
+  name: string;
+  /** Tailwind size classes. Defaults to 16px, matching `size`. */
+  class?: string;
+  /** SVG width and height in pixels. Defaults to 16. */
+  size?: number;
+}
+
+const { name, class: className = 'h-4 w-4', size = 16 } = Astro.props;
+
+assertLucideIconName(name, 'nav icon');
+
+// Any canonical Lucide name, inlined at build time. Only the icons a page renders are loaded.
+const iconModules = import.meta.glob('../../../node_modules/@lucide/astro/src/icons/*.ts');
+const loader = Object.entries(iconModules).find(([path]) => path.endsWith(`/icons/${name}.ts`))?.[1];
+if (!loader) {
+  throw new Error(`Unknown Lucide icon "${name}".`);
+}
+
+const iconModule = (await loader()) as { default: typeof import('@lucide/astro/icons/house').default };
+const Icon = iconModule.default;
+---
+
+<Icon class:list={['shrink-0', className]} size={size} color="currentColor" aria-hidden="true" />

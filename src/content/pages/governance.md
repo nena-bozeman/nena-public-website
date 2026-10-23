@@ -1,6 +1,7 @@
 ---
 title: Governance
 description: NENA bylaws, board elections, officer roles, and how we run the Northeast Neighborhood Association.
+icon: gavel
 ---
 
 How NENA operates—membership, meetings, the board, and elections—is documented in our bylaws and summarized below.

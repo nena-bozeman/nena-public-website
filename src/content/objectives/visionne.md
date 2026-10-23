@@ -6,6 +6,7 @@ summary: >-
 status: past
 section: neighborhood-advocacy
 order: 6
+icon: compass
 topics:
   - visionne
 ---

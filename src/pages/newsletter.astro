@@ -1,12 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
+import NavIcon from '../components/icons/NavIcon.astro';
 import NewsList from '../components/news/NewsList.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import { newsMatchingTopics } from '../utils/content-relationships';
 import { getMailchimpSignupUrl } from '../utils/mailchimp';
 import { newsEntriesForSite } from '../utils/news';
 
 const mailchimpUrl = getMailchimpSignupUrl();
+const newsletterObjective = await getEntry('objectives', 'nena-newsletters');
 const newsletters = newsMatchingTopics(newsEntriesForSite(await getCollection('news')), ['newsletter']);
 ---
 
@@ -15,7 +17,12 @@ const newsletters = newsMatchingTopics(newsEntriesForSite(await getCollection('n
   description="Sign up for NENA email updates and browse past neighborhood newsletters for the Northeast Neighborhood, Bozeman."
 >
   <div class="max-w-4xl mx-auto px-4 py-12">
-    <h1 class="font-serif text-4xl font-bold text-primary mb-3">Newsletter</h1>
+    <h1 class="font-serif text-4xl font-bold text-primary mb-3 flex items-start gap-3">
+      {newsletterObjective?.data.icon && (
+        <NavIcon name={newsletterObjective.data.icon} class="mt-1 h-8 w-8" size={32} />
+      )}
+      <span>Newsletter</span>
+    </h1>
     <p class="text-xl text-gray-600 mb-8">
       Stay informed about meetings, events, and advocacy. NENA publishes spring and fall editions for Northeast neighbors.
     </p>

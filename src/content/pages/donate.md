@@ -1,6 +1,7 @@
 ---
 title: Donate
 description: Support the Northeast Neighborhood Association through donations and community fundraisers.
+icon: hand-coins
 ---
 
 Donate $5 or more and receive a "**Last Best Neighborhood**" NENA Sticker!

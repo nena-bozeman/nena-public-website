@@ -6,6 +6,7 @@ summary: >-
 status: current
 section: neighborhood-advocacy
 order: 13
+icon: waves-horizontal
 topics:
   - environment
   - trails-pocket-parks

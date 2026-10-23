@@ -4,6 +4,7 @@ summary: Archive of neighborhood newsletters—spring and fall editions—with d
 status: current
 listed: false
 order: 1
+icon: mail-open
 topics:
   - newsletter
 ---

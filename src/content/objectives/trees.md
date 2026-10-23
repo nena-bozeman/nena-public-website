@@ -4,6 +4,7 @@ summary: Community tree planting, urban forestry, and preservation projects in t
 status: current
 section: neighborhood-advocacy
 order: 8
+icon: tree-deciduous
 topics:
   - trees
 ---
