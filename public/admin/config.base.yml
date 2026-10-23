@@ -268,6 +268,21 @@ collections:
       - <<: *date_created_field
       - <<: *date_updated_required_field
       - { label: "Summary", name: "summary", widget: "text" }
+      - label: "Hero image (filename in src/assets/development/)"
+        name: "image"
+        widget: "string"
+        required: false
+        hint: "Optional hero image. Put the file in src/assets/development/ and enter the filename (for example bozeman-yards.jpg)."
+      - label: "Hero image alt text"
+        name: "imageAlt"
+        widget: "string"
+        required: false
+        hint: "Required when a hero image is set. Describe what the picture shows."
+      - label: "Hero image credit"
+        name: "imageCredit"
+        widget: "string"
+        required: false
+        hint: "Required when a hero image is set. Name the source, shown under the hero."
       - { label: "City planning URL (optional)", name: "cityPlanningUrl", widget: "string", required: false }
       - { label: "Latitude (optional)", name: "lat", widget: "number", value_type: "float", step: 0.0001, required: false }
       - { label: "Longitude (optional)", name: "lng", widget: "number", value_type: "float", step: 0.0001, required: false }

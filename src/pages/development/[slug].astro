@@ -1,9 +1,11 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import RelatedContent from '../../components/related/RelatedContent.astro';
 import TopicPills from '../../components/related/TopicPills.astro';
 import { DEVELOPMENT_PHASE_BADGE } from '../../schemas/development-phase';
 import { getCollection, render } from 'astro:content';
+import { getDevelopmentImage } from '../../utils/development-image';
 import {
   backlinksFor,
   loadSiteContent,
@@ -28,6 +30,12 @@ const content = await loadSiteContent();
 const topics = project.data.topics;
 
 const phaseBadge = DEVELOPMENT_PHASE_BADGE[project.data.phase];
+const photo = getDevelopmentImage(project.data.image);
+const photoAlt = project.data.imageAlt ?? '';
+const maxPhotoWidth = 1600;
+const photoWidth = photo ? Math.min(photo.width, maxPhotoWidth) : undefined;
+const photoHeight =
+  photo && photoWidth ? Math.round((photoWidth / photo.width) * photo.height) : undefined;
 const explicitNews = newsBySlugs(content.news, project.data.newsSlugs ?? []);
 const topicNews = relatedNewsByTopics(content.news, topics);
 const relatedNews = [...explicitNews, ...topicNews.filter((p) => !explicitNews.some((e) => e.id === p.id))];
@@ -71,6 +79,25 @@ const relatedNews = [...explicitNews, ...topicNews.filter((p) => !explicitNews.s
         </a>
       )}
     </div>
+
+    {photo && photoWidth && photoHeight && (
+      <figure class="mb-8">
+        <Image
+          src={photo}
+          alt={photoAlt}
+          class="h-auto w-full rounded-lg border border-gray-100 shadow-xs"
+          width={photoWidth}
+          height={photoHeight}
+          sizes="(max-width: 768px) 100vw, 48rem"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+        {project.data.imageCredit && (
+          <figcaption class="mt-2 text-sm italic text-gray-500">{project.data.imageCredit}</figcaption>
+        )}
+      </figure>
+    )}
 
     <div class="prose prose-green max-w-none">
       <Content />

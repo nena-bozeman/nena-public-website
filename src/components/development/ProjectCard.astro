@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import {
   DEVELOPMENT_PHASE_BADGE,
   type DevelopmentPhase,
 } from '../../schemas/development-phase';
+import { getDevelopmentImage } from '../../utils/development-image';
 
 export interface Props {
   slug: string;
@@ -14,15 +16,47 @@ export interface Props {
   dateUpdated: Date;
   cityPlanningUrl?: string;
   tags?: string[];
+  image?: string;
+  imageAlt?: string;
 }
 
 const base = import.meta.env.BASE_URL;
-const { slug, title, phase, address, developer, summary, dateUpdated, cityPlanningUrl, tags = [] } = Astro.props;
+const {
+  slug,
+  title,
+  phase,
+  address,
+  developer,
+  summary,
+  dateUpdated,
+  cityPlanningUrl,
+  tags = [],
+  image,
+  imageAlt = '',
+} = Astro.props;
 const projectHref = `${base}development/${slug}`;
 const badge = DEVELOPMENT_PHASE_BADGE[phase];
+const photo = getDevelopmentImage(image);
+const thumbWidth = photo ? Math.min(photo.width, 800) : undefined;
+const thumbHeight =
+  photo && thumbWidth ? Math.round((thumbWidth / photo.width) * photo.height) : undefined;
 ---
 
 <article class="bg-white rounded-lg shadow-xs hover:shadow-md transition-shadow border border-gray-100 p-6">
+  {photo && thumbWidth && thumbHeight && (
+    <a href={projectHref} class="mb-4 -mx-6 -mt-6 block overflow-hidden rounded-t-lg">
+      <Image
+        src={photo}
+        alt={imageAlt}
+        class="h-40 w-full object-cover"
+        width={thumbWidth}
+        height={thumbHeight}
+        sizes="(max-width: 768px) 100vw, 24rem"
+        loading="lazy"
+        decoding="async"
+      />
+    </a>
+  )}
   <div class="flex items-center gap-2 mb-2">
     <span class={`text-xs font-semibold px-2.5 py-1 rounded-full ${badge.color}`}>
       {badge.label}

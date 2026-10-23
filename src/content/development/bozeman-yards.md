@@ -9,6 +9,12 @@ summary: >-
   A 5-story mixed-use project at 622 East Tamarack Street, in front of the neighborhood's historic
   railroad depot. A July 2025 NENA email described two buildings and a community meeting on the
   proposed North Building and city affordable housing incentives.
+image: bozeman-yards.jpg
+imageAlt: >-
+  Architectural rendering of a five-story mixed-use building with brick and light siding, ground-floor
+  storefronts, balconies, and a sidewalk with young trees.
+imageCredit: >-
+  Rendering courtesy of Bozeman Yards, published by Bozeman Real Estate Group (May 5, 2026).
 topics:
   - affordable-housing
 newsSlugs: []
