@@ -176,8 +176,33 @@ const development = defineCollection({
     cityPlanningUrl: z.url().optional(),
     lat: z.number().optional(),
     lng: z.number().optional(),
+    /**
+     * Optional filename under `src/assets/development/` (e.g. `bozeman-yards.jpg`).
+     * Shown as a hero on the project page and a thumbnail on Development Watch cards.
+     * Processed with `astro:assets`.
+     */
+    image: z.string().optional(),
+    /** Required when `image` is set. Describe what the picture shows. */
+    imageAlt: z.string().optional(),
+    /** Required when `image` is set. Source credit shown under the hero. */
+    imageCredit: z.string().optional(),
     topics: z.array(topicSchema).default([]),
     newsSlugs: z.array(z.string()).default([]),
+  }).superRefine((data, ctx) => {
+    if (data.image && !data.imageAlt?.trim()) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Development projects with an image need imageAlt',
+        path: ['imageAlt'],
+      });
+    }
+    if (data.image && !data.imageCredit?.trim()) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Development projects with an image need imageCredit',
+        path: ['imageCredit'],
+      });
+    }
   }),
 });
 

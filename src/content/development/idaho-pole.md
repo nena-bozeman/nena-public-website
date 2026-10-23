@@ -9,6 +9,13 @@ dateUpdated: 2026-06-09T19:40
 summary: >-
   An 87-acre Superfund site northeast of Bozeman's NE neighborhood, where historic wood treating contaminated soil and
   groundwater and Scout DAC plans redevelopment within the city's urban renewal district.
+image: idaho-pole.jpg
+imageAlt: >-
+  Architectural rendering of a proposed Idaho Pole street, lined with brick and wood mixed-use
+  buildings, ground-floor storefronts, and pedestrians.
+imageCredit: >-
+  Rendering published by York Developments on its Idaho Pole project page. York says the vision was
+  formulated with Brian Caldwell of ThinkTank Design Group.
 topics:
   - environment
 newsSlugs:

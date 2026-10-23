@@ -9,6 +9,11 @@ dateUpdated: '2025-02-18'
 summary: >-
   A mixed-use redevelopment of the Brown Building at Peach and Wallace, adding community retail, office space, and
   residential units with sustainable building features.
+image: wildlands.jpg
+imageAlt: >-
+  Photograph of the completed Wildlands building, a three-story mixed-use building with wood siding, a
+  brick base, ground-floor storefronts, and a mural on the side wall.
+imageCredit: Photograph from 45 Architecture's Wildlands Development project page.
 topics: []
 newsSlugs:
   - 2022-05-25-wildlands-development-update

@@ -9,6 +9,11 @@ dateUpdated: 2025-02-18
 summary: Wallace Works is located on the corner of Tamarack and Wallace, and is
   a new mixed-use development that received site plan approval in March of 2023.
   This project seeks to address an urgent and growing need for attain…
+image: wallace-works.jpg
+imageAlt: >-
+  Architectural rendering of the Wallace Works mixed-use building, with a brick ground floor, large
+  storefront windows, and lighter wood-clad upper floors along a tree-lined sidewalk.
+imageCredit: "Rendering by Lake|Flato, from the Wallace Works project page."
 topics:
   - affordable-housing
 newsSlugs: []

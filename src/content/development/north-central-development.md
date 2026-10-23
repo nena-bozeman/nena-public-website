@@ -9,6 +9,12 @@ dateUpdated: '2025-02-18'
 summary: >-
   The North Central Master Plan: Where Passion Meets Purpose By The HomeBase Partners Team Downtown Bozeman possesses
   that rare combination of rich history, architectural style, authentic character, and community warmth…
+image: north-central.jpg
+imageAlt: >-
+  Architectural rendering of a North Central street corner, with a multi-story mixed-use building,
+  ground-floor retail, and a plaza with pedestrians and street trees.
+imageCredit: >-
+  Rendering published by HomeBase Partners on the North Central Bozeman project page.
 topics:
   - affordable-housing
 newsSlugs:
