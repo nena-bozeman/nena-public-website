@@ -1,6 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
+import NavIcon from '../icons/NavIcon.astro';
 import DevelopmentPhaseFilters from '../filters/DevelopmentPhaseFilters.astro';
+import { OUR_WORK_SECTION_CONFIG } from '../../data/our-work';
 import ProjectCard from './ProjectCard.astro';
 import ProjectMap from './ProjectMap.astro';
 import { getCollection } from 'astro:content';
@@ -22,6 +24,9 @@ const phasesPresent = [
 const activePhase = parseDevelopmentPhaseFromSearch(Astro.url.search);
 
 const pageTitle = 'Development Watch';
+const developmentWatchIcon = OUR_WORK_SECTION_CONFIG.find(
+  (section) => section.id === 'development-watch',
+)?.icon;
 const pageDescription =
   'Tracking development projects in the Northeast Neighborhood of Bozeman, MT';
 
@@ -30,7 +35,10 @@ const mailchimpUrl = getMailchimpSignupUrl();
 
 <Base title={pageTitle} description={pageDescription}>
   <div class="max-w-7xl mx-auto px-4 py-12">
-    <h1 class="font-serif text-4xl font-bold text-primary mb-3">{pageTitle}</h1>
+    <h1 class="font-serif text-4xl font-bold text-primary mb-3 flex items-start gap-3">
+      {developmentWatchIcon && <NavIcon name={developmentWatchIcon} class="mt-1 h-8 w-8" size={32} />}
+      <span>{pageTitle}</span>
+    </h1>
     <DevelopmentPhaseFilters availablePhases={phasesPresent} activePhase={activePhase} />
     <p class="text-gray-600 text-lg mb-8">
       Tracking development proposals and projects in the Northeast Neighborhood.

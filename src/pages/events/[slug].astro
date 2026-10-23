@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import NavIcon from '../../components/icons/NavIcon.astro';
 import EventFlyer from '../../components/events/EventFlyer.astro';
 import RelatedContent from '../../components/related/RelatedContent.astro';
 import TopicPills from '../../components/related/TopicPills.astro';
@@ -36,6 +37,7 @@ const categoryColors: Record<string, string> = {
 };
 
 const { category, cancelled } = event.data;
+const paradeIcon = content.objectives.find((objective) => objective.id === 'parade-of-sheds')?.data.icon;
 const flyerPdf = event.data.flyerPdf;
 const flyerImage = event.data.flyerImage;
 ---
@@ -86,8 +88,9 @@ const flyerImage = event.data.flyerImage;
       {event.id === '2026-10-18-parade-of-sheds' && (
         <a
           href={`${base}our-work/parade-of-sheds`}
-          class="mt-4 inline-block max-w-full bg-accent hover:bg-amber-600 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors"
+          class="mt-4 inline-flex items-center gap-2 max-w-full bg-accent hover:bg-amber-600 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors"
         >
+          {paradeIcon && <NavIcon name={paradeIcon} class="h-4 w-4" size={16} />}
           See the tour &amp; live map
         </a>
       )}
