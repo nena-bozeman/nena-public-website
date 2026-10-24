@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Hero from '../components/home/Hero.astro';
-import MissionStatement from '../components/home/MissionStatement.astro';
+import Welcome from '../components/home/Welcome.astro';
 import LatestNews from '../components/home/LatestNews.astro';
 import { getCollection } from 'astro:content';
 import { getMailchimpSignupUrl } from '../utils/mailchimp';
@@ -17,9 +17,12 @@ const mailchimpUrl = getMailchimpSignupUrl();
 const base = import.meta.env.BASE_URL;
 ---
 
-<Base title="Home" description="Northeast Neighborhood Association of Bozeman, Montana — Last Best Neighborhood">
+<Base
+  title="Home"
+  description="Northeast Neighborhood Association of Bozeman — Stitching Together the Heart, Art, & Spirit of the Northside."
+>
   <Hero />
-  <MissionStatement />
+  <Welcome />
   <LatestNews />
 
   <!-- Upcoming Events -->
@@ -67,16 +70,27 @@ const base = import.meta.env.BASE_URL;
   <section class="bg-primary text-white py-16 px-4">
     <div class="max-w-4xl mx-auto text-center">
       <h2 class="font-serif text-3xl font-bold mb-4">Get Involved</h2>
-      <p class="text-green-100 mb-8 text-lg">Stay connected with your neighborhood. Sign up for our newsletter, support our work, or come to a meeting.</p>
+      <p class="text-green-100 mb-4 text-lg">Come to learn, share, and connect. Everyone is welcome.</p>
+      <p class="text-green-100 mb-8 text-lg leading-relaxed">
+        Email{' '}
+        <a href="mailto:nenabozeman@gmail.com" class="text-white underline font-medium">nenabozeman@gmail.com</a>.
+        {' '}<a href={mailchimpUrl} target="_blank" rel="noopener noreferrer" class="text-white underline font-medium">Sign up for email updates</a>
+        {' '}(spring and fall newsletters and other notices), find{' '}
+        <a href={`${base}events`} class="text-white underline font-medium">meetings and potlucks</a>,
+        volunteer with{' '}
+        <a href={`${base}our-work`} class="text-white underline font-medium">neighborhood projects</a>,
+        or explore{' '}
+        <a href={`${base}history`} class="text-white underline font-medium">neighborhood history</a>.
+      </p>
       <div class="flex flex-wrap gap-4 justify-center">
         <a href={mailchimpUrl} target="_blank" rel="noopener noreferrer" class="bg-accent hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
-          📧 Subscribe to Newsletter
+          📧 Subscribe to email updates
         </a>
-        <a href={`${import.meta.env.BASE_URL}donate`} class="border-2 border-green-300 hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
-          💚 Donate to NENA
-        </a>
-        <a href={`${import.meta.env.BASE_URL}events`} class="border-2 border-green-300 hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+        <a href={`${base}events`} class="border-2 border-green-300 hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
           📅 Attend a Meeting
+        </a>
+        <a href={`${base}donate`} class="border-2 border-green-300 hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+          💚 Donate to NENA
         </a>
       </div>
     </div>
