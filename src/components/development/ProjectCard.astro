@@ -15,6 +15,7 @@ export interface Props {
   summary: string;
   dateUpdated: Date;
   cityPlanningUrl?: string;
+  hasCityPlanningRecords?: boolean;
   tags?: string[];
   image?: string;
   imageAlt?: string;
@@ -30,6 +31,7 @@ const {
   summary,
   dateUpdated,
   cityPlanningUrl,
+  hasCityPlanningRecords = false,
   tags = [],
   image,
   imageAlt = '',
@@ -75,10 +77,15 @@ const thumbHeight =
       ))}
     </div>
   )}
-  <div class="flex flex-col gap-2 mt-3 pt-3 border-t border-gray-50 sm:flex-row sm:items-center sm:justify-between">
+  <div class="flex flex-col gap-2 mt-3 pt-3 border-t border-gray-50">
     <span class="text-xs text-gray-400">Updated {dateUpdated.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
     <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
       <a href={projectHref} class="text-accent hover:text-amber-700 text-xs font-medium transition-colors">Project details →</a>
+      {hasCityPlanningRecords && (
+        <a href={`${projectHref}#city-planning`} class="text-accent hover:text-amber-700 text-xs font-medium transition-colors">
+          City planning records
+        </a>
+      )}
       {cityPlanningUrl && (
         <a href={cityPlanningUrl} target="_blank" rel="noopener noreferrer" class="text-accent hover:text-amber-700 text-xs font-medium transition-colors">
           City Planning Docs →

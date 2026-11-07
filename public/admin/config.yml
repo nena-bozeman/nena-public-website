@@ -299,6 +299,27 @@ collections:
         required: false
         hint: "Required when a hero image is set. Name the source, shown under the hero."
       - { label: "City planning URL (optional)", name: "cityPlanningUrl", widget: "string", required: false }
+      - label: "City planning applications"
+        name: "cityApplications"
+        widget: "list"
+        required: false
+        hint: "One entry per city application. Set the map link only when the planning map file-number URL opens that application."
+        fields:
+          - { label: "File number", name: "fileNumber", widget: "string" }
+          - label: "Label"
+            name: "label"
+            widget: "string"
+            hint: "Application type and phase, in plain language. For example: Phase 2 site plan."
+          - { label: "City status", name: "status", widget: "string" }
+          - label: "Opens on the planning map"
+            name: "mapLink"
+            widget: "boolean"
+            default: false
+            required: false
+          - label: "Application documents URL"
+            name: "recordsUrl"
+            widget: "string"
+            required: false
       - { label: "Latitude (optional)", name: "lat", widget: "number", value_type: "float", step: 0.0001, required: false }
       - { label: "Longitude (optional)", name: "lng", widget: "number", value_type: "float", step: 0.0001, required: false }
       - <<: *topics_field

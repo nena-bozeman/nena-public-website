@@ -175,6 +175,27 @@ const development = defineCollection({
     dateUpdated: z.coerce.date(),
     summary: z.string(),
     cityPlanningUrl: z.url().optional(),
+    /**
+     * City planning applications verified for this development.
+     * One development can have several. `mapLink` is only for file numbers
+     * the planning viewer still opens.
+     */
+    cityApplications: z
+      .array(
+        z.object({
+          fileNumber: z.string().min(1),
+          /** Application type and phase, in plain language. */
+          label: z.string().min(1),
+          /** Status wording from the city's planning record. */
+          status: z.string().min(1),
+          mapLink: z.boolean().default(false),
+          recordsUrl: z.preprocess(
+            (value) => (typeof value === 'string' && value.trim() === '' ? undefined : value),
+            z.url().optional(),
+          ),
+        }),
+      )
+      .default([]),
     lat: z.number().optional(),
     lng: z.number().optional(),
     /**

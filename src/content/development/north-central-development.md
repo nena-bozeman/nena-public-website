@@ -5,7 +5,27 @@ status: current
 address: Northeast Bozeman, MT
 submittedDate: '2021-06-08'
 dateCreated: '2021-06-08'
-dateUpdated: '2025-02-18'
+dateUpdated: '2026-11-06'
+cityApplications:
+  - fileNumber: '21-029'
+    label: Master site plan
+    status: Final approval, active
+    mapLink: true
+    recordsUrl: 'https://weblink.bozeman.net/WebLink/Browse.aspx?dbid=0&id=233806&repo=BOZEMAN'
+  - fileNumber: '21-165'
+    label: Block 4 site plan
+    status: Final approval, closed
+    recordsUrl: 'https://weblink.bozeman.net/WebLink/Browse.aspx?dbid=0&id=235672&repo=BOZEMAN'
+  - fileNumber: '20-456'
+    label: One 11 2.0 site plan
+    status: Final approval, active
+    mapLink: true
+    recordsUrl: 'https://weblink.bozeman.net/WebLink/Browse.aspx?dbid=0&id=233808&repo=BOZEMAN'
+  - fileNumber: '24-606'
+    label: Modification of an approved plan
+    status: Final approval, active
+    mapLink: true
+    recordsUrl: 'https://weblink.bozeman.net/WebLink/Browse.aspx?dbid=0&id=296287&repo=BOZEMAN'
 summary: >-
   The North Central Master Plan: Where Passion Meets Purpose By The HomeBase Partners Team Downtown Bozeman possesses
   that rare combination of rich history, architectural style, authentic character, and community warmth…

@@ -5,7 +5,7 @@ phase: under-review
 address: Northeast Bozeman, MT
 submittedDate: '2020-11-21'
 dateCreated: '2020-11-21'
-dateUpdated: 2026-06-09T19:40
+dateUpdated: '2026-11-06'
 summary: >-
   An 87-acre Superfund site northeast of Bozeman's NE neighborhood, where historic wood treating contaminated soil and
   groundwater and Scout DAC plans redevelopment within the city's urban renewal district.
@@ -36,5 +36,7 @@ newsSlugs:
 Idaho Pole is an 87-acre area northeast of Bozeman's NE neighborhood, bounded by railroad tracks on the south, L Street on the west, and Rocky Creek to the east and north. The Idaho Pole Company treated wooden poles with creosote and pentachlorophenol from 1945 until 1997, leading to soil and groundwater contamination; the site was listed as a Superfund site in 1986. Scout DAC, LLC purchased a portion of the property in 2022, and ongoing cleanup and redevelopment are tracked in the related news posts below.
 
 For EPA cleanup history and official documents, see the [EPA Idaho Pole page](https://www.epa.gov/superfund/idaho-pole). For the city's redevelopment framework, see the [Pole Yard Urban Renewal District](https://www.bozeman.net/government/economic-development/pole-yard-urban-renewal-district).
+
+The city's planning project list does not include an application named Idaho Pole or Pole Yard, so this page does not give a planning file number for the redevelopment.
 
 ![]({{ url:site }}files/thumb/ca1d51aa25cedeb/500)

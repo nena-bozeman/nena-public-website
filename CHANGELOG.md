@@ -8,6 +8,12 @@ Changes not yet released.
 
 ---
 
+## 2026-11-06
+
+- **Development Watch:** Added a short guide on `/development/` for the City of Bozeman Planning Projects map, and listed verified planning file numbers on the project pages that have a confident city match. Each number is labeled by application type. Map links are only included when that link opens the application.
+
+---
+
 ## 2026-08-17
 
 - **Our Work:** Added a standing Burdock Blitz objective (`/our-work/burdock-blitz`) for the annual invasive-weed volunteer mornings, with a `burdock-blitz` topic so related news and events cluster on that page.
