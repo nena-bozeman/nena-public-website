@@ -6,6 +6,7 @@ import { OUR_WORK_SECTION_CONFIG } from '../../data/our-work';
 import ProjectCard from './ProjectCard.astro';
 import ProjectMap from './ProjectMap.astro';
 import { getCollection } from 'astro:content';
+import { PLANNING_EMAIL, PLANNING_MAP_URL, PLANNING_PORTAL_URL } from '../../utils/city-planning';
 import { getMailchimpSignupUrl } from '../../utils/mailchimp';
 import {
   parseDevelopmentPhaseFromSearch,
@@ -43,6 +44,34 @@ const mailchimpUrl = getMailchimpSignupUrl();
     <p class="text-gray-600 text-lg mb-8">
       Tracking development proposals and projects in the Northeast Neighborhood.
     </p>
+    <section class="mb-8 rounded-lg border border-gray-100 bg-white p-5 sm:p-6" aria-labelledby="city-planning-learn-more">
+      <h2 id="city-planning-learn-more" class="font-serif text-2xl font-bold text-primary mb-3">
+        How to look up a project
+      </h2>
+      <div class="space-y-3 text-gray-700 leading-relaxed">
+        <p>
+          The City of Bozeman publishes a
+          <a href={PLANNING_MAP_URL} target="_blank" rel="noopener noreferrer" class="font-medium text-accent hover:text-amber-700">Planning Projects map</a>.
+          The map layers for planning applications are initial review, public notice, final review, and decision issued.
+          To look up a place, open the map and go to that part of town.
+        </p>
+        <p>
+          A development often has more than one application, such as a zone change, a site plan, and a later revision.
+          Project pages list each file number we could match to that project, with the application type.
+          A file-number link opens the application when the city still includes it on the active planning list.
+          The result shows the project name, planning file number, status, and application type.
+          Closed applications can stay in the city's document folders after that link no longer opens them.
+        </p>
+        <p>
+          Document folders use the same digits without a hyphen. File 24-281 is folder 24281.
+          The map links to the city's
+          <a href={PLANNING_PORTAL_URL} target="_blank" rel="noopener noreferrer" class="font-medium text-accent hover:text-amber-700">project information portal</a>
+          for Community Development viewer FAQs, and it lists
+          <a href={`mailto:${PLANNING_EMAIL}`} class="font-medium text-accent hover:text-amber-700">{PLANNING_EMAIL}</a>.
+          When an application is out for public comment, the city's notice for that file gives the dates and where to send comments.
+        </p>
+      </div>
+    </section>
     <ProjectMap projects={projects} />
     {
       projects.length === 0 ? (
@@ -62,6 +91,7 @@ const mailchimpUrl = getMailchimpSignupUrl();
                 cityPlanningUrl={project.data.cityPlanningUrl}
                 image={project.data.image}
                 imageAlt={project.data.imageAlt}
+                hasCityPlanningRecords={project.data.cityApplications.length > 0}
               />
             </div>
           ))}
