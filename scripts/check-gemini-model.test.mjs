@@ -19,10 +19,11 @@ import { DEFAULT_GEMINI_MODEL } from './lib/gemini-summary.mjs';
 
 const KEY = 'AIzaSySECRETSECRETSECRET';
 
-function model(id, methods = ['generateContent']) {
+function model(id, methods = ['generateContent'], extra = {}) {
   return {
     name: `models/${id}`,
     supportedGenerationMethods: methods,
+    ...extra,
   };
 }
 
@@ -60,7 +61,12 @@ test('the configured model passes when it supports generateContent', async () =>
     headers = init.headers;
     return listResponse([
       model('gemini-2.5-pro'),
-      model('gemini-3.5-flash-lite'),
+      model('gemini-2.5-flash'),
+      model('gemini-3.5-flash-lite', ['generateContent'], {
+        displayName: 'Gemini 3.5 Flash-Lite',
+        inputTokenLimit: 1048576,
+        outputTokenLimit: 65536,
+      }),
       model('text-embedding-004', ['embedContent']),
     ]);
   };
@@ -73,10 +79,42 @@ test('the configured model passes when it supports generateContent', async () =>
   assert.match(rendered.log, /code default/);
   assert.match(rendered.log, new RegExp(DEFAULT_MODEL_FILE.replaceAll('.', '\\.')));
   assert.equal(rendered.annotation, '');
+  assert.match(rendered.summary, /\*\*Passed\.\*\*/);
+  assert.match(rendered.summary, /Configured model: `gemini-3\.5-flash-lite`/);
+  assert.match(rendered.summary, /code default/);
+  assert.match(rendered.summary, /Display name: Gemini 3\.5 Flash-Lite/);
+  assert.match(rendered.summary, /Input token limit: 1048576/);
+  assert.match(rendered.summary, /Output token limit: 65536/);
+  assert.match(rendered.summary, /<details>/);
+  assert.match(rendered.summary, /<summary>Other models that support generateContent<\/summary>/);
+  const others = rendered.summary.split('<details>')[1] ?? '';
+  assert.equal(others.includes('gemini-3.5-flash-lite'), false);
+  assert.equal(others.includes('text-embedding-004'), false);
+  const flash = others.indexOf('gemini-2.5-flash');
+  const pro = others.indexOf('gemini-2.5-pro');
+  assert.ok(flash >= 0 && pro > flash);
+  assert.match(rendered.summary, /To switch models, set repository variable `GEMINI_MODEL` under Settings → Secrets and variables → Actions → Variables/);
   assert.equal(calledUrl?.includes(KEY), false);
   assert.equal(calledUrl?.includes('key='), false);
   assert.equal(headers?.['x-goog-api-key'], KEY);
   assert.equal(rendered.summary.includes(KEY), false);
+});
+
+test('a pass summary omits display name and token limits the API did not return', () => {
+  const rendered = renderCheck({
+    ok: true,
+    code: 'ok',
+    model: { id: DEFAULT_GEMINI_MODEL, source: 'variable' },
+    available: [DEFAULT_GEMINI_MODEL, 'gemini-2.5-flash', 'gemini-2.5-pro'],
+    selected: { id: DEFAULT_GEMINI_MODEL, displayName: '', inputTokenLimit: null, outputTokenLimit: null },
+  });
+  assert.match(rendered.summary, /\*\*Passed\.\*\*/);
+  assert.match(rendered.summary, /repository variable `GEMINI_MODEL`/);
+  assert.doesNotMatch(rendered.summary, /Display name:/);
+  assert.doesNotMatch(rendered.summary, /token limit/);
+  const others = rendered.summary.split('<details>')[1] ?? '';
+  assert.ok(others.indexOf('gemini-2.5-flash') < others.indexOf('gemini-2.5-pro'));
+  assert.equal(others.includes(DEFAULT_GEMINI_MODEL), false);
 });
 
 test('a missing model lists generateContent models with Flash first and tells how to fix it', async () => {

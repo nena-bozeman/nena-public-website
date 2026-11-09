@@ -806,6 +806,14 @@ function contentSnapshot(repo, baseRef) {
 }
 
 /**
+ * @param {string} markdown
+ */
+function writeStepSummary(markdown) {
+  if (!process.env.GITHUB_STEP_SUMMARY) return;
+  appendFileSync(process.env.GITHUB_STEP_SUMMARY, markdown);
+}
+
+/**
  * @param {{
  *   model: string,
  *   prepared: { rel: string, content: string, summarized: boolean, fallbackReason?: string, eventFiles?: { rel: string, title: string, start: string, end?: string, location: string, sourceUrl: string, content: string }[] }[],
@@ -813,13 +821,28 @@ function contentSnapshot(repo, baseRef) {
  * }} report
  */
 export function formatDryRunReport(report) {
+  return formatImportSummary({ ...report, dryRun: true });
+}
+
+/**
+ * @param {{
+ *   model: string,
+ *   dryRun?: boolean,
+ *   prepared: { rel: string, content: string, summarized: boolean, fallbackReason?: string, eventFiles?: { rel: string, title: string, start: string, end?: string, location: string, sourceUrl: string, content: string }[] }[],
+ *   skippedEvents: { title: string, reason: string, sourceUrl: string }[],
+ * }} report
+ */
+export function formatImportSummary(report) {
+  const dryRun = report.dryRun === true;
   /** @type {string[]} */
   const lines = [
-    '## Mailchimp RSS dry run',
+    dryRun ? '## Mailchimp RSS dry run' : '## Mailchimp RSS import',
     '',
     `Model: \`${report.model}\``,
     '',
-    'This run did not commit, push, or open a pull request. `automation/mailchimp-rss-stubs` was not changed.',
+    dryRun
+      ? 'This run did not commit, push, or open a pull request. `automation/mailchimp-rss-stubs` was not changed.'
+      : 'Campaign summaries and extracted events from this run.',
     '',
   ];
   if (report.prepared.length === 0) {
@@ -918,9 +941,7 @@ export async function dryRunSummaries(args) {
       htmlByCampaignId,
     );
     const report = formatDryRunReport({ model, prepared, skippedEvents });
-    if (process.env.GITHUB_STEP_SUMMARY) {
-      appendFileSync(process.env.GITHUB_STEP_SUMMARY, report);
-    }
+    writeStepSummary(report);
     process.stdout.write(report);
     const createdEvents = prepared.flatMap((stub) => stub.eventFiles ?? []);
     return {
@@ -964,7 +985,8 @@ export async function updateAutomationBranch(args) {
   if (head !== baseSha) {
     throw new Error(`Checkout HEAD is not ${baseRef}. Refusing to import from another branch.`);
   }
-  console.error(`rss-stubs-branch: Gemini model ${resolveGeminiModel()}`);
+  const model = resolveGeminiModel();
+  console.error(`rss-stubs-branch: Gemini model ${model}`);
 
   const startBranch = git(repo, ['rev-parse', '--abbrev-ref', 'HEAD']).trim();
   const descriptionsPath = join(tmpdir(), `rss-descriptions-${process.pid}.json`);
@@ -1017,6 +1039,7 @@ export async function updateAutomationBranch(args) {
       const diff = git(repo, ['diff', '--name-only', baseRef, branchRef]).trim();
       if (!diff) result = 'close-empty';
     }
+    writeStepSummary(formatImportSummary({ model, prepared, skippedEvents, dryRun: false }));
     return {
       result,
       branch,
@@ -1126,6 +1149,7 @@ export async function updateAutomationBranch(args) {
   }
 
   returnToStart(repo, startBranch);
+  writeStepSummary(formatImportSummary({ model, prepared, skippedEvents, dryRun: false }));
   return {
     result,
     branch,

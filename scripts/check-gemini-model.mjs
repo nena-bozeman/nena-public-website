@@ -144,11 +144,35 @@ function failure(code, extra = {}) {
   return error;
 }
 
+/**
+ * @param {unknown} value
+ * @returns {number | null}
+ */
+function numberOrNull(value) {
+  return typeof value === 'number' && Number.isFinite(value) ? value : null;
+}
+
+/**
+ * @param {Record<string, unknown>} model
+ * @param {string} id
+ */
+function describeModel(model, id) {
+  const rawName = typeof model.displayName === 'string' ? model.displayName : '';
+  return {
+    id,
+    displayName: redact(rawName.replace(/[<>]/g, '')).slice(0, 120),
+    inputTokenLimit: numberOrNull(model.inputTokenLimit),
+    outputTokenLimit: numberOrNull(model.outputTokenLimit),
+  };
+}
+
 async function listModels(apiKey, fetchImpl) {
   /** @type {string[]} */
   const generateContent = [];
   /** @type {string[]} */
   const listed = [];
+  /** @type {Map<string, { id: string, displayName: string, inputTokenLimit: number | null, outputTokenLimit: number | null }>} */
+  const details = new Map();
   let pageToken = '';
   for (let page = 0; page < 10; page += 1) {
     const url = new URL(MODELS_URL);
@@ -181,9 +205,13 @@ async function listModels(apiKey, fetchImpl) {
     const models = Array.isArray(payload?.models) ? payload.models : [];
     for (const model of models) {
       const id = listedModelId(model);
-      if (!id) continue;
+      if (!id || !model || typeof model !== 'object') continue;
       listed.push(id);
-      if (supportsGenerateContent(model)) generateContent.push(id);
+      if (!supportsGenerateContent(model)) continue;
+      generateContent.push(id);
+      const record = describeModel(/** @type {Record<string, unknown>} */ (model), id);
+      const previous = details.get(id);
+      if (!previous || (!previous.displayName && record.displayName)) details.set(id, record);
     }
     pageToken = typeof payload?.nextPageToken === 'string' ? payload.nextPageToken : '';
     if (!pageToken) break;
@@ -191,6 +219,7 @@ async function listModels(apiKey, fetchImpl) {
   return {
     available: orderModelIds(generateContent),
     listed: orderModelIds(listed),
+    details,
   };
 }
 
@@ -203,8 +232,10 @@ export async function checkGeminiModel(options = {}) {
   if (!apiKey) return { ok: false, code: 'missing-key', model };
   if (model.source === 'invalid') return { ok: false, code: 'invalid-model', model };
   try {
-    const { available, listed } = await listModels(apiKey, options.fetchImpl ?? fetch);
-    if (available.includes(model.id)) return { ok: true, code: 'ok', model, available };
+    const { available, listed, details } = await listModels(apiKey, options.fetchImpl ?? fetch);
+    if (available.includes(model.id)) {
+      return { ok: true, code: 'ok', model, available, selected: details.get(model.id) ?? null };
+    }
     if (listed.includes(model.id)) return { ok: false, code: 'unsupported', model, available };
     return { ok: false, code: 'missing-model', model, available };
   } catch (error) {
@@ -224,9 +255,28 @@ export function renderCheck(result) {
   /** @type {string[]} */
   const lines = ['## Check Gemini model is available', ''];
   if (result.ok) {
-    lines.push(`\`${model.id}\` is available and supports \`generateContent\`. Source: ${where}.`);
+    const log = `\`${model.id}\` is available and supports \`generateContent\`. Source: ${where}.`;
+    const selected = result.selected ?? null;
+    const others = orderModelIds((result.available ?? []).filter((id) => id !== model.id));
+    lines.push('**Passed.**', '');
+    lines.push(`Configured model: \`${model.id}\`. Source: ${where}.`, '');
+    if (selected?.displayName) lines.push(`Display name: ${selected.displayName}`);
+    if (selected?.inputTokenLimit != null) lines.push(`Input token limit: ${selected.inputTokenLimit}`);
+    if (selected?.outputTokenLimit != null) lines.push(`Output token limit: ${selected.outputTokenLimit}`);
+    if (selected?.displayName || selected?.inputTokenLimit != null || selected?.outputTokenLimit != null) {
+      lines.push('');
+    }
+    lines.push('<details>');
+    lines.push('<summary>Other models that support generateContent</summary>', '');
+    if (others.length === 0) {
+      lines.push('No other models that support `generateContent` were listed.');
+    } else {
+      lines.push(...others.map(listItem));
+    }
+    lines.push('', '</details>', '');
+    lines.push(`To switch models, set repository variable \`${MODEL_VARIABLE}\` under ${SETTINGS_VARIABLES}, or update the default in \`${DEFAULT_MODEL_FILE}\`, then rerun.`);
     lines.push('');
-    return { log: lines.slice(2).join('\n').trim(), annotation: '', summary: `${lines.join('\n')}\n` };
+    return { log, annotation: '', summary: `${lines.join('\n')}\n` };
   }
 
   if (result.code === 'missing-key') {

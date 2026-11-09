@@ -400,3 +400,18 @@ test('dry run prints the stub and does not create the automation branch', () => 
   assert.equal(git(repo, ['status', '--porcelain']).trim(), '');
   assert.equal(existsSync(join(repo, POTLUCK_PATH)), false);
 });
+
+test('a normal run writes campaign summaries and events to the job summary', () => {
+  const { parent, repo } = initRepo();
+  const feed = writeFeed(parent, [KNOWN_ITEM, POTLUCK]);
+  const summary = join(parent, 'summary.md');
+  const outcome = runBranch(repo, parent, ['--file', feed], { GITHUB_STEP_SUMMARY: summary });
+  assert.equal(outcome.result, 'committed');
+  const report = readFileSync(summary, 'utf8');
+  assert.match(report, /Mailchimp RSS import/);
+  assert.match(report, /Campaign summaries and extracted events from this run/);
+  assert.match(report, /src\/content\/news\/2026-08-04-neighborhood-potluck\.md/);
+  assert.match(report, /no-api-key/);
+  assert.match(report, /No events extracted from this campaign/);
+  assert.doesNotMatch(report, /did not commit/);
+});
