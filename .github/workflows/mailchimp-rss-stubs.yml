@@ -57,10 +57,15 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - name: Check Gemini model is available
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+        run: node scripts/check-gemini-model.mjs
+
       - name: Dry run summaries
         if: ${{ github.event_name == 'workflow_dispatch' && (inputs.dry_run == true || inputs.dry_run == 'true') }}
         env:
-          # Empty when the secret is not set. The dry run still prints bare stubs.
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           # Empty when the variable is not set. The script then uses its default model.
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
@@ -100,7 +105,6 @@ jobs:
         id: import
         env:
           GH_TOKEN: ${{ github.token }}
-          # Empty when the secret is not set. The job still opens a PR of bare stubs.
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
         run: |

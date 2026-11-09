@@ -73,7 +73,7 @@ Matching is by **`mailchi.mp` campaign id** already present in any news or event
 
 Actions → **Mailchimp RSS draft stubs** → **Run workflow**. Leave **Dry run** off and pick the **default branch**. The workflow checks out that branch and reads the default feed URL in `scripts/rss-to-notes.mjs`. There is no input for a different feed. A run that is not a dry run refuses any other branch, so it cannot update `automation/mailchimp-rss-stubs` from a feature branch.
 
-To try a fix before merging it, pick the branch that contains this workflow file and set **Dry run** to true. That dispatch still receives repository Actions secrets such as `GEMINI_API_KEY`. It imports against the default branch's content, calls the model for campaigns that are not already in that content, and writes the summaries and extracted events to the job summary. It does not commit, push, or open a pull request.
+To try a fix before merging it, pick the branch that contains this workflow file and set **Dry run** to true. That dispatch still receives repository Actions secrets such as `GEMINI_API_KEY`. The **Check Gemini model is available** step runs first, including on a dry run. It then imports against the default branch's content, calls the model for campaigns that are not already in that content, and writes the summaries and extracted events to the job summary. It does not commit, push, or open a pull request.
 
 ### Review pull request
 
@@ -99,7 +99,16 @@ When repository secret **`GEMINI_API_KEY`** is set, each **new** stub is filled 
 4. The review pull request marks files summarized on that run as AI summaries that need a person to read them.
 5. A second model call looks for gatherings. It can add zero, one, or several event files when the page states a date and a clock time, the model marks the item high confidence, and the location appears in the page. Past gatherings, duplicates of events already in `src/content/events`, low-confidence items, and replies without an explicit time are listed in the pull request and not added. The news draft links the new events. Those event files are ordinary published events: merging the review pull request puts them on the site, and the production deploy then syncs them to Google Calendar. They are not on `main` until that merge, so they are not in production or on the calendar before then. News files stay `draft: true`, so merging does not publish the news post.
 
-If the secret is missing, the page cannot be read, or the model reply is unusable, that file stays a bare stub and the run continues. Files already on the automation branch are not rewritten. To summarize a bare stub that is already on the open pull request, delete that file from the branch and run the workflow again.
+Before the import, **Check Gemini model is available** (`scripts/check-gemini-model.mjs`) calls `https://generativelanguage.googleapis.com/v1beta/models` with the key in the `x-goog-api-key` header. The key is not printed. The step runs for a scheduled run, a normal manual run, and a dry run. It passes when the configured model is in that list and supports `generateContent`, and it logs whether that id came from the `GEMINI_MODEL` variable or the default in `scripts/lib/gemini-summary.mjs`.
+
+The step fails the job, with a `::error` annotation and the same text in the job summary, when:
+
+- `GEMINI_API_KEY` is missing
+- Gemini returns 401 or 403 (bad key or the API is not enabled; the message links to [Google AI Studio](https://aistudio.google.com/apikey))
+- the models list cannot be reached, or Gemini returns 5xx
+- the configured model is missing or does not support `generateContent`. That message names the model id and where it came from, lists the models that do support `generateContent` with Flash-Lite and Flash first, and says to set `GEMINI_MODEL` under **Settings → Secrets and variables → Actions → Variables** to one of those ids, or update the default in `scripts/lib/gemini-summary.mjs`, then rerun
+
+A later per-campaign model failure still leaves that file as a bare stub and the run continues. Files already on the automation branch are not rewritten. To summarize a bare stub that is already on the open pull request, delete that file from the branch and run the workflow again.
 
 #### Add `GEMINI_API_KEY`
 
