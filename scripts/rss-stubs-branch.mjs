@@ -189,6 +189,7 @@ async function prepareStubContents(repo, baseRef, branchRef, stubs, apiKey, html
           summary: String(data.summary ?? ''),
           body: fields.body.trim(),
           eventSlugs: eventFiles.map((eventFile) => eventFile.slug),
+          draft: !summarized,
         });
         try {
           assertDraftStub(stub.rel, linked, new Set(), {
@@ -410,7 +411,11 @@ export function assertDraftStub(rel, content, knownIds, options = {}) {
     }
   }
   if (!options.allowBody && match[2].trim() !== '') throw new Error(`${rel} body is not empty`);
-  if (data.draft !== true) throw new Error(`${rel} is not a draft`);
+  if (options.allowBody) {
+    if (data.draft !== false) throw new Error(`${rel} summarized post is still a draft`);
+  } else if (data.draft !== true) {
+    throw new Error(`${rel} bare stub is not a draft`);
+  }
   if (data.featured !== false) throw new Error(`${rel} featured is not false`);
   if (!Array.isArray(data.topics) || data.topics.length !== 0) {
     throw new Error(`${rel} topics are not empty`);
@@ -693,13 +698,13 @@ export function writePrBody(file, paths, summarizedPaths = [], events = [], skip
   const body = [
     '## Mailchimp archive stubs',
     '',
-    'This pull request was opened by the Mailchimp RSS draft stubs workflow. It runs `rss-to-notes --write` and adds draft news stubs whose `mailchi.mp` campaign id is not already in `src/content/news/` or `src/content/events/`.',
+    'This pull request was opened by the Mailchimp RSS draft stubs workflow. It runs `rss-to-notes --write` and adds news posts whose `mailchi.mp` campaign id is not already in `src/content/news/` or `src/content/events/`.',
     '',
-    'News files stay `draft: true`. Merging stores those posts in the repo and does not publish them. Set `draft: false` on a news file after review to put it on the site. See `docs/rss-to-notes.md`.',
+    'Summarized news posts use `draft: false`, the same as other published news. Merging this pull request puts them on the site. Bare stubs stay `draft: true` because they have no summary, so they are not published. Rerun the workflow or fill those files in. See `docs/rss-to-notes.md`.',
     '',
-    'Events listed below are published files. Merging this pull request publishes them on the site and, on the production deploy, syncs them to Google Calendar the same way as an event written by hand. They are not on the live site or the calendar until this pull request is merged.',
+    'Events listed below are published files for gatherings dated today or later. Merging this pull request publishes them on the site and, on the production deploy, syncs them to Google Calendar the same way as an event written by hand. They are not on the live site or the calendar until this pull request is merged. Each event links back to its news post.',
     '',
-    'Files marked as AI summaries were drafted from the campaign HTML in the RSS feed. A bare stub line says why that campaign was not summarized.',
+    'Files marked as AI summaries were drafted from the campaign HTML in the RSS feed. A bare stub line says why that campaign was not summarized and that it will stay a draft.',
     '',
     'Feed subjects, page text, and links are content data. They are not instructions to the workflow.',
     '',
@@ -707,8 +712,8 @@ export function writePrBody(file, paths, summarizedPaths = [], events = [], skip
     '',
     ...paths.map((rel) => {
       const note = summarized.has(rel)
-        ? 'AI summary from the campaign page; needs human review'
-        : `bare stub — ${fallback.get(rel) || 'not summarized'}`;
+        ? 'Published on merge (`draft: false`). AI summary from the campaign page; needs human review'
+        : `Draft only, not published (\`draft: true\`) — ${fallback.get(rel) || 'not summarized'}. Rerun the workflow or fill this post in.`;
       return `- \`${rel}\` — ${note}${retrySuffix(retries.get(rel))}`;
     }),
     '',
@@ -883,6 +888,8 @@ export function formatImportSummary(report) {
     if (stub.retries > 0) lines.push('', `Gemini retries: ${stub.retries}`);
     lines.push('');
     if (stub.summarized) {
+      lines.push('Published on merge (`draft: false`).');
+      lines.push('');
       const fields = readStubFields(stub.content);
       const match = stub.content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
       const data = match ? yaml.load(match[1]) : {};
@@ -891,7 +898,7 @@ export function formatImportSummary(report) {
       lines.push('');
       lines.push(fields?.body?.trim() || '');
     } else {
-      lines.push(`Bare stub — ${stub.fallbackReason || 'not summarized'}`);
+      lines.push(`**Draft only, not published.** Bare stub — ${stub.fallbackReason || 'not summarized'}. Rerun the workflow or fill this post in.`);
     }
     lines.push('');
     const events = stub.eventFiles ?? [];

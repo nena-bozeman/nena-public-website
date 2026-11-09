@@ -109,7 +109,7 @@ test('a valid model reply becomes a draft the model cannot reconfigure', async (
   const match = result.markdown.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   assert.ok(match);
   const data = yaml.load(match[1]);
-  assert.equal(data.draft, true);
+  assert.equal(data.draft, false);
   assert.equal(data.featured, false);
   assert.deepEqual(data.topics, []);
   assert.deepEqual(data.tags, []);
@@ -337,15 +337,29 @@ test('a failed archive fetch records the HTTP status', async () => {
   assert.equal(result.reason, 'fetch-failed: campaign page HTTP 503');
 });
 
-test('renderDraft keeps draft true even if the summary text mentions draft', () => {
-  const markdown = renderDraft({
+test('renderDraft publishes a summary and keeps a bare stub unpublished', () => {
+  const published = renderDraft({
     title: 'Neighborhood potluck',
     date: '2026-08-04',
     archiveUrl: ARCHIVE,
-    summary: 'A note that says draft: false stays in the summary sentence.',
+    summary: 'A note that says draft: true stays in the summary sentence.',
     body: 'Meet at 702 E. Peach on Thursday, August 6, at 4:30 p.m. Bring a chair.',
+    draft: false,
+    eventSlugs: ['2026-08-06-neighborhood-potluck'],
   });
-  const data = yaml.load(markdown.match(/^---\n([\s\S]*?)\n---/)[1]);
-  assert.equal(data.draft, true);
-  assert.equal(data.topics.length, 0);
+  const publishedData = yaml.load(published.match(/^---\n([\s\S]*?)\n---/)[1]);
+  assert.equal(publishedData.draft, false);
+  assert.deepEqual(publishedData.events, ['2026-08-06-neighborhood-potluck']);
+  assert.equal(publishedData.topics.length, 0);
+
+  const bare = renderDraft({
+    title: 'Neighborhood potluck',
+    date: '2026-08-04',
+    archiveUrl: ARCHIVE,
+    summary: 'Draft stub from Mailchimp campaign — expand from the archive link before publishing.',
+    body: '',
+    draft: true,
+  });
+  const bareData = yaml.load(bare.match(/^---\n([\s\S]*?)\n---/)[1]);
+  assert.equal(bareData.draft, true);
 });
