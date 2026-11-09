@@ -14,6 +14,7 @@ x-topics-field: &topics_field
     - { label: "NENA Newsletters", value: "newsletter" }
     - { label: "NENA Meetings", value: "meeting" }
     - { label: "Bozeman UDC", value: "bozeman-udc" }
+    - { label: "Bozeman Creek Vision Plan", value: "bozeman-creek-vision-plan" }
     - { label: "Affordable Housing", value: "affordable-housing" }
     - { label: "Parade of Sheds", value: "parade-of-sheds" }
     - { label: "Burdock Blitz", value: "burdock-blitz" }

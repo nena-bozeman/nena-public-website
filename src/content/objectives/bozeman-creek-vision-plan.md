@@ -8,6 +8,7 @@ section: neighborhood-advocacy
 order: 13
 icon: waves-horizontal
 topics:
+  - bozeman-creek-vision-plan
   - environment
   - trails-pocket-parks
 ---
@@ -18,5 +19,6 @@ NENA shares meeting notices when the city hosts kickoffs, open houses, or commen
 
 ## Resources
 
-- [Bozeman Creek Vision Plan](https://engage.bozeman.net/bzncreek) — project background, maps, and ways to comment
+- [See Bozeman Creek](https://seebozemancreek.org/) — citizens group working with the city on this plan
+- [Bozeman Creek Vision Plan](https://engage.bozemanmt.gov/bzncreek) — city project background, maps, and ways to comment
 - [City of Bozeman Community Development](https://www.bozeman.net/departments/community-development) — related applications and schedules
