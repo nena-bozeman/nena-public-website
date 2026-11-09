@@ -8,6 +8,13 @@ Changes not yet released.
 
 ---
 
+## 2026-10-15
+
+- **Home:** Hero tagline, welcome, three short pillars, and the Get Involved section now follow the neighborhood flyer, rewritten for the web (`Hero.astro`, `Welcome.astro`, `index.astro`). Existing news, events, donation, and household stats stay.
+- **About:** Mission, bylaws boundaries, neighborhood character, and the three pillars are in `src/content/pages/about.md`. Board officers, organizational standing, history, the boundary map, and the contact block stay. Contact address on these pages is `nenabozeman@gmail.com`.
+
+---
+
 ## 2026-08-17
 
 - **Our Work:** Added a standing Burdock Blitz objective (`/our-work/burdock-blitz`) for the annual invasive-weed volunteer mornings, with a `burdock-blitz` topic so related news and events cluster on that page.
