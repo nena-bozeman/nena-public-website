@@ -7,13 +7,14 @@ import {
   sortPastEventsDesc,
   sortUpcomingEventsAsc,
   totalPastEventPages,
+  eventsEntriesForSite,
 } from '../../../utils/events';
 import { withSiteBase } from '../../../utils/site-link';
 
 void withSiteBase;
 
 export async function getStaticPaths() {
-  const allEvents = await getCollection('events');
+  const allEvents = eventsEntriesForSite(await getCollection('events'));
   const now = new Date();
   const pastAll = sortPastEventsDesc(
     allEvents.filter((e) => e.data.startDate < now),
@@ -26,7 +27,7 @@ export async function getStaticPaths() {
 }
 
 const now = new Date();
-const allEvents = await getCollection('events');
+const allEvents = eventsEntriesForSite(await getCollection('events'));
 
 const upcoming = sortUpcomingEventsAsc(
   allEvents.filter((e) => e.data.startDate >= now),

@@ -5,9 +5,10 @@ import MissionStatement from '../components/home/MissionStatement.astro';
 import LatestNews from '../components/home/LatestNews.astro';
 import { getCollection } from 'astro:content';
 import { getMailchimpSignupUrl } from '../utils/mailchimp';
+import { eventsEntriesForSite } from '../utils/events';
 
 const now = new Date();
-const allEvents = await getCollection('events');
+const allEvents = eventsEntriesForSite(await getCollection('events'));
 const upcomingEvents = allEvents
   .filter(e => e.data.startDate > now)
   .sort((a, b) => a.data.startDate.valueOf() - b.data.startDate.valueOf())

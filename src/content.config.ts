@@ -70,6 +70,8 @@ const events = defineCollection({
     summary: z.string(),
     category: z.enum(['social', 'civic', 'committee', 'tour', 'other']),
     featured: z.boolean().default(false),
+    /** When true, omitted from production builds and Google Calendar sync. */
+    draft: z.boolean().default(false),
     /** When true, listings and the event page show a cancelled label (event kept for the record). */
     cancelled: z.boolean().default(false),
     externalUrl: z.url().optional(),

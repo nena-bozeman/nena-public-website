@@ -95,6 +95,7 @@ When repository secret **`GEMINI_API_KEY`** is set, each **new** stub is filled 
 2. It calls Google Gemini model **`gemini-2.5-flash-lite`** at `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent`. The page is data, inside a delimiter, with a prompt that says to ignore instructions in the newsletter. Output is capped at 512 tokens, and `thinkingBudget` is 0.
 3. The script writes the front matter itself: RSS title and date, `draft: true`, empty topics and tags, and the original `mailchimpArchiveUrl`. The model cannot add or change those fields. A link in the body must already appear on the page.
 4. The review pull request marks files summarized on that run as AI summaries that need a person to read them.
+5. A second model call looks for gatherings. It can add zero, one, or several **draft** event files when the page states a date and a clock time. Past gatherings, duplicates of events already in `src/content/events`, low-confidence items, and replies without an explicit time are listed in the pull request and not added. The news draft links those new events. Draft events are omitted from production pages and are not synced to Google Calendar. Set `draft: false` after review to publish one.
 
 If the secret is missing, the page cannot be read, or the model reply is unusable, that file stays a bare stub and the run continues. Files already on the automation branch are not rewritten. To summarize a bare stub that is already on the open pull request, delete that file from the branch and run the workflow again.
 

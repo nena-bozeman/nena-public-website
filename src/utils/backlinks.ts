@@ -1,6 +1,7 @@
 import { getCollection } from 'astro:content';
 import { OUR_WORK_PATH } from '../data/our-work';
 import { newsEntriesForSite } from './news';
+import { eventsEntriesForSite } from './events';
 
 export type ContentCollection =
   | 'news'
@@ -143,7 +144,7 @@ export async function buildBacklinkIndex(): Promise<Map<EntityKey, BacklinkRef[]
     ]);
   }
 
-  for (const event of events) {
+  for (const event of eventsEntriesForSite(events)) {
     const title = event.data.title;
     const date = event.data.startDate;
     const ref = { sourceCollection: 'events' as const, sourceSlug: event.id };

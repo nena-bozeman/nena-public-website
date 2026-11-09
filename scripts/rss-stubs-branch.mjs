@@ -33,9 +33,12 @@ import { tmpdir } from 'node:os';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import yaml from 'js-yaml';
+import { extractCampaignEvents } from './lib/mailchimp-campaign-events.mjs';
 import {
   enrichDraftMarkdown,
   GEMINI_API_KEY_ENV,
+  readStubFields,
+  renderDraft,
   shouldRequestSummary,
 } from './lib/mailchimp-campaign-summary.mjs';
 
@@ -59,6 +62,7 @@ const STUB_FRONTMATTER_KEYS = new Set([
   'tags',
   'topics',
   'mailchimpArchiveUrl',
+  'events',
 ]);
 const BOT_GIT_CONFIG = [
   '-c',
@@ -109,13 +113,16 @@ function existingBranchFile(repo, branchRef, rel) {
  * @param {string} apiKey
  */
 async function prepareStubContents(repo, baseRef, branchRef, stubs, apiKey) {
-  /** @type {{ rel: string, content: string, summarized: boolean }[]} */
+  /** @type {{ rel: string, content: string, summarized: boolean, eventFiles: { rel: string, content: string, title: string, sourceUrl: string, slug: string }[] }[]} */
   const prepared = [];
+  /** @type {{ title: string, reason: string, sourceUrl: string }[]} */
+  const skippedEvents = [];
+  const knownEvents = existingEventRecords(repo, branchRef);
   for (const stub of stubs) {
     const existing = existingBranchFile(repo, branchRef, stub.rel);
     const deleted = deletedOnBranchRef(repo, baseRef, branchRef, stub.rel);
     if (!shouldRequestSummary({ existing, deleted })) {
-      prepared.push({ ...stub, content: existing ?? stub.content, summarized: false });
+      prepared.push({ ...stub, content: existing ?? stub.content, summarized: false, eventFiles: [] });
       continue;
     }
     const enriched = await enrichDraftMarkdown(stub.content, { apiKey });
@@ -134,9 +141,118 @@ async function prepareStubContents(repo, baseRef, branchRef, stubs, apiKey) {
     } else if (apiKey.trim()) {
       console.error(`rss-stubs-branch: bare stub for ${stub.rel} (${enriched.reason})`);
     }
-    prepared.push({ ...stub, content, summarized });
+    /** @type {{ rel: string, content: string, title: string, sourceUrl: string, slug: string }[]} */
+    let eventFiles = [];
+    if (enriched.newsletterText && apiKey.trim()) {
+      const newsSlug = stub.rel.replace(/^src\/content\/news\//, '').replace(/\.md$/, '');
+      const extracted = await extractCampaignEvents({
+        newsletterText: enriched.newsletterText,
+        archiveUrl: enriched.fields?.archiveUrl ?? '',
+        newsSlug,
+        existing: knownEvents,
+        apiKey,
+      });
+      eventFiles = extracted.create;
+      for (const skip of extracted.skipped) {
+        skippedEvents.push({ ...skip, sourceUrl: enriched.fields?.archiveUrl ?? '' });
+      }
+      if (eventFiles.length > 0) {
+        const fields = readStubFields(content);
+        const data = yaml.load(content.match(/^---\r?\n([\s\S]*?)\r?\n---/)[1]);
+        const linked = renderDraft({
+          title: fields.title,
+          date: fields.date,
+          archiveUrl: fields.archiveUrl,
+          summary: String(data.summary ?? ''),
+          body: fields.body.trim(),
+          eventSlugs: eventFiles.map((eventFile) => eventFile.slug),
+        });
+        try {
+          assertDraftStub(stub.rel, linked, new Set(), {
+            allowBody: summarized,
+            eventSlugs: eventFiles.map((eventFile) => eventFile.slug),
+          });
+          content = linked;
+        } catch (error) {
+          console.error(
+            `rss-stubs-branch: not linking events for ${stub.rel} (${error instanceof Error ? error.message : error})`,
+          );
+          eventFiles = [];
+        }
+      }
+    }
+    prepared.push({ ...stub, content, summarized, eventFiles });
   }
-  return prepared;
+  return { prepared, skippedEvents };
+}
+
+function existingEventRecords(repo, branchRef) {
+  /** @type {{ slug: string, title: string, startDate: string, newsSlugs: string[] }[]} */
+  const records = [];
+  const dir = join(repo, 'src/content/events');
+  if (existsSync(dir)) {
+    for (const name of readdirSync(dir)) {
+      if (!name.endsWith('.md')) continue;
+      records.push(eventRecord(name.replace(/\.md$/, ''), readFileSync(join(dir, name), 'utf8')));
+    }
+  }
+  if (!refExists(repo, branchRef)) return records;
+  let names = '';
+  try {
+    names = git(repo, ['ls-tree', '-r', '--name-only', branchRef, 'src/content/events']);
+  } catch {
+    return records;
+  }
+  for (const rel of names.trim().split('\n').filter((name) => name.endsWith('.md'))) {
+    const slug = rel.replace(/^src\/content\/events\//, '').replace(/\.md$/, '');
+    if (records.some((record) => record.slug === slug)) continue;
+    try {
+      records.push(eventRecord(slug, git(repo, ['show', `${branchRef}:${rel}`])));
+    } catch {
+      // Skip a path that is not a blob.
+    }
+  }
+  return records;
+}
+
+function eventRecord(slug, content) {
+  const match = String(content).match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  const data = match ? yaml.load(match[1]) : {};
+  const start = data && typeof data.startDate === 'string' ? data.startDate : '';
+  return {
+    slug,
+    title: data && typeof data.title === 'string' ? data.title : '',
+    startDate: start,
+    newsSlugs: data && Array.isArray(data.newsSlugs) ? data.newsSlugs : [],
+  };
+}
+
+function branchEventFiles(repo, baseRef, branchRef) {
+  if (!refExists(repo, branchRef)) return [];
+  let names = '';
+  try {
+    names = git(repo, [
+      'diff',
+      '--name-only',
+      '--diff-filter=A',
+      baseRef,
+      branchRef,
+      '--',
+      'src/content/events',
+    ]);
+  } catch {
+    return [];
+  }
+  /** @type {{ rel: string, content: string }[]} */
+  const files = [];
+  for (const rel of names.trim().split('\n').filter((name) => name.endsWith('.md'))) {
+    try {
+      files.push({ rel, content: git(repo, ['show', `${branchRef}:${rel}`]) });
+    } catch {
+      // Skip paths that are not blobs.
+    }
+  }
+  return files;
 }
 
 function deletedOnBranchRef(repo, baseRef, branchRef, rel) {
@@ -278,6 +394,17 @@ export function assertDraftStub(rel, content, knownIds, options = {}) {
   }
   if (!Array.isArray(data.tags) || data.tags.length !== 0) {
     throw new Error(`${rel} tags are not empty`);
+  }
+  if (data.events != null) {
+    if (!Array.isArray(data.events) || data.events.some((slug) => typeof slug !== 'string' || !/^[a-z0-9-]+$/.test(slug))) {
+      throw new Error(`${rel} events are not slugs`);
+    }
+    if (options.eventSlugs) {
+      const allowed = new Set(options.eventSlugs);
+      if (data.events.some((slug) => !allowed.has(slug))) {
+        throw new Error(`${rel} links an event this run did not create`);
+      }
+    }
   }
   if (typeof data.mailchimpArchiveUrl !== 'string' || !ARCHIVE_URL_RE.test(data.mailchimpArchiveUrl)) {
     throw new Error(`${rel} archive URL is not a mailchi.mp link`);
@@ -465,7 +592,7 @@ function rollback(repo, state) {
       // Branch may already point where we need it.
     }
     try {
-      git(repo, ['clean', '-fd', '--', 'src/content/news']);
+      git(repo, ['clean', '-fd', '--', 'src/content/news', 'src/content/events']);
     } catch {
       // Nothing to clean.
     }
@@ -501,7 +628,7 @@ function returnToStart(repo, startBranch) {
  * @param {string} file
  * @param {string[]} paths
  */
-export function writePrBody(file, paths, summarizedPaths = []) {
+export function writePrBody(file, paths, summarizedPaths = [], events = [], skippedEvents = []) {
   for (const rel of paths) {
     if (!STUB_PATH_RE.test(rel)) throw new Error(`refusing to list path ${rel}`);
   }
@@ -525,6 +652,25 @@ export function writePrBody(file, paths, summarizedPaths = []) {
         : 'bare draft stub, or an existing draft left unchanged';
       return `- \`${rel}\` — ${note}`;
     }),
+    '',
+    '### Events',
+    '',
+    ...(events.length === 0
+      ? ['No event drafts were added on this run.']
+      : events.map((event) => {
+          const title = String(event.title).replace(/[`\r\n]/g, ' ').slice(0, 120);
+          return `- \`${event.path}\` — ${title}. Source: ${event.sourceUrl}`;
+        })),
+    ...(skippedEvents.length === 0
+      ? []
+      : [
+          '',
+          'Skipped extractions:',
+          ...skippedEvents.map((skip) => {
+            const title = String(skip.title || 'untitled').replace(/[`\r\n]/g, ' ').slice(0, 120);
+            return `- ${title} — ${skip.reason}. Source: ${skip.sourceUrl}`;
+          }),
+        ]),
     '',
     '### Checks',
     '',
@@ -621,7 +767,7 @@ export async function updateAutomationBranch(args) {
     knownIds.add(id);
   }
 
-  const prepared = await prepareStubContents(
+  const { prepared, skippedEvents } = await prepareStubContents(
     repo,
     baseRef,
     branchRef,
@@ -629,6 +775,10 @@ export async function updateAutomationBranch(args) {
     process.env[GEMINI_API_KEY_ENV] ?? '',
   );
   const summarized = prepared.filter((stub) => stub.summarized).map((stub) => stub.rel);
+  const createdEvents = prepared.flatMap((stub) => stub.eventFiles ?? []);
+  const carriedEvents = branchEventFiles(repo, baseRef, branchRef).filter(
+    (file) => !createdEvents.some((eventFile) => eventFile.rel === file.rel),
+  );
 
   const branchExists = refExists(repo, branchRef);
   /** @type {'noop' | 'close-empty' | 'needs-pr' | 'committed'} */
@@ -639,7 +789,14 @@ export async function updateAutomationBranch(args) {
       const diff = git(repo, ['diff', '--name-only', baseRef, branchRef]).trim();
       if (!diff) result = 'close-empty';
     }
-    return { result, branch, files: /** @type {string[]} */ ([]), summarized: /** @type {string[]} */ ([]) };
+    return {
+      result,
+      branch,
+      files: /** @type {string[]} */ ([]),
+      summarized: /** @type {string[]} */ ([]),
+      events: /** @type {{ path: string, title: string, sourceUrl: string }[]} */ ([]),
+      skippedEvents: /** @type {{ title: string, reason: string, sourceUrl: string }[]} */ ([]),
+    };
   }
 
   if (openPr && !branchExists) {
@@ -677,12 +834,19 @@ export async function updateAutomationBranch(args) {
         const preparedStub = prepared.find((item) => item.rel === stub.rel) ?? stub;
         writeFileSync(dest, preparedStub.content, 'utf8');
         added.push(stub.rel);
+        for (const eventFile of preparedStub.eventFiles ?? []) {
+          const eventDest = join(repo, eventFile.rel);
+          if (existsSync(eventDest)) continue;
+          mkdirSync(dirname(eventDest), { recursive: true });
+          writeFileSync(eventDest, eventFile.content, 'utf8');
+          added.push(eventFile.rel);
+        }
       }
 
       if (added.length === 0) {
         const now = git(repo, ['rev-parse', 'HEAD']).trim();
         if (now !== state.beforeSha) git(repo, ['reset', '--hard', state.beforeSha]);
-        git(repo, ['clean', '-fd', '--', 'src/content/news']);
+        git(repo, ['clean', '-fd', '--', 'src/content/news', 'src/content/events']);
       } else {
         runContentChecks(repo);
         commitAddedPaths(repo, added);
@@ -696,7 +860,12 @@ export async function updateAutomationBranch(args) {
         );
       }
 
-      const desired = treeWithStubs(repo, baseRef, prepared);
+      const desiredFiles = [
+        ...prepared.map((stub) => ({ rel: stub.rel, content: stub.content })),
+        ...createdEvents.map((eventFile) => ({ rel: eventFile.rel, content: eventFile.content })),
+        ...carriedEvents,
+      ];
+      const desired = treeWithStubs(repo, baseRef, desiredFiles);
       if (branchExists) {
         const currentTree = git(repo, ['rev-parse', `${branchRef}^{tree}`]).trim();
         if (currentTree === desired) {
@@ -708,15 +877,15 @@ export async function updateAutomationBranch(args) {
         state.beforeSha = branchExists ? git(repo, ['rev-parse', branchRef]).trim() : null;
         state.createdBranch = !branchExists;
         git(repo, ['switch', '-C', branch, baseRef]);
-        for (const stub of prepared) {
-          const dest = join(repo, stub.rel);
+        for (const file of desiredFiles) {
+          const dest = join(repo, file.rel);
           mkdirSync(dirname(dest), { recursive: true });
-          writeFileSync(dest, stub.content, 'utf8');
+          writeFileSync(dest, file.content, 'utf8');
         }
         runContentChecks(repo);
         commitAddedPaths(
           repo,
-          prepared.map((stub) => stub.rel),
+          desiredFiles.map((file) => file.rel),
         );
         if (push) pushBranch(repo, branch, branchExists);
         result = 'committed';
@@ -734,6 +903,12 @@ export async function updateAutomationBranch(args) {
     branch,
     files: prepared.map((stub) => stub.rel),
     summarized,
+    events: createdEvents.map((eventFile) => ({
+      path: eventFile.rel,
+      title: eventFile.title,
+      sourceUrl: eventFile.sourceUrl,
+    })),
+    skippedEvents,
   };
 }
 
@@ -761,7 +936,13 @@ async function main() {
   }
   const outcome = await updateAutomationBranch(args);
   if (args.prBodyFile && (outcome.result === 'committed' || outcome.result === 'needs-pr')) {
-    writePrBody(args.prBodyFile, outcome.files, outcome.summarized);
+    writePrBody(
+      args.prBodyFile,
+      outcome.files,
+      outcome.summarized,
+      outcome.events,
+      outcome.skippedEvents,
+    );
   }
   if (args.resultFile) {
     writeFileSync(args.resultFile, `${JSON.stringify(outcome, null, 2)}\n`);

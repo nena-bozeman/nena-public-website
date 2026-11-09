@@ -7,10 +7,11 @@ import {
   sortPastEventsDesc,
   sortUpcomingEventsAsc,
   totalPastEventPages,
+  eventsEntriesForSite,
 } from '../../utils/events';
 
 const now = new Date();
-const allEvents = await getCollection('events');
+const allEvents = eventsEntriesForSite(await getCollection('events'));
 
 const upcoming = sortUpcomingEventsAsc(
   allEvents.filter((e) => e.data.startDate >= now),

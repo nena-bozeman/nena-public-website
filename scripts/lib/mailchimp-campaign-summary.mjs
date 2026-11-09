@@ -220,6 +220,7 @@ export function renderDraft(fields) {
     draft: true,
     tags: [],
     topics: [],
+    ...(fields.eventSlugs?.length ? { events: fields.eventSlugs } : {}),
     mailchimpArchiveUrl: fields.archiveUrl,
   };
   const fm = yaml.dump(frontmatter, { lineWidth: -1, noRefs: true }).trimEnd();
@@ -261,23 +262,30 @@ export async function completeSummary(options) {
 /**
  * @param {string} markdown bare stub
  * @param {{ apiKey?: string, fetchImpl?: typeof fetch, complete?: typeof completeSummary }} [options]
- * @returns {Promise<{ markdown: string, summarized: boolean, reason: string }>}
+ * @returns {Promise<{ markdown: string, summarized: boolean, reason: string, newsletterText: string | null, fields: ReturnType<typeof readStubFields> }>}
  */
 export async function enrichDraftMarkdown(markdown, options = {}) {
+  const empty = (reason) => ({
+    markdown,
+    summarized: false,
+    reason,
+    newsletterText: null,
+    fields: readStubFields(markdown),
+  });
   const apiKey = (options.apiKey ?? '').trim();
-  if (!apiKey) return { markdown, summarized: false, reason: 'no-api-key' };
+  if (!apiKey) return empty('no-api-key');
   const fields = readStubFields(markdown);
-  if (!fields?.archiveUrl) return { markdown, summarized: false, reason: 'no-archive-url' };
+  if (!fields?.archiveUrl) return empty('no-archive-url');
 
   const fetchImpl = options.fetchImpl ?? fetch;
   let html;
   try {
     html = await fetchCampaignHtml(fields.archiveUrl, fetchImpl);
   } catch {
-    return { markdown, summarized: false, reason: 'fetch-failed' };
+    return empty('fetch-failed');
   }
   const newsletterText = extractCampaignText(html);
-  if (newsletterText.length < 40) return { markdown, summarized: false, reason: 'empty-page' };
+  if (newsletterText.length < 40) return empty('empty-page');
 
   const request = buildSummaryRequest({
     subject: fields.title,
@@ -290,10 +298,12 @@ export async function enrichDraftMarkdown(markdown, options = {}) {
     const complete = options.complete ?? completeSummary;
     raw = await complete({ apiKey, request, fetchImpl });
   } catch {
-    return { markdown, summarized: false, reason: 'model-failed' };
+    return { markdown, summarized: false, reason: 'model-failed', newsletterText, fields };
   }
   const summary = validateSummary(raw, newsletterText, fields.archiveUrl);
-  if (!summary) return { markdown, summarized: false, reason: 'malformed-output' };
+  if (!summary) {
+    return { markdown, summarized: false, reason: 'malformed-output', newsletterText, fields };
+  }
   return {
     markdown: renderDraft({
       title: fields.title,
@@ -304,5 +314,7 @@ export async function enrichDraftMarkdown(markdown, options = {}) {
     }),
     summarized: true,
     reason: 'summarized',
+    newsletterText,
+    fields,
   };
 }
