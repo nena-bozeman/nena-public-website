@@ -71,7 +71,9 @@ Matching is by **`mailchi.mp` campaign id** already present in any news or event
 
 ### Manual run
 
-Actions → **Mailchimp RSS draft stubs** → **Run workflow**, from the **default branch**. The workflow checks out that branch and reads the default feed URL in `scripts/rss-to-notes.mjs`. There is no input for a different feed.
+Actions → **Mailchimp RSS draft stubs** → **Run workflow**. Leave **Dry run** off and pick the **default branch**. The workflow checks out that branch and reads the default feed URL in `scripts/rss-to-notes.mjs`. There is no input for a different feed. A run that is not a dry run refuses any other branch, so it cannot update `automation/mailchimp-rss-stubs` from a feature branch. That stop is written to the job summary: which branch ran, why a non-dry run is limited to the default branch, and the fix (rerun with **Dry run** checked, or run from the default branch).
+
+To try a fix before merging it, pick the branch that contains this workflow file and set **Dry run** to true. That dispatch still receives repository Actions secrets such as `GEMINI_API_KEY`. The **Check Gemini model is available** step runs first, including on a dry run. It then imports against the default branch's content, calls the model for campaigns that are not already in that content, and writes the summaries and extracted events to the job summary. It does not commit, push, or open a pull request.
 
 ### Review pull request
 
@@ -92,12 +94,21 @@ Actions → **Mailchimp RSS draft stubs** → **Run workflow**, from the **defau
 When repository secret **`GEMINI_API_KEY`** is set, each **new** stub is filled from its campaign page before the first commit that adds that file. A later run does not call the model again for a path already on `automation/mailchimp-rss-stubs`, and it does not call the model for a stub someone removed from that open pull request.
 
 1. The workflow uses the campaign HTML already in the RSS `<description>`. `mailchi.mp` often returns HTTP 503 to the importer, so that short link is only a fallback. Unsubscribe, preference, share, and tracking lines are dropped. At most 8,000 characters of that text are sent. If a campaign stays a bare stub, the review pull request says why.
-2. It calls Google Gemini model **`gemini-2.5-flash-lite`** at `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent`. The page is data, inside a delimiter, with a prompt that says to ignore instructions in the newsletter. Output is capped at 512 tokens, and `thinkingBudget` is 0.
+2. It calls Google Gemini at `https://generativelanguage.googleapis.com/v1beta/models/<model>:generateContent` with the key in the `x-goog-api-key` header. The default model is **`gemini-3.5-flash-lite`**. The [models guide](https://ai.google.dev/gemini-api/docs/models) lists that id as a stable Flash-Lite model and says new projects should use 3.5 Flash-Lite or 3.8 Flash, because access to the 2.5 models is limited to projects that have already used them. An optional repository variable **`GEMINI_MODEL`** overrides the id; leave it unset to keep the default. A blank value also uses the default. The page is data, inside a delimiter, with a prompt that says to ignore instructions in the newsletter. News output is capped at 512 tokens. Gemini 2.5 models get `thinkingBudget: 0`. Newer models get `thinkingLevel: MINIMAL`. If the call fails, the review pull request includes the model id and the API error message, with the key redacted.
 3. The script writes the front matter itself: RSS title and date, `draft: true`, empty topics and tags, and the original `mailchimpArchiveUrl`. The model cannot add or change those fields. A link in the body must already appear on the page.
 4. The review pull request marks files summarized on that run as AI summaries that need a person to read them.
 5. A second model call looks for gatherings. It can add zero, one, or several event files when the page states a date and a clock time, the model marks the item high confidence, and the location appears in the page. Past gatherings, duplicates of events already in `src/content/events`, low-confidence items, and replies without an explicit time are listed in the pull request and not added. The news draft links the new events. Those event files are ordinary published events: merging the review pull request puts them on the site, and the production deploy then syncs them to Google Calendar. They are not on `main` until that merge, so they are not in production or on the calendar before then. News files stay `draft: true`, so merging does not publish the news post.
 
-If the secret is missing, the page cannot be read, or the model reply is unusable, that file stays a bare stub and the run continues. Files already on the automation branch are not rewritten. To summarize a bare stub that is already on the open pull request, delete that file from the branch and run the workflow again.
+Before the import, **Check Gemini model is available** (`scripts/check-gemini-model.mjs`) calls `https://generativelanguage.googleapis.com/v1beta/models` with the key in the `x-goog-api-key` header. The key is not printed. The step runs for a scheduled run, a normal manual run, and a dry run. It passes when the configured model is in that list and supports `generateContent`. On a pass, the job summary says so, names the model and whether it came from the `GEMINI_MODEL` variable or the default in `scripts/lib/gemini-summary.mjs`, includes the display name and token limits when the API returns them, and lists the other `generateContent` models in a collapsed section with Flash-Lite and Flash first. The import step then adds the campaign summaries and extracted events to that same job summary, for a normal run and a dry run.
+
+The step fails the job, with a `::error` annotation and the same text in the job summary, when:
+
+- `GEMINI_API_KEY` is missing
+- Gemini returns 401 or 403 (bad key or the API is not enabled; the message links to [Google AI Studio](https://aistudio.google.com/apikey))
+- the models list cannot be reached, or Gemini returns 5xx
+- the configured model is missing or does not support `generateContent`. That message names the model id and where it came from, lists the models that do support `generateContent` with Flash-Lite and Flash first, and says to set `GEMINI_MODEL` under **Settings → Secrets and variables → Actions → Variables** to one of those ids, or update the default in `scripts/lib/gemini-summary.mjs`, then rerun
+
+A later per-campaign model failure still leaves that file as a bare stub and the run continues. Files already on the automation branch are not rewritten. To summarize a bare stub that is already on the open pull request, delete that file from the branch and run the workflow again.
 
 #### Add `GEMINI_API_KEY`
 
@@ -108,16 +119,18 @@ This change does not create the secret.
 3. In this repository, open **Settings → Secrets and variables → Actions → New repository secret**.
 4. Name the secret exactly `GEMINI_API_KEY`. Paste the AI Studio key as the value. Do not commit the key or put it in the workflow file.
 
+To pin a different model, add an Actions **variable** (not a secret) named `GEMINI_MODEL` under **Settings → Secrets and variables → Actions → Variables**. The value is the model id, for example `gemini-3.5-flash-lite`.
+
 #### Price
 
-Numbers below are copied from [Gemini Developer API pricing](https://ai.google.dev/gemini-api/docs/pricing), which says it was last updated 2026-10-30 UTC. They are the **Standard** rows for `gemini-2.5-flash-lite` (“A small and cost effective model, built for at scale usage”). This workflow does not enable Search grounding or Maps grounding.
+Numbers below are copied from the **Standard** rows for `gemini-3.5-flash-lite` on [Gemini Developer API pricing](https://ai.google.dev/gemini-api/docs/pricing) (“A cost-efficient model, optimized for high-volume agentic tasks, translation, and simple data processing”). This workflow does not enable Search grounding or Maps grounding.
 
 | | Free tier | Paid tier, per 1M tokens |
 | --- | --- | --- |
-| Input (text, image, video) | Free of charge | $0.10 text / image / video, $0.30 audio |
-| Output, including thinking tokens | Free of charge | $0.40 |
+| Input (text, image, video, audio) | Free of charge | $0.30 |
+| Output, including thinking tokens | Free of charge | $2.50 |
 
-On that same table, **Used to improve our products** is **Yes** for the free tier and **No** for the paid tier. A note on the page also says Google AI Studio usage is free of charge in all available regions. The page does not list a separate per-request dollar fee for this model.
+On that same table, **Used to improve our products** is **Yes** for the free tier and **No** for the paid tier. The Standard rows are token prices. This workflow does not add Search or Maps grounding.
 
 ### One-time setup
 
