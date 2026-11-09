@@ -130,6 +130,24 @@ test('review body says merging publishes events and lists when and where', () =>
   assert.match(body, /https:\/\/mailchi\.mp\/bbbbbbbbbbbbbbbb\/neighborhood-potluck/);
 });
 
+test('review body names why a stub stayed bare', () => {
+  const parent = mkdtempSync(join(tmpdir(), 'rss-pr-fallback-'));
+  const bodyFile = join(parent, 'body.md');
+  writePrBody(
+    bodyFile,
+    ['src/content/news/2026-11-02-bozeman-creek-open-house-november-9.md'],
+    [],
+    [],
+    [],
+    [{
+      path: 'src/content/news/2026-11-02-bozeman-creek-open-house-november-9.md',
+      reason: 'fetch-failed: campaign page HTTP 503',
+    }],
+  );
+  const body = readFileSync(bodyFile, 'utf8');
+  assert.match(body, /bare stub — fetch-failed: campaign page HTTP 503/);
+});
+
 test('findNewNewsStubs rejects modifications and deletions', () => {
   const parent = mkdtempSync(join(tmpdir(), 'rss-diff-'));
   const base = join(parent, 'base');
