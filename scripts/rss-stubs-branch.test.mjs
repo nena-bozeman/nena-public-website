@@ -11,7 +11,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { findNewNewsStubs, writePrBody } from './rss-stubs-branch.mjs';
+import { findNewNewsStubs, formatImportSummary, writePrBody } from './rss-stubs-branch.mjs';
 
 const script = fileURLToPath(new URL('./rss-stubs-branch.mjs', import.meta.url));
 
@@ -129,6 +129,31 @@ test('review body says merging publishes events and lists when and where', () =>
   assert.match(body, /News files stay `draft: true`/);
   assert.match(body, /Planning meeting — 2026-12-01, 4:30 p\.m\.–6 p\.m\. at 702 E\. Peach/);
   assert.match(body, /https:\/\/mailchi\.mp\/bbbbbbbbbbbbbbbb\/neighborhood-potluck/);
+  writePrBody(
+    bodyFile,
+    ['src/content/news/2026-10-13-parade-of-sheds-this-sunday.md'],
+    [],
+    [],
+    [],
+    [{ path: 'src/content/news/2026-10-13-parade-of-sheds-this-sunday.md', reason: 'model-failed: model HTTP 503' }],
+    [{ path: 'src/content/news/2026-10-13-parade-of-sheds-this-sunday.md', count: 4 }],
+  );
+  const retried = readFileSync(bodyFile, 'utf8');
+  assert.match(retried, /4 Gemini retries/);
+  const summary = formatImportSummary({
+    model: 'gemini-3.5-flash-lite',
+    dryRun: false,
+    prepared: [{
+      rel: 'src/content/news/2026-10-13-parade-of-sheds-this-sunday.md',
+      content: '',
+      summarized: false,
+      fallbackReason: 'model-failed: model HTTP 503',
+      retries: 4,
+      eventFiles: [],
+    }],
+    skippedEvents: [],
+  });
+  assert.match(summary, /Gemini retries: 4/);
 });
 
 test('review body names why a stub stayed bare', () => {

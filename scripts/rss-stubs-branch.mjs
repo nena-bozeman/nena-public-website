@@ -137,9 +137,11 @@ async function prepareStubContents(repo, baseRef, branchRef, stubs, apiKey, html
       continue;
     }
     const campaignId = (readStubFields(stub.content)?.archiveUrl.match(/mailchi\.mp\/([^/?#]+)/i)?.[1] ?? '').toLowerCase();
+    const retries = { count: 0 };
     const enriched = await enrichDraftMarkdown(stub.content, {
       apiKey,
       campaignHtml: htmlByCampaignId.get(campaignId) ?? '',
+      retries,
     });
     let content = stub.content;
     let summarized = false;
@@ -171,6 +173,7 @@ async function prepareStubContents(repo, baseRef, branchRef, stubs, apiKey, html
         newsSlug,
         existing: knownEvents,
         apiKey,
+        retries,
       });
       eventFiles = extracted.create;
       for (const skip of extracted.skipped) {
@@ -201,7 +204,7 @@ async function prepareStubContents(repo, baseRef, branchRef, stubs, apiKey, html
         }
       }
     }
-    prepared.push({ ...stub, content, summarized, eventFiles, fallbackReason });
+    prepared.push({ ...stub, content, summarized, eventFiles, fallbackReason, retries: retries.count });
   }
   return { prepared, skippedEvents };
 }
@@ -672,15 +675,21 @@ function returnToStart(repo, startBranch) {
 }
 
 /**
- * @param {string} file
- * @param {string[]} paths
+ * @param {number | undefined} count
  */
-export function writePrBody(file, paths, summarizedPaths = [], events = [], skippedEvents = [], fallbacks = []) {
+function retrySuffix(count) {
+  const n = Number(count) || 0;
+  if (n < 1) return '';
+  return ` (${n} Gemini ${n === 1 ? 'retry' : 'retries'})`;
+}
+
+export function writePrBody(file, paths, summarizedPaths = [], events = [], skippedEvents = [], fallbacks = [], retryCounts = []) {
   for (const rel of paths) {
     if (!STUB_PATH_RE.test(rel)) throw new Error(`refusing to list path ${rel}`);
   }
   const summarized = new Set(summarizedPaths);
   const fallback = new Map(fallbacks.map((item) => [item.path, item.reason]));
+  const retries = new Map(retryCounts.map((item) => [item.path, item.count]));
   const body = [
     '## Mailchimp archive stubs',
     '',
@@ -700,7 +709,7 @@ export function writePrBody(file, paths, summarizedPaths = [], events = [], skip
       const note = summarized.has(rel)
         ? 'AI summary from the campaign page; needs human review'
         : `bare stub — ${fallback.get(rel) || 'not summarized'}`;
-      return `- \`${rel}\` — ${note}`;
+      return `- \`${rel}\` — ${note}${retrySuffix(retries.get(rel))}`;
     }),
     '',
     '### Events',
@@ -871,6 +880,7 @@ export function formatImportSummary(report) {
   }
   for (const stub of report.prepared) {
     lines.push(`### \`${stub.rel}\``);
+    if (stub.retries > 0) lines.push('', `Gemini retries: ${stub.retries}`);
     lines.push('');
     if (stub.summarized) {
       const fields = readStubFields(stub.content);
@@ -981,6 +991,7 @@ export async function dryRunSummaries(args) {
       fallbacks: prepared
         .filter((stub) => !stub.summarized && stub.fallbackReason)
         .map((stub) => ({ path: stub.rel, reason: stub.fallbackReason })),
+      retries: campaignRetries(prepared),
     };
   } finally {
     rmSync(snapshot, { recursive: true, force: true });
@@ -1067,6 +1078,7 @@ export async function updateAutomationBranch(args) {
       summarized: /** @type {string[]} */ ([]),
       events: /** @type {{ path: string, title: string, sourceUrl: string }[]} */ ([]),
       skippedEvents: /** @type {{ title: string, reason: string, sourceUrl: string }[]} */ ([]),
+      retries: /** @type {{ path: string, count: number }[]} */ ([]),
     };
   }
 
@@ -1187,7 +1199,14 @@ export async function updateAutomationBranch(args) {
     fallbacks: prepared
       .filter((stub) => !stub.summarized && stub.fallbackReason)
       .map((stub) => ({ path: stub.rel, reason: stub.fallbackReason })),
+    retries: campaignRetries(prepared),
   };
+}
+
+function campaignRetries(prepared) {
+  return prepared
+    .filter((stub) => stub.retries > 0)
+    .map((stub) => ({ path: stub.rel, count: stub.retries }));
 }
 
 function printHelp() {
@@ -1222,6 +1241,7 @@ async function main() {
       outcome.events,
       outcome.skippedEvents,
       outcome.fallbacks,
+      outcome.retries,
     );
   }
   if (args.resultFile) {

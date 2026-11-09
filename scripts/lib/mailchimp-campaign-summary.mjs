@@ -270,6 +270,12 @@ export async function completeSummary(options) {
     userText: options.request.userText,
     fetchImpl: options.fetchImpl,
     maxOutputTokens: GEMINI_MAX_OUTPUT_TOKENS,
+    retry: options.retry,
+    sleep: options.sleep,
+    random: options.random,
+    onRetry: options.onRetry,
+    retries: options.retries,
+    fallbackModel: options.fallbackModel,
   });
 }
 
@@ -312,7 +318,17 @@ export async function enrichDraftMarkdown(markdown, options = {}) {
   let raw;
   try {
     const complete = options.complete ?? completeSummary;
-    raw = await complete({ apiKey, request, fetchImpl });
+    raw = await complete({
+      apiKey,
+      request,
+      fetchImpl,
+      retry: options.retry,
+      sleep: options.sleep,
+      random: options.random,
+      onRetry: options.onRetry,
+      retries: options.retries,
+      fallbackModel: options.fallbackModel,
+    });
   } catch (error) {
     return {
       markdown,

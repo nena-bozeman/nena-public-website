@@ -162,6 +162,24 @@ test('a model that does not support generateContent fails with the callable list
   assert.match(rendered.summary, /gemini-2\.5-flash/);
 });
 
+test('the models list retries HTTP 503 and then passes', async () => {
+  let calls = 0;
+  const fetchImpl = async () => {
+    calls += 1;
+    if (calls === 1) return new Response('busy', { status: 503 });
+    return listResponse([model('gemini-3.5-flash-lite')]);
+  };
+  const result = await checkGeminiModel({
+    apiKey: KEY,
+    modelEnv: '',
+    fetchImpl,
+    listRetry: { attempts: 3, baseMs: 0, maxMs: 0 },
+    sleep: async () => {},
+  });
+  assert.equal(result.ok, true);
+  assert.equal(calls, 2);
+});
+
 test('a missing API key does not call Gemini', async () => {
   let called = false;
   const fetchImpl = async () => {
@@ -212,6 +230,7 @@ test('a network error and a 5xx error are not described as a bad model id', asyn
     apiKey: KEY,
     modelEnv: '',
     fetchImpl: async () => new Response('unavailable', { status: 503 }),
+    listRetry: { attempts: 1, baseMs: 0, maxMs: 0 },
   }));
   assert.match(server.summary, /HTTP 503/);
   assert.match(server.summary, /not a model-id problem/);

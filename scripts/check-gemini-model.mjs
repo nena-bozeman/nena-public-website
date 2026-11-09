@@ -11,6 +11,7 @@
 
 import { appendFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
+import { fetchWithRetry, LIST_RETRY_STATUSES } from './lib/gemini-retry.mjs';
 import { DEFAULT_GEMINI_MODEL, GEMINI_API_KEY_ENV, resolveGeminiModel } from './lib/gemini-summary.mjs';
 
 export const MODELS_URL = 'https://generativelanguage.googleapis.com/v1beta/models';
@@ -166,7 +167,7 @@ function describeModel(model, id) {
   };
 }
 
-async function listModels(apiKey, fetchImpl) {
+async function listModels(apiKey, fetchImpl, retryOptions = {}) {
   /** @type {string[]} */
   const generateContent = [];
   /** @type {string[]} */
@@ -180,10 +181,19 @@ async function listModels(apiKey, fetchImpl) {
     if (pageToken) url.searchParams.set('pageToken', pageToken);
     let response;
     try {
-      response = await fetchImpl(url, {
+      response = await fetchWithRetry(fetchImpl, url, {
         method: 'GET',
         headers: { 'x-goog-api-key': apiKey },
         signal: AbortSignal.timeout(20000),
+      }, {
+        envPrefix: 'GEMINI_LIST_RETRY',
+        settings: retryOptions.listRetry,
+        statuses: LIST_RETRY_STATUSES,
+        sleep: retryOptions.sleep,
+        random: retryOptions.random,
+        onRetry: retryOptions.onRetry,
+        model: 'models.list',
+        timeoutMs: 20000,
       });
     } catch {
       throw failure('network');
@@ -232,7 +242,7 @@ export async function checkGeminiModel(options = {}) {
   if (!apiKey) return { ok: false, code: 'missing-key', model };
   if (model.source === 'invalid') return { ok: false, code: 'invalid-model', model };
   try {
-    const { available, listed, details } = await listModels(apiKey, options.fetchImpl ?? fetch);
+    const { available, listed, details } = await listModels(apiKey, options.fetchImpl ?? fetch, options);
     if (available.includes(model.id)) {
       return { ok: true, code: 'ok', model, available, selected: details.get(model.id) ?? null };
     }

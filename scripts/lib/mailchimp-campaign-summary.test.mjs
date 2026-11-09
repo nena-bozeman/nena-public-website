@@ -147,11 +147,18 @@ test('no API key leaves the bare stub and does not fetch', async () => {
 });
 
 test('a failed model call falls back to the bare stub', async () => {
+  let calls = 0;
   const fetchImpl = async (url) => {
     if (String(url) === ARCHIVE) return pageResponse();
+    calls += 1;
     return new Response('nope', { status: 503 });
   };
-  const result = await enrichDraftMarkdown(BARE_STUB, { apiKey: 'test-key', fetchImpl });
+  const result = await enrichDraftMarkdown(BARE_STUB, {
+    apiKey: 'test-key',
+    fetchImpl,
+    retry: { attempts: 2, baseMs: 0, maxMs: 0 },
+  });
+  assert.equal(calls, 2);
   assert.equal(result.summarized, false);
   assert.match(result.reason, /^model-failed: model HTTP 503 \(gemini-3\.5-flash-lite\): nope$/);
   assert.equal(result.markdown, BARE_STUB);
