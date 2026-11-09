@@ -3,7 +3,7 @@ title: Bozeman Creek Open House November 9
 date: '2026-11-02'
 summary: Join the upcoming Bozeman Creek Vision Plan Open House to preview the draft plan and share your thoughts. The drop-in event takes place on **Monday, November 9, 2026**, from **4:30–7:30 pm** at **Bozeman City Hall**.
 featured: false
-draft: true
+draft: false
 tags: []
 topics: []
 events:

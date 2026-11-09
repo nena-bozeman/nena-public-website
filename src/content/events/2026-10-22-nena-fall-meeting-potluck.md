@@ -14,6 +14,8 @@ imageAlt: 'Neighbors seated at tables in a meeting room listen to a presenter be
 topics:
   - meeting
   - bozeman-creek-vision-plan
+newsSlugs:
+  - 2026-10-21-nena-fall-meeting-potluck-tomorrow
 meetingSlug: 2026-fall-october
 ---
 

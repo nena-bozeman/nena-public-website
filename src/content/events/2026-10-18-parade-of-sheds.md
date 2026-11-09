@@ -15,6 +15,7 @@ topics:
 newsSlugs:
   - 2026-08-03-parade-of-sheds-planning-meeting
   - 2026-08-06-today-parade-of-sheds-planning-meeting
+  - 2026-09-15-save-the-date-parade-of-sheds
 flyerPdf: /documents/parade-of-sheds/2026-parade-of-sheds-flyer.pdf
 flyerImage: /images/parade-of-sheds/2026-parade-of-sheds-flyer.jpg
 flyerAlt: 2026 Parade of Sheds flyer

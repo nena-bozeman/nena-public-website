@@ -3,9 +3,11 @@ title: NENA Fall Meeting & Potluck TOMORROW!
 date: '2026-10-21'
 summary: NENA is hosting its Fall Meeting and Potluck tomorrow night at the Public Safety Center Community Room. Neighbors can enjoy a potluck dinner followed by presentations on the proposed City Charter and the Bozeman Creek Visioning Plan.
 featured: false
-draft: true
+draft: false
 tags: []
 topics: []
+events:
+  - 2026-10-22-nena-fall-meeting-potluck
 mailchimpArchiveUrl: https://mailchi.mp/d87fdb840db7/nena-cloverleaf-zma-vote-12855847
 ---
 
