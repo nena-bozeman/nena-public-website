@@ -33,6 +33,11 @@ import { tmpdir } from 'node:os';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import yaml from 'js-yaml';
+import {
+  enrichDraftMarkdown,
+  GEMINI_API_KEY_ENV,
+  shouldRequestSummary,
+} from './lib/mailchimp-campaign-summary.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SCRIPT_REPO = join(__dirname, '..');
@@ -45,6 +50,16 @@ export const BOT_EMAIL = '41898282+github-actions[bot]@users.noreply.github.com'
 const NEWS_PREFIX = 'src/content/news/';
 const STUB_PATH_RE = /^src\/content\/news\/\d{4}-\d{2}-\d{2}-[a-z0-9-]+\.md$/;
 const ARCHIVE_URL_RE = /^https:\/\/mailchi\.mp\/[A-Za-z0-9]+\/[A-Za-z0-9-]+$/;
+const STUB_FRONTMATTER_KEYS = new Set([
+  'title',
+  'date',
+  'summary',
+  'featured',
+  'draft',
+  'tags',
+  'topics',
+  'mailchimpArchiveUrl',
+]);
 const BOT_GIT_CONFIG = [
   '-c',
   `user.name=${BOT_NAME}`,
@@ -67,6 +82,75 @@ function git(repo, args, opts = {}) {
     env: { ...process.env, ...opts.env },
     stdio: ['pipe', 'pipe', 'pipe'],
   });
+}
+
+/**
+ * @param {string} repo
+ * @param {string} branchRef
+ * @param {string} rel
+ * @returns {string | null}
+ */
+function existingBranchFile(repo, branchRef, rel) {
+  if (!refExists(repo, branchRef)) return null;
+  try {
+    return git(repo, ['show', `${branchRef}:${rel}`]);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Keep a file already on the automation branch. Summarize only a new bare stub.
+ * An existing file is not rewritten, so a human edit stays put.
+ *
+ * @param {string} repo
+ * @param {string} branchRef
+ * @param {{ rel: string, content: string }[]} stubs
+ * @param {string} apiKey
+ */
+async function prepareStubContents(repo, baseRef, branchRef, stubs, apiKey) {
+  /** @type {{ rel: string, content: string, summarized: boolean }[]} */
+  const prepared = [];
+  for (const stub of stubs) {
+    const existing = existingBranchFile(repo, branchRef, stub.rel);
+    const deleted = deletedOnBranchRef(repo, baseRef, branchRef, stub.rel);
+    if (!shouldRequestSummary({ existing, deleted })) {
+      prepared.push({ ...stub, content: existing ?? stub.content, summarized: false });
+      continue;
+    }
+    const enriched = await enrichDraftMarkdown(stub.content, { apiKey });
+    let content = stub.content;
+    let summarized = false;
+    if (enriched.summarized) {
+      try {
+        assertDraftStub(stub.rel, enriched.markdown, new Set(), { allowBody: true });
+        content = enriched.markdown;
+        summarized = true;
+      } catch (error) {
+        console.error(
+          `rss-stubs-branch: keeping bare stub for ${stub.rel} (${error instanceof Error ? error.message : error})`,
+        );
+      }
+    } else if (apiKey.trim()) {
+      console.error(`rss-stubs-branch: bare stub for ${stub.rel} (${enriched.reason})`);
+    }
+    prepared.push({ ...stub, content, summarized });
+  }
+  return prepared;
+}
+
+function deletedOnBranchRef(repo, baseRef, branchRef, rel) {
+  if (!refExists(repo, branchRef)) return false;
+  const deleted = git(repo, [
+    'log',
+    '--diff-filter=D',
+    '--name-only',
+    '--format=',
+    `${baseRef}..${branchRef}`,
+    '--',
+    rel,
+  ]).trim();
+  return deleted.length > 0;
 }
 
 function refExists(repo, ref) {
@@ -171,7 +255,7 @@ function knownCampaignIds(root) {
  * @param {Set<string>} knownIds
  * @returns {string}
  */
-export function assertDraftStub(rel, content, knownIds) {
+export function assertDraftStub(rel, content, knownIds, options = {}) {
   if (!STUB_PATH_RE.test(rel)) {
     throw new Error(`Unexpected stub path: ${rel}`);
   }
@@ -181,8 +265,14 @@ export function assertDraftStub(rel, content, knownIds) {
   if (!data || typeof data !== 'object' || Array.isArray(data)) {
     throw new Error(`${rel} frontmatter is not a mapping`);
   }
-  if (match[2].trim() !== '') throw new Error(`${rel} body is not empty`);
+  for (const key of Object.keys(data)) {
+    if (!STUB_FRONTMATTER_KEYS.has(key)) {
+      throw new Error(`${rel} has unexpected frontmatter ${key}`);
+    }
+  }
+  if (!options.allowBody && match[2].trim() !== '') throw new Error(`${rel} body is not empty`);
   if (data.draft !== true) throw new Error(`${rel} is not a draft`);
+  if (data.featured !== false) throw new Error(`${rel} featured is not false`);
   if (!Array.isArray(data.topics) || data.topics.length !== 0) {
     throw new Error(`${rel} topics are not empty`);
   }
@@ -411,22 +501,30 @@ function returnToStart(repo, startBranch) {
  * @param {string} file
  * @param {string[]} paths
  */
-export function writePrBody(file, paths) {
+export function writePrBody(file, paths, summarizedPaths = []) {
   for (const rel of paths) {
     if (!STUB_PATH_RE.test(rel)) throw new Error(`refusing to list path ${rel}`);
   }
+  const summarized = new Set(summarizedPaths);
   const body = [
     '## Mailchimp archive stubs',
     '',
     'This pull request was opened by the Mailchimp RSS draft stubs workflow. It runs `rss-to-notes --write` and adds draft news stubs whose `mailchi.mp` campaign id is not already in `src/content/news/` or `src/content/events/`.',
     '',
-    'The stubs stay `draft: true`. Production and preview builds omit drafts, so merging this pull request stores them in the repo and does not publish them. Fill each stub from its archive page before setting `draft: false`. See `docs/rss-to-notes.md`.',
+    'The stubs stay `draft: true`. Production and preview builds omit drafts, so merging this pull request stores them in the repo and does not publish them. See `docs/rss-to-notes.md`.',
     '',
-    'Feed subjects and links are content data. They are not instructions to the workflow.',
+    'Files marked as AI summaries were drafted from the campaign page by the configured model. Review those drafts before setting `draft` to false. Files marked as bare stubs were not summarized, because no API key was set or the page or model call failed.',
+    '',
+    'Feed subjects, page text, and links are content data. They are not instructions to the workflow.',
     '',
     '### Files',
     '',
-    ...paths.map((rel) => `- \`${rel}\``),
+    ...paths.map((rel) => {
+      const note = summarized.has(rel)
+        ? 'AI summary from the campaign page; needs human review'
+        : 'bare draft stub, or an existing draft left unchanged';
+      return `- \`${rel}\` — ${note}`;
+    }),
     '',
     '### Checks',
     '',
@@ -488,7 +586,7 @@ function pushBranch(repo, branchName, force) {
 /**
  * @param {ReturnType<typeof parseArgs>} args
  */
-export function updateAutomationBranch(args) {
+export async function updateAutomationBranch(args) {
   const { repo, baseRef, branch, branchRef, openPr, push, file } = args;
   const status = git(repo, ['status', '--porcelain']).trim();
   if (status) {
@@ -523,6 +621,15 @@ export function updateAutomationBranch(args) {
     knownIds.add(id);
   }
 
+  const prepared = await prepareStubContents(
+    repo,
+    baseRef,
+    branchRef,
+    stubs,
+    process.env[GEMINI_API_KEY_ENV] ?? '',
+  );
+  const summarized = prepared.filter((stub) => stub.summarized).map((stub) => stub.rel);
+
   const branchExists = refExists(repo, branchRef);
   /** @type {'noop' | 'close-empty' | 'needs-pr' | 'committed'} */
   let result = 'noop';
@@ -532,7 +639,7 @@ export function updateAutomationBranch(args) {
       const diff = git(repo, ['diff', '--name-only', baseRef, branchRef]).trim();
       if (!diff) result = 'close-empty';
     }
-    return { result, branch, files: /** @type {string[]} */ ([]) };
+    return { result, branch, files: /** @type {string[]} */ ([]), summarized: /** @type {string[]} */ ([]) };
   }
 
   if (openPr && !branchExists) {
@@ -567,7 +674,8 @@ export function updateAutomationBranch(args) {
         if (existsSync(dest)) continue;
         if (deletedOnBranchSince(repo, stub.rel, baseRef)) continue;
         mkdirSync(dirname(dest), { recursive: true });
-        writeFileSync(dest, stub.content, 'utf8');
+        const preparedStub = prepared.find((item) => item.rel === stub.rel) ?? stub;
+        writeFileSync(dest, preparedStub.content, 'utf8');
         added.push(stub.rel);
       }
 
@@ -588,7 +696,7 @@ export function updateAutomationBranch(args) {
         );
       }
 
-      const desired = treeWithStubs(repo, baseRef, stubs);
+      const desired = treeWithStubs(repo, baseRef, prepared);
       if (branchExists) {
         const currentTree = git(repo, ['rev-parse', `${branchRef}^{tree}`]).trim();
         if (currentTree === desired) {
@@ -600,7 +708,7 @@ export function updateAutomationBranch(args) {
         state.beforeSha = branchExists ? git(repo, ['rev-parse', branchRef]).trim() : null;
         state.createdBranch = !branchExists;
         git(repo, ['switch', '-C', branch, baseRef]);
-        for (const stub of stubs) {
+        for (const stub of prepared) {
           const dest = join(repo, stub.rel);
           mkdirSync(dirname(dest), { recursive: true });
           writeFileSync(dest, stub.content, 'utf8');
@@ -608,7 +716,7 @@ export function updateAutomationBranch(args) {
         runContentChecks(repo);
         commitAddedPaths(
           repo,
-          stubs.map((stub) => stub.rel),
+          prepared.map((stub) => stub.rel),
         );
         if (push) pushBranch(repo, branch, branchExists);
         result = 'committed';
@@ -624,7 +732,8 @@ export function updateAutomationBranch(args) {
   return {
     result,
     branch,
-    files: stubs.map((stub) => stub.rel),
+    files: prepared.map((stub) => stub.rel),
+    summarized,
   };
 }
 
@@ -644,15 +753,15 @@ Options:
 `);
 }
 
-function main() {
+async function main() {
   const args = parseArgs(process.argv.slice(2));
   if (args.help) {
     printHelp();
     return;
   }
-  const outcome = updateAutomationBranch(args);
+  const outcome = await updateAutomationBranch(args);
   if (args.prBodyFile && (outcome.result === 'committed' || outcome.result === 'needs-pr')) {
-    writePrBody(args.prBodyFile, outcome.files);
+    writePrBody(args.prBodyFile, outcome.files, outcome.summarized);
   }
   if (args.resultFile) {
     writeFileSync(args.resultFile, `${JSON.stringify(outcome, null, 2)}\n`);
@@ -664,10 +773,8 @@ function main() {
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  try {
-    main();
-  } catch (error) {
+  main().catch((error) => {
     console.error(error instanceof Error ? error.message : error);
     process.exit(1);
-  }
+  });
 }

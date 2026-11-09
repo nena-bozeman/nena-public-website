@@ -93,9 +93,12 @@ async function listRemoteEvents(calendar, calendarId) {
   let pageToken;
 
   do {
+    // The client types privateExtendedProperty as a repeated query parameter.
+    // One entry is the same filter as a single string and matches the Promise overload,
+    // so await unwraps the response instead of a failed overload (ts 80007).
     const response = await calendar.events.list({
       calendarId,
-      privateExtendedProperty: `${NENA_EXTENDED.source}=${NENA_SOURCE}`,
+      privateExtendedProperty: [`${NENA_EXTENDED.source}=${NENA_SOURCE}`],
       singleEvents: true,
       maxResults: 250,
       pageToken,

@@ -95,7 +95,7 @@ function runBranch(repo, parent, args, env = {}) {
     execFileSync(process.execPath, [script, '--repo', repo, '--base-ref', 'main', '--result-file', resultFile, ...args], {
       cwd: repo,
       encoding: 'utf8',
-      env: { ...process.env, ...env },
+      env: { ...process.env, GEMINI_API_KEY: '', ...env },
     });
   } catch (error) {
     const failure = new Error(`${error.stderr ?? ''}\n${error.stdout ?? ''}`);
