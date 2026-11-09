@@ -10,7 +10,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { findNewNewsStubs } from './rss-stubs-branch.mjs';
+import { findNewNewsStubs, writePrBody } from './rss-stubs-branch.mjs';
 
 const script = fileURLToPath(new URL('./rss-stubs-branch.mjs', import.meta.url));
 
@@ -95,7 +95,7 @@ function runBranch(repo, parent, args, env = {}) {
     execFileSync(process.execPath, [script, '--repo', repo, '--base-ref', 'main', '--result-file', resultFile, ...args], {
       cwd: repo,
       encoding: 'utf8',
-      env: { ...process.env, ...env },
+      env: { ...process.env, GEMINI_API_KEY: '', ...env },
     });
   } catch (error) {
     const failure = new Error(`${error.stderr ?? ''}\n${error.stdout ?? ''}`);
@@ -104,6 +104,31 @@ function runBranch(repo, parent, args, env = {}) {
   }
   return JSON.parse(readFileSync(resultFile, 'utf8'));
 }
+
+test('review body says merging publishes events and lists when and where', () => {
+  const parent = mkdtempSync(join(tmpdir(), 'rss-pr-body-'));
+  const bodyFile = join(parent, 'body.md');
+  writePrBody(
+    bodyFile,
+    ['src/content/news/2026-08-04-neighborhood-potluck.md'],
+    ['src/content/news/2026-08-04-neighborhood-potluck.md'],
+    [{
+      path: 'src/content/events/2026-12-01-planning-meeting.md',
+      title: 'Planning meeting',
+      start: '2026-12-01T16:30:00',
+      end: '2026-12-01T18:00:00',
+      location: '702 E. Peach',
+      sourceUrl: 'https://mailchi.mp/bbbbbbbbbbbbbbbb/neighborhood-potluck',
+    }],
+    [],
+  );
+  const body = readFileSync(bodyFile, 'utf8');
+  assert.match(body, /Merging this pull request publishes them on the site/);
+  assert.match(body, /syncs them to Google Calendar/);
+  assert.match(body, /News files stay `draft: true`/);
+  assert.match(body, /Planning meeting — 2026-12-01, 4:30 p\.m\.–6 p\.m\. at 702 E\. Peach/);
+  assert.match(body, /https:\/\/mailchi\.mp\/bbbbbbbbbbbbbbbb\/neighborhood-potluck/);
+});
 
 test('findNewNewsStubs rejects modifications and deletions', () => {
   const parent = mkdtempSync(join(tmpdir(), 'rss-diff-'));

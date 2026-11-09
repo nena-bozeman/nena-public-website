@@ -83,14 +83,46 @@ Actions → **Mailchimp RSS draft stubs** → **Run workflow**, from the **defau
 - If that branch has non-automation commits and the pull request is closed, the job fails instead of force-pushing. Reopen the pull request or delete the branch.
 - A closed pull request whose commits are only from this workflow can be replaced from the default branch when stubs are still missing there. The replacement uses `git push --force-with-lease`.
 - Import failures (HTTP error, empty body, non-RSS response, a stub that fails validation) stop before any push.
-- Stubs stay `draft: true`. Production and preview builds omit drafts, so merging the review pull request stores them and does not publish them.
+- News stubs stay `draft: true`. Production and preview builds omit those posts, so merging the review pull request stores them and does not publish the news. Event files from the same run are published: merging puts them on the site, and the production deploy syncs them to Google Calendar.
 
 `pnpm run check` (content references and `astro check`) runs in the workflow before it pushes. Feed subjects and links are written only as frontmatter fields.
+
+### Campaign summaries
+
+When repository secret **`GEMINI_API_KEY`** is set, each **new** stub is filled from its campaign page before the first commit that adds that file. A later run does not call the model again for a path already on `automation/mailchimp-rss-stubs`, and it does not call the model for a stub someone removed from that open pull request.
+
+1. The workflow downloads the public archive page and keeps the readable text. Unsubscribe, preference, share, and tracking lines are dropped. At most 8,000 characters of that text are sent.
+2. It calls Google Gemini model **`gemini-2.5-flash-lite`** at `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent`. The page is data, inside a delimiter, with a prompt that says to ignore instructions in the newsletter. Output is capped at 512 tokens, and `thinkingBudget` is 0.
+3. The script writes the front matter itself: RSS title and date, `draft: true`, empty topics and tags, and the original `mailchimpArchiveUrl`. The model cannot add or change those fields. A link in the body must already appear on the page.
+4. The review pull request marks files summarized on that run as AI summaries that need a person to read them.
+5. A second model call looks for gatherings. It can add zero, one, or several event files when the page states a date and a clock time, the model marks the item high confidence, and the location appears in the page. Past gatherings, duplicates of events already in `src/content/events`, low-confidence items, and replies without an explicit time are listed in the pull request and not added. The news draft links the new events. Those event files are ordinary published events: merging the review pull request puts them on the site, and the production deploy then syncs them to Google Calendar. They are not on `main` until that merge, so they are not in production or on the calendar before then. News files stay `draft: true`, so merging does not publish the news post.
+
+If the secret is missing, the page cannot be read, or the model reply is unusable, that file stays a bare stub and the run continues. Files already on the automation branch are not rewritten. To summarize a bare stub that is already on the open pull request, delete that file from the branch and run the workflow again.
+
+#### Add `GEMINI_API_KEY`
+
+This change does not create the secret.
+
+1. Open [Google AI Studio API keys](https://aistudio.google.com/apikey) and sign in.
+2. Create an API key. Leave billing unlinked if you want the free tier below.
+3. In this repository, open **Settings → Secrets and variables → Actions → New repository secret**.
+4. Name the secret exactly `GEMINI_API_KEY`. Paste the AI Studio key as the value. Do not commit the key or put it in the workflow file.
+
+#### Price
+
+Numbers below are copied from [Gemini Developer API pricing](https://ai.google.dev/gemini-api/docs/pricing), which says it was last updated 2026-10-30 UTC. They are the **Standard** rows for `gemini-2.5-flash-lite` (“A small and cost effective model, built for at scale usage”). This workflow does not enable Search grounding or Maps grounding.
+
+| | Free tier | Paid tier, per 1M tokens |
+| --- | --- | --- |
+| Input (text, image, video) | Free of charge | $0.10 text / image / video, $0.30 audio |
+| Output, including thinking tokens | Free of charge | $0.40 |
+
+On that same table, **Used to improve our products** is **Yes** for the free tier and **No** for the paid tier. A note on the page also says Google AI Studio usage is free of charge in all available regions. The page does not list a separate per-request dollar fee for this model.
 
 ### One-time setup
 
 1. In the repository, open **Settings → Actions → General → Workflow permissions** and enable **Allow GitHub Actions to create and approve pull requests**. `GITHUB_TOKEN` cannot open the review pull request until this is on. This workflow never approves or merges a pull request. It does not change this setting.
-2. No new secret. The archive feed is public. Do not add a Mailchimp API key for this job.
+2. Optional secret **`GEMINI_API_KEY`**, from Google AI Studio, if new stubs should be summarized. The archive feed itself is public. Do not add a Mailchimp API key. Setup is under [Campaign summaries](#campaign-summaries).
 3. The workflow asks for `contents: write` and `pull-requests: write` for `GITHUB_TOKEN`. If an organization policy blocks those permissions, an owner has to allow them. This repository change does not edit organization or repository settings.
 4. Events created by `GITHUB_TOKEN` do not start other workflows. Opening or pushing this review pull request does **not** run [ci.yml](../.github/workflows/ci.yml) or [preview.yml](../.github/workflows/preview.yml). A person pushing a commit onto the branch will. A PAT or GitHub App token is not set up here; add one only if those workflows must start on their own, and store it with the repository's existing Actions secret process.
 

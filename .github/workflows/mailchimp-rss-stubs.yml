@@ -69,6 +69,8 @@ jobs:
         id: import
         env:
           GH_TOKEN: ${{ github.token }}
+          # Empty when the secret is not set. The job still opens a PR of bare stubs.
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           set -euo pipefail
           node scripts/rss-stubs-branch.mjs \
