@@ -11,7 +11,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { findNewNewsStubs, writePrBody } from './rss-stubs-branch.mjs';
+import { findNewNewsStubs, formatImportSummary, writePrBody } from './rss-stubs-branch.mjs';
 
 const script = fileURLToPath(new URL('./rss-stubs-branch.mjs', import.meta.url));
 
@@ -126,9 +126,38 @@ test('review body says merging publishes events and lists when and where', () =>
   const body = readFileSync(bodyFile, 'utf8');
   assert.match(body, /Merging this pull request publishes them on the site/);
   assert.match(body, /syncs them to Google Calendar/);
-  assert.match(body, /News files stay `draft: true`/);
+  assert.match(body, /Summarized news posts use `draft: false`/);
+  assert.match(body, /Bare stubs stay `draft: true`/);
+  assert.match(body, /Published on merge \(`draft: false`\)/);
   assert.match(body, /Planning meeting — 2026-12-01, 4:30 p\.m\.–6 p\.m\. at 702 E\. Peach/);
   assert.match(body, /https:\/\/mailchi\.mp\/bbbbbbbbbbbbbbbb\/neighborhood-potluck/);
+  writePrBody(
+    bodyFile,
+    ['src/content/news/2026-10-13-parade-of-sheds-this-sunday.md'],
+    [],
+    [],
+    [],
+    [{ path: 'src/content/news/2026-10-13-parade-of-sheds-this-sunday.md', reason: 'model-failed: model HTTP 503' }],
+    [{ path: 'src/content/news/2026-10-13-parade-of-sheds-this-sunday.md', count: 4 }],
+  );
+  const retried = readFileSync(bodyFile, 'utf8');
+  assert.match(retried, /4 Gemini retries/);
+  assert.match(retried, /Draft only, not published/);
+  const summary = formatImportSummary({
+    model: 'gemini-3.5-flash-lite',
+    dryRun: false,
+    prepared: [{
+      rel: 'src/content/news/2026-10-13-parade-of-sheds-this-sunday.md',
+      content: '',
+      summarized: false,
+      fallbackReason: 'model-failed: model HTTP 503',
+      retries: 4,
+      eventFiles: [],
+    }],
+    skippedEvents: [],
+  });
+  assert.match(summary, /Gemini retries: 4/);
+  assert.match(summary, /Draft only, not published/);
 });
 
 test('review body names why a stub stayed bare', () => {
@@ -146,7 +175,7 @@ test('review body names why a stub stayed bare', () => {
     }],
   );
   const body = readFileSync(bodyFile, 'utf8');
-  assert.match(body, /bare stub — fetch-failed: campaign page HTTP 503/);
+  assert.match(body, /Draft only, not published \(`draft: true`\) — fetch-failed: campaign page HTTP 503/);
 });
 
 test('findNewNewsStubs rejects modifications and deletions', () => {

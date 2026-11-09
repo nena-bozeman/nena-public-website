@@ -251,6 +251,12 @@ export async function extractCampaignEvents(options) {
       userText,
       fetchImpl: options.fetchImpl,
       maxOutputTokens: EVENT_MAX_OUTPUT_TOKENS,
+      retry: options.retry,
+      sleep: options.sleep,
+      random: options.random,
+      onRetry: options.onRetry,
+      retries: options.retries,
+      fallbackModel: options.fallbackModel,
     });
   } catch (error) {
     return { create: [], skipped: [{ title: '', reason: publicFailureReason('model-failed', error) }] };

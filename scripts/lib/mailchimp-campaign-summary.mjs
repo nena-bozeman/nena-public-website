@@ -209,7 +209,10 @@ export function readStubFields(markdown) {
 }
 
 /**
- * @param {{ title: string, date: string, archiveUrl: string, summary: string, body: string }} fields
+ * Published posts use `draft: false`, the same field other news files write.
+ * Pass `draft: true` only for a bare stub that should stay unpublished.
+ *
+ * @param {{ title: string, date: string, archiveUrl: string, summary: string, body: string, draft?: boolean, eventSlugs?: string[] }} fields
  */
 export function renderDraft(fields) {
   const frontmatter = {
@@ -217,7 +220,7 @@ export function renderDraft(fields) {
     date: fields.date,
     summary: fields.summary,
     featured: false,
-    draft: true,
+    draft: fields.draft === true,
     tags: [],
     topics: [],
     ...(fields.eventSlugs?.length ? { events: fields.eventSlugs } : {}),
@@ -270,6 +273,12 @@ export async function completeSummary(options) {
     userText: options.request.userText,
     fetchImpl: options.fetchImpl,
     maxOutputTokens: GEMINI_MAX_OUTPUT_TOKENS,
+    retry: options.retry,
+    sleep: options.sleep,
+    random: options.random,
+    onRetry: options.onRetry,
+    retries: options.retries,
+    fallbackModel: options.fallbackModel,
   });
 }
 
@@ -312,7 +321,17 @@ export async function enrichDraftMarkdown(markdown, options = {}) {
   let raw;
   try {
     const complete = options.complete ?? completeSummary;
-    raw = await complete({ apiKey, request, fetchImpl });
+    raw = await complete({
+      apiKey,
+      request,
+      fetchImpl,
+      retry: options.retry,
+      sleep: options.sleep,
+      random: options.random,
+      onRetry: options.onRetry,
+      retries: options.retries,
+      fallbackModel: options.fallbackModel,
+    });
   } catch (error) {
     return {
       markdown,
@@ -333,6 +352,7 @@ export async function enrichDraftMarkdown(markdown, options = {}) {
       archiveUrl: fields.archiveUrl,
       summary: summary.summary,
       body: summary.body,
+      draft: false,
     }),
     summarized: true,
     reason: 'summarized',

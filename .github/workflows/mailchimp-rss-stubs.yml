@@ -34,7 +34,9 @@ concurrency:
 jobs:
   import:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # A campaign can make two generateContent calls. Five attempts wait about
+    # five minutes per call, and a 503 can then try the fallback model.
+    timeout-minutes: 120
     steps:
       - name: Require the default branch
         if: ${{ !(github.event_name == 'workflow_dispatch' && (inputs.dry_run == true || inputs.dry_run == 'true')) }}
@@ -83,6 +85,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           # Empty when the variable is not set. The script then uses its default model.
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+          GEMINI_FALLBACK_MODEL: ${{ vars.GEMINI_FALLBACK_MODEL }}
         run: |
           set -euo pipefail
           git fetch origin "${{ github.event.repository.default_branch }}"
@@ -130,6 +133,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+          GEMINI_FALLBACK_MODEL: ${{ vars.GEMINI_FALLBACK_MODEL }}
         run: |
           set -euo pipefail
           node scripts/rss-stubs-branch.mjs \
