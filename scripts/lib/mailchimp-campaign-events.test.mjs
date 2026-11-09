@@ -138,3 +138,18 @@ test('a past event is skipped', () => {
   assert.equal(result.create.length, 0);
   assert.equal(result.skipped[0].reason, 'past');
 });
+
+test('a failed event call keeps the model id and API message', async () => {
+  const result = await extractCampaignEvents({
+    newsletterText: SOURCE,
+    archiveUrl: ARCHIVE,
+    newsSlug: NEWS,
+    now: NOW,
+    apiKey: 'test',
+    complete: async () => {
+      throw new Error('model HTTP 404 (gemini-3.5-flash-lite): models/gemini-3.5-flash-lite is not found');
+    },
+  });
+  assert.equal(result.create.length, 0);
+  assert.match(result.skipped[0].reason, /model-failed: model HTTP 404 \(gemini-3\.5-flash-lite\): models\/gemini-3\.5-flash-lite is not found/);
+});

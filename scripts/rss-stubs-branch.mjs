@@ -5,6 +5,7 @@
  *
  * The Mailchimp feed is data: this script never evaluates titles or HTML.
  * It does not push unless `--push` is set, and it does not call `gh`.
+ * `--dry-run` never commits or pushes, even if `--push` is also set.
  * The workflow opens or updates the review pull request.
  *
  * Usage:
@@ -19,6 +20,7 @@
 
 import { execFileSync } from 'node:child_process';
 import {
+  appendFileSync,
   cpSync,
   existsSync,
   mkdirSync,
@@ -33,6 +35,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import yaml from 'js-yaml';
+import { resolveGeminiModel } from './lib/gemini-summary.mjs';
 import { extractCampaignEvents } from './lib/mailchimp-campaign-events.mjs';
 import {
   enrichDraftMarkdown,
@@ -745,6 +748,7 @@ function parseArgs(argv) {
     file: '',
     resultFile: '',
     prBodyFile: '',
+    dryRun: false,
     help: false,
   };
   for (let i = 0; i < argv.length; i++) {
@@ -756,6 +760,7 @@ function parseArgs(argv) {
     else if (arg === '--branch-ref') out.branchRef = argv[++i] || '';
     else if (arg === '--open-pr') out.openPr = (argv[++i] || '') !== 'false';
     else if (arg === '--push') out.push = true;
+    else if (arg === '--dry-run') out.dryRun = true;
     else if (arg === '--file') out.file = argv[++i] || '';
     else if (arg === '--result-file') out.resultFile = argv[++i] || '';
     else if (arg === '--pr-body-file') out.prBodyFile = argv[++i] || '';
@@ -779,6 +784,170 @@ function pushBranch(repo, branchName, force) {
 }
 
 /**
+ * Copy `src/content` from a git ref into a temp directory. The working tree
+ * stays untouched, so a dry run can import against the default branch while
+ * the checkout is the branch under test.
+ *
+ * @param {string} repo
+ * @param {string} baseRef
+ */
+function contentSnapshot(repo, baseRef) {
+  const root = mkdtempSync(join(tmpdir(), 'rss-stubs-base-'));
+  let archive;
+  try {
+    archive = execFileSync('git', ['archive', baseRef, 'src/content'], { cwd: repo });
+  } catch (error) {
+    rmSync(root, { recursive: true, force: true });
+    const detail = error && typeof error === 'object' && 'stderr' in error ? String(error.stderr ?? '') : '';
+    throw new Error(`Could not read src/content from ${baseRef}.${detail ? ` ${detail.trim()}` : ''}`);
+  }
+  execFileSync('tar', ['-x', '-C', root], { input: archive });
+  return root;
+}
+
+/**
+ * @param {{
+ *   model: string,
+ *   prepared: { rel: string, content: string, summarized: boolean, fallbackReason?: string, eventFiles?: { rel: string, title: string, start: string, end?: string, location: string, sourceUrl: string, content: string }[] }[],
+ *   skippedEvents: { title: string, reason: string, sourceUrl: string }[],
+ * }} report
+ */
+export function formatDryRunReport(report) {
+  /** @type {string[]} */
+  const lines = [
+    '## Mailchimp RSS dry run',
+    '',
+    `Model: \`${report.model}\``,
+    '',
+    'This run did not commit, push, or open a pull request. `automation/mailchimp-rss-stubs` was not changed.',
+    '',
+  ];
+  if (report.prepared.length === 0) {
+    lines.push('No new campaign stubs.');
+    lines.push('');
+  }
+  for (const stub of report.prepared) {
+    lines.push(`### \`${stub.rel}\``);
+    lines.push('');
+    if (stub.summarized) {
+      const fields = readStubFields(stub.content);
+      const match = stub.content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+      const data = match ? yaml.load(match[1]) : {};
+      const summary = data && typeof data.summary === 'string' ? data.summary : '';
+      lines.push(summary);
+      lines.push('');
+      lines.push(fields?.body?.trim() || '');
+    } else {
+      lines.push(`Bare stub — ${stub.fallbackReason || 'not summarized'}`);
+    }
+    lines.push('');
+    const events = stub.eventFiles ?? [];
+    if (events.length === 0) {
+      lines.push('No events extracted from this campaign.');
+    } else {
+      for (const eventFile of events) {
+        const when = formatEventWhen(eventFile.start, eventFile.end);
+        const where = String(eventFile.location ?? '').replace(/[`\r\n]/g, ' ');
+        lines.push(`- ${eventFile.title} — ${when} at ${where}. Source: ${eventFile.sourceUrl} (\`${eventFile.rel}\`)`);
+        lines.push('');
+        lines.push(eventFile.content.trim());
+        lines.push('');
+      }
+    }
+    lines.push('');
+  }
+  if (report.skippedEvents.length > 0) {
+    lines.push('### Skipped extractions');
+    lines.push('');
+    for (const skip of report.skippedEvents) {
+      const title = String(skip.title || 'untitled').replace(/[`\r\n]/g, ' ');
+      lines.push(`- ${title} — ${skip.reason}. Source: ${skip.sourceUrl}`);
+    }
+    lines.push('');
+  }
+  return `${lines.join('\n')}\n`;
+}
+
+/**
+ * Import and summarize against `baseRef` content. Never switches branches,
+ * commits, or pushes, including when `--push` is also set.
+ *
+ * @param {ReturnType<typeof parseArgs>} args
+ */
+export async function dryRunSummaries(args) {
+  const { repo, baseRef, file } = args;
+  if (!refExists(repo, baseRef)) {
+    throw new Error(`Base ref not found: ${baseRef}`);
+  }
+  const model = resolveGeminiModel();
+  console.error(`rss-stubs-branch: dry run, Gemini model ${model}`);
+  const snapshot = contentSnapshot(repo, baseRef);
+  const descriptionsPath = join(tmpdir(), `rss-descriptions-dry-${process.pid}-${Date.now()}.json`);
+  try {
+    const importedRoot = importIntoCopy(snapshot, file, descriptionsPath);
+    /** @type {{ rel: string, content: string }[]} */
+    let stubs;
+    /** @type {Map<string, string>} */
+    let htmlByCampaignId = new Map();
+    try {
+      stubs = findNewNewsStubs(snapshot, importedRoot);
+      if (existsSync(descriptionsPath)) {
+        const parsed = JSON.parse(readFileSync(descriptionsPath, 'utf8'));
+        htmlByCampaignId = new Map(Object.entries(parsed));
+      }
+    } finally {
+      rmSync(importedRoot, { recursive: true, force: true });
+    }
+
+    const knownIds = knownCampaignIds(snapshot);
+    /** @type {Set<string>} */
+    const seenIds = new Set();
+    for (const stub of stubs) {
+      const id = assertDraftStub(stub.rel, stub.content, knownIds);
+      if (seenIds.has(id)) throw new Error(`Duplicate campaign id in import: ${id}`);
+      seenIds.add(id);
+      knownIds.add(id);
+    }
+
+    const { prepared, skippedEvents } = await prepareStubContents(
+      snapshot,
+      baseRef,
+      'refs/dry-run/none',
+      stubs,
+      process.env[GEMINI_API_KEY_ENV] ?? '',
+      htmlByCampaignId,
+    );
+    const report = formatDryRunReport({ model, prepared, skippedEvents });
+    if (process.env.GITHUB_STEP_SUMMARY) {
+      appendFileSync(process.env.GITHUB_STEP_SUMMARY, report);
+    }
+    process.stdout.write(report);
+    const createdEvents = prepared.flatMap((stub) => stub.eventFiles ?? []);
+    return {
+      result: 'dry-run',
+      branch: '',
+      files: prepared.map((stub) => stub.rel),
+      summarized: prepared.filter((stub) => stub.summarized).map((stub) => stub.rel),
+      events: createdEvents.map((eventFile) => ({
+        path: eventFile.rel,
+        title: eventFile.title,
+        start: eventFile.start,
+        end: eventFile.end,
+        location: eventFile.location,
+        sourceUrl: eventFile.sourceUrl,
+      })),
+      skippedEvents,
+      fallbacks: prepared
+        .filter((stub) => !stub.summarized && stub.fallbackReason)
+        .map((stub) => ({ path: stub.rel, reason: stub.fallbackReason })),
+    };
+  } finally {
+    rmSync(snapshot, { recursive: true, force: true });
+    rmSync(descriptionsPath, { force: true });
+  }
+}
+
+/**
  * @param {ReturnType<typeof parseArgs>} args
  */
 export async function updateAutomationBranch(args) {
@@ -795,6 +964,7 @@ export async function updateAutomationBranch(args) {
   if (head !== baseSha) {
     throw new Error(`Checkout HEAD is not ${baseRef}. Refusing to import from another branch.`);
   }
+  console.error(`rss-stubs-branch: Gemini model ${resolveGeminiModel()}`);
 
   const startBranch = git(repo, ['rev-parse', '--abbrev-ref', 'HEAD']).trim();
   const descriptionsPath = join(tmpdir(), `rss-descriptions-${process.pid}.json`);
@@ -986,6 +1156,7 @@ Options:
   --branch-ref <ref>    Existing tip (default: --branch)
   --open-pr <true|false>
   --push                Push the automation branch to origin
+  --dry-run             Print summaries and events. Do not commit, push, or open a pull request.
   --file <path>         Read RSS from a file instead of the network
   --result-file <path>  Write JSON { result, branch, files }
   --pr-body-file <path> Write the review pull request body
@@ -998,7 +1169,7 @@ async function main() {
     printHelp();
     return;
   }
-  const outcome = await updateAutomationBranch(args);
+  const outcome = args.dryRun ? await dryRunSummaries(args) : await updateAutomationBranch(args);
   if (args.prBodyFile && (outcome.result === 'committed' || outcome.result === 'needs-pr')) {
     writePrBody(
       args.prBodyFile,

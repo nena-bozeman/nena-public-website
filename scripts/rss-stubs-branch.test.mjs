@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import {
+  existsSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
@@ -374,4 +375,28 @@ test('merging the default branch into an open review branch stops on conflict', 
   assert.doesNotMatch(git(repo, ['status']).trim(), /Unmerged|merging/i);
   git(repo, ['switch', 'automation/mailchimp-rss-stubs']);
   assert.match(readFileSync(join(repo, 'src/content/news/2026-01-01-existing.md'), 'utf8'), /Branch edit\./);
+});
+
+test('dry run prints the stub and does not create the automation branch', () => {
+  const { parent, repo } = initRepo();
+  const feed = writeFeed(parent, [KNOWN_ITEM, POTLUCK]);
+  git(repo, ['switch', '-c', 'feature']);
+  const summary = join(parent, 'summary.md');
+  const outcome = runBranch(
+    repo,
+    parent,
+    ['--dry-run', '--push', '--file', feed],
+    { GITHUB_STEP_SUMMARY: summary },
+  );
+  assert.equal(outcome.result, 'dry-run');
+  const report = readFileSync(summary, 'utf8');
+  assert.match(report, /Mailchimp RSS dry run/);
+  assert.match(report, /did not commit, push, or open a pull request/);
+  assert.match(report, /automation\/mailchimp-rss-stubs` was not changed/);
+  assert.match(report, /src\/content\/news\/2026-08-04-neighborhood-potluck\.md/);
+  assert.match(report, /no-api-key/);
+  assert.equal(git(repo, ['branch', '--list', 'automation/mailchimp-rss-stubs']).trim(), '');
+  assert.equal(git(repo, ['rev-parse', '--abbrev-ref', 'HEAD']).trim(), 'feature');
+  assert.equal(git(repo, ['status', '--porcelain']).trim(), '');
+  assert.equal(existsSync(join(repo, POTLUCK_PATH)), false);
 });

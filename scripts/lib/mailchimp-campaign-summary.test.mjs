@@ -1,7 +1,13 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import yaml from 'js-yaml';
-import { completeGeminiSummary, GEMINI_MAX_OUTPUT_TOKENS, GEMINI_MODEL } from './gemini-summary.mjs';
+import {
+  completeGeminiSummary,
+  DEFAULT_GEMINI_MODEL,
+  GEMINI_MAX_OUTPUT_TOKENS,
+  GEMINI_MODEL,
+  resolveGeminiModel,
+} from './gemini-summary.mjs';
 import {
   MAX_NEWSLETTER_CHARS,
   buildSummaryRequest,
@@ -147,7 +153,7 @@ test('a failed model call falls back to the bare stub', async () => {
   };
   const result = await enrichDraftMarkdown(BARE_STUB, { apiKey: 'test-key', fetchImpl });
   assert.equal(result.summarized, false);
-  assert.match(result.reason, /^model-failed: model HTTP 503$/);
+  assert.match(result.reason, /^model-failed: model HTTP 503 \(gemini-3\.5-flash-lite\): nope$/);
   assert.equal(result.markdown, BARE_STUB);
 });
 
@@ -220,6 +226,8 @@ test('newsletter text sent to the model is capped', () => {
 });
 
 test('Gemini request caps output tokens and does not put the key in the URL', async () => {
+  const previous = process.env.GEMINI_MODEL;
+  delete process.env.GEMINI_MODEL;
   /** @type {string | undefined} */
   let calledUrl;
   /** @type {Record<string, string> | undefined} */
@@ -235,19 +243,64 @@ test('Gemini request caps output tokens and does not put the key in the URL', as
       body: 'Meet at 702 E. Peach on Thursday, August 6, at 4:30 p.m.',
     });
   };
-  const text = await completeGeminiSummary({
-    apiKey: 'secret-key',
-    systemPrompt: 'system',
-    userText: 'user',
-    fetchImpl,
-  });
-  assert.match(text, /702 E\. Peach/);
-  assert.equal(calledUrl?.includes('secret-key'), false);
-  assert.equal(calledUrl, `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`);
-  assert.equal(headers?.['x-goog-api-key'], 'secret-key');
-  assert.equal(body.generationConfig.maxOutputTokens, GEMINI_MAX_OUTPUT_TOKENS);
-  assert.equal(body.generationConfig.thinkingConfig.thinkingBudget, 0);
-  assert.equal(body.generationConfig.responseMimeType, 'application/json');
+  try {
+    const text = await completeGeminiSummary({
+      apiKey: 'secret-key',
+      systemPrompt: 'system',
+      userText: 'user',
+      fetchImpl,
+    });
+    assert.match(text, /702 E\. Peach/);
+    assert.equal(calledUrl?.includes('secret-key'), false);
+    assert.equal(GEMINI_MODEL, DEFAULT_GEMINI_MODEL);
+    assert.equal(calledUrl, `https://generativelanguage.googleapis.com/v1beta/models/${DEFAULT_GEMINI_MODEL}:generateContent`);
+    assert.equal(headers?.['x-goog-api-key'], 'secret-key');
+    assert.equal(body.generationConfig.maxOutputTokens, GEMINI_MAX_OUTPUT_TOKENS);
+    assert.equal(body.generationConfig.thinkingConfig.thinkingLevel, 'MINIMAL');
+    assert.equal(body.generationConfig.thinkingConfig.thinkingBudget, undefined);
+    assert.equal(body.generationConfig.responseMimeType, 'application/json');
+  } finally {
+    if (previous == null) delete process.env.GEMINI_MODEL;
+    else process.env.GEMINI_MODEL = previous;
+  }
+});
+
+test('GEMINI_MODEL overrides the default and a 404 keeps the API message without the key', async () => {
+  const previous = process.env.GEMINI_MODEL;
+  process.env.GEMINI_MODEL = 'gemini-2.5-flash-lite';
+  /** @type {string | undefined} */
+  let calledUrl;
+  /** @type {any} */
+  let body;
+  const fetchImpl = async (url, init) => {
+    calledUrl = String(url);
+    body = JSON.parse(init.body);
+    return new Response(JSON.stringify({
+      error: {
+        message: 'models/gemini-2.5-flash-lite is not found for AIzaSySECRETSECRETSECRET',
+      },
+    }), { status: 404 });
+  };
+  try {
+    assert.equal(resolveGeminiModel(''), DEFAULT_GEMINI_MODEL);
+    assert.equal(resolveGeminiModel('  '), DEFAULT_GEMINI_MODEL);
+    await completeGeminiSummary({
+      apiKey: 'AIzaSySECRETSECRETSECRET',
+      systemPrompt: 'system',
+      userText: 'user',
+      fetchImpl,
+    });
+    assert.fail('expected the 404 to throw');
+  } catch (error) {
+    assert.equal(calledUrl, 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent');
+    assert.equal(body.generationConfig.thinkingConfig.thinkingBudget, 0);
+    assert.match(error.message, /model HTTP 404 \(gemini-2\.5-flash-lite\): models\/gemini-2\.5-flash-lite is not found/);
+    assert.equal(String(error.message).includes('AIzaSySECRET'), false);
+    assert.match(error.message, /\[redacted\]/);
+  } finally {
+    if (previous == null) delete process.env.GEMINI_MODEL;
+    else process.env.GEMINI_MODEL = previous;
+  }
 });
 
 test('RSS campaign HTML is used instead of fetching the archive page', async () => {

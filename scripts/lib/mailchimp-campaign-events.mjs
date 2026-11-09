@@ -8,7 +8,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
 import { completeGeminiSummary } from './gemini-summary.mjs';
-import { MAX_NEWSLETTER_CHARS } from './mailchimp-campaign-summary.mjs';
+import { MAX_NEWSLETTER_CHARS, publicFailureReason } from './mailchimp-campaign-summary.mjs';
 
 const CATEGORIES = ['social', 'civic', 'committee', 'tour', 'other'];
 const DATETIME = /^(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2}):(\d{2})$/;
@@ -252,8 +252,8 @@ export async function extractCampaignEvents(options) {
       fetchImpl: options.fetchImpl,
       maxOutputTokens: EVENT_MAX_OUTPUT_TOKENS,
     });
-  } catch {
-    return { create: [], skipped: [{ title: '', reason: 'model-failed' }] };
+  } catch (error) {
+    return { create: [], skipped: [{ title: '', reason: publicFailureReason('model-failed', error) }] };
   }
   let parsed;
   try {
