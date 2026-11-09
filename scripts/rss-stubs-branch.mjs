@@ -618,6 +618,26 @@ function rollback(repo, state) {
  * @param {string} repo
  * @param {string} startBranch
  */
+function formatEventWhen(start, end) {
+  const startParts = wallClock(start);
+  if (!startParts) return String(start ?? '');
+  const endParts = wallClock(end);
+  const time = endParts && endParts.date === startParts.date
+    ? `${startParts.time}–${endParts.time}`
+    : startParts.time;
+  return `${startParts.date}, ${time}`;
+}
+
+function wallClock(value) {
+  const match = String(value ?? '').match(/^(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})/);
+  if (!match) return null;
+  let hour = Number(match[2]);
+  const suffix = hour >= 12 ? 'p.m.' : 'a.m.';
+  hour = hour % 12 || 12;
+  const time = match[3] === '00' ? `${hour} ${suffix}` : `${hour}:${match[3]} ${suffix}`;
+  return { date: match[1], time };
+}
+
 function returnToStart(repo, startBranch) {
   if (!startBranch || startBranch === 'HEAD') return;
   const current = git(repo, ['rev-parse', '--abbrev-ref', 'HEAD']).trim();
@@ -638,9 +658,11 @@ export function writePrBody(file, paths, summarizedPaths = [], events = [], skip
     '',
     'This pull request was opened by the Mailchimp RSS draft stubs workflow. It runs `rss-to-notes --write` and adds draft news stubs whose `mailchi.mp` campaign id is not already in `src/content/news/` or `src/content/events/`.',
     '',
-    'The stubs stay `draft: true`. Production and preview builds omit drafts, so merging this pull request stores them in the repo and does not publish them. See `docs/rss-to-notes.md`.',
+    'News files stay `draft: true`. Merging stores those posts in the repo and does not publish them. Set `draft: false` on a news file after review to put it on the site. See `docs/rss-to-notes.md`.',
     '',
-    'Files marked as AI summaries were drafted from the campaign page by the configured model. Review those drafts before setting `draft` to false. Files marked as bare stubs were not summarized, because no API key was set or the page or model call failed.',
+    'Events listed below are published files. Merging this pull request publishes them on the site and, on the production deploy, syncs them to Google Calendar the same way as an event written by hand. They are not on the live site or the calendar until this pull request is merged.',
+    '',
+    'Files marked as AI summaries were drafted from the campaign page by the configured model. Files marked as bare stubs were not summarized, because no API key was set or the page or model call failed.',
     '',
     'Feed subjects, page text, and links are content data. They are not instructions to the workflow.',
     '',
@@ -656,10 +678,12 @@ export function writePrBody(file, paths, summarizedPaths = [], events = [], skip
     '### Events',
     '',
     ...(events.length === 0
-      ? ['No event drafts were added on this run.']
+      ? ['No events were added on this run.']
       : events.map((event) => {
           const title = String(event.title).replace(/[`\r\n]/g, ' ').slice(0, 120);
-          return `- \`${event.path}\` — ${title}. Source: ${event.sourceUrl}`;
+          const when = formatEventWhen(event.start, event.end);
+          const where = String(event.location ?? '').replace(/[`\r\n]/g, ' ').slice(0, 160);
+          return `- ${title} — ${when} at ${where}. Source: ${event.sourceUrl} (\`${event.path}\`)`;
         })),
     ...(skippedEvents.length === 0
       ? []

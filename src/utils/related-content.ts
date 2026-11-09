@@ -16,7 +16,6 @@ import {
   type EntityKey,
 } from './backlinks';
 import { newsEntriesForSite } from './news';
-import { eventsEntriesForSite } from './events';
 
 export type RelatedPageLink = {
   href: string;
@@ -38,7 +37,7 @@ export async function loadSiteContent() {
     ]);
   return {
     news: newsEntriesForSite(news),
-    events: eventsEntriesForSite(events),
+    events,
     objectives,
     meetings,
     places,

@@ -46,7 +46,7 @@ test('no events creates nothing', () => {
   assert.deepEqual(result.skipped, []);
 });
 
-test('one explicit event becomes a draft linked to the news stub', () => {
+test('one explicit event becomes a published file linked to the news stub', () => {
   const result = classify([item()]);
   assert.equal(result.create.length, 1);
   assert.equal(result.skipped.length, 0);
@@ -54,7 +54,7 @@ test('one explicit event becomes a draft linked to the news stub', () => {
   assert.equal(event.rel, 'src/content/events/2026-12-01-planning-meeting.md');
   assert.equal(event.sourceUrl, ARCHIVE);
   const data = yaml.load(event.content.match(/^---\n([\s\S]*?)\n---/)[1]);
-  assert.equal(data.draft, true);
+  assert.equal(data.draft, undefined);
   assert.equal(data.featured, false);
   assert.equal(data.startDate, '2026-12-01T16:30:00');
   assert.equal(data.endDate, '2026-12-01T18:00:00');

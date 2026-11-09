@@ -28,7 +28,6 @@ import {
   validateLocalEvent,
 } from './lib/google-calendar-sync.mjs';
 import { loadEnvFiles } from './lib/load-env-files.mjs';
-import { isDraftEvent } from '../src/utils/event-visibility.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -65,8 +64,6 @@ function loadLocalEvents() {
     if (!data || typeof data !== 'object') {
       throw new Error(`Invalid frontmatter in ${filePath}`);
     }
-    if (isDraftEvent(data)) continue;
-
     /** @type {import('./lib/google-calendar-sync.mjs').LocalEvent} */
     const event = {
       slug,

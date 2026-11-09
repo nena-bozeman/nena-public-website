@@ -1,5 +1,5 @@
 /**
- * Extract zero or more draft events from campaign text.
+ * Extract zero or more published events from campaign text.
  * The model reply is data. Front matter is written here, not by the model.
  */
 
@@ -196,7 +196,6 @@ export function classifyExtractedEvents(raw, context) {
       summary,
       category,
       featured: false,
-      draft: true,
       ...(externalUrl ? { externalUrl } : {}),
       topics,
       tags: [],
@@ -207,6 +206,9 @@ export function classifyExtractedEvents(raw, context) {
       rel: `src/content/events/${slug}.md`,
       slug,
       title,
+      start,
+      end,
+      location,
       sourceUrl: context.archiveUrl,
       content: `---\n${fm}\n---\n\n${body}\n`,
     });

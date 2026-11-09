@@ -83,7 +83,7 @@ Actions → **Mailchimp RSS draft stubs** → **Run workflow**, from the **defau
 - If that branch has non-automation commits and the pull request is closed, the job fails instead of force-pushing. Reopen the pull request or delete the branch.
 - A closed pull request whose commits are only from this workflow can be replaced from the default branch when stubs are still missing there. The replacement uses `git push --force-with-lease`.
 - Import failures (HTTP error, empty body, non-RSS response, a stub that fails validation) stop before any push.
-- Stubs stay `draft: true`. Production and preview builds omit drafts, so merging the review pull request stores them and does not publish them.
+- News stubs stay `draft: true`. Production and preview builds omit those posts, so merging the review pull request stores them and does not publish the news. Event files from the same run are published: merging puts them on the site, and the production deploy syncs them to Google Calendar.
 
 `pnpm run check` (content references and `astro check`) runs in the workflow before it pushes. Feed subjects and links are written only as frontmatter fields.
 
@@ -95,7 +95,7 @@ When repository secret **`GEMINI_API_KEY`** is set, each **new** stub is filled 
 2. It calls Google Gemini model **`gemini-2.5-flash-lite`** at `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent`. The page is data, inside a delimiter, with a prompt that says to ignore instructions in the newsletter. Output is capped at 512 tokens, and `thinkingBudget` is 0.
 3. The script writes the front matter itself: RSS title and date, `draft: true`, empty topics and tags, and the original `mailchimpArchiveUrl`. The model cannot add or change those fields. A link in the body must already appear on the page.
 4. The review pull request marks files summarized on that run as AI summaries that need a person to read them.
-5. A second model call looks for gatherings. It can add zero, one, or several **draft** event files when the page states a date and a clock time. Past gatherings, duplicates of events already in `src/content/events`, low-confidence items, and replies without an explicit time are listed in the pull request and not added. The news draft links those new events. Draft events are omitted from production pages and are not synced to Google Calendar. Set `draft: false` after review to publish one.
+5. A second model call looks for gatherings. It can add zero, one, or several event files when the page states a date and a clock time, the model marks the item high confidence, and the location appears in the page. Past gatherings, duplicates of events already in `src/content/events`, low-confidence items, and replies without an explicit time are listed in the pull request and not added. The news draft links the new events. Those event files are ordinary published events: merging the review pull request puts them on the site, and the production deploy then syncs them to Google Calendar. They are not on `main` until that merge, so they are not in production or on the calendar before then. News files stay `draft: true`, so merging does not publish the news post.
 
 If the secret is missing, the page cannot be read, or the model reply is unusable, that file stays a bare stub and the run continues. Files already on the automation branch are not rewritten. To summarize a bare stub that is already on the open pull request, delete that file from the branch and run the workflow again.
 

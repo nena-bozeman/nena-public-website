@@ -7,7 +7,6 @@ import RelatedContent from '../../components/related/RelatedContent.astro';
 import TopicPills from '../../components/related/TopicPills.astro';
 import { getCollection, render } from 'astro:content';
 import { getEventImage } from '../../utils/event-image';
-import { eventsEntriesForSite } from '../../utils/events';
 import {
   backlinksFor,
   eventRelatedPages,
@@ -17,7 +16,7 @@ import {
 } from '../../utils/related-content';
 
 export async function getStaticPaths() {
-  const events = eventsEntriesForSite(await getCollection('events'));
+  const events = await getCollection('events');
   return events.map((event) => ({
     params: { slug: event.id },
     props: { event },

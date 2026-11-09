@@ -1,14 +1,6 @@
 import type { CollectionEntry } from 'astro:content';
-import { eventsVisibleOnSite } from './event-visibility.mjs';
 
 export const EVENTS_PER_PAGE = 10;
-
-/** In production builds, excludes entries with `draft: true`. Dev servers include all events. */
-export function eventsEntriesForSite(
-  entries: CollectionEntry<'events'>[],
-): CollectionEntry<'events'>[] {
-  return eventsVisibleOnSite(entries, import.meta.env.PROD);
-}
 
 export function sortUpcomingEventsAsc(
   entries: CollectionEntry<'events'>[],
