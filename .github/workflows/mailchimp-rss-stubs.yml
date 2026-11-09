@@ -1,0 +1,128 @@
+name: Mailchimp RSS draft stubs
+
+# Imports the public NENA Mailchimp archive RSS feed with scripts/rss-to-notes.mjs
+# and opens one review pull request when that import creates new draft news stubs.
+# Newsletter text is stored as content data. This workflow does not send mail,
+# expand stubs, deploy, or merge.
+on:
+  schedule:
+    # Daily at 14:15 UTC (07:15 MST / 08:15 MDT). This job had no previous
+    # schedule; daily is the initial default. Change this cron to move it.
+    - cron: '15 14 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: mailchimp-rss-stubs
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Require the default branch
+        if: github.ref != format('refs/heads/{0}', github.event.repository.default_branch)
+        run: |
+          echo "Run Mailchimp RSS draft stubs from the default branch (${{ github.event.repository.default_branch }})."
+          exit 1
+
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Fetch review branch
+        run: git fetch origin automation/mailchimp-rss-stubs || true
+
+      - name: Look for an open review pull request
+        id: open-pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          count="$(gh pr list \
+            --repo "$GITHUB_REPOSITORY" \
+            --head automation/mailchimp-rss-stubs \
+            --base "${{ github.event.repository.default_branch }}" \
+            --state open \
+            --json number \
+            --jq 'length')"
+          if [ "$count" != "0" ] && [ "$count" != "1" ]; then
+            echo "Expected zero or one open review pull request, found ${count}."
+            exit 1
+          fi
+          echo "count=${count}" >> "$GITHUB_OUTPUT"
+
+      - name: Import new campaign stubs
+        id: import
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          node scripts/rss-stubs-branch.mjs \
+            --base-ref "origin/${{ github.event.repository.default_branch }}" \
+            --branch automation/mailchimp-rss-stubs \
+            --branch-ref origin/automation/mailchimp-rss-stubs \
+            --open-pr "${{ steps.open-pr.outputs.count == '1' }}" \
+            --push \
+            --result-file "$RUNNER_TEMP/rss-stubs.json" \
+            --pr-body-file "$RUNNER_TEMP/rss-stubs-pr-body.md"
+
+      - name: Open review pull request
+        if: steps.import.outputs.result == 'committed' || steps.import.outputs.result == 'needs-pr'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          base="${{ github.event.repository.default_branch }}"
+          head="automation/mailchimp-rss-stubs"
+          existing="$(gh pr list \
+            --repo "$GITHUB_REPOSITORY" \
+            --base "$base" \
+            --head "$head" \
+            --state open \
+            --json number \
+            --jq 'length')"
+          if [ "$existing" != "0" ]; then
+            echo "Open review pull request already exists."
+            exit 0
+          fi
+          gh pr create \
+            --repo "$GITHUB_REPOSITORY" \
+            --base "$base" \
+            --head "$head" \
+            --title "Add Mailchimp campaign draft stubs" \
+            --body-file "$RUNNER_TEMP/rss-stubs-pr-body.md"
+
+      - name: Close empty review pull request
+        if: steps.import.outputs.result == 'close-empty'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          number="$(gh pr list \
+            --repo "$GITHUB_REPOSITORY" \
+            --base "${{ github.event.repository.default_branch }}" \
+            --head automation/mailchimp-rss-stubs \
+            --state open \
+            --json number \
+            --jq '.[0].number')"
+          if [ -z "$number" ] || [ "$number" = "null" ]; then
+            echo "No open pull request to close."
+            exit 0
+          fi
+          gh pr close "$number" \
+            --repo "$GITHUB_REPOSITORY" \
+            --comment "Closing this review pull request because the default branch already contains the imported campaign stubs, so the diff is empty. Nothing was merged."

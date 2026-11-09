@@ -17,6 +17,9 @@
  *
  * Environment:
  *   RSS_TO_NOTES_URL   Default feed URL when --url is omitted (see docs/rss-to-notes.md).
+ *   RSS_TO_NOTES_ROOT  Optional absolute content root. Tests and the GitHub
+ *                      Action set this so a run writes into a copy, not the
+ *                      checkout. Unset means the repository root.
  */
 
 import { readFileSync, readdirSync, existsSync, writeFileSync, mkdirSync } from 'node:fs';
@@ -25,7 +28,9 @@ import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const ROOT = join(__dirname, '..');
+const ROOT = process.env.RSS_TO_NOTES_ROOT
+  ? resolve(process.env.RSS_TO_NOTES_ROOT)
+  : join(__dirname, '..');
 const NEWS_DIR = join(ROOT, 'src/content/news');
 
 /** Default: NENA Mailchimp archive RSS (public). */
@@ -304,6 +309,20 @@ function printTsv(rows) {
   }
 }
 
+/** Refuse --write when the payload is empty or not an RSS document. */
+function assertWritableFeed(xml) {
+  const trimmed = xml.replace(/^\uFEFF/, '').trim();
+  if (!trimmed) {
+    console.error('rss-to-notes: empty feed; refusing to write');
+    process.exit(1);
+  }
+  const isRss = /<rss\b/i.test(trimmed) && /<channel\b/i.test(trimmed);
+  if (!isRss) {
+    console.error('rss-to-notes: response is not an RSS feed; refusing to write');
+    process.exit(1);
+  }
+}
+
 function printHelp() {
   console.log(`rss-to-notes — list campaigns from a Mailchimp archive RSS feed
 
@@ -346,6 +365,8 @@ async function main() {
     console.error('rss-to-notes:', e instanceof Error ? e.message : e);
     process.exit(1);
   }
+
+  if (opts.write) assertWritableFeed(xml);
 
   const rows = parseRssItems(xml);
   if (opts.format === 'json') printJson(rows, sourceLabel);
