@@ -38,9 +38,23 @@ jobs:
     steps:
       - name: Require the default branch
         if: ${{ !(github.event_name == 'workflow_dispatch' && (inputs.dry_run == true || inputs.dry_run == 'true')) }}
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
-          if [ "${{ github.ref }}" != "refs/heads/${{ github.event.repository.default_branch }}" ]; then
-            echo "Run Mailchimp RSS draft stubs from the default branch (${{ github.event.repository.default_branch }}), or set dry_run to test another branch."
+          if [ "$GITHUB_REF" != "refs/heads/${DEFAULT_BRANCH}" ]; then
+            branch=$(printf '%s' "$GITHUB_REF_NAME" | tr '\r\n' ' ' | tr -d '`')
+            {
+              echo "## Mailchimp RSS draft stubs"
+              echo ""
+              echo "**Stopped.**"
+              echo ""
+              echo "This run was from \`${branch}\`."
+              echo ""
+              echo "Non-main runs must be dry runs so they cannot clobber the review pull request on \`automation/mailchimp-rss-stubs\`."
+              echo ""
+              echo "Rerun with **Dry run** checked to test this branch, or run from \`${DEFAULT_BRANCH}\` for a real import."
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "::error::This run stopped. It ran from ${branch}, not ${DEFAULT_BRANCH}. Non-main runs must be dry runs so they cannot clobber the review pull request. Rerun with Dry run checked to test this branch, or run from ${DEFAULT_BRANCH} for a real import."
             exit 1
           fi
 
@@ -95,7 +109,16 @@ jobs:
             --json number \
             --jq 'length')"
           if [ "$count" != "0" ] && [ "$count" != "1" ]; then
-            echo "Expected zero or one open review pull request, found ${count}."
+            {
+              echo "## Mailchimp RSS draft stubs"
+              echo ""
+              echo "**Stopped.**"
+              echo ""
+              echo "Expected zero or one open review pull request for \`automation/mailchimp-rss-stubs\`, found ${count}."
+              echo ""
+              echo "Close the extra pull requests so only one remains, then rerun this workflow from the default branch."
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "::error::This run stopped. Expected zero or one open review pull request for automation/mailchimp-rss-stubs, found ${count}. Close the extras, then rerun from the default branch."
             exit 1
           fi
           echo "count=${count}" >> "$GITHUB_OUTPUT"

@@ -71,7 +71,7 @@ Matching is by **`mailchi.mp` campaign id** already present in any news or event
 
 ### Manual run
 
-Actions → **Mailchimp RSS draft stubs** → **Run workflow**. Leave **Dry run** off and pick the **default branch**. The workflow checks out that branch and reads the default feed URL in `scripts/rss-to-notes.mjs`. There is no input for a different feed. A run that is not a dry run refuses any other branch, so it cannot update `automation/mailchimp-rss-stubs` from a feature branch.
+Actions → **Mailchimp RSS draft stubs** → **Run workflow**. Leave **Dry run** off and pick the **default branch**. The workflow checks out that branch and reads the default feed URL in `scripts/rss-to-notes.mjs`. There is no input for a different feed. A run that is not a dry run refuses any other branch, so it cannot update `automation/mailchimp-rss-stubs` from a feature branch. That stop is written to the job summary: which branch ran, why a non-dry run is limited to the default branch, and the fix (rerun with **Dry run** checked, or run from the default branch).
 
 To try a fix before merging it, pick the branch that contains this workflow file and set **Dry run** to true. That dispatch still receives repository Actions secrets such as `GEMINI_API_KEY`. The **Check Gemini model is available** step runs first, including on a dry run. It then imports against the default branch's content, calls the model for campaigns that are not already in that content, and writes the summaries and extracted events to the job summary. It does not commit, push, or open a pull request.
 

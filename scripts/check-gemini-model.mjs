@@ -368,7 +368,14 @@ async function main() {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   main().catch(() => {
-    console.error('::error::Gemini model check failed.');
+    const line = 'Gemini model check failed before it could report a result.';
+    if (process.env.GITHUB_STEP_SUMMARY) {
+      appendFileSync(
+        process.env.GITHUB_STEP_SUMMARY,
+        `## Check Gemini model is available\n\n**Stopped.**\n\n${line}\n`,
+      );
+    }
+    console.error(`::error::${line}`);
     process.exitCode = 1;
   });
 }

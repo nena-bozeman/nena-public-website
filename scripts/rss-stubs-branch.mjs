@@ -814,6 +814,26 @@ function writeStepSummary(markdown) {
 }
 
 /**
+ * @param {unknown} error
+ */
+function reportStepFailure(error) {
+  const text = String(error instanceof Error ? error.message : error)
+    .replace(/AIza[0-9A-Za-z_-]{10,}/g, '[redacted]')
+    .replace(/Bearer\s+\S+/gi, 'Bearer [redacted]')
+    .trim();
+  writeStepSummary([
+    '## Mailchimp RSS import',
+    '',
+    '**Stopped.**',
+    '',
+    text,
+    '',
+  ].join('\n'));
+  console.error(`::error::${text.replace(/[\r\n]+/g, ' ').replace(/%/g, '%25')}`);
+  console.error(text);
+}
+
+/**
  * @param {{
  *   model: string,
  *   prepared: { rel: string, content: string, summarized: boolean, fallbackReason?: string, eventFiles?: { rel: string, title: string, start: string, end?: string, location: string, sourceUrl: string, content: string }[] }[],
@@ -1215,7 +1235,7 @@ async function main() {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   main().catch((error) => {
-    console.error(error instanceof Error ? error.message : error);
+    reportStepFailure(error);
     process.exit(1);
   });
 }
