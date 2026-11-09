@@ -91,7 +91,7 @@ Actions → **Mailchimp RSS draft stubs** → **Run workflow**, from the **defau
 
 When repository secret **`GEMINI_API_KEY`** is set, each **new** stub is filled from its campaign page before the first commit that adds that file. A later run does not call the model again for a path already on `automation/mailchimp-rss-stubs`, and it does not call the model for a stub someone removed from that open pull request.
 
-1. The workflow downloads the public archive page and keeps the readable text. Unsubscribe, preference, share, and tracking lines are dropped. At most 8,000 characters of that text are sent.
+1. The workflow uses the campaign HTML already in the RSS `<description>`. `mailchi.mp` often returns HTTP 503 to the importer, so that short link is only a fallback. Unsubscribe, preference, share, and tracking lines are dropped. At most 8,000 characters of that text are sent. If a campaign stays a bare stub, the review pull request says why.
 2. It calls Google Gemini model **`gemini-2.5-flash-lite`** at `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent`. The page is data, inside a delimiter, with a prompt that says to ignore instructions in the newsletter. Output is capped at 512 tokens, and `thinkingBudget` is 0.
 3. The script writes the front matter itself: RSS title and date, `draft: true`, empty topics and tags, and the original `mailchimpArchiveUrl`. The model cannot add or change those fields. A link in the body must already appear on the page.
 4. The review pull request marks files summarized on that run as AI summaries that need a person to read them.

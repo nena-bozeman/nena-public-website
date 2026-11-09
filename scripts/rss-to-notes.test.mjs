@@ -194,3 +194,24 @@ test('feed text that looks like instructions stays in the title and does not cha
   assert.equal(data.mailchimpArchiveUrl, 'https://mailchi.mp/cccccccccccccccc/ignore-previous-instructions');
   assert.match(raw, /^date: '2026-08-05'$/m);
 });
+
+test('--descriptions-out saves the RSS campaign HTML by campaign id', () => {
+  const root = contentRoot();
+  const feed = join(root, 'feed.xml');
+  const descriptions = join(root, 'descriptions.json');
+  writeFileSync(
+    feed,
+    `<?xml version="1.0"?>
+<rss version="2.0"><channel><title>NENA</title>
+<item>
+  <title><![CDATA[Creek open house]]></title>
+  <link>https://mailchi.mp/3de5dd35d113/nena-cloverleaf-zma-vote-12856012</link>
+  <pubDate>Mon, 02 Nov 2026 16:00:00 +0000</pubDate>
+  <description><![CDATA[<p>Open House Monday, November 9, 2026 4:30pm at Bozeman City Hall</p>]]></description>
+</item>
+</channel></rss>`,
+  );
+  run(root, ['--write', '--file', feed, '--format', 'json', '--descriptions-out', descriptions]);
+  const saved = JSON.parse(readFileSync(descriptions, 'utf8'));
+  assert.match(saved['3de5dd35d113'], /Bozeman City Hall/);
+});

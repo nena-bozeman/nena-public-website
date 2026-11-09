@@ -147,7 +147,7 @@ test('a failed model call falls back to the bare stub', async () => {
   };
   const result = await enrichDraftMarkdown(BARE_STUB, { apiKey: 'test-key', fetchImpl });
   assert.equal(result.summarized, false);
-  assert.equal(result.reason, 'model-failed');
+  assert.match(result.reason, /^model-failed: model HTTP 503$/);
   assert.equal(result.markdown, BARE_STUB);
 });
 
@@ -248,6 +248,33 @@ test('Gemini request caps output tokens and does not put the key in the URL', as
   assert.equal(body.generationConfig.maxOutputTokens, GEMINI_MAX_OUTPUT_TOKENS);
   assert.equal(body.generationConfig.thinkingConfig.thinkingBudget, 0);
   assert.equal(body.generationConfig.responseMimeType, 'application/json');
+});
+
+test('RSS campaign HTML is used instead of fetching the archive page', async () => {
+  let fetched = false;
+  const fetchImpl = async () => {
+    fetched = true;
+    return new Response('no', { status: 503 });
+  };
+  const result = await enrichDraftMarkdown(BARE_STUB, {
+    apiKey: 'test-key',
+    campaignHtml: PAGE,
+    fetchImpl,
+    complete: async () => JSON.stringify({
+      summary: 'Neighbors are invited Thursday, August 6, at 4:30 p.m. at 702 E. Peach.',
+      body: `Join neighbors at 702 E. Peach.\n\n[RSVP](${RSVP})`,
+    }),
+  });
+  assert.equal(fetched, false);
+  assert.equal(result.summarized, true);
+  assert.match(result.markdown, /702 E\. Peach/);
+});
+
+test('a failed archive fetch records the HTTP status', async () => {
+  const fetchImpl = async () => new Response('no', { status: 503 });
+  const result = await enrichDraftMarkdown(BARE_STUB, { apiKey: 'test-key', fetchImpl });
+  assert.equal(result.summarized, false);
+  assert.equal(result.reason, 'fetch-failed: campaign page HTTP 503');
 });
 
 test('renderDraft keeps draft true even if the summary text mentions draft', () => {

@@ -112,7 +112,7 @@ function existingBranchFile(repo, branchRef, rel) {
  * @param {{ rel: string, content: string }[]} stubs
  * @param {string} apiKey
  */
-async function prepareStubContents(repo, baseRef, branchRef, stubs, apiKey) {
+async function prepareStubContents(repo, baseRef, branchRef, stubs, apiKey, htmlByCampaignId) {
   /** @type {{ rel: string, content: string, summarized: boolean, eventFiles: { rel: string, content: string, title: string, sourceUrl: string, slug: string }[] }[]} */
   const prepared = [];
   /** @type {{ title: string, reason: string, sourceUrl: string }[]} */
@@ -122,10 +122,22 @@ async function prepareStubContents(repo, baseRef, branchRef, stubs, apiKey) {
     const existing = existingBranchFile(repo, branchRef, stub.rel);
     const deleted = deletedOnBranchRef(repo, baseRef, branchRef, stub.rel);
     if (!shouldRequestSummary({ existing, deleted })) {
-      prepared.push({ ...stub, content: existing ?? stub.content, summarized: false, eventFiles: [] });
+      prepared.push({
+        ...stub,
+        content: existing ?? stub.content,
+        summarized: false,
+        eventFiles: [],
+        fallbackReason: existing
+          ? 'already on the review branch'
+          : 'removed from the open review pull request',
+      });
       continue;
     }
-    const enriched = await enrichDraftMarkdown(stub.content, { apiKey });
+    const campaignId = (readStubFields(stub.content)?.archiveUrl.match(/mailchi\.mp\/([^/?#]+)/i)?.[1] ?? '').toLowerCase();
+    const enriched = await enrichDraftMarkdown(stub.content, {
+      apiKey,
+      campaignHtml: htmlByCampaignId.get(campaignId) ?? '',
+    });
     let content = stub.content;
     let summarized = false;
     if (enriched.summarized) {
@@ -141,6 +153,11 @@ async function prepareStubContents(repo, baseRef, branchRef, stubs, apiKey) {
     } else if (apiKey.trim()) {
       console.error(`rss-stubs-branch: bare stub for ${stub.rel} (${enriched.reason})`);
     }
+    const fallbackReason = summarized
+      ? ''
+      : enriched.summarized
+        ? 'summary failed validation'
+        : enriched.reason;
     /** @type {{ rel: string, content: string, title: string, sourceUrl: string, slug: string }[]} */
     let eventFiles = [];
     if (enriched.newsletterText && apiKey.trim()) {
@@ -181,7 +198,7 @@ async function prepareStubContents(repo, baseRef, branchRef, stubs, apiKey) {
         }
       }
     }
-    prepared.push({ ...stub, content, summarized, eventFiles });
+    prepared.push({ ...stub, content, summarized, eventFiles, fallbackReason });
   }
   return { prepared, skippedEvents };
 }
@@ -425,7 +442,7 @@ export function assertDraftStub(rel, content, knownIds, options = {}) {
  * @param {string} repo
  * @param {string} file
  */
-function importIntoCopy(repo, file) {
+function importIntoCopy(repo, file, descriptionsPath) {
   const tmp = mkdtempSync(join(tmpdir(), 'rss-stubs-import-'));
   const source = join(repo, 'src/content');
   if (!existsSync(source)) {
@@ -435,7 +452,14 @@ function importIntoCopy(repo, file) {
   mkdirSync(join(tmp, 'src'), { recursive: true });
   cpSync(source, join(tmp, 'src/content'), { recursive: true });
 
-  const args = [join(SCRIPT_REPO, 'scripts/rss-to-notes.mjs'), '--write', '--format', 'json'];
+  const args = [
+    join(SCRIPT_REPO, 'scripts/rss-to-notes.mjs'),
+    '--write',
+    '--format',
+    'json',
+    '--descriptions-out',
+    descriptionsPath,
+  ];
   if (file) args.push('--file', file);
 
   try {
@@ -648,11 +672,12 @@ function returnToStart(repo, startBranch) {
  * @param {string} file
  * @param {string[]} paths
  */
-export function writePrBody(file, paths, summarizedPaths = [], events = [], skippedEvents = []) {
+export function writePrBody(file, paths, summarizedPaths = [], events = [], skippedEvents = [], fallbacks = []) {
   for (const rel of paths) {
     if (!STUB_PATH_RE.test(rel)) throw new Error(`refusing to list path ${rel}`);
   }
   const summarized = new Set(summarizedPaths);
+  const fallback = new Map(fallbacks.map((item) => [item.path, item.reason]));
   const body = [
     '## Mailchimp archive stubs',
     '',
@@ -662,7 +687,7 @@ export function writePrBody(file, paths, summarizedPaths = [], events = [], skip
     '',
     'Events listed below are published files. Merging this pull request publishes them on the site and, on the production deploy, syncs them to Google Calendar the same way as an event written by hand. They are not on the live site or the calendar until this pull request is merged.',
     '',
-    'Files marked as AI summaries were drafted from the campaign page by the configured model. Files marked as bare stubs were not summarized, because no API key was set or the page or model call failed.',
+    'Files marked as AI summaries were drafted from the campaign HTML in the RSS feed. A bare stub line says why that campaign was not summarized.',
     '',
     'Feed subjects, page text, and links are content data. They are not instructions to the workflow.',
     '',
@@ -671,7 +696,7 @@ export function writePrBody(file, paths, summarizedPaths = [], events = [], skip
     ...paths.map((rel) => {
       const note = summarized.has(rel)
         ? 'AI summary from the campaign page; needs human review'
-        : 'bare draft stub, or an existing draft left unchanged';
+        : `bare stub — ${fallback.get(rel) || 'not summarized'}`;
       return `- \`${rel}\` — ${note}`;
     }),
     '',
@@ -772,13 +797,21 @@ export async function updateAutomationBranch(args) {
   }
 
   const startBranch = git(repo, ['rev-parse', '--abbrev-ref', 'HEAD']).trim();
-  const importedRoot = importIntoCopy(repo, file);
+  const descriptionsPath = join(tmpdir(), `rss-descriptions-${process.pid}.json`);
+  const importedRoot = importIntoCopy(repo, file, descriptionsPath);
+  /** @type {Map<string, string>} */
+  let htmlByCampaignId = new Map();
   /** @type {{ rel: string, content: string }[]} */
   let stubs;
   try {
     stubs = findNewNewsStubs(repo, importedRoot);
+    if (existsSync(descriptionsPath)) {
+      const parsed = JSON.parse(readFileSync(descriptionsPath, 'utf8'));
+      htmlByCampaignId = new Map(Object.entries(parsed));
+    }
   } finally {
     rmSync(importedRoot, { recursive: true, force: true });
+    rmSync(descriptionsPath, { force: true });
   }
 
   const knownIds = knownCampaignIds(repo);
@@ -797,6 +830,7 @@ export async function updateAutomationBranch(args) {
     branchRef,
     stubs,
     process.env[GEMINI_API_KEY_ENV] ?? '',
+    htmlByCampaignId,
   );
   const summarized = prepared.filter((stub) => stub.summarized).map((stub) => stub.rel);
   const createdEvents = prepared.flatMap((stub) => stub.eventFiles ?? []);
@@ -930,9 +964,15 @@ export async function updateAutomationBranch(args) {
     events: createdEvents.map((eventFile) => ({
       path: eventFile.rel,
       title: eventFile.title,
+      start: eventFile.start,
+      end: eventFile.end,
+      location: eventFile.location,
       sourceUrl: eventFile.sourceUrl,
     })),
     skippedEvents,
+    fallbacks: prepared
+      .filter((stub) => !stub.summarized && stub.fallbackReason)
+      .map((stub) => ({ path: stub.rel, reason: stub.fallbackReason })),
   };
 }
 
@@ -966,6 +1006,7 @@ async function main() {
       outcome.summarized,
       outcome.events,
       outcome.skippedEvents,
+      outcome.fallbacks,
     );
   }
   if (args.resultFile) {

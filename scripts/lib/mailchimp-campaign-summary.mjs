@@ -235,7 +235,7 @@ async function fetchCampaignHtml(url, fetchImpl) {
   const response = await fetchImpl(url, {
     headers: {
       Accept: 'text/html,application/xhtml+xml',
-      'User-Agent': 'nena-public-website rss-to-notes',
+      'User-Agent': 'Mozilla/5.0 (compatible; nena-public-website/1.0; +https://nenabozeman.org)',
     },
     redirect: 'follow',
     signal: AbortSignal.timeout(20000),
@@ -243,7 +243,21 @@ async function fetchCampaignHtml(url, fetchImpl) {
   if (!response.ok) throw new Error(`campaign page HTTP ${response.status}`);
   const html = await response.text();
   if (!html || html.trim().length < 100) throw new Error('campaign page was empty');
+  if (/<title>\s*Error\s*<\/title>/i.test(html) && html.length < 2000) {
+    throw new Error('campaign page returned an error document');
+  }
   return html;
+}
+
+/** Keep HTTP status text. Never include a bearer token or API key. */
+export function publicFailureReason(prefix, error) {
+  const message = (error instanceof Error ? error.message : String(error))
+    .replace(/AIza[0-9A-Za-z_-]{10,}/g, '[redacted]')
+    .replace(/Bearer\s+\S+/gi, 'Bearer [redacted]')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 180);
+  return message ? `${prefix}: ${message}` : prefix;
 }
 
 /**
@@ -278,11 +292,13 @@ export async function enrichDraftMarkdown(markdown, options = {}) {
   if (!fields?.archiveUrl) return empty('no-archive-url');
 
   const fetchImpl = options.fetchImpl ?? fetch;
-  let html;
-  try {
-    html = await fetchCampaignHtml(fields.archiveUrl, fetchImpl);
-  } catch {
-    return empty('fetch-failed');
+  let html = typeof options.campaignHtml === 'string' ? options.campaignHtml : '';
+  if (html.trim().length < 100) {
+    try {
+      html = await fetchCampaignHtml(fields.archiveUrl, fetchImpl);
+    } catch (error) {
+      return empty(publicFailureReason('fetch-failed', error));
+    }
   }
   const newsletterText = extractCampaignText(html);
   if (newsletterText.length < 40) return empty('empty-page');
@@ -297,8 +313,14 @@ export async function enrichDraftMarkdown(markdown, options = {}) {
   try {
     const complete = options.complete ?? completeSummary;
     raw = await complete({ apiKey, request, fetchImpl });
-  } catch {
-    return { markdown, summarized: false, reason: 'model-failed', newsletterText, fields };
+  } catch (error) {
+    return {
+      markdown,
+      summarized: false,
+      reason: publicFailureReason('model-failed', error),
+      newsletterText,
+      fields,
+    };
   }
   const summary = validateSummary(raw, newsletterText, fields.archiveUrl);
   if (!summary) {
