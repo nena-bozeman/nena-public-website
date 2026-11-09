@@ -13,6 +13,7 @@ image: 2026-10-22-nena-fall-meeting.jpg
 imageAlt: 'Neighbors seated at tables in a meeting room listen to a presenter beside a screen that reads “Election Day is November 3rd.”'
 topics:
   - meeting
+  - bozeman-creek-vision-plan
 meetingSlug: 2026-fall-october
 ---
 
