@@ -3,9 +3,11 @@ title: 'Save the Date: Parade of Sheds'
 date: '2026-09-15'
 summary: Join the Northeast Neighborhood Association for the annual Parade of Sheds on Sunday, October 18. Enjoy a neighborhood stroll, a potluck cookout, and a self-guided tour of local sheds and spaces.
 featured: false
-draft: true
+draft: false
 tags: []
 topics: []
+events:
+  - 2026-10-18-parade-of-sheds
 mailchimpArchiveUrl: https://mailchi.mp/0eaa7d4a57dc/nena-cloverleaf-zma-vote-12855375
 ---
 
