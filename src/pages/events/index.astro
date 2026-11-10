@@ -2,23 +2,10 @@
 import Base from '../../layouts/Base.astro';
 import EventsIndexSections from '../../components/events/EventsIndexSections.astro';
 import { getCollection } from 'astro:content';
-import {
-  EVENTS_PER_PAGE,
-  sortPastEventsDesc,
-  sortUpcomingEventsAsc,
-  totalPastEventPages,
-} from '../../utils/events';
+import { EVENTS_PER_PAGE, splitEventsByDay, totalPastEventPages } from '../../utils/events';
 
-const now = new Date();
 const allEvents = await getCollection('events');
-
-const upcoming = sortUpcomingEventsAsc(
-  allEvents.filter((e) => e.data.startDate >= now),
-);
-
-const pastAll = sortPastEventsDesc(
-  allEvents.filter((e) => e.data.startDate < now),
-);
+const { upcoming, past: pastAll } = splitEventsByDay(allEvents);
 
 const totalPastPages = totalPastEventPages(pastAll.length);
 const pastPage = 1;

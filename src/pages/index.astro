@@ -1,17 +1,17 @@
 ---
-import Base from '../layouts/Base.astro';
+import EventDayRefresh from '../components/events/EventDayRefresh.astro';
 import Hero from '../components/home/Hero.astro';
-import MissionStatement from '../components/home/MissionStatement.astro';
 import LatestNews from '../components/home/LatestNews.astro';
+import MissionStatement from '../components/home/MissionStatement.astro';
+import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
+import { eventActiveCalendarDate } from '../utils/event-day.mjs';
+import { splitEventsByDay } from '../utils/events';
 import { getMailchimpSignupUrl } from '../utils/mailchimp';
 
-const now = new Date();
+const upcomingLimit = 3;
 const allEvents = await getCollection('events');
-const upcomingEvents = allEvents
-  .filter(e => e.data.startDate > now)
-  .sort((a, b) => a.data.startDate.valueOf() - b.data.startDate.valueOf())
-  .slice(0, 3);
+const upcomingEvents = splitEventsByDay(allEvents).upcoming;
 
 const mailchimpUrl = getMailchimpSignupUrl();
 const base = import.meta.env.BASE_URL;
@@ -29,37 +29,45 @@ const base = import.meta.env.BASE_URL;
         <h2 class="font-serif text-3xl font-bold text-primary">Upcoming Events</h2>
         <a href={`${import.meta.env.BASE_URL}events`} class="text-accent hover:text-amber-700 font-medium transition-colors">All Events →</a>
       </div>
-      {upcomingEvents.length > 0 ? (
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {upcomingEvents.map((event) => (
-            <article class="bg-white rounded-lg shadow-xs border border-amber-100 p-5">
-              <div class="flex items-start gap-3">
-                <div class="shrink-0 text-center bg-primary text-white rounded-lg p-2 min-w-[52px]">
-                  <div class="text-xs font-medium uppercase">{event.data.startDate.toLocaleDateString('en-US', { month: 'short' })}</div>
-                  <div class="text-xl font-serif font-bold leading-none">{event.data.startDate.getDate()}</div>
-                </div>
-                <div>
-                  <div class="flex flex-wrap items-center gap-2 gap-y-1">
-                    <h3 class="font-serif font-semibold text-primary">
-                      <a href={`${base}events/${event.id}`} class="hover:text-accent transition-colors">{event.data.title}</a>
-                    </h3>
-                    {event.data.cancelled && (
-                      <span class="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-red-100 text-red-800 border border-red-200">
-                        Cancelled
-                      </span>
-                    )}
+      <div data-upcoming-limit={upcomingLimit}>
+        {upcomingEvents.length > 0 ? (
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {upcomingEvents.map((event, index) => (
+              <article
+                class="bg-white rounded-lg shadow-xs border border-amber-100 p-5"
+                data-event-day={eventActiveCalendarDate(event.data)}
+                hidden={index >= upcomingLimit}
+              >
+                <div class="flex items-start gap-3">
+                  <div class="shrink-0 text-center bg-primary text-white rounded-lg p-2 min-w-[52px]">
+                    <div class="text-xs font-medium uppercase">{event.data.startDate.toLocaleDateString('en-US', { month: 'short' })}</div>
+                    <div class="text-xl font-serif font-bold leading-none">{event.data.startDate.getDate()}</div>
                   </div>
-                  <p class="text-sm text-gray-500 mt-1">📍 {event.data.location}</p>
-                  <p class="text-sm text-gray-600 mt-1">{event.data.summary}</p>
-                  <a href={`${base}events/${event.id}`} class="inline-block mt-2 text-accent hover:text-amber-700 text-sm font-medium transition-colors">Event details →</a>
+                  <div>
+                    <div class="flex flex-wrap items-center gap-2 gap-y-1">
+                      <h3 class="font-serif font-semibold text-primary">
+                        <a href={`${base}events/${event.id}`} class="hover:text-accent transition-colors">{event.data.title}</a>
+                      </h3>
+                      {event.data.cancelled && (
+                        <span class="text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-red-100 text-red-800 border border-red-200">
+                          Cancelled
+                        </span>
+                      )}
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">📍 {event.data.location}</p>
+                    <p class="text-sm text-gray-600 mt-1">{event.data.summary}</p>
+                    <a href={`${base}events/${event.id}`} class="inline-block mt-2 text-accent hover:text-amber-700 text-sm font-medium transition-colors">Event details →</a>
+                  </div>
                 </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      ) : (
-        <p class="text-gray-500">No upcoming events. <a href={`${import.meta.env.BASE_URL}events`} class="text-accent">Check the events page</a> for more.</p>
-      )}
+              </article>
+            ))}
+          </div>
+        ) : null}
+        <p class="text-gray-500" data-upcoming-empty hidden={upcomingEvents.length > 0}>
+          No upcoming events. <a href={`${import.meta.env.BASE_URL}events`} class="text-accent">Check the events page</a> for more.
+        </p>
+      </div>
+      <EventDayRefresh />
     </div>
   </section>
 

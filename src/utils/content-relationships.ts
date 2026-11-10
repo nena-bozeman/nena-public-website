@@ -1,5 +1,6 @@
 import type { CollectionEntry } from 'astro:content';
 import type { Topic } from '../schemas/topics';
+import { isEventPast } from './event-day.mjs';
 
 type TopicEntry =
   | CollectionEntry<'news'>
@@ -37,10 +38,10 @@ export function sortEventsUpcomingFirst(
   now = new Date(),
 ): CollectionEntry<'events'>[] {
   const upcoming = entries
-    .filter((e) => e.data.startDate.valueOf() >= now.valueOf())
+    .filter((e) => !isEventPast(e.data, now))
     .sort((a, b) => a.data.startDate.valueOf() - b.data.startDate.valueOf());
   const past = entries
-    .filter((e) => e.data.startDate.valueOf() < now.valueOf())
+    .filter((e) => isEventPast(e.data, now))
     .sort((a, b) => b.data.startDate.valueOf() - a.data.startDate.valueOf());
   return [...upcoming, ...past];
 }
