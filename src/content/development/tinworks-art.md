@@ -1,6 +1,6 @@
 ---
 title: Tinworks Art
-phase: under-construction
+phase: complete
 historic: true
 status: current
 years: '2019–2026'
@@ -12,8 +12,8 @@ lat: 45.687347
 lng: -111.026852
 summary: >-
   A free art space in the warehouse complex at 719 North Ida Avenue, inside NENA, in use since a
-  2019 pop-up. Tinworks' May 2026 update still describes an October 11, 2026 opening for the Mill
-  Building restoration.
+  2019 pop-up. The Mill Building restoration is finished and the building is open. Tinworks' site
+  gives October 11, 2026 as the opening date.
 image: tinworks.jpg
 imageAlt: >-
   Aerial view of the blue Tinworks Art warehouse complex, with people gathered in the yard, railroad
@@ -32,16 +32,16 @@ Tinworks' about page says the project began in summer 2019 as a free weekend pop
 
 [Yellowstone Public Radio](https://www.ypradio.org/ypr-newscasts/2019-07-16/artists-transform-old-warehouse-slated-for-demolition-in-bozeman) reported on July 16, 2019 that the warehouse was slated to be torn down that fall for a mixed-use project with housing, office, retail, artist studios, and parking, and that the pop-up was a way to use the building in the meantime. The radio story said four visual artists and three performance artists were in that first show. Tinworks still occupies the complex at 719 North Ida Avenue.
 
-[Tinworks' Mill Building page](https://www.tinworksart.org/millbuildingproject) says restoration of the historic Mill Building on the Ida campus began in 2025. The project adds year-round gallery space, public restrooms, and staff offices, and keeps the interior crib wall and the exterior grain chute. An update dated May 2026 says Tinworks looked forward to opening the building on October 11, 2026, with Act II of *Chisel & Razor*. Checked on November 11, 2026, that page still describes the opening as upcoming. This page does not treat the Mill Building as open.
+[Tinworks' Mill Building page](https://www.tinworksart.org/millbuildingproject) says restoration of the historic Mill Building on the Ida campus began in 2025. The restoration is finished and the building is open. It added year-round gallery space, public restrooms, and staff offices, and kept the interior crib wall and the exterior grain chute. Tinworks' site gives October 11, 2026 as the opening date, with Act II of *Chisel & Razor*.
 
 The Ida campus is also where NENA's [Parade of Sheds](/our-work/parade-of-sheds) gathers for the potluck.
 
 ## Why it matters to the neighborhood
 
-Tinworks is a public room on North Ida, inside the neighborhood, where neighbors can see art without buying a ticket. The Parade of Sheds meets in the yard. The Mill Building is the piece that would make galleries usable through the winter, and Tinworks' own page still describes that opening as ahead.
+Tinworks is a public room on North Ida, inside the neighborhood, where neighbors can see art without buying a ticket. The Parade of Sheds meets in the yard. The Mill Building restoration is finished, so the campus can hold galleries through the winter.
 
 ## Sources
 
 1. Tinworks Art. ["About."](https://www.tinworksart.org/about)
-2. Tinworks Art. ["Mill Building Project."](https://www.tinworksart.org/millbuildingproject) Update dated May 2026. Page still described the October 11, 2026 opening as upcoming when checked on November 11, 2026.
+2. Tinworks Art. ["Mill Building Project."](https://www.tinworksart.org/millbuildingproject) A May 2026 update on that page names October 11, 2026 as the opening date. The [about page](https://www.tinworksart.org/about) places the opening in October 2026.
 3. Yellowstone Public Radio. ["Artists Transform Old Warehouse Slated For Demolition In Bozeman."](https://www.ypradio.org/ypr-newscasts/2019-07-16/artists-transform-old-warehouse-slated-for-demolition-in-bozeman) July 16, 2019.
