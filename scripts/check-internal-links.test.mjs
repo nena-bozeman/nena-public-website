@@ -5,12 +5,20 @@ import { join } from 'node:path';
 import test from 'node:test';
 import {
   fileRelToDirUrlPath,
+  extractHrefs,
   isLegacyCraftAssetPath,
   navigationalHrefIssue,
   resolveInternalPathname,
   skipHrefReason,
   stripBase,
 } from './check-internal-links.mjs';
+
+test('extractHrefs ignores href-like strings in inline scripts', () => {
+  assert.deepEqual(
+    extractHrefs('<a href="/about">About</a><script>result.innerHTML = [`<a href="`,f(o),`">`].join("");</script>'),
+    ['/about'],
+  );
+});
 
 test('skipHrefReason recognizes common non-navigational schemes', () => {
   assert.equal(skipHrefReason(''), 'empty');
