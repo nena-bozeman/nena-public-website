@@ -168,6 +168,13 @@ const development = defineCollection({
     /** Whether the project appears in the current Development Watch list or past archive. */
     status: listStatusSchema,
     phase: developmentPhaseSchema,
+    /**
+     * When true, the hub lists the project under Historic and completed projects.
+     * Current Development Watch cards stay the projects left at the default, false.
+     */
+    historic: z.boolean().default(false),
+    /** Optional span shown on the card and project page, such as "2006–2019". */
+    years: z.string().optional(),
     address: z.string(),
     developer: z.string().optional(),
     submittedDate: z.coerce.date().optional(),

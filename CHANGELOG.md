@@ -8,6 +8,13 @@ Changes not yet released.
 
 ---
 
+## 2026-11-11
+
+- **Development Watch:** Added eleven historic and completed project pages under a Historic and completed projects section on `/development/`. A `historic` flag on the development collection keeps them out of the current project grid. Pages publish with the collection (there is no draft field on development entries).
+- **Development Watch corrections:** Tinworks Art is marked complete, and the Mill Building is described as finished and open, with October 11, 2026 taken from Tinworks' site. The Bozeman Public Safety Center is at 901 N Rouse Ave, south of East Oak and inside NENA.
+
+---
+
 ## 2026-11-06
 
 - **Development Watch:** Added a short guide on `/development/` for the City of Bozeman Planning Projects map, and listed verified planning file numbers on the project pages that have a confident city match. Each number is labeled by application type. Map links are only included when that link opens the application.
