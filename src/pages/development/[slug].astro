@@ -5,6 +5,7 @@ import RelatedContent from '../../components/related/RelatedContent.astro';
 import TopicPills from '../../components/related/TopicPills.astro';
 import { DEVELOPMENT_PHASE_BADGE } from '../../schemas/development-phase';
 import { getCollection, render } from 'astro:content';
+import CityPlanningRecords from '../../components/development/CityPlanningRecords.astro';
 import { getDevelopmentImage } from '../../utils/development-image';
 import {
   backlinksFor,
@@ -98,6 +99,8 @@ const relatedNews = [...explicitNews, ...topicNews.filter((p) => !explicitNews.s
         )}
       </figure>
     )}
+
+    <CityPlanningRecords applications={project.data.cityApplications} />
 
     <div class="prose prose-green max-w-none">
       <Content />

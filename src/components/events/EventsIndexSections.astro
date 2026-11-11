@@ -1,4 +1,5 @@
 ---
+import EventDayRefresh from './EventDayRefresh.astro';
 import EventList from './EventList.astro';
 import EventPagination from './EventPagination.astro';
 import type { CollectionEntry } from 'astro:content';
@@ -19,10 +20,10 @@ const calendarId =
     : 'nenabozeman@gmail.com';
 ---
 
-<div class="max-w-4xl mx-auto px-4 py-12">
+<div class="max-w-4xl mx-auto px-4 py-12" data-event-split data-accept-moved={pastPage === 1 ? 'true' : 'false'}>
   <h1 class="font-serif text-4xl font-bold text-primary mb-6">Events</h1>
 
-  <section class="mb-12">
+  <section class="mb-12" data-event-bucket="upcoming">
     <h2 class="font-serif text-2xl font-bold text-primary mb-6">Upcoming Events</h2>
     <EventList events={upcoming} />
   </section>
@@ -47,9 +48,10 @@ const calendarId =
     )}
   </section>
 
-  <section class="mb-12">
+  <section class="mb-12" data-event-bucket="past">
     <h2 class="font-serif text-2xl font-bold text-primary mb-6">Past Events</h2>
     <EventList events={pastPaginated} />
     <EventPagination currentPage={pastPage} totalPages={totalPastPages} />
   </section>
+  <EventDayRefresh />
 </div>

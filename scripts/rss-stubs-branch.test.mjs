@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import {
+  existsSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
@@ -10,7 +11,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { findNewNewsStubs } from './rss-stubs-branch.mjs';
+import { findNewNewsStubs, formatImportSummary, writePrBody } from './rss-stubs-branch.mjs';
 
 const script = fileURLToPath(new URL('./rss-stubs-branch.mjs', import.meta.url));
 
@@ -95,7 +96,7 @@ function runBranch(repo, parent, args, env = {}) {
     execFileSync(process.execPath, [script, '--repo', repo, '--base-ref', 'main', '--result-file', resultFile, ...args], {
       cwd: repo,
       encoding: 'utf8',
-      env: { ...process.env, ...env },
+      env: { ...process.env, GEMINI_API_KEY: '', ...env },
     });
   } catch (error) {
     const failure = new Error(`${error.stderr ?? ''}\n${error.stdout ?? ''}`);
@@ -104,6 +105,78 @@ function runBranch(repo, parent, args, env = {}) {
   }
   return JSON.parse(readFileSync(resultFile, 'utf8'));
 }
+
+test('review body says merging publishes events and lists when and where', () => {
+  const parent = mkdtempSync(join(tmpdir(), 'rss-pr-body-'));
+  const bodyFile = join(parent, 'body.md');
+  writePrBody(
+    bodyFile,
+    ['src/content/news/2026-08-04-neighborhood-potluck.md'],
+    ['src/content/news/2026-08-04-neighborhood-potluck.md'],
+    [{
+      path: 'src/content/events/2026-12-01-planning-meeting.md',
+      title: 'Planning meeting',
+      start: '2026-12-01T16:30:00',
+      end: '2026-12-01T18:00:00',
+      location: '702 E. Peach',
+      sourceUrl: 'https://mailchi.mp/bbbbbbbbbbbbbbbb/neighborhood-potluck',
+    }],
+    [],
+  );
+  const body = readFileSync(bodyFile, 'utf8');
+  assert.match(body, /Merging this pull request publishes them on the site/);
+  assert.match(body, /syncs them to Google Calendar/);
+  assert.match(body, /Summarized news posts use `draft: false`/);
+  assert.match(body, /Bare stubs stay `draft: true`/);
+  assert.match(body, /Published on merge \(`draft: false`\)/);
+  assert.match(body, /Planning meeting — 2026-12-01, 4:30 p\.m\.–6 p\.m\. at 702 E\. Peach/);
+  assert.match(body, /https:\/\/mailchi\.mp\/bbbbbbbbbbbbbbbb\/neighborhood-potluck/);
+  writePrBody(
+    bodyFile,
+    ['src/content/news/2026-10-13-parade-of-sheds-this-sunday.md'],
+    [],
+    [],
+    [],
+    [{ path: 'src/content/news/2026-10-13-parade-of-sheds-this-sunday.md', reason: 'model-failed: model HTTP 503' }],
+    [{ path: 'src/content/news/2026-10-13-parade-of-sheds-this-sunday.md', count: 4 }],
+  );
+  const retried = readFileSync(bodyFile, 'utf8');
+  assert.match(retried, /4 Gemini retries/);
+  assert.match(retried, /Draft only, not published/);
+  const summary = formatImportSummary({
+    model: 'gemini-3.5-flash-lite',
+    dryRun: false,
+    prepared: [{
+      rel: 'src/content/news/2026-10-13-parade-of-sheds-this-sunday.md',
+      content: '',
+      summarized: false,
+      fallbackReason: 'model-failed: model HTTP 503',
+      retries: 4,
+      eventFiles: [],
+    }],
+    skippedEvents: [],
+  });
+  assert.match(summary, /Gemini retries: 4/);
+  assert.match(summary, /Draft only, not published/);
+});
+
+test('review body names why a stub stayed bare', () => {
+  const parent = mkdtempSync(join(tmpdir(), 'rss-pr-fallback-'));
+  const bodyFile = join(parent, 'body.md');
+  writePrBody(
+    bodyFile,
+    ['src/content/news/2026-11-02-bozeman-creek-open-house-november-9.md'],
+    [],
+    [],
+    [],
+    [{
+      path: 'src/content/news/2026-11-02-bozeman-creek-open-house-november-9.md',
+      reason: 'fetch-failed: campaign page HTTP 503',
+    }],
+  );
+  const body = readFileSync(bodyFile, 'utf8');
+  assert.match(body, /Draft only, not published \(`draft: true`\) — fetch-failed: campaign page HTTP 503/);
+});
 
 test('findNewNewsStubs rejects modifications and deletions', () => {
   const parent = mkdtempSync(join(tmpdir(), 'rss-diff-'));
@@ -295,8 +368,15 @@ test('a dirty work tree is refused', () => {
   const { parent, repo } = initRepo();
   writeFileSync(join(repo, 'src/content/news/2026-01-01-existing.md'), `${EXISTING}\nExtra.\n`);
   const feed = writeFeed(parent, [POTLUCK]);
-  assert.throws(() => runBranch(repo, parent, ['--file', feed]), /dirty work tree/);
+  const summary = join(parent, 'summary.md');
+  assert.throws(
+    () => runBranch(repo, parent, ['--file', feed], { GITHUB_STEP_SUMMARY: summary }),
+    /dirty work tree/,
+  );
   assert.match(readFileSync(join(repo, 'src/content/news/2026-01-01-existing.md'), 'utf8'), /Extra\./);
+  const report = readFileSync(summary, 'utf8');
+  assert.match(report, /\*\*Stopped\.\*\*/);
+  assert.match(report, /dirty work tree/);
 });
 
 test('merging the default branch into an open review branch stops on conflict', () => {
@@ -331,4 +411,58 @@ test('merging the default branch into an open review branch stops on conflict', 
   assert.doesNotMatch(git(repo, ['status']).trim(), /Unmerged|merging/i);
   git(repo, ['switch', 'automation/mailchimp-rss-stubs']);
   assert.match(readFileSync(join(repo, 'src/content/news/2026-01-01-existing.md'), 'utf8'), /Branch edit\./);
+});
+
+test('dry run prints the stub and does not create the automation branch', () => {
+  const { parent, repo } = initRepo();
+  const feed = writeFeed(parent, [KNOWN_ITEM, POTLUCK]);
+  git(repo, ['switch', '-c', 'feature']);
+  const summary = join(parent, 'summary.md');
+  const outcome = runBranch(
+    repo,
+    parent,
+    ['--dry-run', '--push', '--file', feed],
+    { GITHUB_STEP_SUMMARY: summary },
+  );
+  assert.equal(outcome.result, 'dry-run');
+  const report = readFileSync(summary, 'utf8');
+  assert.match(report, /Mailchimp RSS dry run/);
+  assert.match(report, /did not commit, push, or open a pull request/);
+  assert.match(report, /automation\/mailchimp-rss-stubs` was not changed/);
+  assert.match(report, /src\/content\/news\/2026-08-04-neighborhood-potluck\.md/);
+  assert.match(report, /no-api-key/);
+  assert.equal(git(repo, ['branch', '--list', 'automation/mailchimp-rss-stubs']).trim(), '');
+  assert.equal(git(repo, ['rev-parse', '--abbrev-ref', 'HEAD']).trim(), 'feature');
+  assert.equal(git(repo, ['status', '--porcelain']).trim(), '');
+  assert.equal(existsSync(join(repo, POTLUCK_PATH)), false);
+});
+
+test('a normal run writes campaign summaries and events to the job summary', () => {
+  const { parent, repo } = initRepo();
+  const feed = writeFeed(parent, [KNOWN_ITEM, POTLUCK]);
+  const summary = join(parent, 'summary.md');
+  const outcome = runBranch(repo, parent, ['--file', feed], { GITHUB_STEP_SUMMARY: summary });
+  assert.equal(outcome.result, 'committed');
+  const report = readFileSync(summary, 'utf8');
+  assert.match(report, /Mailchimp RSS import/);
+  assert.match(report, /Campaign summaries and extracted events from this run/);
+  assert.match(report, /src\/content\/news\/2026-08-04-neighborhood-potluck\.md/);
+  assert.match(report, /no-api-key/);
+  assert.match(report, /No events extracted from this campaign/);
+  assert.doesNotMatch(report, /did not commit/);
+});
+
+test('workflow early exits write the job summary and an error annotation', () => {
+  const workflow = readFileSync(fileURLToPath(new URL('../.github/workflows/mailchimp-rss-stubs.yml', import.meta.url)), 'utf8');
+  const guard = workflow.split('- name: Require the default branch')[1].split('- uses: actions/checkout')[0];
+  assert.match(guard, /GITHUB_STEP_SUMMARY/);
+  assert.match(guard, /::error::/);
+  assert.match(guard, /Non-main runs must be dry runs/);
+  assert.match(guard, /Dry run/);
+  assert.match(guard, /for a real import/);
+  assert.match(guard, /exit 1/);
+  const openPr = workflow.split('- name: Look for an open review pull request')[1].split('- name: Import new campaign stubs')[0];
+  assert.match(openPr, /GITHUB_STEP_SUMMARY/);
+  assert.match(openPr, /::error::/);
+  assert.match(openPr, /exit 1/);
 });

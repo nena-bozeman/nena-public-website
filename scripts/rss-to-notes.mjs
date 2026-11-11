@@ -49,6 +49,7 @@ function parseArgs(argv) {
     format: 'markdown',
     write: false,
     dryRun: false,
+    descriptionsOut: '',
     help: false,
   };
   for (let i = 0; i < argv.length; i++) {
@@ -59,6 +60,7 @@ function parseArgs(argv) {
     else if (a === '--format') out.format = (argv[++i] || 'markdown').toLowerCase();
     else if (a === '--write' || a === '-w') out.write = true;
     else if (a === '--dry-run') out.dryRun = true;
+    else if (a === '--descriptions-out') out.descriptionsOut = argv[++i] || '';
   }
   if (!['markdown', 'json', 'tsv'].includes(out.format)) {
     console.error(`rss-to-notes: unknown --format ${out.format} (use markdown, json, or tsv)`);
@@ -92,14 +94,29 @@ function parseRssItems(xml) {
     const link = (mLink?.[1] ?? '').trim();
     const guid = (mGuid?.[1] ?? '').trim();
     const pubDate = (mPub?.[1] ?? '').trim();
+    const description = itemDescription(chunk);
     if (title || link) {
-      rows.push({ title, link, guid, pubDate });
+      rows.push({ title, link, guid, pubDate, description });
     }
   }
   return rows;
 }
 
 /** @param {string} url */
+function itemDescription(chunk) {
+  const cdata = chunk.match(/<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>/);
+  if (cdata) return cdata[1];
+  const plain = chunk.match(/<description>([\s\S]*?)<\/description>/);
+  if (!plain) return '';
+  return plain[1]
+    .replace(/<!\[CDATA\[/g, '')
+    .replace(/\]\]>/g, '')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"');
+}
+
 function mailchiCampaignId(url) {
   if (!url) return '';
   const m = url.match(/mailchi\.mp\/([^/?#]+)/i);
@@ -289,9 +306,10 @@ function printMarkdown(rows, sourceLabel) {
 }
 
 function printJson(rows, sourceLabel) {
+  const items = rows.map(({ description: _description, ...row }) => row);
   console.log(
     JSON.stringify(
-      { source: sourceLabel, count: rows.length, items: rows },
+      { source: sourceLabel, count: items.length, items },
       null,
       2,
     ),
@@ -323,6 +341,16 @@ function assertWritableFeed(xml) {
   }
 }
 
+function writeDescriptions(filePath, rows) {
+  /** @type {Record<string, string>} */
+  const htmlById = {};
+  for (const row of rows) {
+    const id = mailchiCampaignId(row.link) || mailchiCampaignId(row.guid);
+    if (id && row.description) htmlById[id] = row.description;
+  }
+  writeFileSync(filePath, JSON.stringify(htmlById));
+}
+
 function printHelp() {
   console.log(`rss-to-notes — list campaigns from a Mailchimp archive RSS feed
 
@@ -335,6 +363,8 @@ Options:
   --format <fmt>    markdown | json | tsv (default: markdown)
   --write, -w       Create draft news stubs for campaigns not yet in content
   --dry-run         With --write, show paths without writing files
+  --descriptions-out <path>
+                    Write campaign id to RSS HTML for the summarizer
   --help, -h        This help
 
 After --write, fill stubs with the expand-mailchimp-stubs skill
@@ -369,6 +399,7 @@ async function main() {
   if (opts.write) assertWritableFeed(xml);
 
   const rows = parseRssItems(xml);
+  if (opts.descriptionsOut) writeDescriptions(opts.descriptionsOut, rows);
   if (opts.format === 'json') printJson(rows, sourceLabel);
   else if (opts.format === 'tsv') printTsv(rows);
   else printMarkdown(rows, sourceLabel);
