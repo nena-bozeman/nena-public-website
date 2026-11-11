@@ -11,6 +11,7 @@ export interface Props {
   title: string;
   phase: DevelopmentPhase;
   address: string;
+  years?: string;
   developer?: string;
   summary: string;
   dateUpdated: Date;
@@ -27,6 +28,7 @@ const {
   title,
   phase,
   address,
+  years,
   developer,
   summary,
   dateUpdated,
@@ -68,6 +70,7 @@ const thumbHeight =
     <a href={projectHref} class="hover:text-accent transition-colors">{title}</a>
   </h3>
   <p class="text-sm text-gray-500 mb-1">📍 {address}</p>
+  {years && <p class="text-sm text-gray-500 mb-1">{years}</p>}
   {developer && <p class="text-sm text-gray-500 mb-2">Developer: {developer}</p>}
   <p class="text-gray-600 text-sm leading-relaxed mb-3">{summary}</p>
   {tags.length > 0 && (
