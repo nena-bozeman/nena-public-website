@@ -9,11 +9,10 @@ export interface Props {
 const { events } = Astro.props;
 ---
 
-<div class="space-y-4">
-  {events.length === 0 ? (
-    <p class="text-gray-500 text-center py-8">No events found.</p>
-  ) : (
-    events.map((event) => (
+<div data-event-list>
+  <p class="text-gray-500 text-center py-8" data-event-empty hidden={events.length > 0}>No events found.</p>
+  <div class="space-y-4" data-event-cards>
+    {events.map((event) => (
       <EventCard
         slug={event.id}
         title={event.data.title}
@@ -26,6 +25,6 @@ const { events } = Astro.props;
         cancelled={event.data.cancelled}
         externalUrl={event.data.externalUrl}
       />
-    ))
-  )}
+    ))}
+  </div>
 </div>

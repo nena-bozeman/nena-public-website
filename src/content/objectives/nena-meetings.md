@@ -4,6 +4,7 @@ summary: Agendas, minutes, and recordings for the Northeast Neighborhood Associa
 status: current
 section: neighborhood-communication
 order: 2
+icon: calendar
 topics:
   - meeting
 ---

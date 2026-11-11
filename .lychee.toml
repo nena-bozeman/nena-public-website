@@ -53,6 +53,8 @@ exclude = [
   'https?://bzncloud\.bozeman\.net',
   # 2021-04-25-community-solar-access.md — host no longer resolves
   'mtsolarcommunity\.mt\.gov/Portals/185/Documents/Montana_Solar_Market_Assessment',
+  # 2021-04-25-community-solar-access.md — homepage returns HTTP 500
+  '^https?://(www\.)?communitysolaraccess\.org/?$',
   # 2020-10-09-trails-projects.md — expired Webex session
   'cityofbozeman\.webex\.com/cityofbozeman/onstage/g\.php\?MTID=e2fa09fdbf703ec57c7d4db6389350401',
   # 2025-09-29 / 2025-11-04 news — closed Monday.com survey
@@ -67,12 +69,17 @@ exclude = [
   'watch\.montanapbs\.org/video/shadow-casting-the-making-of-a-river-runs-through-it-pd7adb',
   # community.md — site times out from CI link checker
   '^https://www\.theemerson\.org/?$',
+  # community.md — homepage returns 200, but slower than the 20s CI timeout
+  '^https://(www\.)?downtownbozeman\.org/?$',
   # History NR citations — historicmt.org times out from GitHub Actions (items 503, 570, 571, 577, 579, 595, 2222)
   '^https://historicmt\.org/',
   # 1883-hawthorne-elementary-east-side-school-opens.md — times out from CI
   'montanagenealogy\.com/gallatin/first_schools\.htm',
   # 1991-a-river-runs-through-it.md — Montana Film Office times out from CI
   'commerce\.mt\.gov/Business/Programs-and-Services/Montana-Film-Office',
+  # Idaho Pole news — EPA SEMS document host times out from CI
+  # (2021-01-27, 2021-02-17, 2022-07-26, 2025-10-10)
+  'semspub\.epa\.gov',
 ]
 
 exclude_path = [

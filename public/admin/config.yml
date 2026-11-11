@@ -29,6 +29,7 @@ x-topics-field: &topics_field
     - { label: "NENA Newsletters", value: "newsletter" }
     - { label: "NENA Meetings", value: "meeting" }
     - { label: "Bozeman UDC", value: "bozeman-udc" }
+    - { label: "Bozeman Creek Vision Plan", value: "bozeman-creek-vision-plan" }
     - { label: "Affordable Housing", value: "affordable-housing" }
     - { label: "Parade of Sheds", value: "parade-of-sheds" }
     - { label: "Burdock Blitz", value: "burdock-blitz" }
@@ -202,6 +203,16 @@ collections:
       - { label: "Summary", name: "summary", widget: "text" }
       - { label: "Category", name: "category", widget: "select", options: ["social","civic","committee","tour","other"] }
       - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - label: "Photo (filename in src/assets/events/)"
+        name: "image"
+        widget: "string"
+        required: false
+        hint: "Optional hero photo. Put the file in src/assets/events/ and enter the filename (for example 2026-10-22-nena-fall-meeting.jpg)."
+      - label: "Photo alt text"
+        name: "imageAlt"
+        widget: "string"
+        required: false
+        hint: "Required when a photo is set. Describe the scene; do not name people."
       - <<: *date_created_field
       - <<: *date_updated_field
       - <<: *topics_field
@@ -273,7 +284,43 @@ collections:
       - <<: *date_created_field
       - <<: *date_updated_required_field
       - { label: "Summary", name: "summary", widget: "text" }
+      - label: "Hero image (filename in src/assets/development/)"
+        name: "image"
+        widget: "string"
+        required: false
+        hint: "Optional hero image. Put the file in src/assets/development/ and enter the filename (for example bozeman-yards.jpg)."
+      - label: "Hero image alt text"
+        name: "imageAlt"
+        widget: "string"
+        required: false
+        hint: "Required when a hero image is set. Describe what the picture shows."
+      - label: "Hero image credit"
+        name: "imageCredit"
+        widget: "string"
+        required: false
+        hint: "Required when a hero image is set. Name the source, shown under the hero."
       - { label: "City planning URL (optional)", name: "cityPlanningUrl", widget: "string", required: false }
+      - label: "City planning applications"
+        name: "cityApplications"
+        widget: "list"
+        required: false
+        hint: "One entry per city application. Set the map link only when the planning map file-number URL opens that application."
+        fields:
+          - { label: "File number", name: "fileNumber", widget: "string" }
+          - label: "Label"
+            name: "label"
+            widget: "string"
+            hint: "Application type and phase, in plain language. For example: Phase 2 site plan."
+          - { label: "City status", name: "status", widget: "string" }
+          - label: "Opens on the planning map"
+            name: "mapLink"
+            widget: "boolean"
+            default: false
+            required: false
+          - label: "Application documents URL"
+            name: "recordsUrl"
+            widget: "string"
+            required: false
       - { label: "Latitude (optional)", name: "lat", widget: "number", value_type: "float", step: 0.0001, required: false }
       - { label: "Longitude (optional)", name: "lng", widget: "number", value_type: "float", step: 0.0001, required: false }
       - <<: *topics_field
@@ -332,6 +379,11 @@ collections:
         hint: "Our Work hub section. Omit for objectives not listed under a section."
       - { label: "Listed in Our Work", name: "listed", widget: "boolean", default: true, hint: "When off, hidden from nav and hub lists; the page URL still works." }
       - { label: "Order", name: "order", widget: "number", default: 99 }
+      - label: "Nav icon"
+        name: "icon"
+        widget: "string"
+        required: false
+        hint: "Lucide icon name (kebab-case, for example warehouse). Shown beside this objective in the Our Work menu. Required for listed objectives."
       - { label: "Contact Email", name: "contactEmail", widget: "string", required: false }
       - <<: *topics_field
       - <<: *date_created_field
@@ -386,6 +438,11 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Description (SEO)", name: "description", widget: "text" }
       - { label: "Subtitle (optional)", name: "subtitle", widget: "string", required: false, hint: "Tagline shown under the page title (e.g. About page)." }
+      - label: "Nav icon"
+        name: "icon"
+        widget: "string"
+        required: false
+        hint: "Lucide icon name (kebab-case, for example info). Shown beside this page in the main menu when the page is linked there."
       - <<: *date_created_field
       - <<: *date_updated_field
       - label: "Body"

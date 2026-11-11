@@ -1,6 +1,7 @@
 ---
 import type { NavGroup, NavItem, NavSection } from '../../data/navigation';
 import { isNavGroupActive, isNavItemActive, resolveNavHref } from '../../data/navigation';
+import NavIcon from '../icons/NavIcon.astro';
 
 interface Props {
   group: NavGroup;
@@ -14,7 +15,7 @@ const groupActive = isNavGroupActive(pathname, base, group);
 const hubHref = group.hubHref ? resolveNavHref(base, group.hubHref) : null;
 
 const linkClass =
-  'block rounded-sm px-3 py-2 text-sm text-green-100 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
+  'rounded-sm px-3 py-2 text-sm text-green-100 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
 const triggerClass =
   'flex items-center gap-1 rounded-sm text-sm font-medium transition-colors hover:bg-green-800 hover:text-white focus-within:outline-solid focus-within:outline-2 focus-within:outline-offset-0 focus-within:outline-amber-300/80';
 const triggerActiveClass = groupActive ? 'text-white bg-green-800/70' : 'text-green-100';
@@ -23,7 +24,9 @@ const hubLinkClass =
 const hubButtonClass =
   'rounded-sm px-1.5 py-2 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
 const sectionHeadingClass =
-  'block rounded-sm px-3 pb-1 pt-1 text-xs font-semibold uppercase tracking-wide text-green-300/90 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
+  'rounded-sm px-3 pb-1 pt-1 text-xs font-semibold uppercase tracking-wide text-green-300/90 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
+const panelWidthClass = group.panelClass ?? 'min-w-56';
+const panelAlignClass = group.panelAlign === 'end' ? 'right-0' : 'left-0';
 ---
 
 <div class="nav-dropdown relative" data-nav-dropdown>
@@ -84,7 +87,11 @@ const sectionHeadingClass =
   <div
     id={panelId}
     data-nav-dropdown-panel
-    class="nav-dropdown__panel absolute left-0 top-full z-50 mt-1 min-w-56 rounded-md border border-green-700/60 bg-primary py-2 shadow-lg"
+    class:list={[
+      'nav-dropdown__panel absolute top-full z-50 mt-1 rounded-md border border-green-700/60 bg-primary py-2 shadow-lg',
+      panelAlignClass,
+      panelWidthClass,
+    ]}
     role="menu"
     aria-labelledby={`nav-trigger-${group.id}`}
     hidden
@@ -103,12 +110,14 @@ const sectionHeadingClass =
                 <a
                   href={resolveNavHref(base, section.href)}
                   class:list={[
+                    section.icon ? 'flex items-center gap-2' : 'block',
                     sectionHeadingClass,
                     isNavItemActive(pathname, base, section.href) ? 'bg-green-800/80 text-white' : '',
                   ]}
                   role="menuitem"
                   aria-current={isNavItemActive(pathname, base, section.href) ? 'page' : undefined}
                 >
+                  {section.icon && <NavIcon name={section.icon} />}
                   {section.label}
                 </a>
               ) : (
@@ -124,6 +133,7 @@ const sectionHeadingClass =
                 <a
                   href={resolveNavHref(base, item.href)}
                   class:list={[
+                    item.icon ? 'flex items-center gap-2' : 'block',
                     linkClass,
                     item.nested ? 'pl-7 text-green-200/95' : '',
                     active ? 'bg-green-800/80 text-white font-medium' : '',
@@ -133,6 +143,7 @@ const sectionHeadingClass =
                   target={item.external ? '_blank' : undefined}
                   rel={item.external ? 'noopener noreferrer' : undefined}
                 >
+                  {item.icon && <NavIcon name={item.icon} />}
                   {item.label}
                 </a>
               );

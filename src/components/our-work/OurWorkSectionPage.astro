@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import NavIcon from '../icons/NavIcon.astro';
 import type { OurWorkSection } from '../../data/our-work';
 import { OUR_WORK_PATH, resolveOurWorkHref } from '../../data/our-work';
 
@@ -15,7 +16,10 @@ const hubHref = resolveOurWorkHref(base, OUR_WORK_PATH);
 <Base title={section.label} description={section.description}>
   <div class="max-w-3xl mx-auto px-4 py-12">
     <a href={hubHref} class="text-accent text-sm font-medium mb-8 inline-block">← Back to Our Work</a>
-    <h1 class="font-serif text-4xl font-bold text-primary mb-3">{section.label}</h1>
+    <h1 class="font-serif text-4xl font-bold text-primary mb-3 flex items-start gap-3">
+      <NavIcon name={section.icon} class="mt-1 h-8 w-8" size={32} />
+      <span>{section.label}</span>
+    </h1>
     <p class="text-xl text-gray-600 mb-8">{section.description}</p>
     <ul class="space-y-6 list-none p-0 m-0">
       {
@@ -24,12 +28,15 @@ const hubHref = resolveOurWorkHref(base, OUR_WORK_PATH);
             <h2 class="font-serif text-lg font-semibold text-primary mb-1">
               <a
                 href={resolveOurWorkHref(base, link.href)}
-                class="hover:text-accent transition-colors"
+                class="inline-flex items-center gap-2 hover:text-accent transition-colors"
                 target={link.external ? '_blank' : undefined}
                 rel={link.external ? 'noopener noreferrer' : undefined}
               >
-                {link.label}
-                {link.external && <span class="sr-only"> (opens in new tab)</span>}
+                <NavIcon name={link.icon} class="h-5 w-5" size={20} />
+                <span>
+                  {link.label}
+                  {link.external && <span class="sr-only"> (opens in new tab)</span>}
+                </span>
               </a>
             </h2>
             {link.summary && <p class="text-gray-600 text-sm">{link.summary}</p>}

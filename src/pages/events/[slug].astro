@@ -1,9 +1,12 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
+import NavIcon from '../../components/icons/NavIcon.astro';
 import EventFlyer from '../../components/events/EventFlyer.astro';
 import RelatedContent from '../../components/related/RelatedContent.astro';
 import TopicPills from '../../components/related/TopicPills.astro';
 import { getCollection, render } from 'astro:content';
+import { getEventImage } from '../../utils/event-image';
 import {
   backlinksFor,
   eventRelatedPages,
@@ -36,14 +39,22 @@ const categoryColors: Record<string, string> = {
 };
 
 const { category, cancelled } = event.data;
+const paradeIcon = content.objectives.find((objective) => objective.id === 'parade-of-sheds')?.data.icon;
 const flyerPdf = event.data.flyerPdf;
 const flyerImage = event.data.flyerImage;
+const photo = getEventImage(event.data.image);
+const photoAlt = event.data.imageAlt ?? '';
+const maxPhotoWidth = 1600;
+const photoWidth = photo ? Math.min(photo.width, maxPhotoWidth) : undefined;
+const photoHeight =
+  photo && photoWidth ? Math.round((photoWidth / photo.width) * photo.height) : undefined;
 ---
 
 <Base
   title={event.data.title}
   description={event.data.summary}
   canonicalURL={`/events/${event.id}`}
+  image={photo?.src}
 >
   <article class="max-w-3xl mx-auto px-4 py-12">
     <a href={`${base}events`} class="text-accent hover:text-amber-700 text-sm font-medium mb-8 inline-block transition-colors">← Back to Events</a>
@@ -86,8 +97,9 @@ const flyerImage = event.data.flyerImage;
       {event.id === '2026-10-18-parade-of-sheds' && (
         <a
           href={`${base}our-work/parade-of-sheds`}
-          class="mt-4 inline-block max-w-full bg-accent hover:bg-amber-600 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors"
+          class="mt-4 inline-flex items-center gap-2 max-w-full bg-accent hover:bg-amber-600 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors"
         >
+          {paradeIcon && <NavIcon name={paradeIcon} class="h-4 w-4" size={16} />}
           See the tour &amp; live map
         </a>
       )}
@@ -104,6 +116,22 @@ const flyerImage = event.data.flyerImage;
         </a>
       )}
     </div>
+
+    {photo && photoWidth && photoHeight && (
+      <figure class="mb-8">
+        <Image
+          src={photo}
+          alt={photoAlt}
+          class="h-auto w-full rounded-lg border border-gray-100 shadow-xs"
+          width={photoWidth}
+          height={photoHeight}
+          sizes="(max-width: 768px) 100vw, 48rem"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </figure>
+    )}
 
     <div class="prose prose-green max-w-none">
       <Content />

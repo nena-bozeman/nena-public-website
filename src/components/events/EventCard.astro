@@ -1,4 +1,6 @@
 ---
+import { eventActiveCalendarDate } from '../../utils/event-day.mjs';
+
 export interface Props {
   slug: string;
   title: string;
@@ -13,7 +15,8 @@ export interface Props {
 }
 
 const base = import.meta.env.BASE_URL;
-const { slug, title, startDate, endDate: _endDate, location, address, summary, category, cancelled = false, externalUrl } = Astro.props;
+const { slug, title, startDate, endDate, location, address, summary, category, cancelled = false, externalUrl } = Astro.props;
+const eventDay = eventActiveCalendarDate({ startDate, endDate });
 const eventHref = `${base}events/${slug}`;
 
 const categoryColors: Record<string, string> = {
@@ -25,7 +28,7 @@ const categoryColors: Record<string, string> = {
 };
 ---
 
-<article class:list={['bg-white rounded-lg shadow-xs hover:shadow-md transition-shadow border p-6', cancelled ? 'border-red-200 opacity-90' : 'border-gray-100']}>
+<article data-event-day={eventDay} class:list={['bg-white rounded-lg shadow-xs hover:shadow-md transition-shadow border p-6', cancelled ? 'border-red-200 opacity-90' : 'border-gray-100']}>
   <div class="flex items-start gap-4">
     <div class:list={['shrink-0 text-center rounded-lg p-3 min-w-[64px]', cancelled ? 'bg-gray-400 text-white' : 'bg-primary text-white']}>
       <div class="text-xs font-medium uppercase">{startDate.toLocaleDateString('en-US', { month: 'short' })}</div>

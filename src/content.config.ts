@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { isLucideIconName } from './data/nav-icons';
 import { DEVELOPMENT_PHASE_VALUES } from './schemas/development-phase';
 import { LIST_STATUS_VALUES } from './schemas/list-status';
 import { ourWorkSectionSchema } from './schemas/our-work-section';
@@ -77,13 +78,29 @@ const events = defineCollection({
     /** Site path or URL of a preview image (first page of the flyer). */
     flyerImage: z.string().optional(),
     flyerAlt: z.string().optional(),
+    /**
+     * Optional filename under `src/assets/events/` (e.g. `2026-10-22-nena-fall-meeting.jpg`).
+     * Shown as a hero on the event page and processed with `astro:assets`.
+     */
+    image: z.string().optional(),
+    /** Required when `image` is set. Describe the scene; do not name people. */
+    imageAlt: z.string().optional(),
     topics: z.array(topicSchema).default([]),
     tags: z.array(z.string()).default([]),
     meetingSlug: z.string().optional(),
     newsSlugs: z.array(z.string()).default([]),
     dateCreated: z.coerce.date().optional(),
     dateUpdated: z.coerce.date().optional(),
-  }),
+  })
+    .superRefine((data, ctx) => {
+      if (data.image && !data.imageAlt?.trim()) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Events with an image need imageAlt',
+          path: ['imageAlt'],
+        });
+      }
+    }),
 });
 
 const places = defineCollection({
@@ -158,10 +175,56 @@ const development = defineCollection({
     dateUpdated: z.coerce.date(),
     summary: z.string(),
     cityPlanningUrl: z.url().optional(),
+    /**
+     * City planning applications verified for this development.
+     * One development can have several. `mapLink` is only for file numbers
+     * the planning viewer still opens.
+     */
+    cityApplications: z
+      .array(
+        z.object({
+          fileNumber: z.string().min(1),
+          /** Application type and phase, in plain language. */
+          label: z.string().min(1),
+          /** Status wording from the city's planning record. */
+          status: z.string().min(1),
+          mapLink: z.boolean().default(false),
+          recordsUrl: z.preprocess(
+            (value) => (typeof value === 'string' && value.trim() === '' ? undefined : value),
+            z.url().optional(),
+          ),
+        }),
+      )
+      .default([]),
     lat: z.number().optional(),
     lng: z.number().optional(),
+    /**
+     * Optional filename under `src/assets/development/` (e.g. `bozeman-yards.jpg`).
+     * Shown as a hero on the project page and a thumbnail on Development Watch cards.
+     * Processed with `astro:assets`.
+     */
+    image: z.string().optional(),
+    /** Required when `image` is set. Describe what the picture shows. */
+    imageAlt: z.string().optional(),
+    /** Required when `image` is set. Source credit shown under the hero. */
+    imageCredit: z.string().optional(),
     topics: z.array(topicSchema).default([]),
     newsSlugs: z.array(z.string()).default([]),
+  }).superRefine((data, ctx) => {
+    if (data.image && !data.imageAlt?.trim()) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Development projects with an image need imageAlt',
+        path: ['imageAlt'],
+      });
+    }
+    if (data.image && !data.imageCredit?.trim()) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Development projects with an image need imageCredit',
+        path: ['imageCredit'],
+      });
+    }
   }),
 });
 
@@ -176,6 +239,21 @@ const objectives = defineCollection({
     /** When false, the objective is omitted from section nav and hub lists (page URL still works). */
     listed: z.boolean().default(true),
     order: z.number().default(99),
+    /**
+     * Lucide icon name shown beside this objective in the Our Work nav.
+     * Listed objectives must set one; an unknown name fails the build.
+     */
+    icon: z
+      .string()
+      .superRefine((name, ctx) => {
+        if (!isLucideIconName(name)) {
+          ctx.addIssue({
+            code: 'custom',
+            message: `Unknown Lucide icon "${name}". Use a Lucide icon name such as "tree-deciduous".`,
+          });
+        }
+      })
+      .optional(),
     contactEmail: z.email().optional(),
     /** Curated topics matched against news and events for related content. */
     topics: z.array(topicSchema).default([]),
@@ -190,6 +268,21 @@ const pages = defineCollection({
     title: z.string(),
     description: z.string(),
     subtitle: z.string().optional(),
+    /**
+     * Lucide icon name shown beside this page in the main menu.
+     * An unknown name fails the build. Nav items that link here must set one.
+     */
+    icon: z
+      .string()
+      .superRefine((name, ctx) => {
+        if (!isLucideIconName(name)) {
+          ctx.addIssue({
+            code: 'custom',
+            message: `Unknown Lucide icon "${name}". Use a Lucide icon name such as "tree-deciduous".`,
+          });
+        }
+      })
+      .optional(),
     dateCreated: z.coerce.date().optional(),
     dateUpdated: z.coerce.date().optional(),
   }),

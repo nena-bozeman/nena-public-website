@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import NavIcon from '../../components/icons/NavIcon.astro';
 import EventFlyer from '../../components/events/EventFlyer.astro';
 import ParadeTourSection from '../../components/parade/ParadeTourSection.astro';
 import RelatedContent from '../../components/related/RelatedContent.astro';
@@ -47,7 +48,10 @@ const flyerImage = paradeEvent?.data.flyerImage;
         alt={paradeEvent?.data.flyerAlt ?? '2026 Parade of Sheds flyer'}
       />
     )}
-    <h1 class="font-serif text-4xl font-bold text-primary mb-3">{objective.data.title}</h1>
+    <h1 class="font-serif text-4xl font-bold text-primary mb-3 flex items-start gap-3">
+      {objective.data.icon && <NavIcon name={objective.data.icon} class="mt-1 h-8 w-8" size={32} />}
+      <span>{objective.data.title}</span>
+    </h1>
     <p class="text-xl text-gray-600 mb-6">{objective.data.summary}</p>
     <div class="prose prose-green max-w-none"><Content /></div>
     <div class="clear-both">

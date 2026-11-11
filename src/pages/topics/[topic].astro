@@ -1,12 +1,18 @@
 ---
 import Base from '../../layouts/Base.astro';
+import NavIcon from '../../components/icons/NavIcon.astro';
 import NewsList from '../../components/news/NewsList.astro';
 import EventList from '../../components/events/EventList.astro';
-import { getCollection } from 'astro:content';
-import { TOPIC_VALUES, TOPIC_LABELS, type Topic } from '../../schemas/topics';
+import { getCollection, getEntry } from 'astro:content';
+import {
+  TOPIC_OBJECTIVE_SLUG,
+  TOPIC_VALUES,
+  TOPIC_LABELS,
+  objectiveHrefForTopic,
+  type Topic,
+} from '../../schemas/topics';
 import { eventsMatchingTopics, newsMatchingTopics } from '../../utils/content-relationships';
 import { newsEntriesForSite } from '../../utils/news';
-import { objectiveHrefForTopic } from '../../schemas/topics';
 
 export async function getStaticPaths() {
   return TOPIC_VALUES.map((topic) => ({ params: { topic } }));
@@ -25,6 +31,8 @@ const allEvents = await getCollection('events');
 const relatedNews = newsMatchingTopics(allNews, [topicValue]);
 const relatedEvents = eventsMatchingTopics(allEvents, [topicValue]);
 const objectiveHref = objectiveHrefForTopic(topicValue, base);
+const objectiveSlug = TOPIC_OBJECTIVE_SLUG[topicValue];
+const relatedObjective = objectiveSlug ? await getEntry('objectives', objectiveSlug) : undefined;
 ---
 
 <Base
@@ -38,7 +46,10 @@ const objectiveHref = objectiveHrefForTopic(topicValue, base);
       objectiveHref && (
         <p class="text-gray-600 mb-8">
           Related objective:{' '}
-          <a href={objectiveHref} class="text-accent hover:text-amber-700 font-medium">
+          <a href={objectiveHref} class="inline-flex items-center gap-2 text-accent hover:text-amber-700 font-medium">
+            {relatedObjective?.data.icon && (
+              <NavIcon name={relatedObjective.data.icon} class="h-4 w-4" size={16} />
+            )}
             View committee page →
           </a>
         </p>

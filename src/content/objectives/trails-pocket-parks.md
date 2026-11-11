@@ -6,6 +6,7 @@ summary: >-
 status: current
 section: neighborhood-advocacy
 order: 9
+icon: footprints
 topics:
   - trails-pocket-parks
 ---

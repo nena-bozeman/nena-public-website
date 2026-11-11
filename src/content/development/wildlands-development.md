@@ -5,10 +5,20 @@ status: current
 address: Northeast Bozeman, MT
 submittedDate: '2021-06-08'
 dateCreated: '2021-06-08'
-dateUpdated: '2025-02-18'
+dateUpdated: '2026-11-06'
+cityApplications:
+  - fileNumber: '21-326'
+    label: Site plan
+    status: Final approval, closed
+    recordsUrl: 'https://weblink.bozeman.net/WebLink/Browse.aspx?dbid=0&id=240549&repo=BOZEMAN'
 summary: >-
   A mixed-use redevelopment of the Brown Building at Peach and Wallace, adding community retail, office space, and
   residential units with sustainable building features.
+image: wildlands.jpg
+imageAlt: >-
+  Photograph of the completed Wildlands building, a three-story mixed-use building with wood siding, a
+  brick base, ground-floor storefronts, and a mural on the side wall.
+imageCredit: Photograph from 45 Architecture's Wildlands Development project page.
 topics: []
 newsSlugs:
   - 2022-05-25-wildlands-development-update

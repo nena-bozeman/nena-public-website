@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import NavIcon from '../icons/NavIcon.astro';
 import CurrentPastFilters from '../filters/CurrentPastFilters.astro';
 import ListStatusLegacyRedirect from '../filters/ListStatusLegacyRedirect.astro';
 import {
@@ -79,8 +80,9 @@ const intro = isPast
               <h2 class="font-serif font-bold text-primary text-xl mb-2">
                 <a
                   href={sectionHubHref(section, base)}
-                  class="hover:text-accent transition-colors"
+                  class="inline-flex items-center gap-2 hover:text-accent transition-colors"
                 >
+                  <NavIcon name={section.icon} class="h-5 w-5" size={20} />
                   {section.label}
                 </a>
               </h2>
@@ -93,8 +95,11 @@ const intro = isPast
                         <li>
                           <a
                             href={resolveOurWorkHref(base, `${OUR_WORK_PATH}/${objective.id}`)}
-                            class="font-medium text-accent hover:text-amber-700"
+                            class="inline-flex items-center gap-2 font-medium text-accent hover:text-amber-700"
                           >
+                            {objective.data.icon && (
+                              <NavIcon name={objective.data.icon} class="h-4 w-4" size={16} />
+                            )}
                             {objective.data.title}
                           </a>
                           <p class="text-gray-600 mt-1">{objective.data.summary}</p>
@@ -111,10 +116,11 @@ const intro = isPast
                         <li>
                           <a
                             href={resolveOurWorkHref(base, link.href)}
-                            class="text-accent hover:text-amber-700 font-medium"
+                            class="inline-flex items-center gap-2 text-accent hover:text-amber-700 font-medium"
                             target={link.external ? '_blank' : undefined}
                             rel={link.external ? 'noopener noreferrer' : undefined}
                           >
+                            <NavIcon name={link.icon} class="h-4 w-4" size={16} />
                             {link.label}
                           </a>
                         </li>
@@ -148,8 +154,11 @@ const intro = isPast
                 <li>
                   <a
                     href={resolveOurWorkHref(base, `${OUR_WORK_PATH}/${objective.id}`)}
-                    class="font-medium text-accent hover:text-amber-700"
+                    class="inline-flex items-center gap-2 font-medium text-accent hover:text-amber-700"
                   >
+                    {objective.data.icon && (
+                      <NavIcon name={objective.data.icon} class="h-4 w-4" size={16} />
+                    )}
                     {objective.data.title}
                   </a>
                   <p class="text-gray-600 mt-1">{objective.data.summary}</p>
