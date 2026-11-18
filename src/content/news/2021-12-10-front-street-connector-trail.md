@@ -9,6 +9,8 @@ legacyId: '77'
 legacySlug: front-street-connector-trail
 topics:
   - trails-pocket-parks
+developments:
+  - story-mill-community-park
 ---
 
 New connector "Front Street Trail" in Northeast Neighborhood.  

@@ -84,14 +84,15 @@ export const OUR_WORK_SECTION_CONFIG: OurWorkSectionConfig[] = [
     id: 'development-watch',
     label: 'Development Watch',
     hubHref: 'development',
-    description: 'Active development proposals and projects in the Northeast Neighborhood.',
+    description:
+      'Development proposals and projects in the Northeast Neighborhood, including historic and completed projects.',
     icon: 'eye',
     customLinks: [
       {
         order: 1,
         label: 'All development projects',
         href: 'development',
-        summary: 'Map and list of current projects NENA is tracking.',
+        summary: 'Current projects NENA is tracking, plus historic and completed projects.',
         icon: 'building',
       },
     ],

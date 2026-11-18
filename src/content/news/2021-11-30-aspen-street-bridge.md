@@ -14,6 +14,9 @@ topics:
   - trails-pocket-parks
 places:
   - aspen-street-bridge
+developments:
+  - aspen-street-pedestrian-bridge
+  - northeast-urban-renewal-district
 ---
 
 Aspen Street Bridge 

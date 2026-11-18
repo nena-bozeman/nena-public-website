@@ -278,6 +278,17 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Status", name: "status", widget: "select", options: ["current", "past"], default: "current" }
       - { label: "Phase", name: "phase", widget: "select", options: ["proposed","under-review","approved","under-construction","complete","denied"] }
+      - label: "Historic"
+        name: "historic"
+        widget: "boolean"
+        default: false
+        required: false
+        hint: "List this project under Historic and completed projects. Leave off for proposals in the current Development Watch grid."
+      - label: "Years (optional)"
+        name: "years"
+        widget: "string"
+        required: false
+        hint: "Span shown on the card and project page, such as 2006–2019."
       - { label: "Address", name: "address", widget: "string" }
       - { label: "Developer (optional)", name: "developer", widget: "string", required: false }
       - <<: *submitted_date_field

@@ -35,7 +35,7 @@ newsSlugs:
 
 Idaho Pole is an 87-acre area northeast of Bozeman's NE neighborhood, bounded by railroad tracks on the south, L Street on the west, and Rocky Creek to the east and north. The Idaho Pole Company treated wooden poles with creosote and pentachlorophenol from 1945 until 1997, leading to soil and groundwater contamination; the site was listed as a Superfund site in 1986. Scout DAC, LLC purchased a portion of the property in 2022, and ongoing cleanup and redevelopment are tracked in the related news posts below.
 
-For EPA cleanup history and official documents, see the [EPA Idaho Pole page](https://www.epa.gov/superfund/idaho-pole). For the city's redevelopment framework, see the [Pole Yard Urban Renewal District](https://www.bozeman.net/government/economic-development/pole-yard-urban-renewal-district).
+For EPA cleanup history and official documents, see the [EPA Idaho Pole page](https://www.epa.gov/superfund/idaho-pole). For the city's redevelopment framework, see the [Pole Yard Urban Renewal District](https://www.bozeman.net/government/economic-development/pole-yard-urban-renewal-district). The 2017 [AIA R/UDAT plan](/development/aia-rudat-northeast-neighborhood-plan) treated the Pole Yard as one of four districts in its northeast recommendations.
 
 The city's planning project list does not include an application named Idaho Pole or Pole Yard, so this page does not give a planning file number for the redevelopment.
 

@@ -56,6 +56,7 @@ const relatedNews = [...explicitNews, ...topicNews.filter((p) => !explicitNews.s
       </span>
       <h1 class="font-serif text-4xl font-bold text-primary mt-4">{project.data.title}</h1>
       <p class="text-sm text-gray-500 mt-3">📍 {project.data.address}</p>
+      {project.data.years && <p class="text-sm text-gray-500 mt-1">{project.data.years}</p>}
       {project.data.developer && (
         <p class="text-sm text-gray-500 mt-1">Developer: {project.data.developer}</p>
       )}

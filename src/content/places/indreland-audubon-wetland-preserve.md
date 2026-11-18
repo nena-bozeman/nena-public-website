@@ -14,4 +14,4 @@ status: current
 
 The **Indreland Audubon Wetland Preserve** (IAWP) is a 40-acre wetland restoration site managed by [Sacajawea Audubon Society](https://sacajaweaaudubon.org/the-indreland-audubon-wetland-preserve/) along Bozeman's East Main corridor. Gifted to SAS in December 2018, the preserve protects and restores urban wetland habitat in the Gallatin watershed.
 
-Visitors can view the site from the **Milwaukee Railroad Berm Trail**, with benches along the berm overlooking wetland bird habitat. SAS is restoring the site as an urban sanctuary and environmental study area; see [Bozeman Wetlands](https://bozemanwetlands.org/WP/) for project updates and tour information.
+Visitors can view the site from the **Milwaukee Railroad Berm Trail**, with benches along the berm overlooking wetland bird habitat. SAS is restoring the site as an urban sanctuary and environmental study area; see [Bozeman Wetlands](https://bozemanwetlands.org/WP/) for project updates and tour information. How the land was gifted is on [Development Watch](/development/indreland-audubon-wetland-preserve).

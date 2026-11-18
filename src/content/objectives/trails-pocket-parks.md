@@ -15,7 +15,7 @@ The Trails & Parks Committee focuses on expanding recreational opportunities wit
 
 ## Current Projects
 
-- Northeast Neighborhood to Story Mill trail connection
+- Northeast Neighborhood to [Story Mill](/development/story-mill-community-park) trail connection
 - Pocket park development at N Rouse & Oak
 - Trail maintenance and wayfinding signage
 

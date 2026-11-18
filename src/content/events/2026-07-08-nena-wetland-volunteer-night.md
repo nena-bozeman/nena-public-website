@@ -18,7 +18,7 @@ newsSlugs:
   - 2026-07-08-tonight-indreland-audubon-volunteer-pizza
 ---
 
-Join your neighbors as we volunteer on the [Indreland Audubon Wetland Preserve](/places/indreland-audubon-wetland-preserve)! After working with the Audubon Society to maintain this preserve, we'll also have pizza and refreshments for the volunteers.
+Join your neighbors as we volunteer on the [Indreland Audubon Wetland Preserve](/places/indreland-audubon-wetland-preserve)! Background on the gift of the land is on [Development Watch](/development/indreland-audubon-wetland-preserve). After working with the Audubon Society to maintain this preserve, we'll also have pizza and refreshments for the volunteers.
 
 **When:** Wednesday, July 8, 5:00–8:00 p.m.
 
