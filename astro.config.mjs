@@ -16,6 +16,10 @@ export default defineConfig({
   site,
   base: siteBase,
   output: 'static',
+  // Astro 7 defaults to JSX whitespace handling, which glues adjacent
+  // expressions and inline links ("August 6, 20264:30 PM"). Keep the
+  // HTML-aware compression this site was authored for.
+  compressHTML: true,
   vite: {
     plugins: [
       tailwindcss(),

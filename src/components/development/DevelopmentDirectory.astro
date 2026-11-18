@@ -6,7 +6,12 @@ import { OUR_WORK_SECTION_CONFIG } from '../../data/our-work';
 import ProjectCard from './ProjectCard.astro';
 import ProjectMap from './ProjectMap.astro';
 import { getCollection } from 'astro:content';
-import { PLANNING_EMAIL, PLANNING_MAP_URL, PLANNING_PORTAL_URL } from '../../utils/city-planning';
+import {
+  BOZEMAN_BRIEF_URL,
+  PLANNING_EMAIL,
+  PLANNING_MAP_URL,
+  PLANNING_PORTAL_URL,
+} from '../../utils/city-planning';
 import { getMailchimpSignupUrl } from '../../utils/mailchimp';
 import {
   parseDevelopmentPhaseFromSearch,
@@ -85,6 +90,11 @@ const mailchimpUrl = getMailchimpSignupUrl();
           for Community Development viewer FAQs, and it lists
           <a href={`mailto:${PLANNING_EMAIL}`} class="font-medium text-accent hover:text-amber-700">{PLANNING_EMAIL}</a>.
           When an application is out for public comment, the city's notice for that file gives the dates and where to send comments.
+        </p>
+        <p>
+          To follow what's said about projects at City Commission and board meetings, see
+          <a href={BOZEMAN_BRIEF_URL} target="_blank" rel="noopener noreferrer" class="font-medium text-accent hover:text-amber-700">The Bozeman Brief</a>'s
+          meeting writeups. It is an independent podcast and news site, not a City of Bozeman site.
         </p>
       </div>
     </section>

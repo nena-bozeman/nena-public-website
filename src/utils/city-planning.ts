@@ -12,6 +12,12 @@ export const PLANNING_PORTAL_URL =
 export const PLANNING_EMAIL = 'planning@bozeman.net';
 
 /**
+ * The Bozeman Brief: a news and city-government podcast with plain-language
+ * writeups of Bozeman public meetings. Civic journalism, not a City of Bozeman site.
+ */
+export const BOZEMAN_BRIEF_URL = 'https://bozeman.civiccast.ai/';
+
+/**
  * Deep link the planning viewer uses to open one application.
  * Verified against the live viewer: `FILE_NUMBER` queries the active planning layer
  * and opens that application's result. Closed applications are not in that layer.

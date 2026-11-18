@@ -127,11 +127,12 @@ const HREF_RE = /\bhref\s*=\s*["']([^"'<>]+)["']/gi;
  * @param {string} html
  * @returns {string[]}
  */
-function extractHrefs(html) {
+export function extractHrefs(html) {
   const set = new Set();
   let m;
   HREF_RE.lastIndex = 0;
-  while ((m = HREF_RE.exec(html)) !== null) {
+  const markup = html.replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, '');
+  while ((m = HREF_RE.exec(markup)) !== null) {
     const v = (m[1] || '').trim();
     if (v) set.add(v);
   }
