@@ -19,7 +19,7 @@ NENA works alongside the City of Bozeman, the Inter-Neighborhood Council, and ne
 ## Nearby neighborhoods & business community
 
 * [Northside Neighborhood](https://www.northsidebozeman.com/) — artists, artisans, and local businesses in Bozeman's historic northeast neighborhood
-* [Northside Neighborhood business listing](https://www.northsidebozeman.com/businesses) — shops and services in northeast Bozeman
+* [Northside Neighborhood business map](https://northsidebozeman.com/map/) — shops and services in northeast Bozeman
 
 For other neighborhood associations across Bozeman, use the city's [neighborhood associations](https://www.bozeman.net/departments/administration/communications-engagement/neighborhoods-program/neighborhood-associations) directory (NENA is the Northeast association).
 
