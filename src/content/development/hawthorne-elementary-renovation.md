@@ -12,6 +12,12 @@ summary: >-
   School-board approval in March 2016 of a renovation and roughly 12,000-square-foot addition at
   Hawthorne Elementary, 405 East Mendenhall, on NENA's south edge. The architect told reporters
   construction would run from June 2016 to summer 2017.
+image: hawthorne-sanborn-1912.jpg
+imageAlt: >-
+  1912 Sanborn fire insurance map of Bozeman, sheet 14, with Hawthorne Public School labeled near
+  Church Avenue and Mendenhall, and Bozeman Creek drawn across the sheet.
+imageCredit: >-
+  Sanborn Map Company, September 1912, sheet 14. Library of Congress. Public domain.
 topics: []
 newsSlugs: []
 ---

@@ -11,6 +11,13 @@ summary: >-
   Montana Department of Transportation rebuild of Rouse Avenue from Main Street to Story Mill Road,
   with turn lanes, bike lanes, sidewalks, ADA ramps, and utility work. Part of the project is
   inside NENA and part is outside. Listed as completed. No completion month is given here.
+image: rouse-avenue.jpg
+imageAlt: >-
+  Intersection of East Main Street and Rouse Avenue in July 2023, with traffic signals, a wide
+  roadway, and a sidewalk at the south end of the rebuilt Rouse corridor.
+imageCredit: >-
+  Photograph by w_lemay, July 29, 2023, via Wikimedia Commons, CC BY-SA 2.0. Cropped to the
+  intersection and resized for this website.
 topics:
   - traffic-calming
 newsSlugs:

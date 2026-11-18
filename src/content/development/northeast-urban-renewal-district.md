@@ -11,6 +11,13 @@ summary: >-
   Short background on Bozeman's Northeast Urban Renewal District, which still uses tax increment
   financing for public improvements in and next to the neighborhood. Current NENA notes are on the
   Our Work page.
+image: bozeman-sanborn-1912-northeast.jpg
+imageAlt: >-
+  Upper portion of the 1912 Sanborn index map of Bozeman, showing the street grid and railroad on
+  the north and east sides of town.
+imageCredit: >-
+  Sanborn Map Company, September 1912, index sheet, cropped to the map. Library of Congress. Public
+  domain. This is not a map of the urban renewal district boundary.
 topics:
   - trails-pocket-parks
 newsSlugs:

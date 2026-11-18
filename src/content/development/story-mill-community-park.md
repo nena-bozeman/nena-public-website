@@ -11,6 +11,13 @@ dateUpdated: '2026-11-11'
 summary: >-
   A 60-acre city park at 698 Bridger Drive, just east of NENA, on land once planned for 1,200 homes
   and commercial space. Trust for Public Land and the city opened it in 2019.
+image: story-mill.jpg
+imageAlt: >-
+  Black and white photograph of the Story Mill grain elevator and concrete silos in Bozeman, with
+  clouds and hills behind the mill.
+imageCredit: >-
+  Photograph by Shelbymt, via Wikimedia Commons, CC BY-SA 3.0. Resized for this website. The mill
+  stands across from Story Mill Community Park.
 topics:
   - trails-pocket-parks
 newsSlugs:
