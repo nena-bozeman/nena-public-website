@@ -13,3 +13,5 @@ topics: []
 ---
 
 Non-profit art space connecting artists and the community through inclusive art experiences in non-traditional spaces.
+
+The campus history, including the Mill Building restoration, is on [Development Watch](/development/tinworks-art).

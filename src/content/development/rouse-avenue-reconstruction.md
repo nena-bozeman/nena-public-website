@@ -15,7 +15,6 @@ topics:
   - traffic-calming
 newsSlugs:
   - 2020-10-09-trails-projects
-  - 2021-12-10-front-street-connector-trail
 ---
 
 The **Rouse Avenue reconstruction** is a Montana Department of Transportation rebuild of Rouse Avenue, Montana Highway 86, from Story Mill Road to Main Street.

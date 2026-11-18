@@ -13,8 +13,7 @@ summary: >-
   Yard.
 topics:
   - visionne
-newsSlugs:
-  - 2021-04-25-visions-ne-committee
+newsSlugs: []
 ---
 
 The **AIA R/UDAT Northeast Neighborhood Plan** is a 2017 community design study of the Northeast Neighborhood. R/UDAT is the American Institute of Architects' Regional/Urban Design Assistance Team, a volunteer visit. The plan is a set of recommendations. It is not a city ordinance.

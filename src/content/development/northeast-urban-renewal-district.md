@@ -16,6 +16,8 @@ topics:
 newsSlugs:
   - 2021-04-16-aspen-st-bridge-update
   - 2021-11-30-aspen-street-bridge
+  - 2025-11-04-nena-fall-meeting-potluck-november-5
+  - 2026-02-16-city-meetings-public-involvement
 ---
 
 The **Northeast Urban Renewal District** is the city's tax-increment district in northeast Bozeman. This page is background. NENA's current notes are on the [Northeast Urban Renewal District](/our-work/northeast-urban-renewal-district) page, and this page does not repeat that material.

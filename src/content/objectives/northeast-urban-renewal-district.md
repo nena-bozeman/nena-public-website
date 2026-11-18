@@ -12,7 +12,7 @@ topics:
   - community
 ---
 
-The **Northeast Urban Renewal District (NURD)** uses tax increment financing (TIF) to fund public improvements in the renewal area. The **Northeast Urban Renewal Board (NURB)** adopts an annual work plan and budget; projects have included **Peach and Tamarack street improvements**, the **Aspen Street pedestrian bridge** over Bozeman Creek, and other resident- and business-facing amenities.
+The **Northeast Urban Renewal District (NURD)** uses tax increment financing (TIF) to fund public improvements in the renewal area. The **Northeast Urban Renewal Board (NURB)** adopts an annual work plan and budget; projects have included **Peach and Tamarack street improvements**, the **[Aspen Street pedestrian bridge](/development/aspen-street-pedestrian-bridge)** over Bozeman Creek, and other resident- and business-facing amenities. A short background page is on [Development Watch](/development/northeast-urban-renewal-district).
 
 NENA follows NURB meetings when projects affect trails, streets, or neighborhood access. Related news and development updates appear below.
 

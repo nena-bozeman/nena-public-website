@@ -11,6 +11,8 @@ topics:
   - visionne
 places:
   - tinworks
+developments:
+  - tinworks-art
 ---
 
 Visions NE Committee: Defining Community Character
@@ -27,7 +29,7 @@ What makes a neighborhood what it is? It’s obvious that Northeast Bozeman is q
 
  
 
-Change is here. Our goal in the Visions NE committee is to find ways to guide change in directions that enhance the best aspects of our neighborhood. In 2019, NENA residents joined together to put on the PhotoVoices exhibit. Photos were submitted to reflect cherished aspects of the neighborhood, including small houses, big trees, social gatherings, alleys and the creative, funky vibe that permeates the area. Hundreds of residents and visitors saw the photos and commented on them at the TinWorks pop-up exhibits. Since that time, NENA has been working with MSU professors Sarah Church and Susanne Cowen to help objectively measure neighborhood character.
+Change is here. Our goal in the Visions NE committee is to find ways to guide change in directions that enhance the best aspects of our neighborhood. In 2019, NENA residents joined together to put on the PhotoVoices exhibit. Photos were submitted to reflect cherished aspects of the neighborhood, including small houses, big trees, social gatherings, alleys and the creative, funky vibe that permeates the area. Hundreds of residents and visitors saw the photos and commented on them at the [TinWorks pop-up exhibits](/development/tinworks-art). Since that time, NENA has been working with MSU professors Sarah Church and Susanne Cowen to help objectively measure neighborhood character.
 
  
 

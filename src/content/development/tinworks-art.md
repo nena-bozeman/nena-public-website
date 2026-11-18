@@ -23,7 +23,8 @@ imageCredit: >-
   place page.
 topics:
   - parade-of-sheds
-newsSlugs: []
+newsSlugs:
+  - 2021-04-25-visions-ne-committee
 ---
 
 **Tinworks Art** is a nonprofit art space at 719 North Ida Avenue, inside the Northeast Neighborhood. The [place page](/places/tinworks) lists the same address. Admission is free, and [Tinworks](https://www.tinworksart.org/about) says the Ida campus is open Thursday through Sunday. The organization also programs Tinworks at Rialto, at 10 West Main Street, downtown.

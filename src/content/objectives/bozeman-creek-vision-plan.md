@@ -13,7 +13,7 @@ topics:
   - trails-pocket-parks
 ---
 
-The **Bozeman Creek Vision Plan** (also called the Bozeman Creek Resiliency Plan) guides how the city manages the creek corridor through Northeast and adjacent areas — including trails, bridges, floodplain work, and long-range resiliency goals.
+The **Bozeman Creek Vision Plan** (also called the Bozeman Creek Resiliency Plan) guides how the city manages the creek corridor through Northeast and adjacent areas — including trails, bridges, floodplain work, and long-range resiliency goals. The [Aspen Street pedestrian bridge](/development/aspen-street-pedestrian-bridge) is the neighborhood crossing already built on Bozeman Creek.
 
 NENA shares meeting notices when the city hosts kickoffs, open houses, or comment periods. Spring neighborhood meetings often include a **Visioning Bozeman Creek** update.
 

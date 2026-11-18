@@ -13,7 +13,8 @@ summary: >-
   municipal court, and fire on a brownfield. The architects date the project to 2022 and describe
   about 91,000 square feet on 8.6 acres.
 topics: []
-newsSlugs: []
+newsSlugs:
+  - 2020-10-09-trails-projects
 ---
 
 The **Bozeman Public Safety Center** is the city's police, municipal court, and fire campus at 901 North Rouse Avenue. The address is south of East Oak Street, inside the Northeast Neighborhood.

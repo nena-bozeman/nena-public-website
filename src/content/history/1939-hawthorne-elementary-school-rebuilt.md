@@ -18,7 +18,7 @@ Construction on Hawthorne began in **1938** and wrapped in November 1939. Accord
 
 ## Legacy on the northeast side
 
-The 1939 building kept Hawthorne on the east side's main residential corridor after the neighborhood had known the school for more than fifty years under the names East Side School (1883) and Hawthorne (from **1905**, when Bozeman's three elementary schools were named for authors). Together with Emerson Junior High and the institutions around [Beall Park](/history/1902-beall-park), it has anchored public education in the northeast for generations. Hawthorne became a model school for arts integration in **1991** and received a classroom addition in **2017**, but the 1939 Willson design remains the face of the campus.
+The 1939 building kept Hawthorne on the east side's main residential corridor after the neighborhood had known the school for more than fifty years under the names East Side School (1883) and Hawthorne (from **1905**, when Bozeman's three elementary schools were named for authors). Together with Emerson Junior High and the institutions around [Beall Park](/history/1902-beall-park), it has anchored public education in the northeast for generations. Hawthorne became a model school for arts integration in **1991** and received a [classroom addition in 2017](/development/hawthorne-elementary-renovation), but the 1939 Willson design remains the face of the campus.
 
 *Photograph: [Bozeman Magazine](https://bozemanmagazine.com/articles/2024/09/01/122065-the-history-of-hawthorne-east-side-school-to-art), “The History of Hawthorne” (2024).*
 
