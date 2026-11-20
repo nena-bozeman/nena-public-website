@@ -11,6 +11,13 @@ summary: >-
   A 2017 American Institute of Architects design-assistance visit for the Northeast Neighborhood.
   The report organizes ideas into four districts: the Core, Transitional, the Gateway, and the Pole
   Yard.
+image: bozeman-sanborn-1912-index.jpg
+imageAlt: >-
+  1912 Sanborn index map of Bozeman, with the street grid, the railroad, and colored blocks for the
+  map sheets covering the northeast side of town.
+imageCredit: >-
+  Sanborn Map Company, September 1912, index sheet. Library of Congress. Public domain. This is a
+  historic map of the town the plan studied, not a drawing from the 2017 report.
 topics:
   - visionne
 newsSlugs: []

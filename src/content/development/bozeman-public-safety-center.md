@@ -12,6 +12,12 @@ summary: >-
   City campus at 901 North Rouse Avenue, south of East Oak and inside NENA, combining police,
   municipal court, and fire on a brownfield. The architects date the project to 2022 and describe
   about 91,000 square feet on 8.6 acres.
+image: public-safety-center.jpg
+imageAlt: >-
+  Neighbors seated at tables in the Public Safety Center community room during a NENA meeting, with
+  a presenter at the front of the room.
+imageCredit: >-
+  Photograph from NENA's October 22, 2026 fall meeting, already used on that event page.
 topics: []
 newsSlugs:
   - 2020-10-09-trails-projects
