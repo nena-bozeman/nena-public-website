@@ -1,6 +1,23 @@
 import type { CollectionEntry } from 'astro:content';
+import { isEventPast } from './event-day.mjs';
 
 export const EVENTS_PER_PAGE = 10;
+
+export function splitEventsByDay(
+  entries: CollectionEntry<'events'>[],
+  now = new Date(),
+): { upcoming: CollectionEntry<'events'>[]; past: CollectionEntry<'events'>[] } {
+  const upcoming: CollectionEntry<'events'>[] = [];
+  const past: CollectionEntry<'events'>[] = [];
+  for (const entry of entries) {
+    if (isEventPast(entry.data, now)) past.push(entry);
+    else upcoming.push(entry);
+  }
+  return {
+    upcoming: sortUpcomingEventsAsc(upcoming),
+    past: sortPastEventsDesc(past),
+  };
+}
 
 export function sortUpcomingEventsAsc(
   entries: CollectionEntry<'events'>[],

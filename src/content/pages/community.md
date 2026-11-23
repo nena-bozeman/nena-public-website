@@ -3,8 +3,9 @@ title: Friends of NENA & neighborhood resources
 description: City of Bozeman resources, nearby neighborhood associations,
   northeast neighborhood businesses, neighborhood Arts & Culture business
   listings, and Bozeman arts organizations linked from NENA.
+icon: users-round
 ---
-NENA works alongside the City of Bozeman, the Inter-Neighborhood Council, and neighbors across town. These links point to official city resources, other neighborhood groups, nearby business communities, and Bozeman's arts organizations.
+NENA works alongside the City of Bozeman, the Inter-Neighborhood Council, and neighbors across town. These links point to official city resources, an independent meeting writeup, other neighborhood groups, nearby business communities, and Bozeman's arts organizations.
 
 ## City of Bozeman
 
@@ -13,11 +14,12 @@ NENA works alongside the City of Bozeman, the Inter-Neighborhood Council, and ne
 * [Neighborhood associations](https://www.bozeman.net/departments/administration/communications-engagement/neighborhoods-program/neighborhood-associations) — directory of recognized neighborhood associations
 * [Inter-Neighborhood Council (INC)](https://www.bozeman.net/departments/administration/communications-engagement/neighborhoods-program/interneighborhood-council) — an advisory board to the City Commission that gives a voice to neighbors and neighborhood concerns and facilitates communication between the city and neighborhoods through a monthly representative forum
 * [Engage Bozeman](https://engage.bozemanmt.gov) — all of the projects that the City is seeking to get the word out about and get your input on
+* [The Bozeman Brief](https://bozeman.civiccast.ai/) — independent plain-language writeups of Bozeman's public meetings, like City Commission and advisory board meetings
 
 ## Nearby neighborhoods & business community
 
 * [Northside Neighborhood](https://www.northsidebozeman.com/) — artists, artisans, and local businesses in Bozeman's historic northeast neighborhood
-* [Northside Neighborhood business listing](https://www.northsidebozeman.com/businesses) — shops and services in northeast Bozeman
+* [Northside Neighborhood business map](https://northsidebozeman.com/map/) — shops and services in northeast Bozeman
 
 For other neighborhood associations across Bozeman, use the city's [neighborhood associations](https://www.bozeman.net/departments/administration/communications-engagement/neighborhoods-program/neighborhood-associations) directory (NENA is the Northeast association).
 

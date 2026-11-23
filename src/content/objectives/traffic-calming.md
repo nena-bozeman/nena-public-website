@@ -4,6 +4,7 @@ summary: Working to make neighborhood streets safer for pedestrians, cyclists, a
 status: past
 section: neighborhood-advocacy
 order: 10
+icon: car-front
 topics:
   - traffic-calming
 ---

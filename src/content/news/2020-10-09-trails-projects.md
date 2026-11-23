@@ -13,6 +13,11 @@ legacySlug: trails-projects
 dateUpdated: '1970-01-01'
 topics:
   - trails-pocket-parks
+developments:
+  - cannery-district
+  - rouse-avenue-reconstruction
+  - story-mill-community-park
+  - bozeman-public-safety-center
 ---
 
 After long delays due to Rouse St, the City of Bozeman is considering the approval for a trail that connects Wallace to Oak St and the Cannery District, as well as other planned trails. **The City Commission will vote on, Tuesday, October 13.**

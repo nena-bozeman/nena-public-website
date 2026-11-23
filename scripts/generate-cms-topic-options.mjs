@@ -9,6 +9,7 @@ const TOPIC_LABELS = {
   newsletter: 'NENA Newsletters',
   meeting: 'NENA Meetings',
   'bozeman-udc': 'Bozeman UDC',
+  'bozeman-creek-vision-plan': 'Bozeman Creek Vision Plan',
   'affordable-housing': 'Affordable Housing',
   'parade-of-sheds': 'Parade of Sheds',
   'burdock-blitz': 'Burdock Blitz',

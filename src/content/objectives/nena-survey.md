@@ -6,6 +6,7 @@ status: current
 section: neighborhood-communication
 listed: true
 order: 11
+icon: clipboard-list
 topics:
   - nena-survey
 ---

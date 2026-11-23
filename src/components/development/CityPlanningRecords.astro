@@ -1,0 +1,71 @@
+---
+import { planningFileMapUrl } from '../../utils/city-planning';
+
+export interface CityApplication {
+  fileNumber: string;
+  label: string;
+  status: string;
+  mapLink?: boolean;
+  recordsUrl?: string;
+}
+
+interface Props {
+  applications: CityApplication[];
+}
+
+const { applications } = Astro.props;
+const hasMapLink = applications.some((application) => application.mapLink);
+const hasClosedRecord = applications.some((application) => !application.mapLink);
+---
+
+{
+  applications.length > 0 && (
+    <section id="city-planning" class="mb-8 rounded-lg border border-gray-100 bg-gray-50 p-5 sm:p-6">
+      <h2 class="font-serif text-2xl font-bold text-primary">City planning records</h2>
+      <p class="mt-2 text-sm leading-relaxed text-gray-600">
+        Each number is one city application. A development can have several, for different steps such as a zone change, a site plan, or a later revision.
+      </p>
+      <ul class="mt-4 space-y-4">
+        {applications.map((application) => (
+          <li class="border-t border-gray-200 pt-4 first:border-t-0 first:pt-0">
+            <p class="font-semibold text-primary">{application.label}</p>
+            <p class="mt-1 text-sm text-gray-700">
+              File <span class="font-medium">{application.fileNumber}</span>
+              <span class="text-gray-400"> · </span>
+              {application.status}
+            </p>
+            <div class="mt-2 flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:gap-x-4">
+              {application.mapLink && (
+                <a
+                  href={planningFileMapUrl(application.fileNumber)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm font-medium text-accent hover:text-amber-700"
+                >
+                  Open on the planning map
+                </a>
+              )}
+              {application.recordsUrl && (
+                <a
+                  href={application.recordsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm font-medium text-accent hover:text-amber-700"
+                >
+                  Application documents
+                </a>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+      {(hasMapLink || hasClosedRecord) && (
+        <p class="mt-4 text-sm leading-relaxed text-gray-600">
+          {hasMapLink && 'A map link is included when that link opens this application on the city planning map. '}
+          {hasClosedRecord &&
+            'Some applications are closed and are no longer opened by a file-number link. Those are listed with the city document folder when one is posted.'}
+        </p>
+      )}
+    </section>
+  )
+}

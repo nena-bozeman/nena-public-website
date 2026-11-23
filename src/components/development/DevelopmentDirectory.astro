@@ -1,9 +1,17 @@
 ---
 import Base from '../../layouts/Base.astro';
+import NavIcon from '../icons/NavIcon.astro';
 import DevelopmentPhaseFilters from '../filters/DevelopmentPhaseFilters.astro';
+import { OUR_WORK_SECTION_CONFIG } from '../../data/our-work';
 import ProjectCard from './ProjectCard.astro';
 import ProjectMap from './ProjectMap.astro';
 import { getCollection } from 'astro:content';
+import {
+  BOZEMAN_BRIEF_URL,
+  PLANNING_EMAIL,
+  PLANNING_MAP_URL,
+  PLANNING_PORTAL_URL,
+} from '../../utils/city-planning';
 import { getMailchimpSignupUrl } from '../../utils/mailchimp';
 import {
   parseDevelopmentPhaseFromSearch,
@@ -15,6 +23,21 @@ const projects = [...allProjects].sort(
   (a, b) => b.data.dateUpdated.valueOf() - a.data.dateUpdated.valueOf(),
 );
 
+function historicEndYear(years: string | undefined): number {
+  const matches = years?.match(/\d{4}/g);
+  if (!matches || matches.length === 0) return 0;
+  return Number(matches[matches.length - 1]);
+}
+
+const currentProjects = projects.filter((project) => !project.data.historic);
+const historicProjects = projects
+  .filter((project) => project.data.historic)
+  .sort((a, b) => {
+    const yearDelta = historicEndYear(b.data.years) - historicEndYear(a.data.years);
+    if (yearDelta !== 0) return yearDelta;
+    return a.data.title.localeCompare(b.data.title);
+  });
+
 const phasesPresent = [
   ...new Set(projects.map((p) => p.data.phase)),
 ] as DevelopmentPhase[];
@@ -22,6 +45,9 @@ const phasesPresent = [
 const activePhase = parseDevelopmentPhaseFromSearch(Astro.url.search);
 
 const pageTitle = 'Development Watch';
+const developmentWatchIcon = OUR_WORK_SECTION_CONFIG.find(
+  (section) => section.id === 'development-watch',
+)?.icon;
 const pageDescription =
   'Tracking development projects in the Northeast Neighborhood of Bozeman, MT';
 
@@ -30,32 +56,108 @@ const mailchimpUrl = getMailchimpSignupUrl();
 
 <Base title={pageTitle} description={pageDescription}>
   <div class="max-w-7xl mx-auto px-4 py-12">
-    <h1 class="font-serif text-4xl font-bold text-primary mb-3">{pageTitle}</h1>
+    <h1 class="font-serif text-4xl font-bold text-primary mb-3 flex items-start gap-3">
+      {developmentWatchIcon && <NavIcon name={developmentWatchIcon} class="mt-1 h-8 w-8" size={32} />}
+      <span>{pageTitle}</span>
+    </h1>
     <DevelopmentPhaseFilters availablePhases={phasesPresent} activePhase={activePhase} />
     <p class="text-gray-600 text-lg mb-8">
-      Tracking development proposals and projects in the Northeast Neighborhood.
+      Tracking development proposals and projects in the Northeast Neighborhood. Finished and older
+      projects are grouped under Historic and completed projects.
     </p>
+    <section class="mb-8 rounded-lg border border-gray-100 bg-white p-5 sm:p-6" aria-labelledby="city-planning-learn-more">
+      <h2 id="city-planning-learn-more" class="font-serif text-2xl font-bold text-primary mb-3">
+        How to look up a project
+      </h2>
+      <div class="space-y-3 text-gray-700 leading-relaxed">
+        <p>
+          The City of Bozeman publishes a
+          <a href={PLANNING_MAP_URL} target="_blank" rel="noopener noreferrer" class="font-medium text-accent hover:text-amber-700">Planning Projects map</a>.
+          The map layers for planning applications are initial review, public notice, final review, and decision issued.
+          To look up a place, open the map and go to that part of town.
+        </p>
+        <p>
+          A development often has more than one application, such as a zone change, a site plan, and a later revision.
+          Project pages list each file number we could match to that project, with the application type.
+          A file-number link opens the application when the city still includes it on the active planning list.
+          The result shows the project name, planning file number, status, and application type.
+          Closed applications can stay in the city's document folders after that link no longer opens them.
+        </p>
+        <p>
+          Document folders use the same digits without a hyphen. File 24-281 is folder 24281.
+          The map links to the city's
+          <a href={PLANNING_PORTAL_URL} target="_blank" rel="noopener noreferrer" class="font-medium text-accent hover:text-amber-700">project information portal</a>
+          for Community Development viewer FAQs, and it lists
+          <a href={`mailto:${PLANNING_EMAIL}`} class="font-medium text-accent hover:text-amber-700">{PLANNING_EMAIL}</a>.
+          When an application is out for public comment, the city's notice for that file gives the dates and where to send comments.
+        </p>
+        <p>
+          To follow what's said about projects at City Commission and board meetings, see
+          <a href={BOZEMAN_BRIEF_URL} target="_blank" rel="noopener noreferrer" class="font-medium text-accent hover:text-amber-700">The Bozeman Brief</a>'s
+          meeting writeups. It is an independent podcast and news site, not a City of Bozeman site.
+        </p>
+      </div>
+    </section>
     <ProjectMap projects={projects} />
     {
-      projects.length === 0 ? (
+      currentProjects.length === 0 && historicProjects.length === 0 ? (
         <p class="text-gray-500 text-center py-12">No development projects to show.</p>
       ) : (
-        <div id="development-project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-          {projects.map((project) => (
-            <div data-development-phase={project.data.phase}>
-              <ProjectCard
-                slug={project.id}
-                title={project.data.title}
-                phase={project.data.phase}
-                address={project.data.address}
-                developer={project.data.developer}
-                summary={project.data.summary}
-                dateUpdated={project.data.dateUpdated}
-                cityPlanningUrl={project.data.cityPlanningUrl}
-              />
-            </div>
-          ))}
-        </div>
+        currentProjects.length > 0 && (
+          <div id="development-project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+            {currentProjects.map((project) => (
+              <div data-development-phase={project.data.phase}>
+                <ProjectCard
+                  slug={project.id}
+                  title={project.data.title}
+                  phase={project.data.phase}
+                  address={project.data.address}
+                  years={project.data.years}
+                  developer={project.data.developer}
+                  summary={project.data.summary}
+                  dateUpdated={project.data.dateUpdated}
+                  cityPlanningUrl={project.data.cityPlanningUrl}
+                  image={project.data.image}
+                  imageAlt={project.data.imageAlt}
+                  hasCityPlanningRecords={project.data.cityApplications.length > 0}
+                />
+              </div>
+            ))}
+          </div>
+        )
+      )
+    }
+    {
+      historicProjects.length > 0 && (
+        <section id="historic-development-projects" class="mt-14" aria-labelledby="historic-development-heading">
+          <h2 id="historic-development-heading" class="font-serif text-3xl font-bold text-primary">
+            Historic and completed projects
+          </h2>
+          <p class="text-gray-600 mt-3 max-w-3xl leading-relaxed">
+            Older and completed projects, kept here so the list above can stay on proposals NENA is tracking now. A few
+            entries are short context for places that are still in use. The phase filter applies to this section too.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+            {historicProjects.map((project) => (
+              <div data-development-phase={project.data.phase}>
+                <ProjectCard
+                  slug={project.id}
+                  title={project.data.title}
+                  phase={project.data.phase}
+                  address={project.data.address}
+                  years={project.data.years}
+                  developer={project.data.developer}
+                  summary={project.data.summary}
+                  dateUpdated={project.data.dateUpdated}
+                  cityPlanningUrl={project.data.cityPlanningUrl}
+                  image={project.data.image}
+                  imageAlt={project.data.imageAlt}
+                  hasCityPlanningRecords={project.data.cityApplications.length > 0}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
       )
     }
     <p id="development-phase-empty" class="hidden text-gray-500 text-center py-12">
@@ -83,7 +185,6 @@ const mailchimpUrl = getMailchimpSignupUrl();
   } from '../../schemas/development-phase';
 
   const filterBtns = document.querySelectorAll('.development-phase-filter');
-  const grid = document.getElementById('development-project-grid');
   const emptyMsg = document.getElementById('development-phase-empty');
 
   const pillIdle =
@@ -104,16 +205,33 @@ const mailchimpUrl = getMailchimpSignupUrl();
   }
 
   function applyDevelopmentPhaseFilter(phase: string) {
-    const cards = document.querySelectorAll('[data-development-phase]');
+    const sections = [
+      document.getElementById('development-project-grid'),
+      document.getElementById('historic-development-projects'),
+    ];
     let visible = 0;
-    cards.forEach((card) => {
-      const el = card as HTMLElement;
-      const show = !phase || el.dataset.developmentPhase === phase;
-      el.style.display = show ? '' : 'none';
-      if (show) visible += 1;
-    });
-    if (grid) grid.classList.toggle('hidden', visible === 0 && cards.length > 0);
-    emptyMsg?.classList.toggle('hidden', visible > 0 || cards.length === 0);
+    let total = 0;
+    for (const section of sections) {
+      if (!section) continue;
+      const cards = section.querySelectorAll('[data-development-phase]');
+      let sectionVisible = 0;
+      cards.forEach((card) => {
+        total += 1;
+        const el = card as HTMLElement;
+        const show = !phase || el.dataset.developmentPhase === phase;
+        el.style.display = show ? '' : 'none';
+        if (show) {
+          visible += 1;
+          sectionVisible += 1;
+        }
+      });
+      const hideSection =
+        section.id === 'historic-development-projects'
+          ? sectionVisible === 0
+          : sectionVisible === 0 && cards.length > 0;
+      section.classList.toggle('hidden', hideSection);
+    }
+    emptyMsg?.classList.toggle('hidden', visible > 0 || total === 0);
     setFilterButtonStyles(phase);
   }
 

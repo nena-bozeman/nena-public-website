@@ -5,10 +5,30 @@ phase: under-construction
 address: Wallace St Bozeman, MT
 submittedDate: '2020-11-22'
 dateCreated: 2020-11-22
-dateUpdated: 2025-02-18
+dateUpdated: '2026-11-06'
+cityApplications:
+  - fileNumber: '22-156'
+    label: Site plan and commercial certificate of appropriateness
+    status: Final approval, closed
+    recordsUrl: 'https://weblink.bozeman.net/WebLink/Browse.aspx?dbid=0&id=262033&repo=BOZEMAN'
+  - fileNumber: '24-532'
+    label: Phase 2 site plan
+    status: Final approval, active
+    mapLink: true
+    recordsUrl: 'https://weblink.bozeman.net/WebLink/Browse.aspx?dbid=0&id=294381&repo=BOZEMAN'
+  - fileNumber: '25-705'
+    label: Preliminary plat
+    status: Final approval, active
+    mapLink: true
+    recordsUrl: 'https://weblink.bozeman.net/WebLink/Browse.aspx?dbid=0&id=309328&repo=BOZEMAN'
 summary: Wallace Works is located on the corner of Tamarack and Wallace, and is
   a new mixed-use development that received site plan approval in March of 2023.
   This project seeks to address an urgent and growing need for attain…
+image: wallace-works.jpg
+imageAlt: >-
+  Architectural rendering of the Wallace Works mixed-use building, with a brick ground floor, large
+  storefront windows, and lighter wood-clad upper floors along a tree-lined sidewalk.
+imageCredit: "Rendering by Lake|Flato, from the Wallace Works project page."
 topics:
   - affordable-housing
 newsSlugs: []

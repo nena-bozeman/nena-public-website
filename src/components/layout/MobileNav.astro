@@ -1,6 +1,7 @@
 ---
 import type { NavGroup, NavItem, NavSection } from '../../data/navigation';
 import { isNavGroupActive, isNavItemActive, resolveNavHref } from '../../data/navigation';
+import NavIcon from '../icons/NavIcon.astro';
 
 interface Props {
   navGroups: NavGroup[];
@@ -11,17 +12,17 @@ interface Props {
 const { navGroups, base, pathname } = Astro.props;
 
 const linkClass =
-  'block rounded-sm px-4 py-2 text-lg text-green-100 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
+  'rounded-sm px-4 py-2 text-lg text-green-100 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
 const triggerClass =
   'flex w-full items-center justify-between rounded-sm px-4 py-3 text-left text-xl font-medium text-green-100 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
 const hubRowClass =
   'flex w-full items-stretch overflow-hidden rounded-sm text-xl font-medium text-green-100 transition-colors focus-within:outline-solid focus-within:outline-2 focus-within:outline-offset-0 focus-within:outline-amber-300/80';
 const hubLinkClass =
-  'flex flex-1 items-center rounded-sm px-4 py-3 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
+  'flex flex-1 items-center gap-2 rounded-sm px-4 py-3 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
 const hubButtonClass =
   'flex shrink-0 items-center justify-center rounded-sm px-3 py-3 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
 const sectionHeadingClass =
-  'block rounded-sm px-4 pb-1 text-sm font-semibold uppercase tracking-wide text-green-300/90 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
+  'rounded-sm px-4 pb-1 text-sm font-semibold uppercase tracking-wide text-green-300/90 transition-colors hover:bg-green-800 hover:text-white focus:outline-solid focus:outline-2 focus:outline-offset-0 focus:outline-amber-300/80';
 ---
 
 <nav class="flex w-full max-w-md flex-col gap-1" aria-label="Mobile navigation">
@@ -41,6 +42,7 @@ const sectionHeadingClass =
                   class={hubLinkClass}
                   aria-current={isNavItemActive(pathname, base, group.hubHref!) ? 'page' : undefined}
                 >
+                  {group.icon && <NavIcon name={group.icon} class="h-5 w-5" size={20} />}
                   {group.label}
                 </a>
                 <button
@@ -70,7 +72,10 @@ const sectionHeadingClass =
                 aria-expanded="false"
                 aria-controls={panelId}
               >
-                {group.label}
+                <span class="flex items-center gap-2">
+                  {group.icon && <NavIcon name={group.icon} class="h-5 w-5" size={20} />}
+                  {group.label}
+                </span>
                 <svg
                   class="mobile-nav-section__chevron h-5 w-5 shrink-0 opacity-80"
                   aria-hidden="true"
@@ -98,11 +103,13 @@ const sectionHeadingClass =
                         <a
                           href={resolveNavHref(base, section.href)}
                           class:list={[
+                            section.icon ? 'flex items-center gap-2' : 'block',
                             sectionHeadingClass,
                             isNavItemActive(pathname, base, section.href) ? 'bg-green-800/80 text-white' : '',
                           ]}
                           aria-current={isNavItemActive(pathname, base, section.href) ? 'page' : undefined}
                         >
+                          {section.icon && <NavIcon name={section.icon} class="h-5 w-5" size={20} />}
                           {section.label}
                         </a>
                       ) : (
@@ -118,6 +125,7 @@ const sectionHeadingClass =
                         <a
                           href={resolveNavHref(base, item.href)}
                           class:list={[
+                            item.icon ? 'flex items-center gap-2' : 'block',
                             linkClass,
                             item.nested ? 'pl-8 text-green-200/95' : '',
                             active ? 'bg-green-800/80 text-white font-medium' : '',
@@ -126,6 +134,7 @@ const sectionHeadingClass =
                           target={item.external ? '_blank' : undefined}
                           rel={item.external ? 'noopener noreferrer' : undefined}
                         >
+                          {item.icon && <NavIcon name={item.icon} class="h-5 w-5" size={20} />}
                           {item.label}
                         </a>
                       );

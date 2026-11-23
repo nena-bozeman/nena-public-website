@@ -6,10 +6,26 @@ address: 707 E Peach St, Bozeman, MT
 developer: Outlaw Real Estate Partners
 submittedDate: '2018-05-23'
 dateCreated: '2018-05-23'
-dateUpdated: '2026-06-10'
+dateUpdated: '2026-11-06'
+cityApplications:
+  - fileNumber: '22-218'
+    label: Zone map amendment
+    status: Denied
+    mapLink: true
+    recordsUrl: 'https://weblink.bozeman.net/WebLink/Browse.aspx?dbid=0&id=262655&repo=BOZEMAN'
+  - fileNumber: '24-230'
+    label: Planned development zone concept
+    status: Reviewed, no formal action
 summary: >-
   A mixed-use residential project on the former Bronken's Distributing site at Peach and Plum, proposing townhomes and
   apartments with TIF-funded infrastructure and affordable units.
+image: cloverleaf.jpg
+imageAlt: >-
+  Photograph of the existing low industrial building on the former Bronken's Distributing site at Peach
+  and Plum, where Cloverleaf is proposed.
+imageCredit: >-
+  Photograph courtesy of Outlaw Real Estate Partners, published by Bozeman Real Estate Group (January 1,
+  2025).
 topics:
   - affordable-housing
 newsSlugs: []

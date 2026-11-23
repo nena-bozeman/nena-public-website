@@ -5,6 +5,7 @@ summary: >-
 status: current
 section: neighborhood-advocacy
 order: 14
+icon: users
 topics:
   - community
   - nena-survey

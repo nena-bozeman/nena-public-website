@@ -6,6 +6,7 @@ summary: >-
 status: past
 section: neighborhood-advocacy
 order: 6
+icon: compass
 topics:
   - visionne
 ---
@@ -24,7 +25,7 @@ NENA’s VisionNE committee focuses on **neighborhood character** and on **plann
 
 **To get involved** with VisionNE, contact [Karen Filipovich](mailto:karen_filipovich@hotmail.com) or [NENABozeman@gmail.com](mailto:NENABozeman@gmail.com).
 
-**More on the site:** [Visions NE Committee: Defining Community Character](/news/2021-04-25-visions-ne-committee) (2021) expands on the committee’s role and the neighborhood charter; [all news tagged *visionne*](/topics/visionne) lists related updates. [Development Watch](/development) tracks specific projects; those updates complement this objectives page.
+**More on the site:** [Visions NE Committee: Defining Community Character](/news/2021-04-25-visions-ne-committee) (2021) expands on the committee’s role and the neighborhood charter; [all news tagged *visionne*](/topics/visionne) lists related updates. [Development Watch](/development) tracks specific projects, including the [2017 AIA R/UDAT plan](/development/aia-rudat-northeast-neighborhood-plan); those updates complement this objectives page.
 
 <h2 id="photovoicesne">PhotoVoicesNE</h2>
 
@@ -36,7 +37,7 @@ The text below is migrated from the legacy **PhotoVoicesNE** page (NENA site dat
 
 Dear NENA neighbors:
 
-Thank you for your enormous show of community support for our PhotoVoicesNE project this summer (2019). As a reminder, PhotoVoicesNE is a Northeast Neighborhood Association (NENA) community art project and an act of democracy. Neighbors submitted photos sharing what they love about the NE neighborhood — along with a sentence or two of text to provide a “voice” to the image. The photos, along with historic photos of NENA, were on display at Tinworks Art in August. Viewers were asked to add their own "voice" by writing additional comments on the wall. We want to ensure that the Northeast Neighborhood continues to be a place where people want to live, work, visit, and patronize.
+Thank you for your enormous show of community support for our PhotoVoicesNE project this summer (2019). As a reminder, PhotoVoicesNE is a Northeast Neighborhood Association (NENA) community art project and an act of democracy. Neighbors submitted photos sharing what they love about the NE neighborhood — along with a sentence or two of text to provide a “voice” to the image. The photos, along with historic photos of NENA, were on display at [Tinworks Art](/development/tinworks-art) in August. Viewers were asked to add their own "voice" by writing additional comments on the wall. We want to ensure that the Northeast Neighborhood continues to be a place where people want to live, work, visit, and patronize.
 
 We had over 80 photos submitted and over 425 people who came out to view the exhibit and add their voice. It was a huge success! Thank you to all of the volunteers, photo takers, and comment makers! Mark Egge took the lead on getting the final exhibit photographed. Please see this link for the panorama: [Gigapan — final exhibit](http://www.gigapan.com/gigapans/217435)
 

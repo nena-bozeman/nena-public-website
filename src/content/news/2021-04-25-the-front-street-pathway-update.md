@@ -12,6 +12,8 @@ legacyId: '52'
 legacySlug: the-front-street-pathway-update
 topics:
   - trails-pocket-parks
+developments:
+  - story-mill-community-park
 ---
 
 Update on the Front Street Pathway

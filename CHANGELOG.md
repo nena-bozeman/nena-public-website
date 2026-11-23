@@ -8,6 +8,21 @@ Changes not yet released.
 
 ---
 
+## 2026-11-11
+
+- **Development Watch:** Added eleven historic and completed project pages under a Historic and completed projects section on `/development/`. A `historic` flag on the development collection keeps them out of the current project grid. Pages publish with the collection (there is no draft field on development entries).
+- **Development Watch corrections:** Tinworks Art is marked complete, and the Mill Building is described as finished and open, with October 11, 2026 taken from Tinworks' site. The Bozeman Public Safety Center is at 901 N Rouse Ave, south of East Oak and inside NENA.
+- **Development Watch links:** Historic project pages now cross-link places, news, history, and Our Work pages that already discuss those projects, including reverse links from the Aspen Street bridge place page, the wetland place page, and the 1939 Hawthorne history entry.
+- **Development Watch heroes:** Added freely licensed or already-published images for Story Mill, Rouse Avenue, Hawthorne, the 2017 neighborhood plan, the Northeast Urban Renewal District, and the Public Safety Center. Bridger View, the Aspen Street bridge, and the Indreland preserve still have no reusable photo of the place.
+
+---
+
+## 2026-11-06
+
+- **Development Watch:** Added a short guide on `/development/` for the City of Bozeman Planning Projects map, and listed verified planning file numbers on the project pages that have a confident city match. Each number is labeled by application type. Map links are only included when that link opens the application.
+
+---
+
 ## 2026-10-15
 
 - **Home:** Hero tagline, welcome, three short pillars, and the Get Involved section now follow the neighborhood flyer, rewritten for the web (`Hero.astro`, `Welcome.astro`, `index.astro`). Existing news, events, donation, and household stats stay.
