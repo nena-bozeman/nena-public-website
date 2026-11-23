@@ -8,6 +8,12 @@ Changes not yet released.
 
 ---
 
+## 2026-11-23
+
+- **Development Watch:** Added a City of Bozeman photo as the hero and card thumbnail for the Aspen Street pedestrian bridge (`src/content/development/aspen-street-pedestrian-bridge.md`).
+
+---
+
 ## 2026-11-11
 
 - **Development Watch:** Added eleven historic and completed project pages under a Historic and completed projects section on `/development/`. A `historic` flag on the development collection keeps them out of the current project grid. Pages publish with the collection (there is no draft field on development entries).
