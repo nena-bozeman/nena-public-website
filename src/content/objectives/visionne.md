@@ -23,7 +23,7 @@ NENA’s VisionNE committee focuses on **neighborhood character** and on **plann
 - **B-3 to residential transition:** The edge where the downtown B-3 zone meets residential areas—how code can support character at that transition (the City has run community engagement on this theme in the past; VisionNE has tried to be a clear neighborhood voice).
 - **Defining “neighborhood character”:** Work with **Montana State University** and the **City of Bozeman** on inventory, survey, and engagement—building on the 2019 PhotoVoices project—with faculty including **Sarah Church** and **Susanne Cowan** (and students in planning and architecture) to measure and discuss what makes the NE neighborhood distinct. Published reports from this collaboration are listed under [MSU research & publications](#msu-research).
 
-**To get involved** with VisionNE, contact [Karen Filipovich](mailto:karen_filipovich@hotmail.com) or [NENABozeman@gmail.com](mailto:NENABozeman@gmail.com).
+**To get involved** with VisionNE, contact [Karen Filipovich](mailto:karen_filipovich@hotmail.com) or [nenabozeman@gmail.com](mailto:nenabozeman@gmail.com).
 
 **More on the site:** [Visions NE Committee: Defining Community Character](/news/2021-04-25-visions-ne-committee) (2021) expands on the committee’s role and the neighborhood charter; [all news tagged *visionne*](/topics/visionne) lists related updates. [Development Watch](/development) tracks specific projects, including the [2017 AIA R/UDAT plan](/development/aia-rudat-northeast-neighborhood-plan); those updates complement this objectives page.
 

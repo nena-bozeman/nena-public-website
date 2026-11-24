@@ -12,7 +12,7 @@ topics:
 
 NENA has tracked **safe and quiet rail crossing** upgrades along Bozeman’s rail line — including the “Tame the Train” campaign for horn silencing where crossings meet federal quiet-zone standards. The issue affects quality of life for neighbors near at-grade crossings and connects to trail and street access.
 
-The 2021 neighborhood article below remains the most detailed background on the initiative; newer posts are tagged **safe-quiet-rail-crossings**. Contact [NENABozeman@gmail.com](mailto:NENABozeman@gmail.com) with questions or to share updates.
+The 2021 neighborhood article below remains the most detailed background on the initiative; newer posts are tagged **safe-quiet-rail-crossings**. Contact [nenabozeman@gmail.com](mailto:nenabozeman@gmail.com) with questions or to share updates.
 
 ## Background
 

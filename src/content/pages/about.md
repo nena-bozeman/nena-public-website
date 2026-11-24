@@ -11,7 +11,7 @@ Whether you rent, own, work, run a local business, make art, or just moved in, y
 
 Membership is open to residents, property owners, business licensees, and representatives of nonprofits within the neighborhood boundaries.
 
-## Our Mission
+## Our mission
 
 To preserve and enhance the quality of life in the Northeast Neighborhood through community engagement, advocacy, and connection.
 
@@ -22,7 +22,7 @@ The [bylaws](/governance/bylaws) state that mission as promoting and preserving 
 ## What makes our place special
 
 - **Quirky and authentic.** The neighborhood mixes history, working-class roots, artists, unpaved alleys, and homes next to workshops and older commercial buildings. The [Parade of Sheds](/our-work/parade-of-sheds) is one way neighbors share that character.
-- **Walkable and bikeable.** Paths connect neighbors to pocket parks and the wider trail network. NENA follows that work on the [Trails & Parks](/our-work/trails-pocket-parks) page.
+- **Walkable and bikeable.** Paths connect neighbors to neighborhood parks and the wider trail network. NENA's advocacy for trails and pocket parks is on the [Trails & Parks](/our-work/trails-pocket-parks) page.
 - **Trees, creek, and views.** Mature trees, Bozeman Creek, and views toward the Bridger Mountains are part of the place. Related work lives on [NENA Trees](/our-work/trees) and the [Bozeman Creek Vision Plan](/our-work/bozeman-creek-vision-plan).
 - **A place for making and gathering.** Artisan workshops, maker spaces, and neighborhood gathering spots are part of daily life here. Browse [places](/places) and [community resources](/community).
 
@@ -36,8 +36,9 @@ Neighbors get to know each other through meetings, shared work, and events.
 
 - [Spring and fall meetings](/our-work/nena-meetings), with other meetings when officers call them. The [bylaws](/governance/bylaws) set that twice-a-year minimum.
 - The annual [Parade of Sheds](/our-work/parade-of-sheds), a tour of sheds, yards, murals, and alleyways.
-- Potlucks with the spring and fall meetings, and other open gatherings listed on the [events calendar](/events).
+- Regular potlucks, including at the spring and fall meetings, and other open gatherings listed on the [events calendar](/events).
 - Walks, cleanups, and volunteer days as they are scheduled, including the annual [Burdock Blitz](/our-work/burdock-blitz).
+- A neighborhood tool library on North Church Avenue where neighbors can borrow tools for free, and resource-sharing and skill-sharing groups neighbors can join. The [December potluck announcement](/news/2026-11-19-save-the-date-nena-december-potluck) has the sign-up form.
 
 ### Civic advocacy and neighborhood voice
 
@@ -55,13 +56,13 @@ Honoring the neighborhood's past while welcoming the people and businesses here 
 - The [neighborhood history](/history) timeline is this site's guide to how the Northeast took shape.
 - Studios, murals, and gathering places are on [Places](/places), in [community resources](/community), and at the [Parade of Sheds](/our-work/parade-of-sheds).
 - Care for [Bozeman Creek](/our-work/bozeman-creek-vision-plan), [parks and trails](/our-work/trails-pocket-parks), and habitat work such as the [Burdock Blitz](/our-work/burdock-blitz).
-- The historic mix of homes, older industrial buildings, and small-scale commercial uses, which the [Neighborhood Conservation Overlay District](/our-work/ncod-guidelines) was adopted to care for.
+- The neighborhood's character and historic properties, which the [Neighborhood Conservation Overlay District](/our-work/ncod-guidelines) was created to conserve and protect.
 
-## Our History
+## Our history
 
 NENA was founded in 2001 and has been a voice for Northeast Bozeman residents ever since. We work closely with the City of Bozeman on planning decisions that affect our neighborhood and host regular community events to bring neighbors together.
 
-## Organizational Standing
+## Organizational standing
 
 NENA is registered as a Domestic Non-Profit Corporation with the Montana Secretary of State. Our entity number is D112324 and our registration is active and in good standing. Our [2026 annual report](https://biz.sosmt.gov/api/report/GetImageByNum/185244132198234133250060237157134076013075081012) is available from the Secretary of State.
 
