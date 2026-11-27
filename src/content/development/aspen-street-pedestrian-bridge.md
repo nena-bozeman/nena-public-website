@@ -7,13 +7,20 @@ years: '2011'
 address: E Aspen St at Bozeman Creek, Bozeman, MT
 developer: City of Bozeman
 dateCreated: '2026-11-11'
-dateUpdated: '2026-11-11'
+dateUpdated: '2026-11-23'
 lat: 45.6868
 lng: -111.0292
 summary: >-
   Pedestrian bridge over Bozeman Creek at East Aspen Street, inside NENA. The City Commission
   approved it in 2011, and the Northeast Urban Renewal Board selected construction in 2021. The
   bridge is open. This page does not give an opening date.
+image: aspen-street-bridge.jpg
+imageAlt: >-
+  Wooden pedestrian bridge with arched railings and a plank deck over a creek, seen from a gravel
+  path with autumn leaves, a slat fence on the left, and trees on both sides.
+imageCredit: >-
+  Photo: City of Bozeman (https://www.facebook.com/bozemangov/posts/881218220851576/). Cropped from
+  a portrait photo to a landscape frame around the deck and railings.
 topics:
   - trails-pocket-parks
 newsSlugs:
@@ -36,3 +43,4 @@ The bridge is a walking connection across the creek in the middle of the neighbo
 1. NENA place page. ["Aspen Street Bridge."](/places/aspen-street-bridge)
 2. NENA. ["Aspen Street Bridge."](/news/2021-11-30-aspen-street-bridge) November 30, 2021.
 3. NENA. ["Aspen St Bridge Update."](/news/2021-04-16-aspen-st-bridge-update) April 16, 2021.
+4. City of Bozeman. [Facebook photo of the finished bridge.](https://www.facebook.com/bozemangov/posts/881218220851576/)
